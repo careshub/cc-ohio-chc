@@ -39,7 +39,7 @@ class CC_AHA_Extras {
 	 *
 	 * @var      int
 	 */
-	protected $aha_id = 55;// ( get_home_url() == 'http://commonsdev.local' ) ? 55 : 594 ; //594 on staging and www, 55 on local
+	public static $aha_id = 55;// ( get_home_url() == 'http://commonsdev.local' ) ? 55 : 594 ; //594 on staging and www, 55 on local
 
 	/**
 	 * Instance of this class.
@@ -90,6 +90,10 @@ class CC_AHA_Extras {
 		add_filter( 'registration_form_interest_query_string', array( $this, 'add_registration_interest_parameter' ), 12, 1 );
 
         add_filter( 'group_reports_create_new_label', array( $this, 'change_group_create_report_label' ), 2, 12 );
+
+        // Do some acrobatics for the Gravity Form about this thing--only applied to form # 26
+        add_filter( 'gform_pre_render_21', array( $this, 'pre_render_form_filter' ) );
+
 	}
 
 	/**
@@ -381,6 +385,57 @@ class CC_AHA_Extras {
 			return $label; 
 
 		return 'Create an AHA Report';
+
+	}
+
+	/**
+	 * Modify Gravity Forms Behavior
+	 *
+	 * @since    0.1.0
+	 */
+	public function pre_render_form_filter( $form ) {
+
+		// First, get some usermeta -- GF should prevent non-logged in users from accessing the form.
+		$board_id = get_user_meta( get_current_user_id(), 'aha_board', TRUE );
+		$towrite = PHP_EOL . '$user_id: ' . print_r( get_current_user_id(), TRUE);
+
+		// $towrite .= PHP_EOL . '$board_id: ' . print_r($board_id, TRUE);
+		// $fp = fopen('aha_gform_work.txt', 'a');
+		// fwrite($fp, $towrite);
+		// fclose($fp);
+
+		// This bit unsets questions based on board id (could be by anything)
+		switch ( $board_id ) {
+			case 'Mozark': // This is cassie's usermeta value
+				// Don't ask question 2 "anti-clockwise"
+				unset( $form['fields'][1] ); // Note that this is selecting the element by its array index, not its gform id!
+				break;
+			case 'Fox': // This is mbarbaro's usermeta value
+				// Don't ask question 2 "anti-clockwise"
+				unset( $form['fields'][2] );
+				break;
+			default:
+				$board_id = 'Unknown board';
+				break;
+		}
+
+		// $towrite = PHP_EOL . '$form object, before: ' . print_r($form, TRUE);
+		// $fp = fopen('aha_gform_work.txt', 'a');
+		// fwrite($fp, $towrite);
+		// fclose($fp);
+
+		// This replaces the placeholder with the board_id (again, proof of concept)
+		foreach ( $form['fields'] as $id => $field) {
+			$form['fields'][$id]['description'] = str_ireplace('%%desc%%', $board_id, $field['description']);
+		}
+
+
+		// $towrite = PHP_EOL . '$form object, after: ' . print_r($form, TRUE);
+		// $fp = fopen('aha_gform_work.txt', 'a');
+		// fwrite($fp, $towrite);
+		// fclose($fp);
+
+		return $form;
 
 	}
 }

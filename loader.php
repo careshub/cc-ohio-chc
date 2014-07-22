@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: CC American Heart Asociation extras
+Plugin Name: CC American Heart Association extras
 Description: Adds extras to the AHA group space
 Version: 1.0
 */
@@ -20,3 +20,9 @@ function cc_aha_extras_class_init(){
 	add_action( 'bp_include', array( 'CC_AHA_Extras', 'get_instance' ), 21 );
 }
 add_action( 'bp_include', 'cc_aha_extras_class_init' );
+
+/* Only load the component if BuddyPress is loaded and initialized. */
+function startup_aha_extras_group_extension_class() {
+	require( dirname( __FILE__ ) . '/includes/class-bp-group-extension.php' );
+}
+add_action( 'bp_include', 'startup_aha_extras_group_extension_class', 24 );
