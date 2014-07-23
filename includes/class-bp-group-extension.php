@@ -5,12 +5,12 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
 
     function __construct() {
         $args = array(
-            'slug' => 'assessment',
+            'slug' => cc_aha_get_slug(),
             'name' => 'AHA Tab Name',
             'visibility' => 'private',
-            'enable_nav_item'   => true, //$this->aha_tab_is_enabled(),
-            'access' => 'anyone',
-            'show_tab' => 'anyone',
+            'enable_nav_item'   => $this->aha_tab_is_enabled(),
+            // 'access' => 'members',
+            // 'show_tab' => 'members',
             'nav_item_position' => 105,
             // 'nav_item_name' => ccgn_get_tab_label(),
             'screens' => array(
@@ -32,19 +32,27 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
     }
  
     public function display() {
+
     	// Get the user's Metro ID
-    	$board_id = get_user_meta( get_current_user_id(), 'aha_board', TRUE );
+    	if ( cc_aha_get_array_user_metro_ids() ) {
+            $summary_message = 'Your regional associations: ' . cc_aha_get_metro_id_list();
+            $link_text = 'Change';
+        } else {
+            $summary_message = 'Please set your AHA board association.';
+            $link_text = 'Set region';
+        }
 
-    	?><details closed>
-    	<?php if ( !empty( $board_id ) ) : ?>
-    	<summary>Your metro ID is: <?php echo $board_id; ?> </summary>
-    	<?php  else : ?>
-    	<summary>Please set your metro ID. </summary>
-    <?php endif; ?>
-    	Blah blah blah. What's all this?
+    	?>
+        <div class="toggleable toggle-closed message info">
+            <p class="toggle-switch" id="update-metro-id-toggle">
+                <?php echo $summary_message; ?>&emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#"><span class="show-pane plus-or-minus"></span><?php echo $link_text; ?></a>
+            </p>
 
+            <div class="toggle-content">
+                <?php cc_aha_metro_select_markup(); ?>
+            </div>
+        </div>
 
-    	</details> 
 
     	<?php
 
@@ -61,12 +69,14 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
     }
 
     public function aha_tab_is_enabled(){
-    	if ( ! class_exists('CC_AHA_Extras') )
-    		return FALSE;
 
-    	return ( bp_get_current_group_id() == CC_AHA_Extras::aha_id ) ? TRUE : FALSE ;
- 
+    	if ( cc_aha_is_aha_group() ) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
+
 }
 bp_register_group_extension( 'CC_AHA_Extras_Extension' );
  

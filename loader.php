@@ -16,6 +16,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 function cc_aha_extras_class_init(){
 	// Get the class fired up
+	require_once( dirname( __FILE__ ) . '/includes/cc-aha-functions.php' );
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-extras.php' );
 	add_action( 'bp_include', array( 'CC_AHA_Extras', 'get_instance' ), 21 );
 }

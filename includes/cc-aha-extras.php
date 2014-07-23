@@ -39,7 +39,7 @@ class CC_AHA_Extras {
 	 *
 	 * @var      int
 	 */
-	public static $aha_id = 55;// ( get_home_url() == 'http://commonsdev.local' ) ? 55 : 594 ; //594 on staging and www, 55 on local
+	// public static cc_aha_get_group_id();// ( get_home_url() == 'http://commonsdev.local' ) ? 55 : 594 ; //594 on staging and www, 55 on local
 
 	/**
 	 * Instance of this class.
@@ -69,7 +69,7 @@ class CC_AHA_Extras {
 
 		// Load public-facing style sheet and JavaScript.
 		// add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-		// add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_registration_styles') );
 
 		/* Define custom functionality.
@@ -93,6 +93,9 @@ class CC_AHA_Extras {
 
         // Do some acrobatics for the Gravity Form about this thing--only applied to form # 26
         add_filter( 'gform_pre_render_21', array( $this, 'pre_render_form_filter' ) );
+
+		// Add filter to catch form submission -- both "metro ID" and questionnaire answers
+		add_action( 'bp_init', array( $this, 'save_form_submission'), 75 );
 
 	}
 
@@ -294,7 +297,8 @@ class CC_AHA_Extras {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		// wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'assets/js/public.js', __FILE__ ), array( 'jquery' ), self::VERSION );
+		if ( cc_aha_is_component() )
+			wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'aha-group-pane-js.js', __FILE__ ), array( 'jquery' ), self::VERSION );
 	}
 
 	/**
@@ -305,7 +309,7 @@ class CC_AHA_Extras {
 	// 
 	public function print_descriptive_text() {
 		//If this isn't the AHA group or the registration page, don't bother.
-		if ( ( bp_get_current_group_id() != $this->aha_id ) &&
+		if ( ! cc_aha_is_aha_group() &&
 		! ( bp_is_register_page() && ( isset( $_GET['aha'] ) && $_GET['aha'] ) ) )
 			return false;
 
@@ -318,7 +322,7 @@ class CC_AHA_Extras {
 	  ?>
 	    <div id="aha-interest-opt-in" class="register-section checkbox">
 		    <?php  $avatar = bp_core_fetch_avatar( array(
-				'item_id' => $this->aha_id,
+				'item_id' => cc_aha_get_group_id(),
 				'object'  => 'group',
 				'type'    => 'thumb',
 				'class'   => 'registration-logo',
@@ -350,7 +354,7 @@ class CC_AHA_Extras {
 	  
 	  if ( isset( $_POST['aha_interest_group'] ) ) {
 	  	// Create the group request
-	  	$request = groups_send_membership_request( $user_id, $this->aha_id );
+	  	$request = groups_send_membership_request( $user_id, cc_aha_get_group_id() );
 	  }
 	  
 	  return $user_id;
@@ -367,7 +371,7 @@ class CC_AHA_Extras {
 	}
 	public function add_registration_interest_parameter( $interests ) {
 
-	    if ( bp_is_groups_component() && ( bp_get_current_group_id() == $this->aha_id ) ) {
+	    if ( bp_is_groups_component() && cc_aha_is_aha_group() ) {
 	    	$interests[] = 'aha';
 		}
 
@@ -381,7 +385,7 @@ class CC_AHA_Extras {
 	 */
 	public function change_group_create_report_label( $label, $group_id ) {
 
-		if ( ! bp_get_current_group_id() == $this->aha_id )
+		if ( ! cc_aha_is_aha_group() )
 			return $label; 
 
 		return 'Create an AHA Report';
@@ -438,4 +442,51 @@ class CC_AHA_Extras {
 		return $form;
 
 	}
+
+	public function save_form_submission() {
+		// Fires on bp_init action, so this is a catch-action type of filter.
+		// Bail out if this isn't the narrative component.
+		if ( ! cc_aha_is_component() )
+			return false;
+
+		//Handle saving metro ID from AHA tab form
+		if ( bp_is_action_variable( 'save-metro-id', 0 ) ) {
+
+			// Is the nonce good?
+			if ( ! wp_verify_nonce( $_REQUEST['set-metro-nonce'], 'cc-aha-set-metro-id' ) )
+				return false;
+
+			// Try to save the ID
+		    if ( cc_aha_save_metro_ids() ) {
+   				bp_core_add_message( __( 'Your affiliation has been updated.', $this->plugin_slug ) );
+		    } else {
+				bp_core_add_message( __( 'Your affiliation could not be updated.', $this->plugin_slug ), 'error' );
+		    }
+
+			// Redirect and exit
+			bp_core_redirect( wp_get_referer() );
+
+			return false;
+		}
+
+		// Handle questionnaire form saves
+		if ( bp_is_action_variable( 'update-assessment', 0 ) ) {
+			// Is the nonce good?
+			if ( ! wp_verify_nonce( $_REQUEST['set-aha-assessment-nonce'], 'cc-aha-assessment' ) )
+				return false;
+
+			// Could further separate the handling of pages by using a form action 
+			// like /update-assessment/3 for page 3 of the assessment, 
+			// then using bp_is_action_variable( '3', 1 ) to get that page number
+
+			// Save stuff
+		    // ..
+
+			// Redirect to the next page of the form?
+			bp_core_redirect( cc_aha_get_next_form_page() );
+
+			
+	}
+
+
 }
