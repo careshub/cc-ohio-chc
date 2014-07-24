@@ -1,8 +1,13 @@
 <?php
 /**
- * @package CC AHA Extras
- * @author  David Cavins
+ * CC American Heart Association Extras
+ *
+ * @package   CC American Heart Association Extras
+ * @author    CARES staff
+ * @license   GPL-2.0+
+ * @copyright 2014 CommmunityCommons.org
  */
+
 class CC_AHA_Extras {
 
 	/**
@@ -96,6 +101,9 @@ class CC_AHA_Extras {
 
 		// Add filter to catch form submission -- both "metro ID" and questionnaire answers
 		add_action( 'bp_init', array( $this, 'save_form_submission'), 75 );
+
+		// Add filter to catch form submission -- both "metro ID" and questionnaire answers
+		add_action( 'bp_init', array( $this, 'set_metro_id_cookie_on_load'), 28 );
 
 	}
 
@@ -292,7 +300,7 @@ class CC_AHA_Extras {
 	}
 
 	/**
-	 * Register and enqueues public-facing JavaScript files.
+	 * Register and enqueue public-facing JavaScript files.
 	 *
 	 * @since    1.0.0
 	 */
@@ -381,7 +389,7 @@ class CC_AHA_Extras {
 	/**
 	 * Changes the label of the "Create New Report" button on the AHA page, since it will go to a different report
 	 *
-	 * @since    0.1.0
+	 * @since    1.0.0
 	 */
 	public function change_group_create_report_label( $label, $group_id ) {
 
@@ -395,18 +403,13 @@ class CC_AHA_Extras {
 	/**
 	 * Modify Gravity Forms Behavior
 	 *
-	 * @since    0.1.0
+	 * @since    1.0
 	 */
 	public function pre_render_form_filter( $form ) {
 
 		// First, get some usermeta -- GF should prevent non-logged in users from accessing the form.
 		$board_id = get_user_meta( get_current_user_id(), 'aha_board', TRUE );
 		$towrite = PHP_EOL . '$user_id: ' . print_r( get_current_user_id(), TRUE);
-
-		// $towrite .= PHP_EOL . '$board_id: ' . print_r($board_id, TRUE);
-		// $fp = fopen('aha_gform_work.txt', 'a');
-		// fwrite($fp, $towrite);
-		// fclose($fp);
 
 		// This bit unsets questions based on board id (could be by anything)
 		switch ( $board_id ) {
@@ -423,26 +426,21 @@ class CC_AHA_Extras {
 				break;
 		}
 
-		// $towrite = PHP_EOL . '$form object, before: ' . print_r($form, TRUE);
-		// $fp = fopen('aha_gform_work.txt', 'a');
-		// fwrite($fp, $towrite);
-		// fclose($fp);
-
 		// This replaces the placeholder with the board_id (again, proof of concept)
 		foreach ( $form['fields'] as $id => $field) {
 			$form['fields'][$id]['description'] = str_ireplace('%%desc%%', $board_id, $field['description']);
 		}
 
-
-		// $towrite = PHP_EOL . '$form object, after: ' . print_r($form, TRUE);
-		// $fp = fopen('aha_gform_work.txt', 'a');
-		// fwrite($fp, $towrite);
-		// fclose($fp);
-
 		return $form;
 
 	}
 
+	/**
+	 * Handle form submissions
+	 *  
+	 * @since   1.0.0
+	 * @return  boolean
+	 */
 	public function save_form_submission() {
 		// Fires on bp_init action, so this is a catch-action type of filter.
 		// Bail out if this isn't the narrative component.
@@ -469,6 +467,23 @@ class CC_AHA_Extras {
 			return false;
 		}
 
+		//Handle saving metro ID to cookie for viewing persistence
+		if ( bp_is_action_variable( 'set-metro-id-cookie', 0 ) ) {
+
+			// Is the nonce good?
+			if ( ! wp_verify_nonce( $_REQUEST['set-metro-cookie-nonce'], 'cc-aha-set-metro-id-cookie' ) )
+				return false;
+
+			// Create the cookie
+			if ( isset( $_POST['aha_metro_id_cookie'] ) )
+				setcookie( 'aha_active_metro_id', $_POST['aha_metro_id_cookie'], 0, '/' );
+
+			// Redirect and exit
+			bp_core_redirect( wp_get_referer() );
+
+			return false;
+		}
+
 		// Handle questionnaire form saves
 		if ( bp_is_action_variable( 'update-assessment', 0 ) ) {
 			// Is the nonce good?
@@ -477,16 +492,107 @@ class CC_AHA_Extras {
 
 			// Could further separate the handling of pages by using a form action 
 			// like /update-assessment/3 for page 3 of the assessment, 
-			// then using bp_is_action_variable( '3', 1 ) to get that page number
+			// then using bp_action_variable(1) to retrieve that page number
 
-			// Save stuff
-		    // ..
+			switch ( bp_action_variable(1) ) {
+				case 1:
+					// Save page one of the form
+					$towrite = PHP_EOL . '$_POST: ' . print_r($_POST, TRUE);
+					$fp = fopen('aha_form_save.txt', 'a');
+					fwrite($fp, $towrite);
+					fclose($fp);
+					break;
+				case 2:
+					// Save page two of the form
+					# code...
+					break;
+				default:
+					# code...
+					break;
+			}
 
 			// Redirect to the next page of the form?
-			bp_core_redirect( cc_aha_get_next_form_page() );
-
+			bp_core_redirect( cc_aha_get_next_form_page_url() );
 			
+		}
 	}
 
+	/**
+	 * Handle form submissions - checkbox fields
+	 *  
+	 * @since   1.0.0
+	 * @return  boolean
+	 */
+	public function save_checkbox_fields( $metro_id, $fields ){
+		foreach ($fields as $field) {
+			// If checked, enter 1 in the field
+			if ( isset( $_POST['$field'] ) && !empty( $_POST['$field'] ) ) {
+				$success = update_aha_field( $metro_id, $field, 1 );
+			} else {
+				$success = update_aha_field( $metro_id, $field, 0 ); 
+			}
+			
+		}
 
-}
+	}
+	/**
+	 * Handle form submissions - radio fields
+	 *  
+	 * @since   1.0.0
+	 * @return  boolean
+	 */
+	public function save_radio_fields( $metro_id, $fields ){
+		foreach ($fields as $field) {
+			// If marked "yes" enter 1 in the field
+			if ( isset( $_POST['$field'] ) && !empty( $_POST['$field'] ) ) {
+				$success = update_aha_field( $metro_id, $field, 1 );
+			} else {
+				$success = update_aha_field( $metro_id, $field, 0 ); 
+			}
+			
+		}
+	}
+	/**
+	 * Handle form submissions - text fields
+	 *  
+	 * @since   1.0.0
+	 * @return  boolean
+	 */
+	public function save_text_fields( $metro_id, $fields ){
+		foreach ($fields as $field) {
+			if ( isset( $_POST['$field'] ) && !empty( $_POST['$field'] ) ) {
+				$input = sanitize_text_field( $_POST[ $field ] );
+
+				// update_aha_field( $metro_id, $field, $input )
+
+			}
+			
+		}
+		
+	}
+
+	public function set_metro_id_cookie_on_load() {
+		$cookie_name = 'aha_active_metro_id';
+	    // We need to know the user's affiliations
+	    $selected_metro_ids = cc_aha_get_array_user_metro_ids();
+
+	    // If cookie doesn't exist, we try to set it.
+	    if ( empty( $_COOKIE[ $cookie_name ] ) ) {
+	        // How many ids has the user chosen?
+	        // User has only one affiliation, set cookie and reload
+	             if ( count( $selected_metro_ids ) == 1 ){
+	                 setcookie( $cookie_name, $selected_metro_ids[0], 0, '/' );
+	                 wp_redirect( wp_get_referer() );
+	             }
+	    } else {
+	    	// TODO: This isn't working
+	        // Cookie is set, we check that it's a valid value, if not, unset and reload.
+	        if ( ! in_array( $_COOKIE[ $cookie_name ], $selected_metro_ids) ) {
+	            setcookie( $cookie_name, '', time()-3600 );
+	            // TODO: Too late to redirect, output has started
+	            wp_redirect( wp_get_referer() );
+	        }
+	
+        }
+	}
+} // End class

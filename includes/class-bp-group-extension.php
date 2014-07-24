@@ -33,39 +33,19 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
  
     public function display() {
 
-    	// Get the user's Metro ID
-    	if ( cc_aha_get_array_user_metro_ids() ) {
-            $summary_message = 'Your regional associations: ' . cc_aha_get_metro_id_list();
-            $link_text = 'Change';
-        } else {
-            $summary_message = 'Please set your AHA board association.';
-            $link_text = 'Set region';
+        cc_aha_render_tab_subnav();
+
+        if ( cc_aha_on_main_screen() ) {
+            cc_aha_print_metro_select_container_markup();
+        } else if ( cc_aha_on_survey_screen() ) {
+            // We'll store the "active" metro id in a cookie for persistence.
+            cc_aha_metro_id_cookie_selector();
+            cc_aha_render_form( bp_action_variable(1) );
+        } else if ( cc_aha_on_analysis_screen() ) {
+            // We'll store the "active" metro id in a cookie for persistence.
+            cc_aha_metro_id_cookie_selector();
+            echo 'this is the analysis screen';
         }
-
-    	?>
-        <div class="toggleable toggle-closed message info">
-            <p class="toggle-switch" id="update-metro-id-toggle">
-                <?php echo $summary_message; ?>&emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#"><span class="show-pane plus-or-minus"></span><?php echo $link_text; ?></a>
-            </p>
-
-            <div class="toggle-content">
-                <?php cc_aha_metro_select_markup(); ?>
-            </div>
-        </div>
-
-
-    	<?php
-
-	    // Only members who have an "@heart.org" email address (and site admins) are allowed to fill out the assessment 
-		$current_user = wp_get_current_user();
-    	$email_parts = explode('@', $current_user->user_email);
-    	
-    	if ( current_user_can( 'delete_others_posts' ) || $email_parts[1] == 'heart.org' ) :
-    		?>
-		    <a href="/assessment" class="button">Assessment</a>
-		<?php endif; ?>
-	    <a href="/view-aha-report" class="button">View Report</a>
-	    <?php
     }
 
     public function aha_tab_is_enabled(){

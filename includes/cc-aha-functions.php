@@ -1,9 +1,18 @@
 <?php 
+/**
+ * CC American Heart Association Extras
+ *
+ * @package   CC American Heart Association Extras
+ * @author    CARES staff
+ * @license   GPL-2.0+
+ * @copyright 2014 CommmunityCommons.org
+ */
 
 /**
  * Are we on the AHA extras tab?
  *
- * @since    0.1.0
+ * @since   1.0.0
+ * @return  boolean
  */
 function cc_aha_is_component() {
     if ( bp_is_groups_component() && bp_is_current_action( cc_aha_get_slug() ) )
@@ -12,56 +21,105 @@ function cc_aha_is_component() {
     return false;
 }
 
+/**
+ * Is this the AHA group?
+ *
+ * @since    1.0.0
+ * @return   boolean
+ */
 function cc_aha_is_aha_group(){
     return ( bp_get_current_group_id() == cc_aha_get_group_id() );
 }
 
+/**
+ * Get the group id based on the context
+ *
+ * @since   1.0.0
+ * @return  integer
+ */
 function cc_aha_get_group_id(){
     return ( get_home_url() == 'http://commonsdev.local' ) ? 55 : 594 ;
 }
 
+/**
+ * Get various slugs
+ * These are gathered here so when, inevitably, we have to change them, it'll be simple
+ *
+ * @since   1.0.0
+ * @return  string
+ */
 function cc_aha_get_slug(){
     return 'assessment';
 }
+function cc_aha_get_survey_slug(){
+    return 'survey';
+}
+function cc_aha_get_analysis_slug(){
+    return 'analysis';
+}
+
 /**
- * Get base URI for this plugin's tab
+ * Get URIs for the various pieces of this tab
  * 
  * @return string URL
  */
 function cc_aha_get_home_permalink( $group_id = false ) {
-    // If a group_id is supplied, it is probably because the post originated from another group (and editing should occur from the original group's space).
-    $group_id = !( $group_id ) ? bp_get_current_group_id() : $group_id ;
-    $permalink = bp_get_group_permalink( groups_get_group( array( 'group_id' => $group_id ) ) ) .  cc_aha_get_slug();
+    $group_id = ( $group_id ) ? $group_id : bp_get_current_group_id() ;
+    $permalink = bp_get_group_permalink( groups_get_group( array( 'group_id' => $group_id ) ) ) .  cc_aha_get_slug() . '/';
     return apply_filters( "cc_aha_home_permalink", $permalink, $group_id);
 }
-
-// Dealing with Metro IDs
-// Creating form to set metro ids for users
-function cc_aha_metro_select_markup(){
-    $user_metros_array = cc_aha_get_array_user_metro_ids();
-    $metros = cc_aha_get_metro_array();
-
-    // Using checkboxes since a user could choose one or several
-    ?>
-    <form id="aha_metro_id_select" class="" method="post" action="<?php echo cc_aha_get_home_permalink(); ?>/save-metro-id/">
-        <ul class="aha_metro_id_list no-bullets text-columns-three">
-    <?php 
-        foreach ($metros as $metro_id => $location) {
-            ?>
-            <li>
-                <input type="checkbox" name="aha_metro_ids[]" id="aha_metro_ids-<?php echo $metro_id; ?>" value="<?php echo $metro_id; ?>" <?php if ( in_array( $metro_id, $user_metros_array) ) : ?>checked<?php endif; ?> /> <label for="aha_metro_ids-<?php echo $metro_id; ?>" class=""><?php echo $location . ' (' . $metro_id . ')'; ?></label>
-            </li>
-            <?php
-        }
-        ?></ul>
-        <?php wp_nonce_field( 'cc-aha-set-metro-id', 'set-metro-nonce' ) ?>
-        <div class="submit">
-            <input id="submit-metro-ids" type="submit" value="Save" name="submit-metro-ids">
-        </div>
-    </form>
-<?php
+function cc_aha_get_survey_permalink( $page = 1, $group_id = false ) {
+    $permalink = cc_aha_get_home_permalink( $group_id ) . cc_aha_get_survey_slug() . '/' . $page . '/';
+    return apply_filters( "cc_aha_survey_permalink", $permalink, $group_id);
+}
+function cc_aha_get_analysis_permalink( $group_id = false ) {
+    $permalink = cc_aha_get_home_permalink( $group_id ) . cc_aha_get_analysis_slug() . '/';
+    return apply_filters( "cc_aha_analysis_permalink", $permalink, $group_id);
 }
 
+/**
+ * Where are we?
+ * Checks for the various screens
+ *
+ * @since   1.0.0
+ * @return  string
+ */
+function cc_aha_on_main_screen(){
+    // There should be no action variables if on the main tab
+    if ( cc_aha_is_component() && ! ( bp_action_variables() )  ){
+        return true;
+    } else {
+        return false;
+    }
+}
+function cc_aha_on_survey_screen(){
+    if ( cc_aha_is_component() && bp_is_action_variable( cc_aha_get_survey_slug(), 0 ) ){
+        return true;
+    } else {
+        return false;
+    }
+}
+function cc_aha_on_analysis_screen(){
+   if ( cc_aha_is_component() && bp_is_action_variable( cc_aha_get_analysis_slug(), 0 ) ){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Handling Metro ID input and save
+ *
+ * @since   1.0.0
+ */
+
+/**
+ * Save metro ids as user meta
+ * Saves selection as serialized data in the usermeta table
+ * 
+ * @since   1.0.0
+ * @return  boolean
+ */
 function cc_aha_save_metro_ids(){
     $selected_metros = $_POST['aha_metro_ids'];
     $user_metros = get_user_meta( get_current_user_id(), 'aha_board' );
@@ -75,31 +133,41 @@ function cc_aha_save_metro_ids(){
     return $success;
 }
 
-function cc_aha_print_metro_id_list(){
-    echo cc_aha_get_metro_id_list();
-}
-function cc_aha_get_metro_id_list(){
-    $user_metros = cc_aha_get_array_user_metro_ids();
-    $retval = '';
-    $count = 1;
-    foreach ($user_metros as $metro_id) {
-        if ( $count != 1 ){ 
-            $retval .= ', ';
-        }
-        $retval .= $metro_id;
-        $count++;
-    }
-    return $retval;
-
-}
+/**
+ * Retrieve a user's metro affiliation
+ * 
+ * @since   1.0.0
+ * @return  array of metro IDs
+ */
 function cc_aha_get_array_user_metro_ids() {
     return get_user_meta( get_current_user_id(), 'aha_board', true );
 }
 
-function cc_aha_get_next_form_page(){
+/**
+ * Logic to navigate the pages of the long form
+ * 
+ * @since   1.0.0
+ * @return  string - URL
+ */
+function cc_aha_get_next_form_page_url(){
+    // TODO: Add some logic to navigate the form pages
+    $towrite = PHP_EOL . 'referer is: ' . print_r(wp_get_referer(), TRUE);
+    $fp = fopen('aha_form_save.txt', 'a');
+    fwrite($fp, $towrite);
+    fclose($fp);
+    return wp_get_referer();
+}
+function cc_aha_get_prev_form_page_url(){
     // TODO: Add some logic to navigate the form pages
     return wp_get_referer();
 }
+
+/**
+ * Fetch the array of all Metro IDs
+ * 
+ * @since   1.0.0
+ * @return  array( Metro_ID => Location )
+ */
 function cc_aha_get_metro_array(){
     // Will probably get this from the new table. This is a short-term convenience.
     return array( 'GRA01' => 'Adams (PA)',
