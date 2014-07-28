@@ -30,6 +30,8 @@ function cc_aha_extras_class_init(){
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-template-tags.php' );
 	// Template functions for the form
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-survey-template-tags.php' );
+	// Database helper functions
+	require_once( dirname( __FILE__ ) . '/includes/cc-aha-database-bridge.php' );
 	// The main class
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-extras.php' );
 	add_action( 'bp_include', array( 'CC_AHA_Extras', 'get_instance' ), 21 );

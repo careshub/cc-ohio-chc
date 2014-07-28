@@ -1,0 +1,20 @@
+/* No bottom margin on the info paragraph, unless toggle-open */
+.message .first {
+	margin-bottom: 0;
+}
+.message.toggle-open .first {
+	margin-bottom: 1.8em;
+}
+.aha-survey.standard-form label{
+	margin-top: 8px;
+}
+.aha-survey.standard-form .spacious{
+	margin-bottom: 1.4em;
+}
+/*Handling showing/hiding "related" questions*/
+.aha-survey .follow-up-question {
+	display: none;
+}
+.aha-survey .follow-up-question.enabled {
+	display: block;
+}

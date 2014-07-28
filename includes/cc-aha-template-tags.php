@@ -25,7 +25,7 @@ function cc_aha_print_metro_select_container_markup() {
 
     ?>
     <div class="toggleable toggle-closed message info">
-        <p class="toggle-switch" id="update-metro-id-toggle">
+        <p class="toggle-switch first" id="update-metro-id-toggle">
             <?php echo $summary_message; ?>&emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#"><span class="show-pane plus-or-minus"></span><?php echo $link_text; ?></a>
         </p>
 
@@ -137,7 +137,7 @@ function cc_aha_metro_id_cookie_selector(){
 
     // If cookie doesn't exist, we may need to show the user a form.
     if ( empty( $_COOKIE[ $cookie_name ] ) ) {
-            // User hasn't set usermeta yet, display form
+            // User hasn't selected an "active" metro ID yet, display form
             if ( empty( $selected_metro_ids ) ){
                  cc_aha_print_metro_select_container_markup();
             } else if ( count( $selected_metro_ids ) > 1 ) {
@@ -150,7 +150,7 @@ function cc_aha_metro_id_cookie_selector(){
         if ( count( $selected_metro_ids ) > 1 ) {
             ?>
             <div class="toggleable toggle-closed message info">
-                <p class="toggle-switch" id="update-metro-id-toggle">You are currently viewing information for <?php echo $metro_info; ?>. &emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#">Change</a>
+                <p class="toggle-switch first" id="update-metro-id-toggle">You are currently viewing information for <?php echo $metro_info; ?>. &emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#">Change</a>
                 </p>
 
                 <div class="toggle-content">
@@ -161,8 +161,8 @@ function cc_aha_metro_id_cookie_selector(){
         } else { 
             ?>
             <div class="message info">
-            <p>You are currently viewing information for <?php echo $metro_info; ?></p>
-        </div>
+                <p class="first">You are currently viewing information for <?php echo $metro_info; ?></p>
+            </div>
         <?php
         }
     }

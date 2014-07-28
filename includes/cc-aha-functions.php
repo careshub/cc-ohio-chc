@@ -177,6 +177,9 @@ function cc_aha_get_prev_form_page_url(){
     // TODO: Add some logic to navigate the form pages
     return wp_get_referer();
 }
+function cc_aha_get_max_page_number(){
+    return 7;
+}
 
 /**
  * Fetch the array of all Metro IDs

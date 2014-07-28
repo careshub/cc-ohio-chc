@@ -73,7 +73,7 @@ class CC_AHA_Extras {
 		// add_action( 'wpmu_new_blog', array( $this, 'activate_new_site' ) );
 
 		// Load public-facing style sheet and JavaScript.
-		// add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_registration_styles') );
 
@@ -291,7 +291,8 @@ class CC_AHA_Extras {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-		// wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'assets/css/public.css', __FILE__ ), array(), self::VERSION );
+		if ( cc_aha_is_component() )
+			wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'aha-extras-tab.css', __FILE__ ), array(), self::VERSION );
 	}
 
 	public function enqueue_registration_styles() {
