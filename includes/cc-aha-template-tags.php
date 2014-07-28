@@ -79,6 +79,7 @@ function cc_aha_print_metro_id_list(){
 }
 function cc_aha_get_metro_id_list(){
     $user_metros = cc_aha_get_array_user_metro_ids();
+    // TODO: We'll need to make this human-readable
     $retval = '';
     $count = 1;
     foreach ($user_metros as $metro_id) {
@@ -129,8 +130,6 @@ function cc_aha_render_tab_subnav(){
  * @return  HTML
  */
 function cc_aha_metro_id_cookie_selector(){
-    // TODO: The cookie creation logic needs to move to bp_init or similar, this is too late.
-    // Then, check cookies and 
 
     $cookie_name = 'aha_active_metro_id';
     // We need to know the user's affiliations
@@ -147,7 +146,6 @@ function cc_aha_metro_id_cookie_selector(){
     } else {
         //TODO: get human readable description
         $metro_info = $_COOKIE[$cookie_name];
-        
         // If the user has more than one affiliation, give chance to change
         if ( count( $selected_metro_ids ) > 1 ) {
             ?>

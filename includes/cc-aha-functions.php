@@ -38,7 +38,18 @@ function cc_aha_is_aha_group(){
  * @return  integer
  */
 function cc_aha_get_group_id(){
-    return ( get_home_url() == 'http://commonsdev.local' ) ? 55 : 594 ;
+    switch ( get_home_url() ) {
+        case 'http://commonsdev.local':
+            $group_id = 55;
+            break;
+        case 'http://dev.communitycommons.org':
+            $group_id = 592;
+            break;
+        default:
+            $group_id = 594;
+            break;
+    }
+    return $group_id;
 }
 
 /**
@@ -137,10 +148,15 @@ function cc_aha_save_metro_ids(){
  * Retrieve a user's metro affiliation
  * 
  * @since   1.0.0
- * @return  array of metro IDs
+ * @return  array of metro IDs, empty array if none (helps with counting later)
  */
 function cc_aha_get_array_user_metro_ids() {
-    return get_user_meta( get_current_user_id(), 'aha_board', true );
+    $selected = get_user_meta( get_current_user_id(), 'aha_board', true );
+
+    if ( ! is_array( $selected ) )
+        $selected = array();
+
+    return $selected;
 }
 
 /**

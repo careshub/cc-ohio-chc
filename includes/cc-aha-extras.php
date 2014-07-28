@@ -103,7 +103,7 @@ class CC_AHA_Extras {
 		add_action( 'bp_init', array( $this, 'save_form_submission'), 75 );
 
 		// Add filter to catch form submission -- both "metro ID" and questionnaire answers
-		add_action( 'bp_init', array( $this, 'set_metro_id_cookie_on_load'), 28 );
+		add_action( 'bp_init', array( $this, 'set_metro_id_cookie_on_load'), 22 );
 
 	}
 
@@ -518,12 +518,12 @@ class CC_AHA_Extras {
 	}
 
 	/**
-	 * Handle form submissions - checkbox fields
+	 * Handle form submissions - checkbox fields & yes/no radios
 	 *  
 	 * @since   1.0.0
 	 * @return  boolean
 	 */
-	public function save_checkbox_fields( $metro_id, $fields ){
+	public function save_boolean_fields( $metro_id, $fields ){
 		foreach ($fields as $field) {
 			// If checked, enter 1 in the field
 			if ( isset( $_POST['$field'] ) && !empty( $_POST['$field'] ) ) {
@@ -536,7 +536,7 @@ class CC_AHA_Extras {
 
 	}
 	/**
-	 * Handle form submissions - radio fields
+	 * Handle form submissions - radio fields NOT BOOLEAN
 	 *  
 	 * @since   1.0.0
 	 * @return  boolean
@@ -571,28 +571,43 @@ class CC_AHA_Extras {
 		
 	}
 
+	/**
+	 * Checks existing metro ID cookie value and tries to gracefully set cookie value for Metro ID on page load.
+	 *  
+	 * @since   1.0.0
+	 * @return  none, creates cookie
+	 * @uses 	setcookie(), reset(), wp_redirect()
+	 */
 	public function set_metro_id_cookie_on_load() {
+		// Only needed on the AHA tab, and only for logged-in users. (User has to be logged in to reach AHA tab, though. So we'll let BP handle that.)
+		if ( ! cc_aha_is_component() )
+			return;
+
 		$cookie_name = 'aha_active_metro_id';
 	    // We need to know the user's affiliations
 	    $selected_metro_ids = cc_aha_get_array_user_metro_ids();
+	    $redirect = false;
 
-	    // If cookie doesn't exist, we try to set it.
-	    if ( empty( $_COOKIE[ $cookie_name ] ) ) {
-	        // How many ids has the user chosen?
-	        // User has only one affiliation, set cookie and reload
-	             if ( count( $selected_metro_ids ) == 1 ){
-	                 setcookie( $cookie_name, $selected_metro_ids[0], 0, '/' );
-	                 wp_redirect( wp_get_referer() );
-	             }
-	    } else {
-	    	// TODO: This isn't working
-	        // Cookie is set, we check that it's a valid value, if not, unset and reload.
-	        if ( ! in_array( $_COOKIE[ $cookie_name ], $selected_metro_ids) ) {
-	            setcookie( $cookie_name, '', time()-3600 );
-	            // TODO: Too late to redirect, output has started
-	            wp_redirect( wp_get_referer() );
-	        }
-	
+        // Cookie is set, we check that it's a valid value, if not, unset it.
+        // Most common case for this is user changes affiliations, so "active" metro ID is no longer applicable
+	    if ( ! empty( $_COOKIE[ $cookie_name ] ) && ! in_array( $_COOKIE[ $cookie_name ], $selected_metro_ids ) ) {
+        	// Cookie path must match the cookie we're trying to unset
+            setcookie( $cookie_name, '', time()-3600, '/' );
+            // Remove it from the $_COOKIE array, too, so the following action will fire.
+            unset( $_COOKIE[ $cookie_name ] );
+			$redirect = true;	           
+	    }
+
+	    // If cookie doesn't exist (or we just deleted it above), we try to set it.
+	    // If user has only one affiliation, we can set the cookie
+	    if ( empty( $_COOKIE[ $cookie_name ] ) && count( $selected_metro_ids ) == 1  ){
+            setcookie( $cookie_name, reset( $selected_metro_ids ), 0, '/' );
+			$redirect = true;	
         }
+
+        if ( $redirect )
+        	wp_redirect( wp_get_referer() );
+
+
 	}
 } // End class
