@@ -96,9 +96,6 @@ class CC_AHA_Extras {
 
         add_filter( 'group_reports_create_new_label', array( $this, 'change_group_create_report_label' ), 2, 12 );
 
-        // Do some acrobatics for the Gravity Form about this thing--only applied to form # 26
-        add_filter( 'gform_pre_render_21', array( $this, 'pre_render_form_filter' ) );
-
 		// Add filter to catch form submission -- both "metro ID" and questionnaire answers
 		add_action( 'bp_init', array( $this, 'save_form_submission'), 75 );
 
@@ -402,41 +399,6 @@ class CC_AHA_Extras {
 	}
 
 	/**
-	 * Modify Gravity Forms Behavior
-	 *
-	 * @since    1.0
-	 */
-	public function pre_render_form_filter( $form ) {
-
-		// First, get some usermeta -- GF should prevent non-logged in users from accessing the form.
-		$board_id = get_user_meta( get_current_user_id(), 'aha_board', TRUE );
-		$towrite = PHP_EOL . '$user_id: ' . print_r( get_current_user_id(), TRUE);
-
-		// This bit unsets questions based on board id (could be by anything)
-		switch ( $board_id ) {
-			case 'Mozark': // This is cassie's usermeta value
-				// Don't ask question 2 "anti-clockwise"
-				unset( $form['fields'][1] ); // Note that this is selecting the element by its array index, not its gform id!
-				break;
-			case 'Fox': // This is mbarbaro's usermeta value
-				// Don't ask question 2 "anti-clockwise"
-				unset( $form['fields'][2] );
-				break;
-			default:
-				$board_id = 'Unknown board';
-				break;
-		}
-
-		// This replaces the placeholder with the board_id (again, proof of concept)
-		foreach ( $form['fields'] as $id => $field) {
-			$form['fields'][$id]['description'] = str_ireplace('%%desc%%', $board_id, $field['description']);
-		}
-
-		return $form;
-
-	}
-
-	/**
 	 * Handle form submissions
 	 *  
 	 * @since   1.0.0
@@ -457,9 +419,9 @@ class CC_AHA_Extras {
 
 			// Try to save the ID
 		    if ( cc_aha_save_metro_ids() ) {
-   				bp_core_add_message( __( 'Your affiliation has been updated.', $this->plugin_slug ) );
+   				bp_core_add_message( __( 'Your board affiliation has been updated.', $this->plugin_slug ) );
 		    } else {
-				bp_core_add_message( __( 'Your affiliation could not be updated.', $this->plugin_slug ), 'error' );
+				bp_core_add_message( __( 'Your board affiliation could not be updated.', $this->plugin_slug ), 'error' );
 		    }
 
 			// Redirect and exit
@@ -530,8 +492,11 @@ class CC_AHA_Extras {
 			// From $_POST, we know whether the user clicked "continue" or "return to toc" and the form page number
 			if ( isset( $_POST['submit-survey-to-toc'] ) ) {
 				$url = cc_aha_get_survey_permalink( 1 );
+			} else if ( $page == cc_aha_get_max_page_number() ) {
+				bp_core_add_message( __( 'Thank you for completing the assessment.', $this->plugin_slug ) );
+				$url = cc_aha_get_survey_permalink( 1 );
 			} else {
-				$url = cc_aha_get_survey_permalink( ++$page ); 
+				$url = cc_aha_get_survey_permalink( ++$page );
 			}
 
 		return $url;

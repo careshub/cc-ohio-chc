@@ -14,9 +14,9 @@ jQuery(document).ready(function($){
 	});
 
 
-// Generalized click relation
-// requires trigger input to have this markup: class="has-follow-up" and data-relatedQuestion="id_of_follow_up_q"
-// Target question should have the class "follow-up-question" and be wrapped in a div with the attribute: data-relatedTarget="2.2.2.2"
+	// Generalized click relation
+	// Trigger input should have this markup: class="has-follow-up" and data-relatedQuestion="id_of_follow_up_q" (if a radio button, all items should have the class)
+	// Target question should be wrapped in a div with the class "follow-up-question" and  with the attribute: data-relatedTarget="2.2.2.2"
 
 	// On page load, refresh element visibility.
 	refresh_follow_up_question_visibility();
@@ -29,7 +29,7 @@ jQuery(document).ready(function($){
 	function refresh_follow_up_question_visibility(){
 		$( '.has-follow-up' ).each( function() {
 			// We only want to run the refresh on elements with the special data attribute.
-			if ( target_id = $( this ).data( 'relatedQuestion' ) ) {
+			if ( target_id = $( this ).data( 'relatedquestion' ) ) {
 
 				if ( $( this ).prop( "checked" ) ) {
 					$('.follow-up-question[data-relatedTarget="' + target_id + '"]').addClass('enabled');
