@@ -16,10 +16,10 @@
 function cc_aha_print_metro_select_container_markup() {
     // Get the user's Metro ID
     if ( cc_aha_get_array_user_metro_ids() ) {
-        $summary_message = 'Your regional associations: ' . cc_aha_get_metro_id_list();
+        $summary_message = 'Your board affiliations: ' . cc_aha_get_metro_id_list();
         $link_text = 'Change';
     } else {
-        $summary_message = 'Please set your AHA board association.';
+        $summary_message = 'Please set your AHA board affiliation.';
         $link_text = 'Set region';
     }
 
