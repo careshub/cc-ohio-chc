@@ -35,6 +35,17 @@ function cc_aha_extras_class_init(){
 	// The main class
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-extras.php' );
 	add_action( 'bp_include', array( 'CC_AHA_Extras', 'get_instance' ), 21 );
+	
+	//Mel...is this overkill
+	global $wpdb;
+	
+	//Read only tables 
+    $wpdb->aha_assessment_questions = $wpdb->prefix . 'aha_assessment_questions';
+    $wpdb->aha_assessment_school_readonly = $wpdb->prefix . 'aha_assessment_school_readonly';
+    $wpdb->aha_assessment_board = $wpdb->prefix . 'aha_assessment_board';
+	
+	//Write to tables
+    $wpdb->aha_assessment_school_writeto = $wpdb->prefix . 'aha_assessment_school_writeto';
 }
 add_action( 'bp_include', 'cc_aha_extras_class_init' );
 

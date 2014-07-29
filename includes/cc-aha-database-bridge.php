@@ -13,15 +13,63 @@
  * @since    1.0.0
  * @return 	array
  */
-function cc_aha_get_form_data( $metro_id, $page = 1 ){
-	// This is sample data. Will ultimately come from the db.
-	return array( 	
-				'1.2.1.1' => 1,
-				'1.2.1.2' => 0, 
-				'1.2.1.3' => 'Saved text box stuff',
-				'1.2.2.1' => '23.45' 
-				);
 
+
+function cc_aha_get_questions( $metro_id, $page = 1 ){
+	global $wpdb;
+	$question_sql = 
+		"
+		SELECT * 
+		FROM $wpdb->aha_assessment_questions
+		WHERE page_number = $page
+		";
+		
+	$form_rows = $wpdb->get_results( $question_sql, OBJECT );
+	return $form_rows;
+
+}
+
+function cc_aha_get_school_data( $metro_id ){
+	global $wpdb;
+	
+	$form_rows = $wpdb->get_results( 
+		$wpdb->prepare( 
+		"
+		SELECT * 
+		FROM $wpdb->aha_assessment_school_readonly
+		WHERE AHA_ID = %s
+		",
+		$metro_id )
+		, ARRAY_A
+	);
+	//print_r( $form_rows );
+	return $form_rows;
+	
+}
+
+/*	Get saved data
+	Only ONE set of saved data per metro_id!
+	
+*/
+
+function cc_aha_get_form_data( $metro_id, $page = 1 ){
+
+	 global $wpdb;
+	//for now, get it all?
+	//aha_assessment_school_writeto
+	$form_rows = $wpdb->get_results( 
+		$wpdb->prepare( 
+		"
+		SELECT * 
+		FROM $wpdb->aha_assessment_school_writeto
+		WHERE AHA_ID = %s
+		",
+		$metro_id )
+		, ARRAY_A
+	);
+	//print_r( $form_rows );
+	return $form_rows;
+	
 }
 
 /**
@@ -30,6 +78,7 @@ function cc_aha_get_form_data( $metro_id, $page = 1 ){
  * @since    1.0.0
  * @return 	array of arrays
  */
+ /*
 function cc_aha_get_school_data( $metro_id ){
 	// sample return array
 	return array( 	
@@ -75,3 +124,4 @@ function cc_aha_get_school_data( $metro_id ){
 					),
 				);
 }
+				*/

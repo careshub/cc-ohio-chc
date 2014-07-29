@@ -43,7 +43,7 @@ function cc_aha_render_form( $page = null ){
 }
 
 function cc_aha_get_form_piece_1(){
-	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 1 );
+	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 0 );
 	?>
 	<p>Introductory paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut adipiscing sem a nisl egestas, nec tempus massa pretium. Nam sagittis hendrerit lectus eget imperdiet. Nunc eget est magna. Nullam adipiscing, urna eu tempus dictum, mi mauris malesuada ligula, non pulvinar tellus dolor id velit. Fusce et augue nec libero elementum porttitor in quis ligula. Cras lacinia turpis a dictum malesuada. Duis gravida dapibus commodo.</p>
 
@@ -63,15 +63,6 @@ function cc_aha_get_form_piece_1(){
 function cc_aha_get_form_piece_2(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 1 );
 	?>
-	<!-- <fieldset>
-		<legend>Do you agree with this thing?</legend>
-		<?php aha_render_boolean_radios( '1.2.1.1', $data ); ?>
-	</fieldset>
-
-	<label><input type="checkbox" name="1.2.1.2" id="1.2.1.2" value="1" />Label label</label><br />
-
-	<label for="1.2.1.3" class="">text label</label>
-	<input type="text" name="1.2.1.3" id="1.2.1.3" value="this is the value" /> -->
 
 	<h2>Tobacco</h2>
 	<label for="1.2.2.1">If your community has a local tobacco excise tax, what is the tax rate? If none, enter 0.</label>
@@ -91,17 +82,17 @@ function cc_aha_get_form_piece_3(){
 		// TODO: This is kind of weird, once marked "yes", these questions disappear... Do we need to have a "provided by AHA" entry and a "user response" entry? Or should the answers be pre-populated and the user can change them?
 		?>
 		<fieldset class="spacious">
-			<legend><h4>In school district <?php echo $district['name']; ?>, do schools meet our PE requirements?</h4></legend>
-			<?php if ( $district['2.1.4.1.1'] ) : ?>
+			<legend><h4>In school district <?php echo $district['AHA_NAME']; ?>, do schools meet our PE requirements?</h4></legend>
+			<?php if ( ! $district['Q2.1.4.1.1'] ) : ?>
 				<label>Elementary (150 mins) <?php aha_render_school_boolean_radios( '2.1.4.1.1', $district ); ?></label>
 			<?php 
 			endif;
-			if ( $district['2.1.4.1.2'] ) :
+			if ( ! $district['Q2.1.4.1.2'] ) :
 			?>
 				<label>Middle (225 mins) <?php aha_render_school_boolean_radios( '2.1.4.1.2', $district ); ?></label>
 			<?php 
 			endif;
-			if ( $district['2.1.4.1.3'] ) :
+			if ( ! $district['Q2.1.4.1.3'] ) :
 			?>
 				<label>High School (Graduation Requirement) <?php aha_render_school_boolean_radios( '2.1.4.1.3', $district ); ?></label>
 			<?php endif; ?>
