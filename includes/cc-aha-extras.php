@@ -491,19 +491,21 @@ class CC_AHA_Extras {
 			if ( ! wp_verify_nonce( $_REQUEST['set-aha-assessment-nonce'], 'cc-aha-assessment' ) )
 				return false;
 
+			$page = bp_action_variable(1);
+
 			// Could further separate the handling of pages by using a form action 
 			// like /update-assessment/3 for page 3 of the assessment, 
 			// then using bp_action_variable(1) to retrieve that page number
 
-			switch ( bp_action_variable(1) ) {
-				case 1:
+			switch ( $page ) {
+				case 2:
 					// Save page one of the form
 					$towrite = PHP_EOL . '$_POST: ' . print_r($_POST, TRUE);
 					$fp = fopen('aha_form_save.txt', 'a');
 					fwrite($fp, $towrite);
 					fclose($fp);
 					break;
-				case 2:
+				case 3:
 					// Save page two of the form
 					# code...
 					break;
@@ -512,10 +514,27 @@ class CC_AHA_Extras {
 					break;
 			}
 
-			// Redirect to the next page of the form?
-			bp_core_redirect( cc_aha_get_next_form_page_url() );
+			// Redirect to the appropriate page of the form
+			bp_core_redirect( $this->after_save_get_form_page_url( $page ) );
 			
 		}
+	}
+
+	/**
+	 * Determine the correct page to redirect the user to after a form page save
+	 *  
+	 * @since   1.0.0
+	 * @return  string - url
+	 */
+	public function after_save_get_form_page_url( $page ){
+			// From $_POST, we know whether the user clicked "continue" or "return to toc" and the form page number
+			if ( isset( $_POST['submit-survey-to-toc'] ) ) {
+				$url = cc_aha_get_survey_permalink( 1 );
+			} else {
+				$url = cc_aha_get_survey_permalink( ++$page ); 
+			}
+
+		return $url;
 	}
 
 	/**

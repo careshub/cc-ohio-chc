@@ -5,10 +5,24 @@
 .message.toggle-open .first {
 	margin-bottom: 1.8em;
 }
-.aha-survey.standard-form label{
+.aha-survey.standard-form label {
 	margin-top: 8px;
 }
-.aha-survey.standard-form .spacious{
+.aha-survey .form-navigation {
+	margin-top: 2em;
+}
+.aha-survey.standard-form .submit {
+	clear: right;
+	padding-top: 0;
+}
+.aha-survey.standard-form .submit input {
+	margin-right: 0;
+}
+.aha-survey.standard-form .submit.toc {
+	clear: left;
+	float: left;
+}
+.aha-survey.standard-form .spacious {
 	margin-bottom: 1.4em;
 }
 /*Handling showing/hiding "related" questions*/

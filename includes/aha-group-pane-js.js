@@ -29,8 +29,7 @@ jQuery(document).ready(function($){
 	function refresh_follow_up_question_visibility(){
 		$( '.has-follow-up' ).each( function() {
 			// We only want to run the refresh on elements with the special data attribute.
-			if ( target_id = $( this ).data( 'relatedquestion' ) ) {
-				console.log( target_id );
+			if ( target_id = $( this ).data( 'relatedQuestion' ) ) {
 
 				if ( $( this ).prop( "checked" ) ) {
 					$('.follow-up-question[data-relatedTarget="' + target_id + '"]').addClass('enabled');

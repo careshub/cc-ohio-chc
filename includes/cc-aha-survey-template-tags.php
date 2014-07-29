@@ -26,14 +26,41 @@ function cc_aha_render_form( $page = null ){
 		?>
 		<input type="hidden" name="metro_id" value="<?php echo $_COOKIE['aha_active_metro_id']; ?>">
 		<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
-		<div class="submit">
-	        <input id="submit-survey-<?php echo $page; ?>" type="submit" value="Save responses" name="submit-survey-<?php echo $page; ?>">
-	    </div>
+		<div class="form-navigation clear">
+		<?php if ( $page == 1 ) : ?>
+			<a href="<?php echo cc_aha_get_survey_permalink(2); ?>" class="begin-survey button alignright">Begin Survey</a>
+		<?php else: ?>
+			<div class="submit toc alignleft">
+		        <input id="submit-survey-to-toc" type="submit" value="Save, Return to Table of Contents" name="submit-survey-to-toc">
+		    </div>
+			<div class="submit">
+		        <input id="submit-survey-next-page" type="submit" value="Save Responses and Continue" name="submit-survey-next-page">
+		    </div>
+		<?php endif; ?>
+		</div>
 	</form>
 	<?php
 }
 
 function cc_aha_get_form_piece_1(){
+	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 1 );
+	?>
+	<p>Introductory paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut adipiscing sem a nisl egestas, nec tempus massa pretium. Nam sagittis hendrerit lectus eget imperdiet. Nunc eget est magna. Nullam adipiscing, urna eu tempus dictum, mi mauris malesuada ligula, non pulvinar tellus dolor id velit. Fusce et augue nec libero elementum porttitor in quis ligula. Cras lacinia turpis a dictum malesuada. Duis gravida dapibus commodo.</p>
+
+	<h2>Table of Contents</h2>
+	<ul>
+		<li><a href="<?php echo cc_aha_get_survey_permalink(2); ?>">Tobacco</a></li>
+		<li><a href="<?php echo cc_aha_get_survey_permalink(3); ?>">Physical Education in Schools</a></li>
+		<li><a href="<?php echo cc_aha_get_survey_permalink(4); ?>">Shared Use Policies</a></li>
+		<li><a href="<?php echo cc_aha_get_survey_permalink(5); ?>">Complete Streets</a></li>
+		<li><a href="<?php echo cc_aha_get_survey_permalink(6); ?>">School Nutrition Policies</a></li>
+		<li><a href="<?php echo cc_aha_get_survey_permalink(7); ?>">School Nutrition Implementation</a></li>
+	</ul>
+
+	<?php
+}
+
+function cc_aha_get_form_piece_2(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 1 );
 	?>
 	<!-- <fieldset>
@@ -52,7 +79,7 @@ function cc_aha_get_form_piece_1(){
 	<?php
 }
 
-function cc_aha_get_form_piece_2(){
+function cc_aha_get_form_piece_3(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 2 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
@@ -83,10 +110,10 @@ function cc_aha_get_form_piece_2(){
 	}
 }
 
-function cc_aha_get_form_piece_3(){
+function cc_aha_get_form_piece_4(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 3 );
 	?>
-	<h2>Shared Use Policy</h2>
+	<h2>Shared Use Policies</h2>
 	<fieldset>
 		<legend>Does the state provide promotion, incentives, technical assistance or other resources to schools to encourage shared use?</legend>
 		<?php //aha_render_boolean_radios( '2.2.2.1', $data ); ?>
