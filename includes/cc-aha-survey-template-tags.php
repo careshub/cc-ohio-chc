@@ -87,7 +87,7 @@ function cc_aha_get_form_piece_3(){
 			// TODO: This is kind of weird, once marked "yes", these questions disappear... Do we need to have a "provided by AHA" entry and a "user response" entry? Or should the answers be pre-populated and the user can change them?
 			?>
 			<fieldset class="spacious">
-				<legend><h4>In school district <?php echo $district['name']; ?>, do schools meet our PE requirements?</h4></legend>
+				<legend><h4>In school district <?php echo $district['DIST_NAME']; ?>, do schools meet our PE requirements?</h4></legend>
 				<?php if ( ! $data['2.1.1.1'] ) : ?>
 					<label>Elementary (150 mins) <?php aha_render_school_boolean_radios( '2.1.4.1.1', $district ); ?></label>
 				<?php 

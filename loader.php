@@ -41,11 +41,9 @@ function cc_aha_extras_class_init(){
 	
 	//Read only tables 
     $wpdb->aha_assessment_questions = $wpdb->prefix . 'aha_assessment_questions';
-    $wpdb->aha_assessment_school_readonly = $wpdb->prefix . 'aha_assessment_school_readonly';
+    $wpdb->aha_assessment_school = $wpdb->prefix . 'aha_assessment_school';
     $wpdb->aha_assessment_board = $wpdb->prefix . 'aha_assessment_board';
 	
-	//Write to tables
-    $wpdb->aha_assessment_school_writeto = $wpdb->prefix . 'aha_assessment_school_writeto';
 }
 add_action( 'bp_include', 'cc_aha_extras_class_init' );
 

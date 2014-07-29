@@ -7,14 +7,14 @@
  * @license   GPL-2.0+
  * @copyright 2014 CommmunityCommons.org
  */
+
+
 /**
- * Returns array of saved form data by metro id for the page being built.
+ * Returns array of questions based on page number (not updated)
  *
  * @since    1.0.0
  * @return 	array
  */
-
-
 function cc_aha_get_questions( $metro_id, $page = 1 ){
 	global $wpdb;
 	$question_sql = 
@@ -29,47 +29,42 @@ function cc_aha_get_questions( $metro_id, $page = 1 ){
 
 }
 
-function cc_aha_get_school_data( $metro_id ){
-	global $wpdb;
-	
-	$form_rows = $wpdb->get_results( 
-		$wpdb->prepare( 
-		"
-		SELECT * 
-		FROM $wpdb->aha_assessment_school_readonly
-		WHERE AHA_ID = %s
-		",
-		$metro_id )
-		, ARRAY_A
-	);
-	//print_r( $form_rows );
-	return $form_rows;
-	
-}
-
-/*	Get saved data
-	Only ONE set of saved data per metro_id!
-	
-*/
-
+/**
+ * Returns array of saved form data by metro id for the page being built.
+ *
+ * @since    1.0.0
+ * @return 	array
+ */
 function cc_aha_get_form_data( $metro_id, $page = 1 ){
 
 	 global $wpdb;
-	//for now, get it all?
-	//aha_assessment_school_writeto
-	$form_rows = $wpdb->get_results( 
-		$wpdb->prepare( 
-		"
-		SELECT * 
-		FROM $wpdb->aha_assessment_school_writeto
-		WHERE AHA_ID = %s
-		",
-		$metro_id )
-		, ARRAY_A
-	);
-	//print_r( $form_rows );
-	return $form_rows;
-	
+	 
+	 //so we will return some data for the moment
+	$table_name = "wp_aha_assessment_school_NOTNOW";
+	if( $wpdb->get_var("SHOW TABLES LIKE '$table_name'" ) != $table_name) {
+		return array( 	
+				'1.2.1.1' => 1,
+				'1.2.1.2' => 0, 
+				'1.2.1.3' => 'Saved text box stuff',
+				'1.2.2.1' => '23.45',
+				'2.1.1.1' => 1,
+				'2.1.1.2' => 1,
+				'2.1.1.3' => 0,
+				);
+	} else {
+		$form_rows = $wpdb->get_results( 
+			$wpdb->prepare( 
+			"
+			SELECT * 
+			FROM $wpdb->aha_assessment_school
+			WHERE AHA_ID = %s
+			",
+			$metro_id )
+			, ARRAY_A
+		);
+		//print_r( $form_rows );
+		return $form_rows;
+	}
 }
 
 /**
@@ -78,13 +73,16 @@ function cc_aha_get_form_data( $metro_id, $page = 1 ){
  * @since    1.0.0
  * @return 	array of arrays
  */
- /*
 function cc_aha_get_school_data( $metro_id ){
-	// sample return array
-	return array( 	
+	global $wpdb;
+	
+	//so we will return some data for the moment
+	$table_name = "wp_aha_assessment_school";
+	if( $wpdb->get_var("SHOW TABLES LIKE '$table_name'" ) != $table_name) {
+		return array( 	
 				0 => array(
 					'id' => 4206550,
-					'name' => 'CONEWAGO VALLEY SD',
+					'DIST_NAME' => 'CONEWAGO VALLEY SD',
 					'rank' => 1,
 					'2.1.4.1.1' => 0, // Elementary school PE requirements
 					'2.1.4.1.2' => 1, // Middle school PE requirements
@@ -92,7 +90,7 @@ function cc_aha_get_school_data( $metro_id ){
 					),				
 				1 => array(
 					'id' => 4210710,
-					'name' => 'GETTYSBURG AREA SD',
+					'DIST_NAME' => 'GETTYSBURG AREA SD',
 					'rank' => 2,
 					'2.1.4.1.1' => 1, // Elementary school PE requirements
 					'2.1.4.1.2' => 1, // Middle school PE requirements
@@ -100,7 +98,7 @@ function cc_aha_get_school_data( $metro_id ){
 					), 
 				2 => array(
 					'id' => 4206550,
-					'name' => 'LITTLESTOWN AREA SD',
+					'DIST_NAME' => 'LITTLESTOWN AREA SD',
 					'rank' => 3,
 					'2.1.4.1.1' => 0, // Elementary school PE requirements
 					'2.1.4.1.2' => 0, // Middle school PE requirements
@@ -108,7 +106,7 @@ function cc_aha_get_school_data( $metro_id ){
 					),
 				3 => array(
 					'id' => 4203450,
-					'name' => 'BERMUDIAN SPRINGS SD',
+					'DIST_NAME' => 'BERMUDIAN SPRINGS SD',
 					'rank' => 4,
 					'2.1.4.1.1' => 0, // Elementary school PE requirements
 					'2.1.4.1.2' => 0, // Middle school PE requirements
@@ -116,12 +114,26 @@ function cc_aha_get_school_data( $metro_id ){
 					), 
 				4 => array(
 					'id' => 4224300,
-					'name' => 'UPPER ADAMS SD',
+					'DIST_NAME' => 'UPPER ADAMS SD',
 					'rank' => 5,
 					'2.1.4.1.1' => 0, // Elementary school PE requirements
 					'2.1.4.1.2' => 0, // Middle school PE requirements
 					'2.1.4.1.3' => 0, // High school PE requirements
 					),
 				);
+	} else {
+		$form_rows = $wpdb->get_results( 
+			$wpdb->prepare( 
+			"
+			SELECT * 
+			FROM $wpdb->aha_assessment_school
+			WHERE AHA_ID = %s
+			",
+			$metro_id )
+			, ARRAY_A
+		);
+		//print_r( $form_rows );
+		return $form_rows;
+	}
 }
-				*/
+
