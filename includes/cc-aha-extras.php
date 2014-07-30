@@ -99,7 +99,7 @@ class CC_AHA_Extras {
 		// Add filter to catch form submission -- both "metro ID" and questionnaire answers
 		add_action( 'bp_init', array( $this, 'save_form_submission'), 75 );
 
-		// Add filter to catch form submission -- both "metro ID" and questionnaire answers
+		// Checks existing metro ID cookie value and tries to gracefully set cookie value for Metro ID on page load.
 		add_action( 'bp_init', array( $this, 'set_metro_id_cookie_on_load'), 22 );
 
 	}
@@ -289,12 +289,12 @@ class CC_AHA_Extras {
 	 */
 	public function enqueue_styles() {
 		if ( cc_aha_is_component() )
-			wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'aha-extras-tab.css', __FILE__ ), array(), self::VERSION );
+			wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'css/aha-extras-tab.css', __FILE__ ), array(), self::VERSION );
 	}
 
 	public function enqueue_registration_styles() {
 	    if( bp_is_register_page() && isset( $_GET['aha'] ) && $_GET['aha'] )
-	      wp_enqueue_style( 'aha-section-register-css', plugin_dir_url( __FILE__ ) . 'aha_registration_extras.css', array(), '0.1', 'screen' );
+	      wp_enqueue_style( 'aha-section-register-css', plugins_url( 'css/aha_registration_extras.css', __FILE__ ), array(), '0.1', 'screen' );
 	}
 
 	/**
@@ -304,7 +304,7 @@ class CC_AHA_Extras {
 	 */
 	public function enqueue_scripts() {
 		if ( cc_aha_is_component() )
-			wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'aha-group-pane-js.js', __FILE__ ), array( 'jquery' ), self::VERSION );
+			wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'js/aha-group-pane-js.js', __FILE__ ), array( 'jquery' ), self::VERSION );
 	}
 
 	/**
