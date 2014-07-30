@@ -459,7 +459,7 @@ class CC_AHA_Extras {
 			
 			
 			// Try to save the ID
-		    if ( cc_aha_update_form_data() ) {
+		    if ( cc_aha_update_form_data() !== FALSE ) {
    				bp_core_add_message( __( 'This form been updated.', $this->plugin_slug ) );
 		    } else {
 				bp_core_add_message( __( 'This form could not be updated.', $this->plugin_slug ), 'error' );

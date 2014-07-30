@@ -162,7 +162,7 @@ function cc_aha_get_form_piece_5(){
 		// TODO: This is kind of weird, once marked "yes", these questions disappear... Do we need to have a "provided by AHA" entry and a "user response" entry? Or should the answers be pre-populated and the user can change them?
 		?>
 		<fieldset class="spacious">
-			<legend><h4>In school district <?php echo $district['name']; ?>, is a district-wide policy and/or guidance in place for shared use of school facilities?</h4></legend>
+			<legend><h4>In school district <?php echo $district['DIST_NAME']; ?>, is a district-wide policy and/or guidance in place for shared use of school facilities?</h4></legend>
 			<?php 
 			// Once databased, $options = cc_aha_get_q_options( '2.2.5.1' );
 			$options = array( 
@@ -296,7 +296,7 @@ function aha_render_school_boolean_radios( $qid, $district, $follow_up_id = null
 }
 
 function aha_render_school_radio_group( $qid, $district, $options = array() ){
-	$qname = $district['id'] . '[' . $qid . ']'; 
+	$qname = $district['DIST_ID'] . '[' . $qid . ']'; 
 	foreach ($options as $option) {
 		?>
 		<label><input type="radio" name="<?php echo $qname; ?>" value="<?php echo $option['value']; ?>" <?php checked( $district[ $qid ], $option['value'] ); ?> <?php if ( $option['follow_up'] ) echo 'class="has-follow-up" data-relatedQuestion="' . $district['id'] . '-'  . $option['follow_up'] .'"'; ?>> <?php echo $option['label']; ?></label>
@@ -306,7 +306,7 @@ function aha_render_school_radio_group( $qid, $district, $options = array() ){
 }
 
 function aha_render_school_text_input( $qid, $district ){
-	$qname = $district['id'] . '[' . $qid . ']'; 
+	$qname = $district['DIST_ID'] . '[' . $qid . ']'; 
 	?>
 	<input type="text" name="<?php echo $qname; ?>" id="<?php echo $qname; ?>" value="<?php echo $district[ $qid ]; ?>" />
 	<?php

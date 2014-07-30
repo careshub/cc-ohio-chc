@@ -113,24 +113,34 @@ function cc_aha_update_form_data( ){
 	$update_data = array();
 	$update_data = $_POST['board'];
 	
+	//remove null values from update_data - will not go into database
+	//Mel note: is this the correct handling of this data?  Don't overwrite on null form values?
+	$update_data_notempty = array();
+	$update_data_notempty = array_filter($update_data, "strlen");  //strlen as callback will remove false, empty and null but leave 0
+	
 	//get values for wpdb->update statement..
 	//$wpdb->update( $table, $data, $where, $format = null, $where_format = null );
-	$num_rows_updated = $wpdb->update( $board_table_name, $update_data, $where, $format = null, $where_format = null );
+	$num_rows_updated = $wpdb->update( $board_table_name, $update_data_notempty, $where, $format = null, $where_format = null );
 	
-	
+	/*
 	
 	$towrite = PHP_EOL . '$_POST: ' . print_r($_POST, TRUE);
-	//$towrite .=  print_r($board_values);
 	$towrite .= 'db write success?: ' . $num_rows_updated;
 	
-	//$update_values = implode(' ', $update_values);
-	//$towrite = sizeof($update_values);
-	//$towrite .= $update_values;
+	$towrite .= sizeof($update_data);
+	$towrite .= sizeof($update_data_notempty);
+	$towrite .= print_r($update_data_notempty, TRUE);
+	//$towrite .= sizeof($update_data_notempty);
 	$fp = fopen("c:\\xampp\\logs\\aha_error_log.txt", 'a');
 	fwrite($fp, $towrite);
 	fclose($fp);
+	*/
 	
-	return $num_rows_updated; //num rows on success, false on no success
+	if ( $num_rows_updated === FALSE ) {
+		return false;
+	} else {
+		return $num_rows_updated; //num rows on success (wpdb->update returns 0 if no data change), false on no success 
+	}
 
 }
 
