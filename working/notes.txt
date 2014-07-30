@@ -1,0 +1,4 @@
+notes:
+
+This makes a pretty nice, minimal gauge-looking thingy:
+https://github.com/aterrien/jQuery-Knob

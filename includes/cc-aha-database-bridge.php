@@ -43,6 +43,7 @@ function cc_aha_get_school_data( $metro_id ){
 					'2.1.4.1.1' => 0, // Elementary school PE requirements
 					'2.1.4.1.2' => 1, // Middle school PE requirements
 					'2.1.4.1.3' => 0, // High school PE requirements
+					'3.1.3.1.0' => 0, // Is there a school nutrition policy in place?
 					),				
 				1 => array(
 					'id' => 4210710,
@@ -51,14 +52,25 @@ function cc_aha_get_school_data( $metro_id ){
 					'2.1.4.1.1' => 1, // Elementary school PE requirements
 					'2.1.4.1.2' => 1, // Middle school PE requirements
 					'2.1.4.1.3' => 0, // High school PE requirements
+					'3.1.3.1.0' => 1, // Is there a school nutrition policy in place?
+					'3.1.3.1.1' => 0,
+					'3.1.3.1.2' => 1,
+					'3.1.3.1.3' => 1,
+					'3.1.3.1.4' => 'thingy.com/policy?id=90&duh=2',
+
 					), 
 				2 => array(
-					'id' => 4206550,
+					'id' => 4206545,
 					'name' => 'LITTLESTOWN AREA SD',
 					'rank' => 3,
 					'2.1.4.1.1' => 0, // Elementary school PE requirements
 					'2.1.4.1.2' => 0, // Middle school PE requirements
 					'2.1.4.1.3' => 0, // High school PE requirements
+					'3.1.3.1.0' => 1, // Is there a school nutrition policy in place?
+					'3.1.3.1.1' => 1,
+					'3.1.3.1.2' => 0,
+					'3.1.3.1.3' => 0,
+					'3.1.3.1.4' => 'thingy.com/policy?id=90&duh=2',
 					),
 				3 => array(
 					'id' => 4203450,
@@ -67,6 +79,7 @@ function cc_aha_get_school_data( $metro_id ){
 					'2.1.4.1.1' => 0, // Elementary school PE requirements
 					'2.1.4.1.2' => 0, // Middle school PE requirements
 					'2.1.4.1.3' => 1, // High school PE requirements
+					'3.1.3.1.0' => 0, // Is there a school nutrition policy in place?
 					), 
 				4 => array(
 					'id' => 4224300,
@@ -75,6 +88,11 @@ function cc_aha_get_school_data( $metro_id ){
 					'2.1.4.1.1' => 0, // Elementary school PE requirements
 					'2.1.4.1.2' => 0, // Middle school PE requirements
 					'2.1.4.1.3' => 0, // High school PE requirements
+					'3.1.3.1.0' => 1, // Is there a school nutrition policy in place?
+					'3.1.3.1.1' => 1,
+					'3.1.3.1.2' => 0,
+					'3.1.3.1.3' => 1,
+					'3.1.3.1.4' => 'thingy.com/policy?id=90&duh=2',
 					),
 				);
 }

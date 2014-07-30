@@ -22,12 +22,14 @@
 	clear: left;
 	float: left;
 }
-.aha-survey.standard-form .spacious {
-	margin-bottom: 1.4em;
+.aha-survey.standard-form fieldset {
+	margin-bottom: 3em;
 }
 /*Handling showing/hiding "related" questions*/
 .aha-survey .follow-up-question {
 	display: none;
+	padding: .5em 1.5em;
+	/*background-color: #FFFFEA; /*#fef4dd;*/*/
 }
 .aha-survey .follow-up-question.enabled {
 	display: block;
