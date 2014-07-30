@@ -37,10 +37,10 @@ function cc_aha_get_questions( $metro_id, $page = 1 ){
  */
 function cc_aha_get_form_data( $metro_id, $page = 1 ){
 
-	 global $wpdb;
+	global $wpdb;
 	 
 	 //so we will return some data for the moment
-	$table_name = "wp_aha_assessment_school_NOTNOW";
+	$table_name = "wp_aha_assessment_board";
 	if( $wpdb->get_var("SHOW TABLES LIKE '$table_name'" ) != $table_name) {
 		return array( 	
 				'1.2.1.1' => 1,
@@ -56,7 +56,7 @@ function cc_aha_get_form_data( $metro_id, $page = 1 ){
 			$wpdb->prepare( 
 			"
 			SELECT * 
-			FROM $wpdb->aha_assessment_school
+			FROM $wpdb->aha_assessment_board
 			WHERE AHA_ID = %s
 			",
 			$metro_id )
@@ -66,6 +66,74 @@ function cc_aha_get_form_data( $metro_id, $page = 1 ){
 		return $form_rows;
 	}
 }
+
+/**
+ * Updates board database with answers from survey.
+ *
+ * @since    1.0.0
+ * @param 	array
+ * @return	
+ */
+function cc_aha_update_form_data( ){
+	/*
+		Hmm, things to think about:
+		
+		- we have a school table that will be updated differently than the board table:
+			- parse POST requests?  
+			
+			
+	*/
+	
+	//Mel isn't sure if this is necessary?
+	if ( $_POST['metro_id'] != $_COOKIE['aha_active_metro_id'] ) return 0;
+	
+	/*First, let's deal with board table updating:
+		$_POST['board'] holds key=>values of fields (with dots, not underscores, awesome!)
+		[board] => Array
+        (
+            [2.2.2.1] => 1
+            [2.2.2.2] => seom sthin  aethlkn 
+            [2.2.4.1] => neither
+        )
+		
+		$wpdb->update( $table, $data, $where, $format = null, $where_format = null );
+		
+	*/
+	
+	
+	//take metro id (BOARD_ID in this table) and update fields for which values are supplied in form)
+	global $wpdb;
+	$board_id = $_COOKIE['aha_active_metro_id']; // 'BOARD_ID' column in wp_aha_assessment_board; our WHERE clause
+	$board_table_name = $wpdb->aha_assessment_board;
+	$where = array( 
+		'BOARD_ID' => $board_id 
+	);
+	
+	//we now have key => value pairs for $_POST['board']!
+	$update_data = array();
+	$update_data = $_POST['board'];
+	
+	//get values for wpdb->update statement..
+	//$wpdb->update( $table, $data, $where, $format = null, $where_format = null );
+	$num_rows_updated = $wpdb->update( $board_table_name, $update_data, $where, $format = null, $where_format = null );
+	
+	
+	
+	$towrite = PHP_EOL . '$_POST: ' . print_r($_POST, TRUE);
+	//$towrite .=  print_r($board_values);
+	$towrite .= 'db write success?: ' . $num_rows_updated;
+	
+	//$update_values = implode(' ', $update_values);
+	//$towrite = sizeof($update_values);
+	//$towrite .= $update_values;
+	$fp = fopen("c:\\xampp\\logs\\aha_error_log.txt", 'a');
+	fwrite($fp, $towrite);
+	fclose($fp);
+	
+	return $num_rows_updated; //num rows on success, false on no success
+
+}
+
 
 /**
  * Returns array of arrays of school district data by metro id.

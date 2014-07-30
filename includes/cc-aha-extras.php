@@ -455,26 +455,15 @@ class CC_AHA_Extras {
 
 			$page = bp_action_variable(1);
 
-			// Could further separate the handling of pages by using a form action 
-			// like /update-assessment/3 for page 3 of the assessment, 
-			// then using bp_action_variable(1) to retrieve that page number
-
-			switch ( $page ) {
-				case 2:
-					// Save page one of the form
-					$towrite = PHP_EOL . '$_POST: ' . print_r($_POST, TRUE);
-					$fp = fopen('aha_form_save.txt', 'a');
-					fwrite($fp, $towrite);
-					fclose($fp);
-					break;
-				case 3:
-					// Save page two of the form
-					# code...
-					break;
-				default:
-					# code...
-					break;
-			}
+			
+			
+			
+			// Try to save the ID
+		    if ( cc_aha_update_form_data() ) {
+   				bp_core_add_message( __( 'This form been updated.', $this->plugin_slug ) );
+		    } else {
+				bp_core_add_message( __( 'This form could not be updated.', $this->plugin_slug ), 'error' );
+		    }
 
 			// Redirect to the appropriate page of the form
 			bp_core_redirect( $this->after_save_get_form_page_url( $page ) );

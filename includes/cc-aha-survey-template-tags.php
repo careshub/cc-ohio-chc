@@ -119,7 +119,7 @@ function cc_aha_get_form_piece_4(){
 		<?php aha_render_boolean_radios( '2.2.2.1', $data, '2.2.2.2', 1 ); ?>
 		<div class="follow-up-question" data-relatedTarget="2.2.2.2">
 			<label for="2.2.2.2">Please describe:</label>
-			<textarea name="2.2.2.2" id="2.2.2.2"><?php echo $data['2.2.2.2']; ?></textarea>
+			<textarea name="board[2.2.2.2]" id="2.2.2.2"><?php echo $data['2.2.2.2']; ?></textarea>
 		</div>
 	</fieldset>
 
@@ -156,8 +156,9 @@ function cc_aha_get_form_piece_4(){
 
 function aha_render_boolean_radios( $qid, $data, $follow_up_id = null, $follow_up_on_value = 1 ) {
 	?>
-	<label><input type="radio" name="<?php echo $qid; ?>" value="1" <?php if ( $data[ $qid ] ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 1 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> Yes</label>
-	<label><input type="radio" name="<?php echo $qid; ?>" value="0" <?php if ( ! $data[ $qid ] ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 0 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> No</label>
+	
+	<label><input type="radio" name="<?php echo 'board[' . $qid . ']'; ?>" value="1" <?php if ( $data[ $qid ] ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 1 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> Yes</label>
+	<label><input type="radio" name="<?php echo 'board[' . $qid . ']'; ?>" value="0" <?php if ( ! $data[ $qid ] ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 0 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> No</label>
 	<?php 
 }
 
@@ -165,7 +166,7 @@ function aha_render_radio_group( $qid, $options = array() ){
 	// Follow-up value need to be an array in this case, as multiple "yes" options could fire it 
 	foreach ($options as $option) {
 		?>
-		<label><input type="radio" name="<?php echo $qid; ?>" value="<?php echo $option['value']; ?>" <?php checked( $data[ $qid ], $option['value'] ); ?> <?php if ( $option['follow_up'] ) echo 'class="has-follow-up" data-relatedQuestion="' . $option['follow_up'] .'"'; ?>> <?php echo $option['label']; ?></label>
+		<label><input type="radio" name="<?php echo 'board[' . $qid . ']'; ?>" value="<?php echo $option['value']; ?>" <?php checked( $data[ $qid ], $option['value'] ); ?> <?php if ( $option['follow_up'] ) echo 'class="has-follow-up" data-relatedQuestion="' . $option['follow_up'] .'"'; ?>> <?php echo $option['label']; ?></label>
 		<?php
 		
 	}
@@ -173,13 +174,13 @@ function aha_render_radio_group( $qid, $options = array() ){
 
 function aha_render_text_input( $qid, $data ){
 	?>
-	<input type="text" name="<?php echo $qid; ?>" id="<?php echo $qid; ?>" value="<?php echo $data[ $qid ]; ?>" />
+	<input type="text" name="<?php echo 'board[' . $qid . ']'; ?>" id="<?php echo $qid; ?>" value="<?php echo $data[ $qid ]; ?>" />
 	<?php
 }
 
 //School district-specific form fields
 function aha_render_school_boolean_radios( $qid, $district, $follow_up_id = null, $follow_up_on_value = 1  ) {
-	$qname = $district['id'] . '[' . $qid . ']'; 
+	$qname = $district['DIST_ID'] . '[' . $qid . ']'; 
 	?>
 	<label><input type="radio" name="<?php echo $qname; ?>" value="1" <?php if ( $district[ $qid ] ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 1 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> Yes</label>
 	<label><input type="radio" name="<?php echo $qname;  ?>" value="0" <?php if ( ! $district[ $qid ] ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 0 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> No</label>
