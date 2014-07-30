@@ -456,8 +456,6 @@ class CC_AHA_Extras {
 			$page = bp_action_variable(1);
 
 			
-			
-			
 			// Try to save the ID
 		    if ( cc_aha_update_form_data() !== FALSE ) {
    				bp_core_add_message( __( 'This form been updated.', $this->plugin_slug ) );

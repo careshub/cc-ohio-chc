@@ -57,7 +57,7 @@ function cc_aha_get_form_data( $metro_id, $page = 1 ){
 			"
 			SELECT * 
 			FROM $wpdb->aha_assessment_board
-			WHERE AHA_ID = %s
+			WHERE BOARD_ID = %s
 			",
 			$metro_id )
 			, ARRAY_A
@@ -79,67 +79,83 @@ function cc_aha_update_form_data( ){
 		Hmm, things to think about:
 		
 		- we have a school table that will be updated differently than the board table:
-			- parse POST requests?  
-			
+			- $_POST[board] will hold board key=>values
+			- $_POST[district][#] will hold distrit key=>values ?
 			
 	*/
 	
 	//Mel isn't sure if this is necessary?
 	if ( $_POST['metro_id'] != $_COOKIE['aha_active_metro_id'] ) return 0;
 	
-	/*First, let's deal with board table updating:
-		$_POST['board'] holds key=>values of fields (with dots, not underscores, awesome!)
-		[board] => Array
-        (
-            [2.2.2.1] => 1
-            [2.2.2.2] => seom sthin  aethlkn 
-            [2.2.4.1] => neither
-        )
-		
-		$wpdb->update( $table, $data, $where, $format = null, $where_format = null );
-		
-	*/
-	
-	
+
 	//take metro id (BOARD_ID in this table) and update fields for which values are supplied in form)
 	global $wpdb;
+	
 	$board_id = $_COOKIE['aha_active_metro_id']; // 'BOARD_ID' column in wp_aha_assessment_board; our WHERE clause
 	$board_table_name = $wpdb->aha_assessment_board;
-	$where = array( 
+	$board_where = array( 
 		'BOARD_ID' => $board_id 
 	);
 	
-	//we now have key => value pairs for $_POST['board']!
-	$update_data = array();
-	$update_data = $_POST['board'];
+	//get have key => value pairs for $_POST['board']!
+	$update_board_data = array();
+	$update_board_data = $_POST['board'];
 	
-	//remove null values from update_data - will not go into database
+	//remove null values from update_board_data - will not go into database
 	//Mel note: is this the correct handling of this data?  Don't overwrite on null form values?
-	$update_data_notempty = array();
-	$update_data_notempty = array_filter($update_data, "strlen");  //strlen as callback will remove false, empty and null but leave 0
+	$update_board_data_notempty = array();
+	$update_board_data_notempty = array_filter($update_board_data, "strlen");  //strlen as callback will remove false, empty and null but leave 0
 	
 	//get values for wpdb->update statement..
-	//$wpdb->update( $table, $data, $where, $format = null, $where_format = null );
-	$num_rows_updated = $wpdb->update( $board_table_name, $update_data_notempty, $where, $format = null, $where_format = null );
+	if ( !empty ( $update_board_data_notempty ) ) {
+		$num_board_rows_updated = $wpdb->update( $board_table_name, $update_board_data_notempty, $board_where, $format = null, $where_format = null );
+	}
 	
-	/*
+	//Now for school data
+	$school_table_name = $wpdb->aha_assessment_school;
 	
-	$towrite = PHP_EOL . '$_POST: ' . print_r($_POST, TRUE);
-	$towrite .= 'db write success?: ' . $num_rows_updated;
+	//get key => value pairs for $_POST['school']!
+	$update_school_data = array();
+	$update_school_data = $_POST['school'];
 	
-	$towrite .= sizeof($update_data);
-	$towrite .= sizeof($update_data_notempty);
-	$towrite .= print_r($update_data_notempty, TRUE);
-	//$towrite .= sizeof($update_data_notempty);
+	//foreach district in survey 
+	foreach ( $update_school_data as $key => $value ){
+		
+		$district_id = $key;
+		
+		$school_where = array(
+			'AHA_ID' => $board_id,
+			'DIST_ID' => $district_id
+		);
+		
+		$update_school_dist_data = $value;
+		$update_school_dist_data_notempty = array_filter($update_school_dist_data, "strlen");
+		
+		$towrite .= $district_id; 
+		$num_school_rows_updated = $wpdb->update( $school_table_name, $update_school_dist_data_notempty, $school_where, $format = null, $where_format = null );
+	
+	}
+	
+	$towrite .= PHP_EOL . '$_POST: ' . print_r($_POST, TRUE);
+	$towrite .= 'db write success board: ' . $num_rows_updated;
+	$towrite .= 'db write success school: ' . $num_school_rows_updated;
+	
+	
+	//$towrite .= sizeof($update_board_data);
+	//$towrite .= sizeof($update_board_data_notempty);
+	//$towrite .= print_r($update_board_data_notempty, TRUE);
+	$towrite .= print_r($update_school_dist_data_notempty, TRUE);
+	//$towrite .= sizeof($update_board_data_notempty);
 	$fp = fopen("c:\\xampp\\logs\\aha_error_log.txt", 'a');
 	fwrite($fp, $towrite);
 	fclose($fp);
-	*/
 	
-	if ( $num_rows_updated === FALSE ) {
+	
+	//will have to account for school data getting updated as well
+	if ( $num_board_rows_updated === FALSE ) {
 		return false;
 	} else {
-		return $num_rows_updated; //num rows on success (wpdb->update returns 0 if no data change), false on no success 
+		return $num_board_rows_updated; //num rows on success (wpdb->update returns 0 if no data change), false on no success 
 	}
 
 }

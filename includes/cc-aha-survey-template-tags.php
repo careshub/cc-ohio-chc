@@ -66,7 +66,7 @@ function cc_aha_get_form_piece_2(){
 
 	<h2>Tobacco</h2>
 	<label for="1.2.2.1">If your community has a local tobacco excise tax, what is the tax rate? If none, enter 0.</label>
-	<?php aha_render_text_input( '1.2.2.1', $data ); ?>
+	<?php aha_render_text_input( '1.2.2.1', $data[0] ); ?>
 	<?php
 }
 
@@ -190,7 +190,7 @@ function cc_aha_get_form_piece_5(){
 			aha_render_school_radio_group( '2.2.5.1', $district, $options );
 			?>
 
-			<div class="follow-up-question" data-relatedTarget="<?php echo $district['id']; ?>-2.2.5.1.1">
+			<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID']; ?>-2.2.5.1.1">
 				<fieldset>
 					<legend>If no, what rationale was provided for not having a district-wide shared use policy? </legend>
 					<?php
@@ -220,13 +220,13 @@ function cc_aha_get_form_piece_5(){
 					);
 					aha_render_school_radio_group( '2.2.5.1.1', $district, $options );
 					?>
-					<div class="follow-up-question" data-relatedTarget="<?php echo $district['id']; ?>-2.2.5.1.1.1">
+					<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID']; ?>-2.2.5.1.1.1">
 						<label>If other, please describe: <?php aha_render_school_text_input( '2.2.5.1.1.1', $district ) ?></label>
 					</div>
 				</fieldset>
 			</div>
 
-			<div class="follow-up-question" data-relatedTarget="<?php echo $district['id']; ?>-2.2.5.1.3">
+			<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID']; ?>-2.2.5.1.3">
 				<label>If available, please provide a URL for the district shared use policy: <?php aha_render_school_text_input( '2.2.5.1.3', $district ) ?></label>
 			</div>
 		</fieldset>
@@ -245,10 +245,10 @@ function cc_aha_get_form_piece_7(){
 			// School district stuff will require a different save routine, since they're keyed by district ID.
 			?>
 			<fieldset class="spacious">
-				<legend><h4>In school district <?php echo $district['name']; ?>, is there a documented and publicly available district wellness policy in place?</h4></legend>
-				<?php aha_render_school_boolean_radios( '3.1.3.1.0', $district, $district['id'] . '-3.1.3.1.x', 1 ); ?>
+				<legend><h4>In school district <?php echo $district['DIST_NAME']; ?>, is there a documented and publicly available district wellness policy in place?</h4></legend>
+				<?php aha_render_school_boolean_radios( '3.1.3.1.0', $district, $district['DIST_ID'] . '-3.1.3.1.x', 1 ); ?>
 
-				<div class="follow-up-question" data-relatedTarget="<?php echo $district['id'] . '-3.1.3.1.x'; ?>">
+				<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID'] . '-3.1.3.1.x'; ?>">
 					<label>Does the policy meet the criteria related to school meals? <?php aha_render_school_boolean_radios( '3.1.3.1.1', $district ); ?></label>
 					<label>Does the policy meet the criteria related to smart snacks? <?php aha_render_school_boolean_radios( '3.1.3.1.1', $district ); ?></label>
 					<label>Does the policy meet the criteria related to before/after school offering? <?php aha_render_school_boolean_radios( '3.1.3.1.1', $district ); ?></label>
@@ -288,7 +288,7 @@ function aha_render_text_input( $qid, $data ){
 
 //School district-specific form fields
 function aha_render_school_boolean_radios( $qid, $district, $follow_up_id = null, $follow_up_on_value = 1  ) {
-	$qname = $district['DIST_ID'] . '[' . $qid . ']'; 
+	$qname = 'school[' . $district['DIST_ID'] . '][' . $qid . ']'; 
 	?>
 	<label><input type="radio" name="<?php echo $qname; ?>" value="1" <?php if ( $district[ $qid ] ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 1 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> Yes</label>
 	<label><input type="radio" name="<?php echo $qname;  ?>" value="0" <?php if ( ! $district[ $qid ] ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 0 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> No</label>
@@ -296,17 +296,17 @@ function aha_render_school_boolean_radios( $qid, $district, $follow_up_id = null
 }
 
 function aha_render_school_radio_group( $qid, $district, $options = array() ){
-	$qname = $district['DIST_ID'] . '[' . $qid . ']'; 
+	$qname = 'school[' . $district['DIST_ID'] . '][' . $qid . ']'; 
 	foreach ($options as $option) {
 		?>
-		<label><input type="radio" name="<?php echo $qname; ?>" value="<?php echo $option['value']; ?>" <?php checked( $district[ $qid ], $option['value'] ); ?> <?php if ( $option['follow_up'] ) echo 'class="has-follow-up" data-relatedQuestion="' . $district['id'] . '-'  . $option['follow_up'] .'"'; ?>> <?php echo $option['label']; ?></label>
+		<label><input type="radio" name="<?php echo $qname; ?>" value="<?php echo $option['value']; ?>" <?php checked( $district[ $qid ], $option['value'] ); ?> <?php if ( $option['follow_up'] ) echo 'class="has-follow-up" data-relatedQuestion="' . $district['DIST_ID'] . '-'  . $option['follow_up'] .'"'; ?>> <?php echo $option['label']; ?></label>
 		<?php
 		
 	}
 }
 
 function aha_render_school_text_input( $qid, $district ){
-	$qname = $district['DIST_ID'] . '[' . $qid . ']'; 
+	$qname = 'school[' . $district['DIST_ID'] . '][' . $qid . ']'; 
 	?>
 	<input type="text" name="<?php echo $qname; ?>" id="<?php echo $qname; ?>" value="<?php echo $district[ $qid ]; ?>" />
 	<?php
