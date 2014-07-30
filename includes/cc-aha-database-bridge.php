@@ -141,7 +141,7 @@ function cc_aha_update_form_data( ){
 		
 		//the array in value is the district-specific data
 		$update_school_dist_data = $value;
-		$update_school_dist_data_notempty();
+		$update_school_dist_data_notempty = array();
 		$update_school_dist_data_notempty = array_filter($update_school_dist_data, "strlen");
 		
 		//update the table for this district
