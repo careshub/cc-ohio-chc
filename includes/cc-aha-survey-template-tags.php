@@ -118,7 +118,7 @@ function cc_aha_get_form_piece_4(){
 		<?php aha_render_boolean_radios( '2.2.2.1', $data, '2.2.2.2', 1 ); ?>
 		<div class="follow-up-question" data-relatedTarget="2.2.2.2">
 			<label for="2.2.2.2">Please describe:</label>
-			<textarea name="board[2.2.2.2]" id="2.2.2.2"><?php echo $data['2.2.2.2']; ?></textarea>
+			<?php aha_render_textarea_input( '2.2.2.2', $data ); ?>
 		</div>
 	</fieldset>
 
@@ -283,6 +283,14 @@ function aha_render_radio_group( $qid, $options = array() ){
 function aha_render_text_input( $qid, $data ){
 	?>
 	<input type="text" name="<?php echo 'board[' . $qid . ']'; ?>" id="<?php echo $qid; ?>" value="<?php echo $data[ $qid ]; ?>" />
+	<?php
+}
+
+function aha_render_textarea_input( $qid, $data ){
+
+    // TODO: Firefox 31 Mac isn't displaying the value. Sf and Cr are fine. Works off-site: http://jsfiddle.net/58rPb/
+	?>
+	<textarea name="<?php echo 'board[' . $qid . ']'; ?>" id="<?php echo $qid; ?>"><?php echo $data[ $qid ]; ?></textarea>
 	<?php
 }
 

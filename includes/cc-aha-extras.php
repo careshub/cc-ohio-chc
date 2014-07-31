@@ -418,7 +418,7 @@ class CC_AHA_Extras {
 				return false;
 
 			// Try to save the ID
-		    if ( cc_aha_save_metro_ids() ) {
+		    if ( $this->save_metro_ids() ) {
    				bp_core_add_message( __( 'Your board affiliation has been updated.', $this->plugin_slug ) );
 		    } else {
 				bp_core_add_message( __( 'Your board affiliation could not be updated.', $this->plugin_slug ), 'error' );
@@ -454,19 +454,38 @@ class CC_AHA_Extras {
 				return false;
 
 			$page = bp_action_variable(1);
-
 			
-			// Try to save the ID
+			// Try to save the form data
 		    if ( cc_aha_update_form_data() !== FALSE ) {
-   				bp_core_add_message( __( 'This form been updated.', $this->plugin_slug ) );
+   				bp_core_add_message( __( 'Your responses have been recorded.', $this->plugin_slug ) );
 		    } else {
-				bp_core_add_message( __( 'This form could not be updated.', $this->plugin_slug ), 'error' );
+				bp_core_add_message( __( 'There was a problem saving your responses.', $this->plugin_slug ), 'error' );
 		    }
 
 			// Redirect to the appropriate page of the form
 			bp_core_redirect( $this->after_save_get_form_page_url( $page ) );
 			
 		}
+	}
+
+	/**
+	 * Save metro ids as user meta
+	 * Saves selection as serialized data in the usermeta table
+	 * 
+	 * @since   1.0.0
+	 * @return  boolean
+	 */
+	function save_metro_ids(){
+	    $selected_metros = $_POST['aha_metro_ids'];
+	    $user_metros = get_user_meta( get_current_user_id(), 'aha_board' );
+
+	    if ( empty( $selected_metros ) ) {
+	        $success = delete_user_meta( get_current_user_id(), 'aha_board' );
+	    } else {
+	        $success = update_user_meta( get_current_user_id(), 'aha_board', $selected_metros );
+	    }
+
+	    return $success;
 	}
 
 	/**

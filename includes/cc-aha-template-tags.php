@@ -44,17 +44,17 @@ function cc_aha_print_metro_select_container_markup() {
  */
 function cc_aha_metro_select_markup(){
     $user_metros_array = cc_aha_get_array_user_metro_ids();
-    $metros = cc_aha_get_metro_array();
+    $metros = cc_aha_get_metro_id_array();
 
     // Using checkboxes since a user could choose one or several
     ?>
     <form id="aha_metro_id_select" class="" method="post" action="<?php echo cc_aha_get_home_permalink(); ?>save-metro-id/">
         <ul class="aha_metro_id_list no-bullets text-columns-three">
     <?php 
-        foreach ($metros as $metro_id => $location) {
+        foreach ($metros as $metro) {
             ?>
             <li>
-                <input type="checkbox" name="aha_metro_ids[]" id="aha_metro_ids-<?php echo $metro_id; ?>" value="<?php echo $metro_id; ?>" <?php if ( in_array( $metro_id, $user_metros_array) ) : ?>checked<?php endif; ?> /> <label for="aha_metro_ids-<?php echo $metro_id; ?>" class=""><?php echo $location . ' &ndash; ' . $metro_id ; ?></label>
+                <input type="checkbox" name="aha_metro_ids[]" id="aha_metro_ids-<?php echo $metro['BOARD_ID']; ?>" value="<?php echo $metro['BOARD_ID']; ?>" <?php if ( in_array( $metro['BOARD_ID'], $user_metros_array) ) : ?>checked<?php endif; ?> /> <label for="aha_metro_ids-<?php echo $metro['BOARD_ID']; ?>" class=""><?php echo $metro['Board_Name'] . ' &ndash; ' . $metro['BOARD_ID']; ?></label>
             </li>
             <?php
         }
@@ -79,14 +79,15 @@ function cc_aha_print_metro_id_list(){
 }
 function cc_aha_get_metro_id_list(){
     $user_metros = cc_aha_get_array_user_metro_ids();
-    // TODO: We'll need to make this human-readable
     $retval = '';
     $count = 1;
     foreach ($user_metros as $metro_id) {
+        $metro = cc_aha_get_single_metro_data( $metro_id );
+
         if ( $count != 1 ){ 
             $retval .= ', ';
         }
-        $retval .= $metro_id;
+        $retval .= $metro['Board_Name'] . ' &ndash; ' . $metro['BOARD_ID'];
         $count++;
     }
     return $retval;
