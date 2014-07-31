@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.14)
 # Database: commonsdev
-# Generation Time: 2014-07-31 18:02:25 +0000
+# Generation Time: 2014-07-31 20:00:38 +0000
 # ************************************************************
 
 
@@ -27,7 +27,7 @@ DROP TABLE IF EXISTS `wp_aha_assessment_q_options`;
 
 CREATE TABLE `wp_aha_assessment_q_options` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `question_id` tinytext,
+  `qid` tinytext,
   `value` tinytext,
   `label` text,
   `followup_id` tinytext,
@@ -37,7 +37,7 @@ CREATE TABLE `wp_aha_assessment_q_options` (
 LOCK TABLES `wp_aha_assessment_q_options` WRITE;
 /*!40000 ALTER TABLE `wp_aha_assessment_q_options` DISABLE KEYS */;
 
-INSERT INTO `wp_aha_assessment_q_options` (`id`, `question_id`, `value`, `label`, `followup_id`)
+INSERT INTO `wp_aha_assessment_q_options` (`id`, `qid`, `value`, `label`, `followup_id`)
 VALUES
 	(1,'2.1.4.1.1','1','Yes','0'),
 	(2,'2.1.4.1.1','0','No','0'),
@@ -87,10 +87,10 @@ DROP TABLE IF EXISTS `wp_aha_assessment_questions`;
 
 CREATE TABLE `wp_aha_assessment_questions` (
   `id` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
-  `page_number` tinyint(4) DEFAULT NULL,
-  `question_id` tinytext,
-  `question_type` tinytext,
-  `question_text` text,
+  `page` tinyint(4) DEFAULT NULL,
+  `QID` tinytext,
+  `type` tinytext,
+  `label` text,
   `loop_schools` tinyint(1) DEFAULT NULL,
   `follows_up` tinytext,
   PRIMARY KEY (`id`)
@@ -99,7 +99,7 @@ CREATE TABLE `wp_aha_assessment_questions` (
 LOCK TABLES `wp_aha_assessment_questions` WRITE;
 /*!40000 ALTER TABLE `wp_aha_assessment_questions` DISABLE KEYS */;
 
-INSERT INTO `wp_aha_assessment_questions` (`id`, `page_number`, `question_id`, `question_type`, `question_text`, `loop_schools`, `follows_up`)
+INSERT INTO `wp_aha_assessment_questions` (`id`, `page`, `QID`, `type`, `label`, `loop_schools`, `follows_up`)
 VALUES
 	(1,2,'1.2.2.1','text','If your community has a local tobacco excise tax, what is the tax rate? If none, enter 0.',0,'0'),
 	(2,3,'2.1.4.1.1','radio','In school district %%district_name%%, do schools meet our PE requirements?',1,'0'),

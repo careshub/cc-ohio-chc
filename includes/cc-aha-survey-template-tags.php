@@ -8,6 +8,13 @@
  * @copyright 2014 CommmunityCommons.org
  */
 
+/**
+ * Output logic for the form. includes the wrapper pieces.
+ * Question building is handled separately
+ *
+ * @since   1.0.0
+ * @return 	outputs html
+ */
 function cc_aha_render_form( $page = null ){
 	$page = (int) $page;
 	$first_page = 1;
@@ -20,9 +27,15 @@ function cc_aha_render_form( $page = null ){
 	?>
 	<form id="aha_survey-page-<?php echo $page; ?>" class="standard-form aha-survey" method="post" action="<?php echo cc_aha_get_home_permalink() . 'update-assessment/' . $page; ?>">
 		<?php
-			// Kind of weird, but splitting the various pages out into separate functions will make git happier, I think.
-			$aha_form_function_name = 'cc_aha_get_form_piece_' . $page;
-			$aha_form_function_name();
+
+			// Some pages can be auto-built. Others we're going to hand-code.
+			$can_auto_build = array( 2, 4 );
+			if ( in_array( $page, $can_auto_build ) ) {
+				cc_aha_auto_build_questions( $page );
+			} else {
+				$aha_form_function_name = 'cc_aha_handcoded_questions_' . $page;
+				$aha_form_function_name();
+			}
 		?>
 		<input type="hidden" name="metro_id" value="<?php echo $_COOKIE['aha_active_metro_id']; ?>">
 		<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
@@ -42,35 +55,49 @@ function cc_aha_render_form( $page = null ){
 	<?php
 }
 
-function cc_aha_get_form_piece_1(){
+//For the pages we can auto build
+function cc_aha_auto_build_questions( $page ) {
+	$questions = cc_aha_get_form_questions( $page );
+	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 1 );
+	?>
+
+	<h2><?php cc_aha_print_form_page_header( $page ); ?></h2>
+
+	<?php 
+		foreach ( $questions as $question ) {
+			cc_aha_render_question( $question, $data );
+		}
+	?>
+
+	<?php
+}
+
+
+function cc_aha_handcoded_questions_1(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 1 );
 	?>
 	<p>Introductory paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut adipiscing sem a nisl egestas, nec tempus massa pretium. Nam sagittis hendrerit lectus eget imperdiet. Nunc eget est magna. Nullam adipiscing, urna eu tempus dictum, mi mauris malesuada ligula, non pulvinar tellus dolor id velit. Fusce et augue nec libero elementum porttitor in quis ligula. Cras lacinia turpis a dictum malesuada. Duis gravida dapibus commodo.</p>
 
-	<h2>Table of Contents</h2>
+	<h2><?php cc_aha_print_form_page_header( 1 ); ?></h2>
 	<ul>
-		<li><a href="<?php echo cc_aha_get_survey_permalink(2); ?>">Tobacco</a></li>
-		<li><a href="<?php echo cc_aha_get_survey_permalink(3); ?>">Physical Education in Schools</a></li>
-		<li><a href="<?php echo cc_aha_get_survey_permalink(4); ?>">Shared Use Policies</a></li>
-		<li><a href="<?php echo cc_aha_get_survey_permalink(5); ?>">Complete Streets</a></li>
-		<li><a href="<?php echo cc_aha_get_survey_permalink(6); ?>">School Nutrition Policies</a></li>
-		<li><a href="<?php echo cc_aha_get_survey_permalink(7); ?>">School Nutrition Implementation</a></li>
+		<?php 
+		$all_pages = cc_aha_form_page_list();
+
+			foreach ($all_pages as $page_number => $label) {
+				// Don't list page 1 here:
+				if ( $page_number == 1 )
+					continue;
+			?>
+			<li><a href="<?php echo cc_aha_get_survey_permalink( $page_number ); ?>"><?php echo $label; ?></a></li>
+			<?php 
+			}
+		?>
 	</ul>
 
 	<?php
 }
 
-function cc_aha_get_form_piece_2(){
-	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 1 );
-	?>
-
-	<h2>Tobacco</h2>
-	<label for="1.2.2.1">If your community has a local tobacco excise tax, what is the tax rate? If none, enter 0.</label>
-	<?php aha_render_text_input( '1.2.2.1', $data ); ?>
-	<?php
-}
-
-function cc_aha_get_form_piece_3(){
+function cc_aha_handcoded_questions_3(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 2 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
@@ -108,7 +135,7 @@ function cc_aha_get_form_piece_3(){
 	}
 }
 
-function cc_aha_get_form_piece_4(){
+function cc_aha_handcoded_questions_4(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 4 );
 	?>
 
@@ -150,7 +177,7 @@ function cc_aha_get_form_piece_4(){
 		<?php 
 }
 
-function cc_aha_get_form_piece_5(){
+function cc_aha_handcoded_questions_5(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 5 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
@@ -221,7 +248,7 @@ function cc_aha_get_form_piece_5(){
 					aha_render_school_radio_group( '2.2.5.1.1', $district, $options );
 					?>
 					<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID']; ?>-2.2.5.1.1.1">
-						<label>If other, please describe: <?php aha_render_school_text_input( '2.2.5.1.1.1', $district ) ?></label>
+						<label>If other, please describe: <?php aha_render_school_textarea_input( '2.2.5.1.1.1', $district ) ?></label>
 					</div>
 				</fieldset>
 			</div>
@@ -234,7 +261,7 @@ function cc_aha_get_form_piece_5(){
 	}
 }
 
-function cc_aha_get_form_piece_7(){
+function cc_aha_handcoded_questions_7(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 7 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
@@ -260,7 +287,37 @@ function cc_aha_get_form_piece_7(){
 
 }
 
-
+function cc_aha_render_question( $question, $data ){
+	// TODO: decide where to make the split on school vs board questions. Above here? Here?
+	if ( $question[ 'follows_up' ] ) {
+		?>
+		<div class="follow-up-question" data-relatedTarget="<?php echo $question[ 'QID' ] ; ?>">
+		<?php
+	} 
+	switch ( $question[ 'type' ] ) {
+		case 'text':
+		?>
+			<label for="<?php echo $question[ 'QID' ]; ?>"><?php echo $question[ 'label' ]; ?></label>
+			<?php aha_render_text_input( $question[ 'QID' ], $data );
+			break;
+		case 'radio':
+		?>	<fieldset>
+				<label for="<?php echo $question[ 'QID' ]; ?>"><?php echo $question[ 'label' ]; ?></label>
+				<?php aha_render_radio_group( $question[ 'QID' ], $data ); ?>
+			</fieldset>
+			<?php
+			break;
+		
+		default:
+			# code...
+			break;
+	}
+	if ( $question[ 'follows_up' ] ) {
+		?>
+		</div>
+		<?php
+	} 
+}
 
 
 function aha_render_boolean_radios( $qid, $data, $follow_up_id = null, $follow_up_on_value = 1 ) {
@@ -271,10 +328,12 @@ function aha_render_boolean_radios( $qid, $data, $follow_up_id = null, $follow_u
 	<?php 
 }
 
-function aha_render_radio_group( $qid, $options = array() ){
+function aha_render_radio_group( $qid, $data ){
+	$options = cc_aha_get_options_for_question( $qid );
+
 	foreach ($options as $option) {
 		?>
-		<label><input type="radio" name="<?php echo 'board[' . $qid . ']'; ?>" value="<?php echo $option['value']; ?>" <?php checked( $data[ $qid ], $option['value'] ); ?> <?php if ( $option['follow_up'] ) echo 'class="has-follow-up" data-relatedQuestion="' . $option['follow_up'] .'"'; ?>> <?php echo $option['label']; ?></label>
+		<label><input type="radio" name="<?php echo 'board[' . $qid . ']'; ?>" value="<?php echo $option['value']; ?>" <?php checked( $data[ $qid ], $option['value'] ); ?> <?php if ( $option['followup_id'] ) echo 'class="has-follow-up" data-relatedQuestion="' . $option['followup_id'] .'"'; ?>> <?php echo $option['label']; ?></label>
 		<?php
 		
 	}
@@ -318,4 +377,42 @@ function aha_render_school_text_input( $qid, $district ){
 	?>
 	<input type="text" name="<?php echo $qname; ?>" id="<?php echo $qname; ?>" value="<?php echo $district[ $qid ]; ?>" />
 	<?php
+}
+
+function aha_render_school_textarea_input( $qid, $district ){
+	$qname = 'school[' . $district['DIST_ID'] . '][' . $qid . ']'; 
+
+    // TODO: Firefox 31 Mac isn't displaying the value. Sf and Cr are fine. Works off-site: http://jsfiddle.net/58rPb/
+	?>
+	<textarea name="<?php echo $qname; ?>" id="<?php echo $qname; ?>"><?php echo $district[ $qid ]; ?></textarea>
+	<?php
+}
+
+// UTILITY FUNCTIONS
+/**
+ * Outputs the title of each form page.
+ *
+ * @since   1.0.0
+ * @return 	echoes string
+ */
+function cc_aha_print_form_page_header( $page = 1 ){
+	$all_pages = cc_aha_form_page_list();
+	echo $all_pages[ $page ];
+}
+/**
+ * All the page titles kept in one place, for easier updating
+ *
+ * @since   1.0.0
+ * @return 	array
+ */
+function cc_aha_form_page_list(){
+	return array(
+	1 => 'Table of Contents',
+	2 => 'Tobacco',
+	3 => 'Physical Education in Schools',
+	4 => 'Shared Use Policies',
+	5 => 'Complete Streets',
+	6 => 'School Nutrition Policies',
+	7 => 'School Nutrition Implementation'
+	);
 }

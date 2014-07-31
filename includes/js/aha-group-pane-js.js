@@ -53,8 +53,11 @@ jQuery(document).ready(function($){
 
 			if ( show_target ) {
 				$('.follow-up-question[data-relatedtarget="' + target + '"]').addClass('enabled');
+				// TODO Input disabling isn't working quite as expected.
+				// $('.follow-up-question[data-relatedtarget="' + target + '"] input, .follow-up-question[data-relatedtarget="' + target + '"] textarea').prop('disabled', false);
 			} else {
 				$('.follow-up-question[data-relatedtarget="' + target + '"]').removeClass('enabled');
+				// $('.follow-up-question[data-relatedtarget="' + target + '"] input, .follow-up-question[data-relatedtarget="' + target + '"] textarea').prop('disabled', true);
 			}
 		});
 	}
