@@ -184,6 +184,92 @@ function cc_aha_update_form_data( ){
 
 
 /**
+ * Returns array of arrays of questions to build for the requested page of the form.
+ *
+ * @since    1.0.0
+ * @return 	array of arrays
+ */
+function cc_aha_get_form_questions( $page = 1 ){
+	global $wpdb;
+	
+	$questions = $wpdb->get_results( 
+		$wpdb->prepare( 
+		"
+		SELECT * 
+		FROM $wpdb->aha_assessment_questions
+		WHERE page = %d
+		",
+		$page )
+		, ARRAY_A
+	);
+
+    // $towrite = PHP_EOL . 'questions: ' . print_r( $questions, TRUE);
+    // $fp = fopen('aha_form_setup.txt', 'a');
+    // fwrite($fp, $towrite);
+    // fclose($fp);
+	//print_r( $form_rows );
+	return $questions;
+}
+
+/**
+ * Returns array of arrays of questions to build for the requested page of the form.
+ *
+ * @since    1.0.0
+ * @return 	array of arrays
+ */
+function cc_aha_get_options_for_question( $qid ){
+	global $wpdb;
+	
+	$options = $wpdb->get_results( 
+		$wpdb->prepare( 
+		"
+		SELECT * 
+		FROM $wpdb->aha_assessment_q_options
+		WHERE qid = %s
+		",
+		$qid )
+		, ARRAY_A
+	);
+
+    $towrite = PHP_EOL . 'options: ' . print_r( $options, TRUE) ;
+
+    $fp = fopen('aha_form_setup.txt', 'a');
+    fwrite($fp, $towrite);
+    fclose($fp);
+	//print_r( $form_rows );
+	return $options;
+
+}
+
+/**
+ * Returns array of arrays of followup questions.
+ *
+ * @since    1.0.0
+ * @return 	array of arrays
+ */
+function cc_aha_get_follow_up_questions( $qid ){
+	global $wpdb;
+	
+	$questions = $wpdb->get_results( 
+		$wpdb->prepare( 
+		"
+		SELECT * 
+		FROM $wpdb->aha_assessment_questions
+		WHERE follows_up = %s
+		",
+		$qid )
+		, ARRAY_A
+	);
+
+    // $towrite = PHP_EOL . 'questions: ' . print_r( $questions, TRUE);
+    // $fp = fopen('aha_form_setup.txt', 'a');
+    // fwrite($fp, $towrite);
+    // fclose($fp);
+	//print_r( $form_rows );
+	return $questions;
+}
+
+/**
  * Returns array of arrays of school district data by metro id.
  *
  * @since    1.0.0
