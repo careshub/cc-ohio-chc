@@ -204,11 +204,12 @@ function cc_aha_get_form_questions( $page = 1 ){
 		, ARRAY_A
 	);
 
-    // $towrite = PHP_EOL . 'questions: ' . print_r( $questions, TRUE);
-    // $fp = fopen('aha_form_setup.txt', 'a');
-    // fwrite($fp, $towrite);
-    // fclose($fp);
-	//print_r( $form_rows );
+     $towrite = PHP_EOL . 'questions: ' . print_r( $questions, TRUE);
+	 $towrite .= $page;
+     $fp = fopen('aha_form_setup.txt', 'a');
+     fwrite($fp, $towrite);
+     fclose($fp);
+	print_r( $form_rows );
 	return $questions;
 }
 

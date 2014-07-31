@@ -29,7 +29,7 @@ function cc_aha_render_form( $page = null ){
 		<?php
 
 			// Some pages can be auto-built. Others we're going to hand-code.
-			$can_auto_build = array( 2, 4 );
+			$can_auto_build = array( 2, 4, 6 );
 			if ( in_array( $page, $can_auto_build ) ) {
 				cc_aha_auto_build_questions( $page );
 			} else {
@@ -277,14 +277,14 @@ function cc_aha_handcoded_questions_7(){
 
 				<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID'] . '-3.1.3.1.x'; ?>">
 					<label>Does the policy meet the criteria related to school meals? <?php aha_render_school_boolean_radios( '3.1.3.1.1', $district ); ?></label>
-					<label>Does the policy meet the criteria related to smart snacks? <?php aha_render_school_boolean_radios( '3.1.3.1.1', $district ); ?></label>
-					<label>Does the policy meet the criteria related to before/after school offering? <?php aha_render_school_boolean_radios( '3.1.3.1.1', $district ); ?></label>
-					<label>Please provide the URL to the district's wellness policy: <?php aha_render_school_text_input( '3.1.3.1.1', $district ); ?></label>
+					<label>Does the policy meet the criteria related to smart snacks? <?php aha_render_school_boolean_radios( '3.1.3.1.2', $district ); ?></label>
+					<label>Does the policy meet the criteria related to before/after school offering? <?php aha_render_school_boolean_radios( '3.1.3.1.3', $district ); ?></label>
+					<label>Please provide the URL to the district's wellness policy: <?php aha_render_school_text_input( '3.1.3.1.4', $district ); ?></label>
 				</div>
 			</fieldset>
 			<?php
 		}
-
+	//aha_render_checkbox_input( '3.1.4', $data);
 }
 
 function cc_aha_render_question( $question, $data ){
@@ -304,6 +304,13 @@ function cc_aha_render_question( $question, $data ){
 		?>	<fieldset>
 				<label for="<?php echo $question[ 'QID' ]; ?>"><?php echo $question[ 'label' ]; ?></label>
 				<?php aha_render_radio_group( $question[ 'QID' ], $data ); ?>
+			</fieldset>
+			<?php
+			break;
+		case 'textarea':
+		?>	<fieldset>
+				<label for="<?php echo $question[ 'QID' ]; ?>"><?php echo $question[ 'label' ]; ?></label>
+				<?php aha_render_textarea_input( $question[ 'QID' ], $data ); ?>
 			</fieldset>
 			<?php
 			break;
@@ -351,6 +358,16 @@ function aha_render_textarea_input( $qid, $data ){
 	?>
 	<textarea name="<?php echo 'board[' . $qid . ']'; ?>" id="<?php echo $qid; ?>"><?php echo $data[ $qid ]; ?></textarea>
 	<?php
+}
+
+function aha_render_checkbox_input( $qid, $data, $options = array() ){
+
+    // TODO: everything.
+	foreach ($options as $option) {
+	?>
+		<input type="checkbox" name="<?php echo 'board[' . $qid . ']'; ?>" id="<?php echo $qid; ?>" />
+	<?php
+	}
 }
 
 //School district-specific form fields
@@ -411,8 +428,8 @@ function cc_aha_form_page_list(){
 	2 => 'Tobacco',
 	3 => 'Physical Education in Schools',
 	4 => 'Shared Use Policies',
-	5 => 'Complete Streets',
-	6 => 'School Nutrition Policies',
-	7 => 'School Nutrition Implementation'
+	6 => 'Complete Streets',
+	7 => 'School Nutrition Policies',
+	8 => 'School Nutrition Implementation'
 	);
 }
