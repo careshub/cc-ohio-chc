@@ -66,7 +66,7 @@ function cc_aha_get_form_piece_2(){
 
 	<h2>Tobacco</h2>
 	<label for="1.2.2.1">If your community has a local tobacco excise tax, what is the tax rate? If none, enter 0.</label>
-	<?php aha_render_text_input( '1.2.2.1', $data[0] ); ?>
+	<?php aha_render_text_input( '1.2.2.1', $data ); ?>
 	<?php
 }
 
