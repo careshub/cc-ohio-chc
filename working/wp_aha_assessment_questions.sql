@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.14)
 # Database: commonsdev
-# Generation Time: 2014-07-31 20:00:38 +0000
+# Generation Time: 2014-08-04 21:07:30 +0000
 # ************************************************************
 
 
@@ -18,66 +18,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-
-# Dump of table wp_aha_assessment_q_options
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `wp_aha_assessment_q_options`;
-
-CREATE TABLE `wp_aha_assessment_q_options` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `qid` tinytext,
-  `value` tinytext,
-  `label` text,
-  `followup_id` tinytext,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `wp_aha_assessment_q_options` WRITE;
-/*!40000 ALTER TABLE `wp_aha_assessment_q_options` DISABLE KEYS */;
-
-INSERT INTO `wp_aha_assessment_q_options` (`id`, `qid`, `value`, `label`, `followup_id`)
-VALUES
-	(1,'2.1.4.1.1','1','Yes','0'),
-	(2,'2.1.4.1.1','0','No','0'),
-	(3,'2.1.4.1.2','1','Yes','0'),
-	(4,'2.1.4.1.2','0','No','0'),
-	(5,'2.1.4.1.3','1','Yes','0'),
-	(6,'2.1.4.1.3','0','No','0'),
-	(7,'2.2.2.1','1','Yes','2.2.2.2'),
-	(8,'2.2.2.1','0','No','0'),
-	(9,'2.2.4.1','state','At the state level','0'),
-	(10,'2.2.4.1','local','At the local level','0'),
-	(11,'2.2.4.1','state and local','At the state and local level','0'),
-	(12,'2.2.4.1','neither','Not a viable issue at this time','0'),
-	(13,'2.2.5.1','no','No','2.2.5.1.1'),
-	(14,'2.2.5.1','limited','Yes - limited use for certain partner organizations (Boy Scouts, Girl Scouts, etc.)','2.2.5.1.3'),
-	(15,'2.2.5.1','broad','Yes - broader community use (community recreational use of school gymnasiums, track & field, etc.)','2.2.5.1.3'),
-	(16,'2.2.5.1','other','Yes - other','2.2.5.1.3'),
-	(17,'2.2.5.1.1','liability','Concerns about liability','0'),
-	(18,'2.2.5.1.1','property damage','Concerns about property damage','0'),
-	(19,'2.2.5.1.1','crime','Concerns about crime','0'),
-	(20,'2.2.5.1.1','costs','Concerns about costs','0'),
-	(21,'2.2.5.1.1','other','Other','2.2.5.1.1.1'),
-	(22,'2.3.2.1','1','Yes','2.3.2.2'),
-	(23,'2.3.2.1','0','No','0'),
-	(24,'2.3.3','state','At the state level','0'),
-	(25,'2.3.3','local','At the local level','0'),
-	(26,'2.3.3','state and local','At the state and local level','0'),
-	(27,'2.3.3','neither','Not a viable issue at this time','0'),
-	(28,'3.1.3.1.0','1','Yes','3.1.3.1.1, 3.1.3.1.2, 3.1.3.1.3, 3.1.3.1.4'),
-	(29,'3.1.3.1.0','0','No','0'),
-	(30,'3.1.3.1.1','1','Yes','0'),
-	(31,'3.1.3.1.1','0','No','0'),
-	(32,'3.1.3.1.2','1','Yes','0'),
-	(33,'3.1.3.1.2','0','No','0'),
-	(34,'3.1.3.1.3','1','Yes','0'),
-	(35,'3.1.3.1.3','0','No','0'),
-	(36,'3.1.4','strengthen','Yes - Publish/strengthen the district wellness policy','0');
-
-/*!40000 ALTER TABLE `wp_aha_assessment_q_options` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table wp_aha_assessment_questions
@@ -118,7 +58,16 @@ VALUES
 	(15,7,'3.1.3.1.2','radio','Does the policy meet the criteria related to smart snacks?',1,'3.1.3.1.0'),
 	(16,7,'3.1.3.1.3','radio','Does the policy meet the criteria related to before/after school offering?',1,'3.1.3.1.0'),
 	(17,7,'3.1.3.1.4','text','Please provide the URL to the district\'s wellness policy. ',1,'3.1.3.1.0'),
-	(18,7,'3.1.4','checkboxes','Would you recommend that the local board take action in any of these areas?',0,'0');
+	(18,8,'3.1.4','checkboxes','Would you recommend that the local board take action in any of these areas?',0,'0'),
+	(19,9,'3.2.1.1','radio','Is district %%district_name%% compliant with the School Meals Nutrition regulations?  ',1,'0'),
+	(20,9,'3.2.2','radio','Are there impactful opportunities for the local board to help school districts implement School Meals Nutrition regulations?',0,'0'),
+	(21,10,'3.3.3.1','radio','Are there local vending and/or service policies in place?',0,'0'),
+	(22,10,'3.3.3.2','textarea','Please list which cities or counties.',0,'3.3.3.1'),
+	(23,10,'3.3.4','radio','Given the current political/policy environment, where do you envision food and beverage vending and/or procurement service policy change most likely occurring/most activity taking place?',0,'0'),
+	(24,11,'3.5.2','radio','Is your state or community pursuing an appropriation to establish or supplement a HFFI program?',0,'0'),
+	(25,11,'3.5.4','radio','Given the current political/policy environment, where do you envision Healthy Food Financing public policy change most likely occurring/most activity taking place?',0,'0'),
+	(26,12,'4.1.4','radio','Would you recommend the local board adopt this as a priority issue?',0,'0'),
+	(27,13,'5.1.4.1','radio','For %%district_name%%, is CPR training meeting AHA criteria a graduation requirement?',1,'0');
 
 /*!40000 ALTER TABLE `wp_aha_assessment_questions` ENABLE KEYS */;
 UNLOCK TABLES;

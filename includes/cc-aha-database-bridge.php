@@ -110,13 +110,20 @@ function cc_aha_update_form_data( ){
 	//get our board vars for the wpdb->update statement
 	$board_id = $_COOKIE['aha_active_metro_id']; // 'BOARD_ID' column in wp_aha_assessment_board; our WHERE clause
 	$board_table_name = $wpdb->aha_assessment_board;
-	$board_where = array( 
+	$board_where = array(
 		'BOARD_ID' => $board_id 
 	);
 	
 	//get have key => value pairs for $_POST['board']!
 	$update_board_data = array();
 	$update_board_data = $_POST['board'];
+
+	// Serialize data if necessary
+	foreach ($update_board_data as $key => $value) {
+		if ( is_array( $value ) )
+			$update_board_data[ $key ] = maybe_serialize( $value );
+	}
+
 	
 	//remove null, false and empty values from update_board_data - will not go into database
 	//Mel note: is this the correct handling of this data?  Don't overwrite on null form values?
@@ -124,6 +131,12 @@ function cc_aha_update_form_data( ){
 	//Mel: trying without..
 	//$update_board_data_notempty = array();
 	//$update_board_data_notempty = array_filter($update_board_data, "strlen");  //strlen as callback will remove false, empty and null but leave 0
+
+	//TODO: If form fields are disabled (via jQ) then they are not included in the $_POST array, so they're not updated. We could:
+	// 1) Do some $_POST data checking, based on what questions should be on the page, and provide empty strings for those which are not represented
+	// 2) Do some jQ gyrations on submit that find disabled form fields, enable them and provide empty values
+	// 3) Instead of disabling, empty the field when it's hidden. (This might be kind of irritating if you're the type of form-filler-outer who changes her mind or makes accidental clicks.)
+	// 4) Do a data scrub on the final db before handing it over.
 	
 	//if we have [board] values set by the form, update the table
 	// wpdb->update is perfect for this. Wow. Ref: https://codex.wordpress.org/Class_Reference/wpdb#UPDATE_rows
@@ -137,7 +150,7 @@ function cc_aha_update_form_data( ){
 	//get key => value pairs for $_POST['school']!
 	$update_school_data = array();
 	$update_school_data = $_POST['school'];
-	
+
 	//foreach district in survey, update db
 	foreach ( $update_school_data as $key => $value ){
 		
@@ -153,7 +166,14 @@ function cc_aha_update_form_data( ){
 		$update_school_dist_data = $value;
 		//$update_school_dist_data_notempty = array();
 		//$update_school_dist_data_notempty = array_filter($update_school_dist_data, "strlen");
-		
+
+		// If the question is a checkbox list, it'll arrive in array format
+		foreach ($update_school_dist_data as $key => $value) {
+			if ( is_array( $value ) )
+				$update_school_dist_data[ $key ] = maybe_serialize( $value );
+		}
+
+
 		//update the table for this district
 		$num_school_rows_updated = $wpdb->update( $school_table_name, $update_school_dist_data, $school_where, $format = null, $where_format = null );
 	
@@ -204,13 +224,30 @@ function cc_aha_get_form_questions( $page = 1 ){
 		, ARRAY_A
 	);
 
-     $towrite = PHP_EOL . 'questions: ' . print_r( $questions, TRUE);
-	 $towrite .= $page;
-     $fp = fopen('aha_form_setup.txt', 'a');
-     fwrite($fp, $towrite);
-     fclose($fp);
-	print_r( $form_rows );
 	return $questions;
+}
+
+/**
+ * Returns single question info.
+ *
+ * @since    1.0.0
+ * @return 	array 
+ */
+function cc_aha_get_question( $qid ){
+	global $wpdb;
+	
+	$question = $wpdb->get_results( 
+		$wpdb->prepare( 
+		"
+		SELECT * 
+		FROM $wpdb->aha_assessment_questions
+		WHERE QID = %s
+		",
+		$qid )
+		, ARRAY_A
+	);
+
+	return current( $question );
 }
 
 /**
@@ -233,12 +270,6 @@ function cc_aha_get_options_for_question( $qid ){
 		, ARRAY_A
 	);
 
-    $towrite = PHP_EOL . 'options: ' . print_r( $options, TRUE) ;
-
-    $fp = fopen('aha_form_setup.txt', 'a');
-    fwrite($fp, $towrite);
-    fclose($fp);
-	//print_r( $form_rows );
 	return $options;
 
 }
@@ -263,11 +294,6 @@ function cc_aha_get_follow_up_questions( $qid ){
 		, ARRAY_A
 	);
 
-    // $towrite = PHP_EOL . 'questions: ' . print_r( $questions, TRUE);
-    // $fp = fopen('aha_form_setup.txt', 'a');
-    // fwrite($fp, $towrite);
-    // fclose($fp);
-	//print_r( $form_rows );
 	return $questions;
 }
 

@@ -132,26 +132,3 @@ function cc_aha_get_array_user_metro_ids() {
 
     return $selected;
 }
-
-/**
- * Logic to navigate the pages of the long form
- * DC: Don't think we'll need this.
- * 
- * @since   1.0.0
- * @return  string - URL
- */
-// function cc_aha_get_next_form_page_url(){
-//     // TODO: Add some logic to navigate the form pages
-//     $towrite = PHP_EOL . 'referer is: ' . print_r(wp_get_referer(), TRUE);
-//     $fp = fopen('aha_form_save.txt', 'a');
-//     fwrite($fp, $towrite);
-//     fclose($fp);
-//     return wp_get_referer();
-// }
-// function cc_aha_get_prev_form_page_url(){
-//     // TODO: Add some logic to navigate the form pages
-//     return wp_get_referer();
-// }
-function cc_aha_get_max_page_number(){
-    return 7;
-}

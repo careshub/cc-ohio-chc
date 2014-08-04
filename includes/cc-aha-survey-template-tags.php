@@ -9,6 +9,34 @@
  */
 
 /**
+ * All the page titles kept in one place, for easier updating
+ * Used tp produce table of contents and page header text.
+ *
+ * @since   1.0.0
+ * @return 	array
+ */
+function cc_aha_form_page_list(){
+	return array(
+	1 => 'Table of Contents',
+	2 => 'Tobacco',
+	3 => 'Physical Education in Schools',
+	4 => 'Shared Use Policies',
+	5 => 'Shared Use Policies, continued',
+	6 => 'Complete Streets',
+	7 => 'School Nutrition Policies',
+	8 => 'School Nutrition Policies, continued',
+	9 => 'School Nutrition Implementation',
+	10 => 'Local Government Procurement Policy (Vending & Service Contracts)',
+	11 => 'Healthy Food Financing',
+	12 => 'Health Factors - Insurance Coverage',
+	13 => 'Chain of Survival - CPR Graduation Requirements'
+	);
+}
+function cc_aha_get_max_page_number(){
+    return count( cc_aha_form_page_list() );
+}
+
+/**
  * Output logic for the form. includes the wrapper pieces.
  * Question building is handled separately
  *
@@ -17,9 +45,8 @@
  */
 function cc_aha_render_form( $page = null ){
 	$page = (int) $page;
-	$first_page = 1;
-	$last_page = cc_aha_get_max_page_number(); // Set in functions
-	$page = ( !empty( $page ) && ( $page >= $first_page && $page <= $last_page ) ) ? $page : 1;
+	$last_page = cc_aha_get_max_page_number();
+	$page = ( !empty( $page ) && ( $page >= 1 && $page <= $last_page ) ) ? $page : 1;
 
 	if ( ! isset( $_COOKIE['aha_active_metro_id'] ) )
 		return;
@@ -29,12 +56,12 @@ function cc_aha_render_form( $page = null ){
 		<?php
 
 			// Some pages can be auto-built. Others we're going to hand-code.
-			$can_auto_build = array( 2, 4, 6 );
-			if ( in_array( $page, $can_auto_build ) ) {
-				cc_aha_auto_build_questions( $page );
-			} else {
+			$hand_built = array( 1, 3, 5, 7, 13 );
+			if ( in_array( $page, $hand_built ) ) {
 				$aha_form_function_name = 'cc_aha_handcoded_questions_' . $page;
 				$aha_form_function_name();
+			} else {
+				cc_aha_auto_build_questions( $page );
 			}
 		?>
 		<input type="hidden" name="metro_id" value="<?php echo $_COOKIE['aha_active_metro_id']; ?>">
@@ -60,12 +87,15 @@ function cc_aha_auto_build_questions( $page ) {
 	$questions = cc_aha_get_form_questions( $page );
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 1 );
 	?>
-
 	<h2><?php cc_aha_print_form_page_header( $page ); ?></h2>
 
 	<?php 
 		foreach ( $questions as $question ) {
-			cc_aha_render_question( $question, $data );
+			if ( $question[ 'loop_schools' ] ) {
+				cc_aha_render_school_question( $question, $data );
+			} else {
+				cc_aha_render_question( $question, $data );
+			}
 		}
 	?>
 
@@ -102,19 +132,17 @@ function cc_aha_handcoded_questions_3(){
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
 
-	<h2>Physical Education in Schools</h2>
+	<h2><?php cc_aha_print_form_page_header( 3 ); ?></h2>
 		<?php 
 	if ( $data['2.1.1.1'] && $data['2.1.1.2'] && $data['2.1.1.3'] ) {
 		echo "Your state has enacted state-wide physical education requirements at all levels.";
 	} else {
 			
 		foreach ($school_districts as $district) {
-			// School district stuff will require a different save routine, since they're keyed by district ID.
-			// TODO: This is kind of weird, once marked "yes", these questions disappear... Do we need to have a "provided by AHA" entry and a "user response" entry? Or should the answers be pre-populated and the user can change them?
 			?>
 			<fieldset class="spacious">
 
-				<legend><h4>In school district <?php echo $district['DIST_NAME']; ?>, do schools meet our PE requirements?</h4></legend>
+				<legend><h4><?php cc_aha_print_school_question_text( '2.1.4.1.1', $district ); ?></h4></legend>
 
 				<?php if ( ! $data['2.1.1.1'] ) : ?>
 					<label>Elementary (150 mins) <?php aha_render_school_boolean_radios( '2.1.4.1.1', $district ); ?></label>
@@ -135,126 +163,41 @@ function cc_aha_handcoded_questions_3(){
 	}
 }
 
-function cc_aha_handcoded_questions_4(){
-	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 4 );
-	?>
-
-	<h2>Shared Use Policies</h2>
-	<fieldset>
-		<legend>Does the state provide promotion, incentives, technical assistance or other resources to schools to encourage shared use?</legend>
-		<?php aha_render_boolean_radios( '2.2.2.1', $data, '2.2.2.2', 1 ); ?>
-		<div class="follow-up-question" data-relatedTarget="2.2.2.2">
-			<label for="2.2.2.2">Please describe:</label>
-			<?php aha_render_textarea_input( '2.2.2.2', $data ); ?>
-		</div>
-	</fieldset>
-
-	<fieldset>
-		<legend>Given the current political/policy environment, where can this local board most likely help drive impact relative to shared use policies?</legend>
-		<?php 
-		$options = array( 
-			array(
-				'value' => 'state',
-				'label' => 'At the state level',
-				),
-			array(
-				'value' => 'local',
-				'label' => 'At the local level',
-			),
-			array(
-				'value' => 'state and local',
-				'label' => 'At the state and local level',
-			),
-			array(
-				'value' => 'neither',
-				'label' => 'Not a viable issue at this time'
-			)
-		);
-		aha_render_radio_group( '2.2.4.1', $options ); 
-		?>
-	</fieldset>
-
-		<?php 
-}
-
 function cc_aha_handcoded_questions_5(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 5 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
 
-	<h2>Shared Use Policies, continued</h2>
+	<h2><?php cc_aha_print_form_page_header( 5 ); ?></h2>
 	<?php
-	foreach ($school_districts as $district) {
+	foreach ( $school_districts as $district ) {
 		// School district stuff will require a different save routine, since they're keyed by district ID.
 		// TODO: This is kind of weird, once marked "yes", these questions disappear... Do we need to have a "provided by AHA" entry and a "user response" entry? Or should the answers be pre-populated and the user can change them?
 		?>
 		<fieldset class="spacious">
-			<legend><h4>In school district <?php echo $district['DIST_NAME']; ?>, is a district-wide policy and/or guidance in place for shared use of school facilities?</h4></legend>
-			<?php 
-			// Once databased, $options = cc_aha_get_q_options( '2.2.5.1' );
-			$options = array( 
-				array(
-					'value' => 'no',
-					'label' => 'No',
-					'follow_up' => '2.2.5.1.1'
-					),
-				array(
-					'value' => 'limited',
-					'label' => 'Yes – limited use for certain partner organizations (Boy Scouts, Girl Scouts, etc.)',
-					'follow_up' => '2.2.5.1.3'
-				),
-				array(
-					'value' => 'broad',
-					'label' => 'Yes – broader community use (community recreational use of school gymnasiums, track & field, etc.)',
-					'follow_up' => '2.2.5.1.3'
-				),
-				array(
-					'value' => 'other',
-					'label' => 'Yes – other',
-					'follow_up' => '2.2.5.1.3'
-				)
-			);
-			aha_render_school_radio_group( '2.2.5.1', $district, $options );
-			?>
+			<legend><h4><?php cc_aha_print_school_question_text( '2.2.5.1', $district ); ?></h4></legend>
+			<?php aha_render_school_radio_group( '2.2.5.1', $district ); ?>
 
 			<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID']; ?>-2.2.5.1.1">
 				<fieldset>
-					<legend>If no, what rationale was provided for not having a district-wide shared use policy? </legend>
+					<legend><?php cc_aha_print_school_question_text( '2.2.5.1.1', $district ); ?> </legend>
 					<?php
-					// Once databased, $options = cc_aha_get_q_options( '2.2.5.1.1' );
-					$options = array( 
-						array(
-							'value' => 'liability',
-							'label' => 'Concerns about liability',
-							),
-						array(
-							'value' => 'property damage',
-							'label' => 'Concerns about property damage',
-						),
-						array(
-							'value' => 'crime',
-							'label' => 'Concerns about crime',
-						),
-						array(
-							'value' => 'costs',
-							'label' => 'Concerns about costs',
-						),
-						array(
-							'value' => 'other',
-							'label' => 'Other',
-							'follow_up' => '2.2.5.1.1.1'
-						)
-					);
-					aha_render_school_radio_group( '2.2.5.1.1', $district, $options );
+						aha_render_school_radio_group( '2.2.5.1.1', $district );
 					?>
 					<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID']; ?>-2.2.5.1.1.1">
-						<label>If other, please describe: <?php aha_render_school_textarea_input( '2.2.5.1.1.1', $district ) ?></label>
+						<label><?php
+							cc_aha_print_school_question_text( '2.2.5.1.1.1', $district );
+							aha_render_school_textarea_input( '2.2.5.1.1.1', $district );
+							?></label>
 					</div>
 				</fieldset>
 			</div>
 
 			<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID']; ?>-2.2.5.1.3">
-				<label>If available, please provide a URL for the district shared use policy: <?php aha_render_school_text_input( '2.2.5.1.3', $district ) ?></label>
+				<label><?php
+				cc_aha_print_school_question_text( '2.2.5.1.3', $district );
+				aha_render_school_text_input( '2.2.5.1.3', $district );
+				?></label>
 			</div>
 		</fieldset>
 		<?php
@@ -266,25 +209,53 @@ function cc_aha_handcoded_questions_7(){
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
 
-	<h2>School Nutrition Policies</h2>
+	<h2><?php cc_aha_print_form_page_header( 7 ); ?></h2>
 	<?php
-	foreach ($school_districts as $district) {
+	foreach ( $school_districts as $district ) {
 			// School district stuff will require a different save routine, since they're keyed by district ID.
 			?>
 			<fieldset class="spacious">
-				<legend><h4>In school district <?php echo $district['DIST_NAME']; ?>, is there a documented and publicly available district wellness policy in place?</h4></legend>
-				<?php aha_render_school_boolean_radios( '3.1.3.1.0', $district, $district['DIST_ID'] . '-3.1.3.1.x', 1 ); ?>
+				<legend><h4><?php cc_aha_print_school_question_text( '3.1.3.1.0', $district ); ?></h4></legend>
+				<?php aha_render_school_radio_group( '3.1.3.1.0', $district ); ?>
 
 				<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID'] . '-3.1.3.1.x'; ?>">
-					<label>Does the policy meet the criteria related to school meals? <?php aha_render_school_boolean_radios( '3.1.3.1.1', $district ); ?></label>
-					<label>Does the policy meet the criteria related to smart snacks? <?php aha_render_school_boolean_radios( '3.1.3.1.2', $district ); ?></label>
-					<label>Does the policy meet the criteria related to before/after school offering? <?php aha_render_school_boolean_radios( '3.1.3.1.3', $district ); ?></label>
-					<label>Please provide the URL to the district's wellness policy: <?php aha_render_school_text_input( '3.1.3.1.4', $district ); ?></label>
+					<label><?php 
+					cc_aha_print_school_question_text( '3.1.3.1.1', $district );
+					aha_render_school_boolean_radios( '3.1.3.1.1', $district ); 
+					?></label>
+					<label><?php
+					cc_aha_print_school_question_text( '3.1.3.1.2', $district );
+					aha_render_school_boolean_radios( '3.1.3.1.2', $district );
+					?></label>
+					<label><?php 
+					cc_aha_print_school_question_text( '3.1.3.1.3', $district );
+					aha_render_school_boolean_radios( '3.1.3.1.3', $district );
+					?></label>
+					<label><?php
+					cc_aha_print_school_question_text( '3.1.3.1.4', $district );
+					aha_render_school_text_input( '3.1.3.1.4', $district );
+					?></label>
 				</div>
 			</fieldset>
 			<?php
 		}
 	//aha_render_checkbox_input( '3.1.4', $data);
+}
+
+function cc_aha_handcoded_questions_13(){
+	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 2 );
+	$questions = cc_aha_get_form_questions( 13 );
+	?>
+
+	<h2><?php cc_aha_print_form_page_header( 13 ); ?></h2>
+	<?php 
+	if ( $data['5.1.1'] ) {
+		echo "Your state has CPR graduation requirements in place.";
+	} else {
+		foreach ( $questions as $question ) {
+			cc_aha_render_school_question( $question, $data );
+		}
+	}
 }
 
 function cc_aha_render_question( $question, $data ){
@@ -294,7 +265,7 @@ function cc_aha_render_question( $question, $data ){
 		<div class="follow-up-question" data-relatedTarget="<?php echo $question[ 'QID' ] ; ?>">
 		<?php
 	} 
-	switch ( $question[ 'type' ] ) {
+	switch ( trim( $question[ 'type' ] ) ) {
 		case 'text':
 		?>
 			<label for="<?php echo $question[ 'QID' ]; ?>"><?php echo $question[ 'label' ]; ?></label>
@@ -302,7 +273,7 @@ function cc_aha_render_question( $question, $data ){
 			break;
 		case 'radio':
 		?>	<fieldset>
-				<label for="<?php echo $question[ 'QID' ]; ?>"><?php echo $question[ 'label' ]; ?></label>
+				<label for="<?php echo $question[ 'QID' ]; ?>"><h4><?php echo $question[ 'label' ]; ?></h4></label>
 				<?php aha_render_radio_group( $question[ 'QID' ], $data ); ?>
 			</fieldset>
 			<?php
@@ -314,9 +285,17 @@ function cc_aha_render_question( $question, $data ){
 			</fieldset>
 			<?php
 			break;
+		case 'checkboxes':
+		?>	<fieldset>
+				<label for="<?php echo $question[ 'QID' ]; ?>"><h4><?php echo $question[ 'label' ]; ?></h4></label>
+				<?php cc_aha_render_checkboxes( $question[ 'QID' ], $data ); ?>
+			</fieldset>
+			<?php
+			break;
 		
 		default:
-			# code...
+			echo "default thing";
+
 			break;
 	}
 	if ( $question[ 'follows_up' ] ) {
@@ -325,7 +304,51 @@ function cc_aha_render_question( $question, $data ){
 		<?php
 	} 
 }
+function cc_aha_render_school_question( $question, $data ){
+	// These questions have to loop through each of the associated school districts.
+	// They also have to use different output functions. :(
 
+	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
+
+	foreach ( $school_districts as $district ) {
+		$qname = 'school[' . $district['DIST_ID'] . '][' . $question[ 'QID' ] . ']'; 
+
+		if ( $question[ 'follows_up' ] ) {
+			?>
+			<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID'] . '-' . $question[ 'QID' ] ; ?>">
+			<?php
+		} 
+		switch ( trim( $question[ 'type' ] ) ) {
+			case 'text':
+			?>
+				<label for="<?php echo $qname; ?>"><?php cc_aha_print_school_question_text( $question[ 'QID' ], $district ); ?></label>
+				<?php aha_render_school_text_input( $question[ 'QID' ], $district );
+				break;
+			case 'radio':
+			?>	<fieldset>
+					<label for="<?php echo $qname; ?>"><h4><?php cc_aha_print_school_question_text( $question[ 'QID' ], $district ); ?></h4></label>
+					<?php aha_render_school_radio_group( $question[ 'QID' ],  $district ); ?>
+				</fieldset>
+				<?php
+				break;
+			case 'textarea':
+			?>	<fieldset>
+					<label for="<?php echo $qname; ?>"><?php cc_aha_print_school_question_text( $question[ 'QID' ], $district ); ?></label>
+					<?php aha_render_school_textarea_input( $question[ 'QID' ],  $district ); ?>
+				</fieldset>
+				<?php
+				break;
+			default:
+				echo "That question type isn't supported.";
+				break;
+		}
+		if ( $question[ 'follows_up' ] ) {
+			?>
+			</div>
+			<?php
+		}
+	} // End foreach district
+}
 
 function aha_render_boolean_radios( $qid, $data, $follow_up_id = null, $follow_up_on_value = 1 ) {
 	?>
@@ -335,12 +358,28 @@ function aha_render_boolean_radios( $qid, $data, $follow_up_id = null, $follow_u
 	<?php 
 }
 
-function aha_render_radio_group( $qid, $data ){
-	$options = cc_aha_get_options_for_question( $qid );
+function aha_render_radio_group( $qid, $data, $options = array() ){
+
+	if ( empty( $options ) )
+		$options = cc_aha_get_options_for_question( $qid );
+
+	// If any of the options triggers a follow-up question, each option must have the class applied.
+	// Only the "trigger" response needs the "data-relatedquestion" bit.
+	$has_follow_up = cc_aha_question_has_follow_up( $options );
 
 	foreach ($options as $option) {
 		?>
-		<label><input type="radio" name="<?php echo 'board[' . $qid . ']'; ?>" value="<?php echo $option['value']; ?>" <?php checked( $data[ $qid ], $option['value'] ); ?> <?php if ( $option['followup_id'] ) echo 'class="has-follow-up" data-relatedQuestion="' . $option['followup_id'] .'"'; ?>> <?php echo $option['label']; ?></label>
+		<label><input type="radio" name="<?php echo 'board[' . $qid . ']'; ?>" value="<?php echo $option['value']; ?>" <?php 
+			checked( $data[ $qid ], $option['value'] );
+
+			// If any option specifies a follow-up, all must include the class
+			if ( $has_follow_up ) 
+				echo 'class="has-follow-up"';
+			// If this option is the trigger, add the data
+			if ( $option['followup_id'] )
+				echo 'data-relatedQuestion="' . $option['followup_id'] .'"'; 
+
+			?>> <?php echo $option['label']; ?></label>
 		<?php
 		
 	}
@@ -360,13 +399,33 @@ function aha_render_textarea_input( $qid, $data ){
 	<?php
 }
 
-function aha_render_checkbox_input( $qid, $data, $options = array() ){
+function cc_aha_render_checkboxes( $qid, $data, $options = array() ){
+	if ( empty( $options ) )
+		$options = cc_aha_get_options_for_question( $qid );
 
-    // TODO: everything.
+	// If any of the options triggers a follow-up question, each option must have the class applied.
+	// Only the "trigger" response needs the "data-relatedquestion" bit.
+	$has_follow_up = cc_aha_question_has_follow_up( $options );
+
+	// Saved data should be serialized, assuming our form created it.
+	$saved_checks = maybe_unserialize( $data[ $qid ] );
+
 	foreach ($options as $option) {
-	?>
-		<input type="checkbox" name="<?php echo 'board[' . $qid . ']'; ?>" id="<?php echo $qid; ?>" />
-	<?php
+		?>
+		<label><input type="checkbox" name="<?php echo 'board[' . $qid . '][' . $option['value'] . ']'; ?>" value="1" <?php 
+			if ( $saved_checks[ $option['value'] ] )
+				echo 'checked="checked" ';
+
+			// If any option specifies a follow-up, all must include the class
+			if ( $has_follow_up ) 
+				echo 'class="has-follow-up"';
+			// If this option is the trigger, add the data
+			if ( $option['followup_id'] )
+				echo 'data-relatedQuestion="' . $option['followup_id'] .'"'; 
+
+			?>> <?php echo $option['label']; ?></label>
+		<?php
+		
 	}
 }
 
@@ -380,12 +439,23 @@ function aha_render_school_boolean_radios( $qid, $district, $follow_up_id = null
 }
 
 function aha_render_school_radio_group( $qid, $district, $options = array() ){
-	$qname = 'school[' . $district['DIST_ID'] . '][' . $qid . ']'; 
+	$qname = 'school[' . $district['DIST_ID'] . '][' . $qid . ']';
+	if ( empty( $options ) )
+		$options = cc_aha_get_options_for_question( $qid );
+
+	$has_follow_up = cc_aha_question_has_follow_up( $options );
+
 	foreach ($options as $option) {
 		?>
-		<label><input type="radio" name="<?php echo $qname; ?>" value="<?php echo $option['value']; ?>" <?php checked( $district[ $qid ], $option['value'] ); ?> <?php if ( $option['follow_up'] ) echo 'class="has-follow-up" data-relatedQuestion="' . $district['DIST_ID'] . '-'  . $option['follow_up'] .'"'; ?>> <?php echo $option['label']; ?></label>
-		<?php
-		
+		<label><input type="radio" name="<?php echo $qname; ?>" value="<?php echo $option['value']; ?>" <?php 
+			checked( $district[ $qid ], $option['value'] );
+			if ( $has_follow_up )
+				echo 'class="has-follow-up"';
+			if ( $option['followup_id'] )
+			echo 'data-relatedQuestion="' . $district['DIST_ID'] . '-'  . $option['followup_id'] .'"'; 
+
+			?>> <?php echo $option['label']; ?></label>
+		<?php	
 	}
 }
 
@@ -416,20 +486,35 @@ function cc_aha_print_form_page_header( $page = 1 ){
 	$all_pages = cc_aha_form_page_list();
 	echo $all_pages[ $page ];
 }
+
 /**
- * All the page titles kept in one place, for easier updating
+ * Return the question's text
  *
  * @since   1.0.0
- * @return 	array
+ * @return 	string
  */
-function cc_aha_form_page_list(){
-	return array(
-	1 => 'Table of Contents',
-	2 => 'Tobacco',
-	3 => 'Physical Education in Schools',
-	4 => 'Shared Use Policies',
-	6 => 'Complete Streets',
-	7 => 'School Nutrition Policies',
-	8 => 'School Nutrition Implementation'
-	);
+function cc_aha_print_question_text( $qid ) {
+	echo cc_aha_get_question_text( $qid );
+}
+function cc_aha_get_question_text( $qid ) {
+	$question = cc_aha_get_question( $qid );
+
+	return $question[ 'label' ];
+}
+
+function cc_aha_print_school_question_text( $qid, $district ){
+	$label = cc_aha_get_question_text( $qid );
+
+	echo str_replace('%%district_name%%', $district[ 'DIST_NAME' ], $label);
+}
+
+function cc_aha_question_has_follow_up( $options ){
+	$has_follow_up = false;
+	foreach ( $options as $option ) {
+		if ( $option['followup_id'] ) {
+			$has_follow_up = true;
+			break; // Don't need to keep looking - only need to find one that's true.
+		}
+	}
+	return $has_follow_up;
 }
