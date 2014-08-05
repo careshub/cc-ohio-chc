@@ -1,6 +1,8 @@
 
 - What are Q3.1.1.1, Q3.1.1.1.1 and responses (shown on FIELDheadings and board tabs of master csv)?
 
+- Where are the new questions for sections 7 - 14 (Christian)?
+
 - Test all the things
 	- Inputs from database: loading correct values?
 	- Saving to database: correct fields, correct values?
@@ -11,5 +13,6 @@
 
 - DB setup
 	- Do all field types account for possible answers (e.g., varchar lengths)
+	- Mel: 3.1.3.1.4 varchar(10) -> varchar(255)
 	
 

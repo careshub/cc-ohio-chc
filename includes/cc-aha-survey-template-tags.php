@@ -29,7 +29,15 @@ function cc_aha_form_page_list(){
 	10 => 'Local Government Procurement Policy (Vending & Service Contracts)',
 	11 => 'Healthy Food Financing',
 	12 => 'Health Factors - Insurance Coverage',
-	13 => 'Chain of Survival - CPR Graduation Requirements'
+	13 => 'Chain of Survival - CPR Graduation Requirements',
+	14 => 'Recruit Event Leadership',
+	15 => 'Secure Top ELT Leadership',
+	16 => 'Secure Platform/ Signature Sponsorship',
+	17 => 'Expand Youth Market Efforts - Participating Schools',
+	18 => 'Increase Individual Giving - Individual Giving Prospects',
+	19 => 'Increase Individual Giving - Cor Vitae Recruitment',
+	20 => 'Enhance Donor Stewardship - Donor Retention',
+	21 => 'Membership in the Paul Dudley White Legacy Society - Donor Retention'
 	);
 }
 function cc_aha_get_max_page_number(){
