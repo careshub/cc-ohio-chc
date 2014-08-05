@@ -254,6 +254,7 @@ function cc_aha_handcoded_questions_13(){
 	} else {
 		foreach ( $questions as $question ) {
 			cc_aha_render_school_question( $question, $data );
+			//aha_render_school_boolean_radios( '5.1.4.1', $district );
 		}
 	}
 }
@@ -449,6 +450,11 @@ function aha_render_school_radio_group( $qid, $district, $options = array() ){
 		?>
 		<label><input type="radio" name="<?php echo $qname; ?>" value="<?php echo $option['value']; ?>" <?php 
 			checked( $district[ $qid ], $option['value'] );
+			
+			//Because 5.1.4.1 has 'YES' in the database for certain school districts and we need to render as checked if '1', 'Yes', '0' [, 'No']
+			//Mel: seems safe enough, tested with range of values in database ('Yes', '1', '1', '0', 'No') -> works
+			checked( $district[ $qid ], $option['label'] );
+			
 			if ( $has_follow_up )
 				echo 'class="has-follow-up"';
 			if ( $option['followup_id'] )
