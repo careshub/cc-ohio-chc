@@ -8,8 +8,8 @@
 	- Saving to database: correct fields, correct values?
 	- Are all questions and responses accounted for?
 	
-	- Are null values appropriately saved (or are there ANY places we need to !overwrite values with null on form?)? [ Mel is way too paranoid. ]
-	- 
+	- Are null values appropriately NOT saved on hidden/disabled inputs, when have prior values?
+	
 
 - DB setup
 	- Do all field types account for possible answers (e.g., varchar lengths)
