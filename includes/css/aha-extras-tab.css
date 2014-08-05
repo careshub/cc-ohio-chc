@@ -34,3 +34,26 @@
 .aha-survey .follow-up-question.enabled {
 	display: block;
 }
+
+/* Summary page styles */
+.progress-dial{
+	position: relative;
+	float: left;
+}
+.progress-dial .dial-label {
+	position: absolute;
+	font-size: 1.4em;
+	text-align: center;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+.entry-content .gaugechart {
+	display: table;
+	margin-left: auto;
+	margin-right: auto;
+}
+.entry-content .gaugechart img {
+	box-shadow: none;
+	border-radius: 0;
+}
