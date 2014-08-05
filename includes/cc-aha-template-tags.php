@@ -151,8 +151,8 @@ function cc_aha_metro_id_cookie_selector(){
         if ( count( $selected_metro_ids ) > 1 ) {
             ?>
             <div class="toggleable toggle-closed message info">
-                <p class="toggle-switch first" id="update-metro-id-toggle">You are currently viewing information for <?php echo $metro_info; ?>. &emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#">Change</a>
-                </p>
+                <span class="toggle-switch first" id="update-metro-id-toggle">You are currently viewing information for <?php echo $metro_info; ?>. &emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#">Change</a>
+                </span>
 
                 <div class="toggle-content">
                     <?php cc_aha_metro_id_cookie_select_dropdown(); ?>
@@ -162,7 +162,7 @@ function cc_aha_metro_id_cookie_selector(){
         } else { 
             ?>
             <div class="message info">
-                <p class="first">You are currently viewing information for <?php echo $metro_info; ?></p>
+                <span class="first">You are currently viewing information for <?php echo $metro_info; ?></span>
             </div>
         <?php
         }
@@ -181,17 +181,18 @@ function cc_aha_metro_id_cookie_select_dropdown(){
     $selected_metro_ids = cc_aha_get_array_user_metro_ids();
     ?>
         <form id="aha_metro_id_cookie_select" class="" method="post" action="<?php echo cc_aha_get_home_permalink(); ?>set-metro-id-cookie/">
-            <p>Choose a region to view. </p>
-            <select name="aha_metro_id_cookie">
-            <?php foreach ($selected_metro_ids as $metro_id) {
-                //TODO: get human readable description
-                $metro_info = $metro_id;
+            <label>Choose a region to view.
+                <select name="aha_metro_id_cookie">
+                <?php foreach ($selected_metro_ids as $metro_id) {
+                    //TODO: get human readable description
+                    $metro_info = $metro_id;
+                    ?>
+                    <option value="<?php echo $metro_id; ?>"><?php echo $metro_info; ?></option>
+                    <?php
+                } 
                 ?>
-                <option value="<?php echo $metro_id; ?>"><?php echo $metro_info; ?></option>
-                <?php
-            } 
-            ?>
-            </select>
+                </select>
+            </label>
             <?php wp_nonce_field( 'cc-aha-set-metro-id-cookie', 'set-metro-cookie-nonce' ); ?>
             <div class="submit">
                 <input id="submit-metro-ids" type="submit" value="Save" name="submit-metro-ids">
