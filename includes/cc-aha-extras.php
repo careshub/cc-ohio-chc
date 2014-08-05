@@ -303,8 +303,13 @@ class CC_AHA_Extras {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		if ( cc_aha_is_component() )
+		if ( cc_aha_is_component() ) {
 			wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'js/aha-group-pane-js.js', __FILE__ ), array( 'jquery' ), self::VERSION );
+		}
+
+		if ( cc_aha_on_analysis_screen() ) {
+			wp_enqueue_script( 'jquery-knob', plugins_url( 'js/jquery.knob.min.js', __FILE__ ), array( 'jquery' ), self::VERSION );
+		}
 	}
 
 	/**
