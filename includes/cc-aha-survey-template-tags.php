@@ -280,6 +280,11 @@ function cc_aha_render_question( $question, $data ){
 			<label for="<?php echo $question[ 'QID' ]; ?>"><?php echo $question[ 'label' ]; ?></label>
 			<?php aha_render_text_input( $question[ 'QID' ], $data );
 			break;
+		case 'number':
+		?>
+			<label for="<?php echo $question[ 'QID' ]; ?>"><?php echo $question[ 'label' ]; ?></label>
+			<?php cc_aha_render_number_input( $question[ 'QID' ], $data );
+			break;
 		case 'radio':
 		?>	<fieldset>
 				<label for="<?php echo $question[ 'QID' ]; ?>"><h4><?php echo $question[ 'label' ]; ?></h4></label>
@@ -332,6 +337,11 @@ function cc_aha_render_school_question( $question, $data ){
 			?>
 				<label for="<?php echo $qname; ?>"><?php cc_aha_print_school_question_text( $question[ 'QID' ], $district ); ?></label>
 				<?php aha_render_school_text_input( $question[ 'QID' ], $district );
+				break;
+			case 'number':
+			?>
+				<label for="<?php echo $qname; ?>"><?php cc_aha_print_school_question_text( $question[ 'QID' ], $district ); ?></label>
+				<?php cc_aha_render_school_number_input( $question[ 'QID' ], $district );
 				break;
 			case 'radio':
 			?>	<fieldset>
@@ -397,6 +407,12 @@ function aha_render_radio_group( $qid, $data, $options = array() ){
 function aha_render_text_input( $qid, $data ){
 	?>
 	<input type="text" name="<?php echo 'board[' . $qid . ']'; ?>" id="<?php echo $qid; ?>" value="<?php echo $data[ $qid ]; ?>" />
+	<?php
+}
+
+function cc_aha_render_number_input( $qid, $data, $step = 1 ){
+	?>
+	<input type="number" name="<?php echo 'board[' . $qid . ']'; ?>" id="<?php echo $qid; ?>" value="<?php echo $data[ $qid ]; ?>" step="<?php echo $step; ?>"/>
 	<?php
 }
 
@@ -477,6 +493,13 @@ function aha_render_school_text_input( $qid, $district ){
 	$qname = 'school[' . $district['DIST_ID'] . '][' . $qid . ']'; 
 	?>
 	<input type="text" name="<?php echo $qname; ?>" id="<?php echo $qname; ?>" value="<?php echo $district[ $qid ]; ?>" />
+	<?php
+}
+
+function cc_aha_render_school_number_input( $qid, $district, $step = 1 ){
+	$qname = 'school[' . $district['DIST_ID'] . '][' . $qid . ']'; 
+	?>
+	<input type="number" name="<?php echo $qname; ?>" id="<?php echo $qname; ?>" value="<?php echo $district[ $qid ]; ?>"  step="<?php echo $step; ?>" />
 	<?php
 }
 

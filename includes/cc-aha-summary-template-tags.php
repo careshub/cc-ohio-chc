@@ -66,7 +66,7 @@ function cc_aha_render_summary_page(){
 			<div class="third-block spans-2">
 				<ul>
 					<li><?php cc_aha_print_cia_law_status( $data ); ?></li>
-					<li>?php cc_aha_print_state_cia_preempt( $data ); ?></li>
+					<li><?php cc_aha_print_state_cia_preempt( $data ); ?></li>
 					<li>XX % of your community's population is covered by clean indoor air laws.
 						<ul>
 							<li>Workplaces <?php echo $data[ '1.1.2.2' ]; ?>%</li>

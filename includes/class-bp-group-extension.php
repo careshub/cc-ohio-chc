@@ -11,7 +11,7 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
             'enable_nav_item'   => $this->aha_tab_is_enabled(),
             // 'access' => 'members',
             // 'show_tab' => 'members',
-            'nav_item_position' => 105,
+            'nav_item_position' => 15,
             // 'nav_item_name' => ccgn_get_tab_label(),
             'screens' => array(
                 'edit' => array(

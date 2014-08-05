@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.14)
 # Database: commonsdev
-# Generation Time: 2014-08-04 21:07:30 +0000
+# Generation Time: 2014-08-05 21:44:22 +0000
 # ************************************************************
 
 
@@ -41,7 +41,7 @@ LOCK TABLES `wp_aha_assessment_questions` WRITE;
 
 INSERT INTO `wp_aha_assessment_questions` (`id`, `page`, `QID`, `type`, `label`, `loop_schools`, `follows_up`)
 VALUES
-	(1,2,'1.2.2.1','text','If your community has a local tobacco excise tax, what is the tax rate? If none, enter 0.',0,'0'),
+	(1,2,'1.2.2.1','number','If your community has a local tobacco excise tax, what is the tax rate? If none, enter 0.',0,'0'),
 	(2,3,'2.1.4.1.1','radio','In school district %%district_name%%, do schools meet our PE requirements?',1,'0'),
 	(3,4,'2.2.2.1','radio','Does the state provide promotion, incentives, technical assistance or other resources to schools to encourage shared use?',0,'0'),
 	(4,4,'2.2.2.2','textarea','Please describe:',0,'2.2.2.1'),

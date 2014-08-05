@@ -89,11 +89,17 @@ function cc_aha_update_form_data( ){
 	//get have key => value pairs for $_POST['board']!
 	$update_board_data = array();
 	$update_board_data = $_POST['board'];
+	$numeric_inputs = cc_aha_get_number_type_questions();
 
-	// Serialize data if necessary
+	// Input data cleaning
 	foreach ($update_board_data as $key => $value) {
+		// Serialize data if necessary
 		if ( is_array( $value ) )
 			$update_board_data[ $key ] = maybe_serialize( $value );
+
+		// Strip dollar signs and percent signs from numeric entries
+		if ( in_array( $key, $numeric_inputs ) )
+			$update_board_data[ $key ] = str_replace( array( '$', '%'), '', $value);
 	}
 
 	//TODO: If form fields are disabled (via jQ) then they are not included in the $_POST array, so they're not updated. We could:
@@ -129,10 +135,15 @@ function cc_aha_update_form_data( ){
 		//the array in value is the district-specific data
 		$update_school_dist_data = $value;
 
-		// If the question is a checkbox list, it'll arrive in array format
+		// Input data cleaning - WPDB does the heavy lifting 
 		foreach ($update_school_dist_data as $key => $value) {
+			// Serialize data if necessary
 			if ( is_array( $value ) )
 				$update_school_dist_data[ $key ] = maybe_serialize( $value );
+
+			// Strip dollar signs and percent signs from numeric entries
+			if ( in_array( $key, $numeric_inputs ) )
+				$update_school_dist_data[ $key ] = str_replace( array( '$', '%'), '', $value);
 		}
 
 		//update the table for this district
@@ -256,6 +267,29 @@ function cc_aha_get_follow_up_questions( $qid ){
 	);
 
 	return $questions;
+}
+
+/**
+ * Get question IDs of type=number questions.
+ * Used for data validation
+ *
+ * @since    1.0.0
+ * @return 	array of question IDs
+ */
+function cc_aha_get_number_type_questions(){
+	global $wpdb;
+	
+	$questions = $wpdb->get_col( 
+		"
+		SELECT * 
+		FROM $wpdb->aha_assessment_questions
+		WHERE type = 'number'
+		"
+		, 2
+	);
+
+	return $questions;
+
 }
 
 /**
