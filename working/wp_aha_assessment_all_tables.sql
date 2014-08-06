@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2014 at 10:27 PM
+-- Generation Time: Aug 07, 2014 at 12:04 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -198,7 +198,7 @@ INSERT INTO `wp_aha_assessment_board` (`BOARD_ID`, `Board_Name`, `State`, `State
 ('GSA11', 'Southwest Florida (FL)', 'FL', '', 'Greater Southeast', 'Cape Coral-Fort Myers, FL Metropolitan Statistical Area', 'Yes', 'No', 'Yes', '', '', '', '', '', '', NULL, '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0, 0, '', 0, 0, 0, '', '', '', '', '', '', 0),
 ('GSA12', 'Tampa Bay (FL)', 'FL', '', 'Greater Southeast', 'Tampa-St. Petersburg-Clearwater, FL Metropolitan Statistical Area', 'Yes', 'No', 'Yes', '', '', '', '', '', '', NULL, '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0, 0, '', 0, 0, 0, '', '', '', '', '', '', 0),
 ('GSA13', 'Rutherford County (TN)', 'TN', '', 'Greater Southeast', 'Nashville-Davidson--Murfreesboro--Franklin, TN Metropolitan Statistical Area', 'No', 'No', 'No', '', '', '', '', '', '', NULL, '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0, 0, '', 0, 0, 0, '', '', '', '', '', '', 0),
-('GSA14', 'Jackson (MS)', 'MS', '', 'Greater Southeast', 'Jackson, MS Metropolitan Statistical Area', 'No', 'No', 'No', '', '', '', '', '', '', NULL, '', 42.00, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0', '', '', '', 'state and local', '', '', '', '', '', '', '', '', '', '', '', 'a:3:{s:10:"strengthen";s:1:"1";s:9:"open door";s:1:"1";s:12:"celebrations";s:1:"1";}', '', '', '0', '', '', '', '', 'no', '', 'neither', '', '', '', '', '', '', '1', '', 'local', '', '', '', '', '', 'yes - USPSTF', '', '', '', '', '', '', '', '', '1', 'Unfilled event chair text', '1', '1', '1', '1', 0, 0, 58, ';hljsmdy js;lym ', 0, 0, 0, '', '', '', '', '', '', 0),
+('GSA14', 'Jackson (MS)', 'MS', '', 'Greater Southeast', 'Jackson, MS Metropolitan Statistical Area', 'No', 'No', 'No', '', '', '', '', '', '', NULL, '', 2.00, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0', '', '', '', 'neither', '', '', '', '', '0', '', 'state and local', '', '', '', '', 'a:1:{s:3:"tbd";s:1:"1";}', '', '', '0', '', '', '', '', 'no', '', 'local', '', '', '', '', '', '', '0', '', 'local', '', '', '', '', '', 'no', '', '', '', '', '', '', '', '', '1', '', '0', '0', '0', '1', 0, 0, 1000000, '', 302324150, 36, 3, 'Being really nice to them.', 'Secret handshakes', '1', '0', '0', '0', 36),
 ('MAA01', 'Charlotte (NC)', 'NC', '', 'Mid-Atlantic', 'Charlotte-Gastonia-Rock Hill, NC-SC Metropolitan Statistical Area', 'Yes', 'Yes', 'No', '', '', '', '', '', '', NULL, '', 99.99, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0', 'Moms against genocide on Sanford Ave.', '1', '0', '1', '1', 0, 8890.22, 44, 'People selling people to people.', 65, 63.35, 35, 'Asking them really nicely', 'Cuddles.', '1', '0', '1', '0', 123),
 ('MAA02', 'Greater Baltimore (MD)', 'MD', '', 'Mid-Atlantic', 'Baltimore-Towson, MD Metropolitan Statistical Area', 'Yes', 'Yes', 'Yes', '', '', '', '', '', '', NULL, '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0, 0, '', 0, 0, 0, '', '', '', '', '', '', 0),
 ('MAA03', 'Greater Washington Region (DC)', 'DC', '', 'Mid-Atlantic', 'Washington-Arlington-Alexandria, DC-VA-MD-WV Metropolitan Statistical Area', 'Yes', 'Yes', 'Yes', '', '', '', '', '', '', NULL, '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0, 0, '', 0, 0, 0, '', '', '', '', '', '', 0),
@@ -286,7 +286,7 @@ INSERT INTO `wp_aha_assessment_questions` (`id`, `page`, `QID`, `type`, `label`,
 (5, 8, '2.2.4.1', 'radio', 'Given the current political/policy environment, where can this local board most likely help drive impact relative to shared use policies?', 0, '0'),
 (6, 9, '2.2.5.1', 'radio', 'In school district %%district_name%%, is there a district-wide policy and/or guidance in place for shared use of school facilities?', 1, '0'),
 (7, 9, '2.2.5.1.1', 'radio', 'What rationale was provided for not having a district-wide shared use policy?', 1, '2.2.5.1'),
-(8, 9, '2.2.5.1.1.1', 'text', 'If other, please describe:', 1, '2.2.5.1.2'),
+(8, 9, '2.2.5.1.1.1', 'text', 'If other, please describe:', 1, '2.2.5.1.1'),
 (9, 9, '2.2.5.1.3', 'text', 'If available, please provide a URL for the district shared use policy: ', 1, '2.2.5.1'),
 (10, 3, '2.3.2.1', 'radio', 'Is there a state, regional or local complete streets policy under consideration?', 0, '0'),
 (11, 3, '2.3.2.2', 'text', 'Who is leading this effort?', 0, '2.3.2.1'),
@@ -307,7 +307,7 @@ INSERT INTO `wp_aha_assessment_questions` (`id`, `page`, `QID`, `type`, `label`,
 (26, 6, '4.1.4', 'radio', 'Would you recommend the local board adopt this as a priority issue?', 0, '0'),
 (27, 13, '5.1.4.1', 'radio', 'For %%district_name%%, is CPR training meeting AHA criteria a graduation requirement?', 1, '0'),
 (28, 14, '7.1.1', 'radio', 'Do you have all your event chairs for FY 14-15?', 0, '0'),
-(29, 14, '7.1.2', 'textarea', 'List unfilled event chairs', 0, '7.1.2'),
+(29, 14, '7.1.2', 'textarea', 'List unfilled event chairs', 0, '7.1.1'),
 (30, 14, '7.1.2.1', 'radio', 'In 2014-2015 have ALL Event Chairs given at the Top 2 levels for Go Red?', 0, '0'),
 (31, 14, '7.1.2.2', 'radio', 'In 2014-2015 have ALL Event Chairs given at the Top 2 levels for Heart Ball?', 0, '0'),
 (32, 14, '7.1.2.3', 'radio', 'In 2014-2015 have ALL Event Chairs given at the Top 2 levels for Heart Walk?', 0, '0'),
@@ -706,11 +706,11 @@ INSERT INTO `wp_aha_assessment_school` (`AHA_NAME`, `AHA_ID`, `ST_NAME`, `DIST_I
 ('Inland Empire Division', 'WSA07', 'California', 633150, 'RIVERSIDE UNIFIED', 3, 42406, 18296, 9696, 14360, '', '', 'Yes', '', '', '', '', '', '', '', '', '', '', '', '', 0),
 ('Inland Empire Division', 'WSA07', 'California', 613920, 'FONTANA UNIFIED', 4, 40592, 18503, 9067, 13022, '', '', 'Yes', '', '', '', '', '', '', '', '', '', '', '', '', 0),
 ('Inland Empire Division', 'WSA07', 'California', 625800, 'MORENO VALLEY UNIFIED', 5, 35692, 16278, 8371, 11043, '', '', 'Yes', '', '', '', '', '', '', '', '', '', '', '', '', 0),
-('Jackson', 'GSA14', 'Mississippi', 2802190, 'JACKSON PUBLIC SCHOOL DIST', 1, 29898, 14892, 6504, 8087, '', '', 'Yes', 'no', 'costs', 'Other JACKSON', '', '0', '', '', '', '', '0', '1', '1', 456),
-('Jackson', 'GSA14', 'Mississippi', 2803830, 'RANKIN CO SCHOOL DIST', 2, 19376, 9284, 4582, 5234, '', '', 'Yes', 'no', 'other', 'Other, describing RANKIN', '', '0', '', '', '', '', '1', '0', '1', 36.5),
-('Jackson', 'GSA14', 'Mississippi', 2802790, 'MADISON CO SCHOOL DIST', 3, 12182, 5538, 2897, 3544, '', '', 'Yes', 'other', '', '', 'url for district shared use', '1', '1', '0', '1', 'MADISON WELLNESS IS JUST FINE URL', '1', '1', '1', 456),
-('Jackson', 'GSA14', 'Mississippi', 2802430, 'LAUDERDALE CO SCHOOL DIST', 4, 6703, 3092, 1570, 1841, '', '', 'Yes', 'no', 'crime', '', '', '0', '', '', '', '', '0', '0', '0', 90),
-('Jackson', 'GSA14', 'Mississippi', 2801860, 'HINDS CO SCHOOL DIST', 5, 6319, 2874, 1511, 1863, '', '', 'Yes', 'no', 'other', 'No, other, HINDS CO textarea', '', '0', '', '', '', '', '0', '1', '0', 57.78),
+('Jackson', 'GSA14', 'Mississippi', 2802190, 'JACKSON PUBLIC SCHOOL DIST', 1, 29898, 14892, 6504, 8087, '0', '0', '1', 'broad', '', 'Other JACKSON', 'jackson url', '0', '', '', '', '', '0', '0', '1', 456),
+('Jackson', 'GSA14', 'Mississippi', 2803830, 'RANKIN CO SCHOOL DIST', 2, 19376, 9284, 4582, 5234, '0', '0', '1', 'broad', '', 'Other, describing RANKIN', '', '0', '', '', '', '', '0', '0', '1', 36.5),
+('Jackson', 'GSA14', 'Mississippi', 2802790, 'MADISON CO SCHOOL DIST', 3, 12182, 5538, 2897, 3544, '1', '0', '1', 'broad', '', 'other MADISON', 'url for district shared use MADISON', '1', '1', '1', '0', '', '1', '1', '1', 456),
+('Jackson', 'GSA14', 'Mississippi', 2802430, 'LAUDERDALE CO SCHOOL DIST', 4, 6703, 3092, 1570, 1841, '1', '1', '1', 'no', 'other', 'lauderdale', '', '1', '0', '0', '0', 'URL for LAUDERDALE', '0', '1', '0', 90),
+('Jackson', 'GSA14', 'Mississippi', 2801860, 'HINDS CO SCHOOL DIST', 5, 6319, 2874, 1511, 1863, '0', '0', '0', 'other', '', 'No, other, HINDS CO textarea', '', '0', '', '', '', '', '1', '1', '0', 57.78),
 ('Jacksonville', 'GSA05', 'Florida', 1200480, 'DUVAL', 1, 125429, 63288, 27589, 34552, 'Yes', '', 'Yes', '', '', '', '', '', '', '', '', '', '', '', '', 0),
 ('Jacksonville', 'GSA05', 'Florida', 1200300, 'CLAY', 2, 35659, 15845, 8407, 11407, 'Yes', '', 'Yes', '', '', '', '', '', '', '', '', '', '', '', '', 0),
 ('Jacksonville', 'GSA05', 'Florida', 1201740, 'ST. JOHNS', 3, 31580, 14211, 7440, 9929, 'Yes', '', 'Yes', '', '', '', '', '', '', '', '', '', '', '', '', 0),

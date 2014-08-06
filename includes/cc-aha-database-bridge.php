@@ -108,10 +108,10 @@ function cc_aha_update_form_data( ){
 		
 		//Empty disabled form fields in the db (or those that ARE followups whose followee question option != followup_id of $this)
 		
-		//Get followup questions for this question (TODO: make sure this assumption-of-one is valid)
+		//Get followup questions for this question (TODO: make sure this assumption-of-one for board is valid)
 		$followup_question = current( cc_aha_get_follow_up_questions( $key ) ); //we'll only ever have one, yes?  Or is this not safe enough?
 		
-		$followup_question_id =  $followup_question[ 'QID' ];
+		$followup_question_id =  $followup_question[ 'QID' ];		
 		
 		//if we have a followup question, let's see if it's value is $_POSTed and, if not, set it to update to NULL in the db
 		// if the input has disabled attribute, it won't submit
@@ -121,6 +121,7 @@ function cc_aha_update_form_data( ){
 			
 			//if there IS no value to a followup question, it's been disabled
 			if ( empty( $followup_question_value ) && ( $followup_question_value != '0' ) ) { //because 0 means empty to PHP
+			
 				//update the value in the db to NULL
 				$update_board_data[ $followup_question_id ] = NULL;
 			}
@@ -149,7 +150,8 @@ function cc_aha_update_form_data( ){
 	$update_school_data = array();
 	$update_school_data = $_POST['school'];
 	
-	$followup_question = array();
+	$followup_questions = array();
+	$nested_followup_questions = array();
 	
 	//foreach district in survey, update db
 	foreach ( $update_school_data as $key => $value ){
@@ -176,13 +178,11 @@ function cc_aha_update_form_data( ){
 				$update_school_dist_data[ $key ] = str_replace( array( '$', '%'), '', $value);
 				
 				
-			//Empty disabled form fields in the db (or those that ARE followups whose followee question option != followup_id of $this)
+			/** Set currently-disabled form fields to NULL the db updat (or those that ARE followups whose followee question option != followup_id of $this) **/
 		
 			//Get followup questions for this question - in school, there are multiple.  Should rollout to board if necessary
-			
 			$followup_questions =  cc_aha_get_follow_up_questions( $key ); 
 			
-			//Currently doesn't account for nested followup questions, pending new doc from 8/5
 			foreach( $followup_questions as $followup_question ) {
 				//Get the followup question id
 				$followup_question_id =  $followup_question[ 'QID' ];
@@ -200,10 +200,43 @@ function cc_aha_update_form_data( ){
 						//$towrite .= '   IS EMPTY' . "\r\n";
 						$update_school_dist_data[ $followup_question_id ] = NULL;
 					}
-				}	
+				}
+				
+				//Do we have nested followup questions?
+				$nested_followup_questions = current( cc_aha_get_follow_up_questions ( $followup_question_id ) );
+				
+				//disabled is not being properly set on some of these...maybe just hard-code for now, since it's one case
+				/*
+				foreach( $nested_followup_questions as $nested_followup_question ) {
+					
+					$nested_followup_question_id =  $nested_followup_question[ 'QID' ];
+					$towrite .= 'Nested followup question id: ' . print_r( $nested_followup_question_id, TRUE ) . "\r\n";
+					
+					//if we have a followup question, let's see if it's value is $_POSTed and, if not, set it to update to NULL in the db
+					// if the input has disabled attribute, it won't submit
+					if ( !empty( $nested_followup_question_id ) ) {
+						//get the value of the followup question
+						$nested_followup_question_value = $update_school_dist_data[ $nested_followup_question_id ];
+						$towrite .= 'not empty id: ' . print_r($nested_followup_question_id, TRUE) . ', value: ' . $nested_followup_question_value;
+						
+						//if there IS no value to a followup question, it's been disabled
+						if ( empty( $nested_followup_question_value ) && ( $nested_followup_question_value != '0' ) ) {
+							//update the value in the db to NULL
+							//$towrite .= '   IS EMPTY' . "\r\n";
+							$update_school_dist_data[ $nested_followup_question_id ] = NULL;
+						}
+					}
+				}
+				*/
+				
+				//hard coding because of the bug above...boo-urns
+				if ( ( $nested_followup_questions['QID'] == '2.2.5.1.1.1' ) && ( $update_school_dist_data[ '2.2.5.1' ] != '0' ) && ( $update_school_dist_data[ '2.2.5.1.1' ] != 'other' ) ) {
+					
+					$towrite .= 'followup id: ' . print_r( $followup_question[ 'QID' ], TRUE) . 'nested qid: ' . print_r( $nested_followup_questions['QID'], TRUE );
+				}
+				
 			}
-				
-				
+
 		}
 
 		//update the table for this district
