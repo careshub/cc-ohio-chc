@@ -157,7 +157,7 @@ function cc_aha_handcoded_questions_7(){
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
 
-	<h2><?php cc_aha_print_form_page_header( 3 ); ?></h2>
+	<h2><?php cc_aha_print_form_page_header( 7 ); ?></h2>
 		<?php 
 	if ( $data['2.1.1.1'] && $data['2.1.1.2'] && $data['2.1.1.3'] ) {
 		echo "Your state has enacted state-wide physical education requirements at all levels.";
@@ -189,11 +189,11 @@ function cc_aha_handcoded_questions_7(){
 }
 
 function cc_aha_handcoded_questions_9(){
-	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 5 );
+	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 9 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
 
-	<h2><?php cc_aha_print_form_page_header( 5 ); ?></h2>
+	<h2><?php cc_aha_print_form_page_header( 9 ); ?></h2>
 	<?php
 	foreach ( $school_districts as $district ) {
 		?>
