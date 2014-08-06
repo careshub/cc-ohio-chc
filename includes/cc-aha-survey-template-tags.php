@@ -73,6 +73,7 @@ function cc_aha_render_form( $page = null ){
 				cc_aha_auto_build_questions( $page );
 			}
 		?>
+		<input type="hidden" name="board[<?php echo 'p' . $page; ?>]" value="1">
 		<input type="hidden" name="metro_id" value="<?php echo $_COOKIE['aha_active_metro_id']; ?>">
 		<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
 		<div class="form-navigation clear">
@@ -143,7 +144,7 @@ function cc_aha_handcoded_questions_1(){
 				 		break;
 				 } 
 			?>
-			<li><a href="<?php echo cc_aha_get_survey_permalink( $page_number ); ?>"><?php echo $label; ?></a></li>
+			<li><a href="<?php echo cc_aha_get_survey_permalink( $page_number ); ?>"><?php echo $label; ?></a><?php if ( $data['p'.$page_number] ) { echo '&emsp;<em>completed</em>'; } ?></li>
 			<?php 
 			}
 		?>
