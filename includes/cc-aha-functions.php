@@ -147,6 +147,7 @@ function cc_aha_get_metro_nicename( $metro_id = null ) {
 
     $metro = cc_aha_get_single_metro_data( $metro_id );
 
-    return $metro['Board_Name'] . ' &ndash; ' . $metro['BOARD_ID'];
+    return $metro['Board_Name'];
+    // return $metro['Board_Name'] . ' &ndash; ' . $metro['BOARD_ID'];
 
 }
