@@ -168,7 +168,7 @@ function cc_aha_print_dial( $status ){
 	?>
 	<div class="progress-dial">
 		<span class="dial-label"><?php cc_aha_print_dial_label( $status ); ?></span>
-		<input type="text" value="<?php cc_aha_print_dial_value( $status ); ?>" class="dial" data-width="200" data-fgColor="<?php cc_aha_print_dial_fill_color( $status ); ?>" data-angleOffset=-125 data-angleArc=250 data-displayInput=false data-displayprevious=true data-readOnly=true>
+		<input type="text" value="<?php cc_aha_print_dial_value( $status ); ?>" class="dial" autocomplete="off" data-width="200" data-fgColor="<?php cc_aha_print_dial_fill_color( $status ); ?>" data-angleOffset=-125 data-angleArc=250 data-displayInput=false data-displayprevious=true data-readOnly=true>
 	</div>
 	<?php
 }
