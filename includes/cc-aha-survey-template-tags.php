@@ -19,16 +19,16 @@ function cc_aha_form_page_list(){
 	return array(
 	1 => 'Table of Contents',
 	2 => 'Tobacco',
-	3 => 'Physical Education in Schools',
-	4 => 'Shared Use Policies',
-	5 => 'Shared Use Policies, continued',
 	6 => 'Complete Streets',
-	7 => 'School Nutrition Policies',
-	8 => 'School Nutrition Policies, continued',
-	9 => 'School Nutrition Implementation',
 	10 => 'Local Government Procurement Policy (Vending & Service Contracts)',
 	11 => 'Healthy Food Financing',
 	12 => 'Health Factors - Insurance Coverage',
+	3 => 'Physical Education in Schools',
+	4 => 'Shared Use Policies',
+	5 => 'Shared Use Policies, continued',
+	7 => 'School Nutrition Policies',
+	8 => 'School Nutrition Policies, continued',
+	9 => 'School Nutrition Implementation',
 	13 => 'Chain of Survival - CPR Graduation Requirements',
 	14 => 'Recruit Event Leadership',
 	15 => 'Secure Top ELT Leadership',
@@ -40,6 +40,7 @@ function cc_aha_form_page_list(){
 	21 => 'Membership in the Paul Dudley White Legacy Society - Donor Retention'
 	);
 }
+
 function cc_aha_get_max_page_number(){
     return count( cc_aha_form_page_list() );
 }
