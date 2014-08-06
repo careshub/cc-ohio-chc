@@ -90,6 +90,8 @@ function cc_aha_update_form_data( ){
 	$update_board_data = array();
 	$update_board_data = $_POST['board'];
 	$numeric_inputs = cc_aha_get_number_type_questions();
+	
+	$followup_question = array();
 
 	// Input data cleaning
 	foreach ($update_board_data as $key => $value) {
@@ -107,7 +109,6 @@ function cc_aha_update_form_data( ){
 		//Empty disabled form fields in the db (or those that ARE followups whose followee question option != followup_id of $this)
 		
 		//Get followup questions for this question (TODO: make sure this assumption-of-one is valid)
-		$followup_question = array();
 		$followup_question = current( cc_aha_get_follow_up_questions( $key ) ); //we'll only ever have one, yes?  Or is this not safe enough?
 		
 		$followup_question_id =  $followup_question[ 'QID' ];
@@ -119,16 +120,13 @@ function cc_aha_update_form_data( ){
 			$followup_question_value = $update_board_data[ $followup_question_id ];
 			
 			//if there IS no value to a followup question, it's been disabled
-			if ( empty( $followup_question_value ) ) {
+			if ( empty( $followup_question_value ) && ( $followup_question_value != '0' ) ) { //because 0 means empty to PHP
 				//update the value in the db to NULL
 				$update_board_data[ $followup_question_id ] = NULL;
 			}
 		}
 	}
 
-	$fp = fopen("c:\\xampp\\logs\\aha_log.txt", 'a');
-	fwrite($fp, $towrite);
-	fclose($fp);
 	
 	
 	
@@ -150,7 +148,9 @@ function cc_aha_update_form_data( ){
 	//get key => value pairs for $_POST['school']!
 	$update_school_data = array();
 	$update_school_data = $_POST['school'];
-
+	
+	$followup_question = array();
+	
 	//foreach district in survey, update db
 	foreach ( $update_school_data as $key => $value ){
 		
@@ -174,6 +174,36 @@ function cc_aha_update_form_data( ){
 			// Strip dollar signs and percent signs from numeric entries
 			if ( in_array( $key, $numeric_inputs ) )
 				$update_school_dist_data[ $key ] = str_replace( array( '$', '%'), '', $value);
+				
+				
+			//Empty disabled form fields in the db (or those that ARE followups whose followee question option != followup_id of $this)
+		
+			//Get followup questions for this question - in school, there are multiple.  Should rollout to board if necessary
+			
+			$followup_questions =  cc_aha_get_follow_up_questions( $key ); 
+			
+			//Currently doesn't account for nested followup questions, pending new doc from 8/5
+			foreach( $followup_questions as $followup_question ) {
+				//Get the followup question id
+				$followup_question_id =  $followup_question[ 'QID' ];
+				
+				//if we have a followup question, let's see if it's value is $_POSTed and, if not, set it to update to NULL in the db
+				// if the input has disabled attribute, it won't submit
+				if ( !empty( $followup_question_id ) ) {
+					//get the value of the followup question
+					$followup_question_value = $update_school_dist_data[ $followup_question_id ];
+					//$towrite .= 'not empty id: ' . print_r($followup_question_id, TRUE) . ', value: ' . $followup_question_value;
+					
+					//if there IS no value to a followup question, it's been disabled
+					if ( empty( $followup_question_value ) && ( $followup_question_value != '0' ) ) {
+						//update the value in the db to NULL
+						//$towrite .= '   IS EMPTY' . "\r\n";
+						$update_school_dist_data[ $followup_question_id ] = NULL;
+					}
+				}	
+			}
+				
+				
 		}
 
 		//update the table for this district
@@ -181,9 +211,9 @@ function cc_aha_update_form_data( ){
 	
 	}
 	
-	$towrite .= PHP_EOL . '$_POST: ' . print_r($_POST, TRUE);
-	$towrite .= 'db write success board: ' . $num_rows_updated;
-	$towrite .= 'db write success school: ' . $num_school_rows_updated;
+	//$towrite .= PHP_EOL . '$_POST: ' . print_r($_POST, TRUE);
+	//$towrite .= 'db write success board: ' . $num_rows_updated;
+	//$towrite .= 'db write success school: ' . $num_school_rows_updated;
 	
 	
 	//$towrite .= sizeof($update_board_data);
@@ -191,9 +221,9 @@ function cc_aha_update_form_data( ){
 	//$towrite .= print_r($update_board_data_notempty, TRUE);
 	
 	//$towrite .= print_r($update_board_data, TRUE);
-	//$fp = fopen("c:\\xampp\\logs\\aha_log.txt", 'a');
-	//fwrite($fp, $towrite);
-	//fclose($fp);
+	$fp = fopen("c:\\xampp\\logs\\aha_log.txt", 'a');
+	fwrite($fp, $towrite);
+	fclose($fp);
 	
 	
 	//will have to account for school data getting updated as well
