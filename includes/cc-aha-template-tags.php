@@ -20,7 +20,7 @@ function cc_aha_print_metro_select_container_markup() {
         $link_text = 'Change';
     } else {
         $summary_message = 'Please set your AHA board affiliation.';
-        $link_text = 'Set region';
+        $link_text = 'Set board';
     }
 
     ?>
@@ -144,14 +144,14 @@ function cc_aha_metro_id_cookie_selector(){
             } else if ( count( $selected_metro_ids ) > 1 ) {
                  cc_aha_metro_id_cookie_select_form();
             }
+
     } else {
-        //TODO: get human readable description
-        $metro_info = $_COOKIE[$cookie_name];
+
         // If the user has more than one affiliation, give chance to change
         if ( count( $selected_metro_ids ) > 1 ) {
             ?>
             <div class="toggleable toggle-closed message info">
-                <span class="toggle-switch first" id="update-metro-id-toggle">You are currently viewing information for <?php echo $metro_info; ?>. &emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#">Change</a>
+                <span class="toggle-switch first" id="update-metro-id-toggle">You are currently viewing information for <?php echo cc_aha_get_metro_nicename( $_COOKIE[$cookie_name] ); ?>. &emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#">Change</a>
                 </span>
 
                 <div class="toggle-content">
@@ -162,7 +162,7 @@ function cc_aha_metro_id_cookie_selector(){
         } else { 
             ?>
             <div class="message info">
-                <span class="first">You are currently viewing information for <?php echo $metro_info; ?></span>
+                <span class="first">You are currently viewing information for <?php echo cc_aha_get_metro_nicename( $_COOKIE[$cookie_name] ); ?></span>
             </div>
         <?php
         }
@@ -181,13 +181,11 @@ function cc_aha_metro_id_cookie_select_dropdown(){
     $selected_metro_ids = cc_aha_get_array_user_metro_ids();
     ?>
         <form id="aha_metro_id_cookie_select" class="" method="post" action="<?php echo cc_aha_get_home_permalink(); ?>set-metro-id-cookie/">
-            <label>Choose a region to view.
+            <label>Choose a board to view.
                 <select name="aha_metro_id_cookie">
                 <?php foreach ($selected_metro_ids as $metro_id) {
-                    //TODO: get human readable description
-                    $metro_info = $metro_id;
                     ?>
-                    <option value="<?php echo $metro_id; ?>"><?php echo $metro_info; ?></option>
+                    <option value="<?php echo $metro_id; ?>"><?php echo cc_aha_get_metro_nicename( $metro_id ); ?></option>
                     <?php
                 } 
                 ?>

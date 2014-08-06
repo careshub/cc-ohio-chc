@@ -132,3 +132,21 @@ function cc_aha_get_array_user_metro_ids() {
 
     return $selected;
 }
+/**
+ * Create a "nice" version of the metro's info
+ * 
+ * @since   1.0.0
+ * @return  string
+ */
+function cc_aha_get_metro_nicename( $metro_id = null ) {
+    if ( ! $metro_id )
+        $metro_id = $_COOKIE[ 'aha_active_metro_id' ];
+
+    if ( ! $metro_id )
+        return "None selected";
+
+    $metro = cc_aha_get_single_metro_data( $metro_id );
+
+    return $metro['Board_Name'] . ' &ndash; ' . $metro['BOARD_ID'];
+
+}

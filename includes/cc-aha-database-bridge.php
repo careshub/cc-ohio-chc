@@ -103,7 +103,7 @@ function cc_aha_update_form_data( ){
 	}
 
 	//TODO: If form fields are disabled (via jQ) then they are not included in the $_POST array, so they're not updated. We could:
-	// 1) Do some $_POST data checking, based on what questions should be on the page, and provide empty strings for those which are not represented
+	// 1) Do some $_POST data checking, based on what questions should be on the page, and provide empty strings for those which are not represented (more specifically, we could get the qids of text and textarea inputs for a given page and make sure those are represented in the $_POST data)
 	// 2) Do some jQ gyrations on submit that find disabled form fields, enable them and provide empty values
 	// 3) Instead of disabling, empty the field when it's hidden. (This might be kind of irritating if you're the type of form-filler-outer who changes her mind or makes accidental clicks.)
 	// 4) Do a data scrub on the final db before handing it over.

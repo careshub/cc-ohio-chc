@@ -35,7 +35,7 @@ function cc_aha_render_summary_page(){
 	<div id="summary-navigation">
 		<ul class="horizontal no-bullets">
 			<li><a href="#tobacco" class="tab-select">Tobacco</a></li>
-			<li><a href="#physical-activity" class="tab-select">Physical Actvity</a></li>
+			<li><a href="#physical-activity" class="tab-select">Physical Activity</a></li>
 			<li class="alignright"><a href="http://staging.maps.communitycommons.org/CHNA/SelectArea.aspx?reporttype=AHA" target="_blank" class="button">View Data Report</a>&emsp;</li>
 		</ul>
 		<!-- <input type="button" class="button" value="Print Summary" /> -->

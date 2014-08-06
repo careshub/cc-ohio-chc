@@ -179,8 +179,6 @@ function cc_aha_handcoded_questions_5(){
 	<h2><?php cc_aha_print_form_page_header( 5 ); ?></h2>
 	<?php
 	foreach ( $school_districts as $district ) {
-		// School district stuff will require a different save routine, since they're keyed by district ID.
-		// TODO: This is kind of weird, once marked "yes", these questions disappear... Do we need to have a "provided by AHA" entry and a "user response" entry? Or should the answers be pre-populated and the user can change them?
 		?>
 		<fieldset class="spacious">
 			<legend><h4><?php cc_aha_print_school_question_text( '2.2.5.1', $district ); ?></h4></legend>
@@ -268,7 +266,6 @@ function cc_aha_handcoded_questions_13(){
 }
 
 function cc_aha_render_question( $question, $data ){
-	// TODO: decide where to make the split on school vs board questions. Above here? Here?
 	if ( $question[ 'follows_up' ] ) {
 		?>
 		<div class="follow-up-question" data-relatedTarget="<?php echo $question[ 'QID' ] ; ?>">
@@ -417,8 +414,6 @@ function cc_aha_render_number_input( $qid, $data, $step = 1 ){
 }
 
 function aha_render_textarea_input( $qid, $data ){
-
-    // TODO: Firefox 31 Mac isn't displaying the value. Sf and Cr are fine. Works off-site: http://jsfiddle.net/58rPb/
 	?>
 	<textarea name="<?php echo 'board[' . $qid . ']'; ?>" id="<?php echo $qid; ?>"><?php echo $data[ $qid ]; ?></textarea>
 	<?php
@@ -505,8 +500,6 @@ function cc_aha_render_school_number_input( $qid, $district, $step = 1 ){
 
 function aha_render_school_textarea_input( $qid, $district ){
 	$qname = 'school[' . $district['DIST_ID'] . '][' . $qid . ']'; 
-
-    // TODO: Firefox 31 Mac isn't displaying the value. Sf and Cr are fine. Works off-site: http://jsfiddle.net/58rPb/
 	?>
 	<textarea name="<?php echo $qname; ?>" id="<?php echo $qname; ?>"><?php echo $district[ $qid ]; ?></textarea>
 	<?php
