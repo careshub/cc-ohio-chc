@@ -65,7 +65,7 @@ function cc_aha_render_form( $page = null ){
 		<?php
 
 			// Some pages can be auto-built. Others we're going to hand-code.
-			$hand_built = array( 1, 3, 5, 7, 13 );
+			$hand_built = array( 1, 7, 9, 10, 13 );
 			if ( in_array( $page, $hand_built ) ) {
 				$aha_form_function_name = 'cc_aha_handcoded_questions_' . $page;
 				$aha_form_function_name();
@@ -126,6 +126,22 @@ function cc_aha_handcoded_questions_1(){
 				// Don't list page 1 here:
 				if ( $page_number == 1 )
 					continue;
+				// Add section headers.
+				switch ( $page_number ) {
+				 	case 2:
+				 		echo '<h5>Community Policies</h5>';
+				 		break;
+				 	case 7:
+				 		echo '<h5>Top 5 Districts Assessment</h5>';
+				 		break;
+				 	case 14:
+				 		echo '<h5>Revenue Assessment</h5>';
+				 		break;
+				 	
+				 	default:
+				 		# code...
+				 		break;
+				 } 
 			?>
 			<li><a href="<?php echo cc_aha_get_survey_permalink( $page_number ); ?>"><?php echo $label; ?></a></li>
 			<?php 
@@ -136,7 +152,7 @@ function cc_aha_handcoded_questions_1(){
 	<?php
 }
 
-function cc_aha_handcoded_questions_3(){
+function cc_aha_handcoded_questions_7(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 2 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
@@ -172,7 +188,7 @@ function cc_aha_handcoded_questions_3(){
 	}
 }
 
-function cc_aha_handcoded_questions_5(){
+function cc_aha_handcoded_questions_9(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 5 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
@@ -211,7 +227,7 @@ function cc_aha_handcoded_questions_5(){
 	}
 }
 
-function cc_aha_handcoded_questions_7(){
+function cc_aha_handcoded_questions_10(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 7 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>

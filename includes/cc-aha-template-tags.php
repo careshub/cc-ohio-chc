@@ -19,8 +19,8 @@ function cc_aha_print_metro_select_container_markup() {
         $summary_message = 'Your board affiliations: ' . cc_aha_get_metro_id_list();
         $link_text = 'Change';
     } else {
-        $summary_message = 'Please set your AHA board affiliation.';
-        $link_text = 'Set board';
+        $summary_message = 'Please select your AHA board affiliation.';
+        $link_text = 'Select your board';
     }
 
     ?>
@@ -49,14 +49,26 @@ function cc_aha_metro_select_markup(){
     // Using checkboxes since a user could choose one or several
     ?>
     <form id="aha_metro_id_select" class="" method="post" action="<?php echo cc_aha_get_home_permalink(); ?>save-metro-id/">
-        <ul class="aha_metro_id_list no-bullets text-columns-three">
     <?php 
         foreach ($metros as $metro) {
+            // Close, then start new affiliate group
+            if ( $last_affiliate != $metro[ 'Affiliate' ] ) {
+                // Close last ul if we're not at the beginning of the list
+                if ( ! empty( $last_affiliate ) )
+                echo '</ul>';
+
+                ?>
+                <h5><?php echo $metro[ 'Affiliate' ]; ?></h5>
+                <ul class="aha_metro_id_list no-bullets text-columns-three">
+                <?php
+            }
+
             ?>
             <li>
-                <input type="checkbox" name="aha_metro_ids[]" id="aha_metro_ids-<?php echo $metro['BOARD_ID']; ?>" value="<?php echo $metro['BOARD_ID']; ?>" <?php if ( in_array( $metro['BOARD_ID'], $user_metros_array) ) : ?>checked<?php endif; ?> /> <label for="aha_metro_ids-<?php echo $metro['BOARD_ID']; ?>" class=""><?php echo $metro['Board_Name'] . ' &ndash; ' . $metro['BOARD_ID']; ?></label>
+                <input type="checkbox" name="aha_metro_ids[]" id="aha_metro_ids-<?php echo $metro['BOARD_ID']; ?>" value="<?php echo $metro['BOARD_ID']; ?>" <?php if ( in_array( $metro['BOARD_ID'], $user_metros_array) ) : ?>checked<?php endif; ?> /> <label for="aha_metro_ids-<?php echo $metro['BOARD_ID']; ?>" class=""><?php echo $metro['Board_Name']; ?></label>
             </li>
             <?php
+            $last_affiliate = $metro[ 'Affiliate' ];
         }
         ?></ul>
         <?php wp_nonce_field( 'cc-aha-set-metro-id', 'set-metro-nonce' ) ?>
@@ -82,12 +94,11 @@ function cc_aha_get_metro_id_list(){
     $retval = '';
     $count = 1;
     foreach ($user_metros as $metro_id) {
-        $metro = cc_aha_get_single_metro_data( $metro_id );
 
         if ( $count != 1 ){ 
             $retval .= ', ';
         }
-        $retval .= $metro['Board_Name'] . ' &ndash; ' . $metro['BOARD_ID'];
+        $retval .= cc_aha_get_metro_nicename( $metro_id );
         $count++;
     }
     return $retval;

@@ -388,7 +388,7 @@ function cc_aha_get_metro_id_array(){
 
 	$metros = $wpdb->get_results( 
 		"
-		SELECT BOARD_ID, Board_Name
+		SELECT BOARD_ID, Board_Name, Affiliate
 		FROM $wpdb->aha_assessment_board
 		", ARRAY_A
 	);
