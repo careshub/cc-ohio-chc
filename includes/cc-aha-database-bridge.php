@@ -86,13 +86,16 @@ function cc_aha_update_form_data( ){
 		'BOARD_ID' => $board_id 
 	);
 	
-	//get have key => value pairs for $_POST['board']!
+	//get key => value pairs for $_POST['board']!
 	$update_board_data = array();
 	$update_board_data = $_POST['board'];
 	$numeric_inputs = cc_aha_get_number_type_questions();
 
 	// Input data cleaning
 	foreach ($update_board_data as $key => $value) {
+		
+		//just triple-checking to make sure we won't clear out OTHER followup values of non-displayed questions..
+		//$towrite .= 'MASTER KEY: ' . $key ;
 		// Serialize data if necessary
 		if ( is_array( $value ) )
 			$update_board_data[ $key ] = maybe_serialize( $value );
@@ -100,13 +103,40 @@ function cc_aha_update_form_data( ){
 		// Strip dollar signs and percent signs from numeric entries
 		if ( in_array( $key, $numeric_inputs ) )
 			$update_board_data[ $key ] = str_replace( array( '$', '%'), '', $value);
+		
+		//Empty disabled form fields in the db (or those that ARE followups whose followee question option != followup_id of $this)
+		
+		//Get followup questions for this question (TODO: make sure this assumption-of-one is valid)
+		$followup_question = array();
+		$followup_question = current( cc_aha_get_follow_up_questions( $key ) ); //we'll only ever have one, yes?  Or is this not safe enough?
+		
+		$followup_question_id =  $followup_question[ 'QID' ];
+		
+		//if we have a followup question, let's see if it's value is $_POSTed and, if not, set it to update to NULL in the db
+		// if the input has disabled attribute, it won't submit
+		if ( !empty( $followup_question_id ) ) {
+			//get the value of the followup question
+			$followup_question_value = $update_board_data[ $followup_question_id ];
+			
+			//if there IS no value to a followup question, it's been disabled
+			if ( empty( $followup_question_value ) ) {
+				//update the value in the db to NULL
+				$update_board_data[ $followup_question_id ] = NULL;
+			}
+		}
 	}
 
+	$fp = fopen("c:\\xampp\\logs\\aha_log.txt", 'a');
+	fwrite($fp, $towrite);
+	fclose($fp);
+	
+	
+	
 	//TODO: If form fields are disabled (via jQ) then they are not included in the $_POST array, so they're not updated. We could:
 	// 1) Do some $_POST data checking, based on what questions should be on the page, and provide empty strings for those which are not represented (more specifically, we could get the qids of text and textarea inputs for a given page and make sure those are represented in the $_POST data)
 	// 2) Do some jQ gyrations on submit that find disabled form fields, enable them and provide empty values
 	// 3) Instead of disabling, empty the field when it's hidden. (This might be kind of irritating if you're the type of form-filler-outer who changes her mind or makes accidental clicks.)
-	// 4) Do a data scrub on the final db before handing it over.
+	// Mel's solution-> 4) Do a data scrub on the final db before handing it over.
 	
 	//if we have [board] values set by the form, update the table
 	// wpdb->update is perfect for this. Wow. Ref: https://codex.wordpress.org/Class_Reference/wpdb#UPDATE_rows
@@ -159,11 +189,11 @@ function cc_aha_update_form_data( ){
 	//$towrite .= sizeof($update_board_data);
 	//$towrite .= sizeof($update_board_data_notempty);
 	//$towrite .= print_r($update_board_data_notempty, TRUE);
-	$towrite .= print_r($update_board_data, TRUE);
-	//$towrite .= sizeof($update_board_data_notempty);
-	$fp = fopen("c:\\xampp\\logs\\aha_log.txt", 'a');
-	fwrite($fp, $towrite);
-	fclose($fp);
+	
+	//$towrite .= print_r($update_board_data, TRUE);
+	//$fp = fopen("c:\\xampp\\logs\\aha_log.txt", 'a');
+	//fwrite($fp, $towrite);
+	//fclose($fp);
 	
 	
 	//will have to account for school data getting updated as well
