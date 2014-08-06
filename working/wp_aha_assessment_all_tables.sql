@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2014 at 09:59 PM
+-- Generation Time: Aug 06, 2014 at 10:27 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -280,7 +280,7 @@ CREATE TABLE IF NOT EXISTS `wp_aha_assessment_questions` (
 
 INSERT INTO `wp_aha_assessment_questions` (`id`, `page`, `QID`, `type`, `label`, `loop_schools`, `follows_up`) VALUES
 (1, 2, '1.2.2.1', 'number', 'If your community has a local tobacco excise tax, what is the tax rate? If none, enter 0.', 0, '0'),
-(2, 3, '2.1.4.1.1', 'radio', 'In school district %%district_name%%, do schools meet our PE requirements?', 1, '0'),
+(2, 7, '2.1.4.1.1', 'radio', 'In school district %%district_name%%, do schools meet our PE requirements?', 1, '0'),
 (3, 8, '2.2.2.1', 'radio', 'Does the state provide promotion, incentives, technical assistance or other resources to schools to encourage shared use?', 0, '0'),
 (4, 8, '2.2.2.2', 'textarea', 'Please describe:', 0, '2.2.2.1'),
 (5, 8, '2.2.4.1', 'radio', 'Given the current political/policy environment, where can this local board most likely help drive impact relative to shared use policies?', 0, '0'),
@@ -288,9 +288,9 @@ INSERT INTO `wp_aha_assessment_questions` (`id`, `page`, `QID`, `type`, `label`,
 (7, 9, '2.2.5.1.1', 'radio', 'What rationale was provided for not having a district-wide shared use policy?', 1, '2.2.5.1'),
 (8, 9, '2.2.5.1.1.1', 'text', 'If other, please describe:', 1, '2.2.5.1.2'),
 (9, 9, '2.2.5.1.3', 'text', 'If available, please provide a URL for the district shared use policy: ', 1, '2.2.5.1'),
-(10, 7, '2.3.2.1', 'radio', 'Is there a state, regional or local complete streets policy under consideration?', 0, '0'),
-(11, 7, '2.3.2.2', 'text', 'Who is leading this effort?', 0, '2.3.2.1'),
-(12, 7, '2.3.3', 'radio', 'Given the current political/policy environment, where do you envision complete streets public policy change most likely occurring/most activity taking place?', 0, '0'),
+(10, 3, '2.3.2.1', 'radio', 'Is there a state, regional or local complete streets policy under consideration?', 0, '0'),
+(11, 3, '2.3.2.2', 'text', 'Who is leading this effort?', 0, '2.3.2.1'),
+(12, 3, '2.3.3', 'radio', 'Given the current political/policy environment, where do you envision complete streets public policy change most likely occurring/most activity taking place?', 0, '0'),
 (13, 10, '3.1.3.1.0', 'radio', 'In district %%district_name%%, is there a documented and publicly available district wellness policy in place?', 1, '0'),
 (14, 10, '3.1.3.1.1', 'radio', 'Does the policy meet the criteria related to school meals?', 1, '3.1.3.1.0'),
 (15, 10, '3.1.3.1.2', 'radio', 'Does the policy meet the criteria related to smart snacks?', 1, '3.1.3.1.0'),
