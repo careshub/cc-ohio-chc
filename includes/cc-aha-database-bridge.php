@@ -128,15 +128,6 @@ function cc_aha_update_form_data( ){
 		}
 	}
 
-	
-	
-	
-	//TODO: If form fields are disabled (via jQ) then they are not included in the $_POST array, so they're not updated. We could:
-	// 1) Do some $_POST data checking, based on what questions should be on the page, and provide empty strings for those which are not represented (more specifically, we could get the qids of text and textarea inputs for a given page and make sure those are represented in the $_POST data)
-	// 2) Do some jQ gyrations on submit that find disabled form fields, enable them and provide empty values
-	// 3) Instead of disabling, empty the field when it's hidden. (This might be kind of irritating if you're the type of form-filler-outer who changes her mind or makes accidental clicks.)
-	// Mel's solution-> 4) Do a data scrub on the final db before handing it over.
-	
 	//if we have [board] values set by the form, update the table
 	// wpdb->update is perfect for this. Wow. Ref: https://codex.wordpress.org/Class_Reference/wpdb#UPDATE_rows
 	if ( !empty ( $update_board_data ) ) {
@@ -178,7 +169,8 @@ function cc_aha_update_form_data( ){
 				$update_school_dist_data[ $key ] = str_replace( array( '$', '%'), '', $value);
 				
 				
-			/** Set currently-disabled form fields to NULL the db updat (or those that ARE followups whose followee question option != followup_id of $this) **/
+			/** Set currently-disabled form fields to NULL in the db update 
+			 **(or those that ARE followups whose followee question option != followup_id of them.  Niner.) **/
 		
 			//Get followup questions for this question - in school, there are multiple.  Should rollout to board if necessary
 			$followup_questions =  cc_aha_get_follow_up_questions( $key ); 
@@ -197,7 +189,6 @@ function cc_aha_update_form_data( ){
 					//if there IS no value to a followup question, it's been disabled
 					if ( empty( $followup_question_value ) && ( $followup_question_value != '0' ) ) {
 						//update the value in the db to NULL
-						//$towrite .= '   IS EMPTY' . "\r\n";
 						$update_school_dist_data[ $followup_question_id ] = NULL;
 					}
 				}
@@ -228,14 +219,7 @@ function cc_aha_update_form_data( ){
 						}
 					}
 				}
-				
-				
-				//hard coding because of the bug above...boo-urns
-				/*if ( ( $nested_followup_questions['QID'] == '2.2.5.1.1.1' ) && ( $update_school_dist_data[ '2.2.5.1' ] != '0' ) && ( $update_school_dist_data[ '2.2.5.1.1' ] != 'other' ) ) {
-					
-					$towrite .= 'followup id: ' . print_r( $followup_question[ 'QID' ], TRUE) . 'nested qid: ' . print_r( $nested_followup_questions['QID'], TRUE );
-				}*/
-				
+								
 			}
 
 		}
@@ -244,31 +228,22 @@ function cc_aha_update_form_data( ){
 		$num_school_rows_updated = $wpdb->update( $school_table_name, $update_school_dist_data, $school_where, $format = null, $where_format = null );
 	
 	}
-	
-	//$towrite .= PHP_EOL . '$_POST: ' . print_r($_POST, TRUE);
-	//$towrite .= 'db write success board: ' . $num_rows_updated;
-	//$towrite .= 'db write success school: ' . $num_school_rows_updated;
-	
-	
-	//$towrite .= sizeof($update_board_data);
-	//$towrite .= sizeof($update_board_data_notempty);
-	//$towrite .= print_r($update_board_data_notempty, TRUE);
+
 	
 	//$towrite .= print_r($update_board_data, TRUE);
 	//$fp = fopen("c:\\xampp\\logs\\aha_log.txt", 'a');
 	//fwrite($fp, $towrite);
 	//fclose($fp);
-	
-	
-	//will have to account for school data getting updated as well
+
+	//wpdb->update returns num rows on success, 0 if no data change, FALSE on error
+	//either wpdb->update return error?
 	if ( $num_board_rows_updated === FALSE || $num_school_rows_updated === FALSE  ) {
 		return false; //we have a problem updating
 	} else {
-		return ( $num_board_rows_updated ); //num rows on success (wpdb->update returns 0 if no data change), FALSE on no success 
+		return ( $num_board_rows_updated ); 
 	}
 
 }
-
 
 /**
  * Returns array of arrays of questions to build for the requested page of the form.

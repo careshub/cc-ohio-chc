@@ -1,19 +1,13 @@
 
-- What are Q3.1.1.1, Q3.1.1.1.1 and responses (shown on FIELDheadings and board tabs of master csv)?
-
-- Where are the new questions for sections 7 - 14 (Christian)?
-
 - Test all the things
 	- Inputs from database: loading correct values?
 	- Saving to database: correct fields, correct values?
 	- Are all questions and responses accounted for?
-	
-	- Are null values appropriately NOT saved on hidden/disabled inputs, when have prior values?
-	
-	- 2.2.5.1 Question change!
+
+
 
 - DB setup
 	- Do all field types account for possible answers (e.g., varchar lengths)
-	- Mel: 3.1.3.1.4 varchar(10) -> varchar(255)
+
 	
 
