@@ -298,7 +298,7 @@ function cc_aha_render_question( $question, $data ){
 		case 'number':
 		?>
 			<label for="<?php echo $question[ 'QID' ]; ?>"><?php echo $question[ 'label' ]; ?></label>
-			<?php cc_aha_render_number_input( $question[ 'QID' ], $data );
+			<?php cc_aha_render_number_input( $question[ 'QID' ], $data, .01 );
 			break;
 		case 'radio':
 		?>	<fieldset>
@@ -356,7 +356,7 @@ function cc_aha_render_school_question( $question, $data ){
 			case 'number':
 			?>
 				<label for="<?php echo $qname; ?>"><?php cc_aha_print_school_question_text( $question[ 'QID' ], $district ); ?></label>
-				<?php cc_aha_render_school_number_input( $question[ 'QID' ], $district );
+				<?php cc_aha_render_school_number_input( $question[ 'QID' ], $district, .01 );
 				break;
 			case 'radio':
 			?>	<fieldset>

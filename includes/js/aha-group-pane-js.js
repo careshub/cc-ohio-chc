@@ -41,12 +41,12 @@ jQuery(document).ready(function($){
 
 	function refresh_follow_up_question_visibility(){
 
-		// Next we iterate through each group of inputs that targets the same follow-up, if any is checked, show the follow-up question
+		// Next we iterate through each group of non-disabled inputs that targets the same follow-up, if any is checked, show the follow-up question
 		$.each( follow_up_questions, function( index, target ) {
 			var show_target = false;
 
 			$( '.has-follow-up[data-relatedquestion="' + target + '"]' ).each( function() {
-				if ( $( this ).prop( "checked" ) ) {
+				if ( $( this ).prop( "checked" ) && ! $( this ).prop( "disabled" ) ) {
 					show_target = true;
 				} 
 			});
@@ -56,7 +56,8 @@ jQuery(document).ready(function($){
 				$('.follow-up-question[data-relatedtarget="' + target + '"] input, .follow-up-question[data-relatedtarget="' + target + '"] textarea').prop('disabled', false);
 			} else {
 				$('.follow-up-question[data-relatedtarget="' + target + '"]').removeClass('enabled');
-				$('.follow-up-question[data-relatedtarget="' + target + '"] input, .follow-up-question[data-relatedtarget="' + target + '"] textarea').prop('disabled', true);
+				// Disable children of children, too
+				$('.follow-up-question[data-relatedtarget="' + target + '"]').find( 'input, textarea' ).prop('disabled', true);
 			}
 		});
 	}
