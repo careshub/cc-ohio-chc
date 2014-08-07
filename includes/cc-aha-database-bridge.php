@@ -57,6 +57,64 @@ function cc_aha_get_form_data( $metro_id, $page = 1 ){
 }
 
 /**
+ * Returns array of arrays of school district data by metro id.
+ *
+ * @since    1.0.0
+ * @return 	array of arrays
+ */
+function cc_aha_get_school_data( $metro_id ){
+	global $wpdb;
+	
+	//so we will return some data for the moment
+	//$table_name = "wp_aha_assessment_school";
+	$form_rows = $wpdb->get_results( 
+		$wpdb->prepare( 
+		"
+		SELECT * 
+		FROM $wpdb->aha_assessment_school
+		WHERE AHA_ID = %s
+		",
+		$metro_id )
+		, ARRAY_A
+	);
+	//print_r( $form_rows );
+	return $form_rows;
+}
+
+/**
+ * Returns array of school district data by qid and metro id. - is this too specific?
+ *
+ * @since   1.0.0
+ * @return 	associative array $summary_responses Array of [ district name ] [ summary-labelled answer ]
+ */
+function cc_aha_get_assessment_school_results( $metro_id, $qid ){
+	global $wpdb;
+	
+	//gosh, this is one ugly sql function, so let's split it up
+	
+	//get dist_name, qid (it's columns, grr) and values from school table
+	$dist_data = cc_aha_get_school_data( $metro_id );
+	//print_r( $dist_data );
+	
+	//get summary_label, qid, value from options table
+	// could foreach this (or what is more clever...) if >1 $qid
+	$options_data = $wpdb->get_results( 
+		$wpdb->prepare( 
+		"
+		SELECT value, summary_value, summary_label 
+		FROM $wpdb->aha_assessment_q_options
+		WHERE qid = %s
+		",
+		$qid )
+		, ARRAY_A
+	);
+	
+	print_r( $options_data );
+	
+	//return $form_rows;
+}
+
+/**
  * Updates board and school database tables with answers from survey.
  *
  * Takes $_POST arrays of [board] and [school] on form submit,
@@ -359,31 +417,6 @@ function cc_aha_get_number_type_questions(){
 
 	return $questions;
 
-}
-
-/**
- * Returns array of arrays of school district data by metro id.
- *
- * @since    1.0.0
- * @return 	array of arrays
- */
-function cc_aha_get_school_data( $metro_id ){
-	global $wpdb;
-	
-	//so we will return some data for the moment
-	//$table_name = "wp_aha_assessment_school";
-	$form_rows = $wpdb->get_results( 
-		$wpdb->prepare( 
-		"
-		SELECT * 
-		FROM $wpdb->aha_assessment_school
-		WHERE AHA_ID = %s
-		",
-		$metro_id )
-		, ARRAY_A
-	);
-	//print_r( $form_rows );
-	return $form_rows;
 }
 
 /**

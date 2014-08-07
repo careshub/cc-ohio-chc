@@ -21,7 +21,8 @@ function cc_aha_render_summary_page(){
 
 	// Get the data for this metro ID
 	$data = cc_aha_get_form_data( $metro_id );
-
+	$school_data = cc_aha_get_school_data( $metro_id );
+	
 	// Do some math to figure out what's what.
 
 
@@ -36,6 +37,8 @@ function cc_aha_render_summary_page(){
 		<ul class="horizontal no-bullets">
 			<li><a href="#tobacco" class="tab-select">Tobacco</a></li>
 			<li><a href="#physical-activity" class="tab-select">Physical Activity</a></li>
+			<li><a href="#healthy-diet" class="tab-select">Healthy Diet</a></li>
+			<li><a href="#chain-of-survival" class="tab-select">Chain of Survival</a></li>
 			<li class="alignright"><a href="http://staging.maps.communitycommons.org/CHNA/SelectArea.aspx?reporttype=AHA" target="_blank" class="button">View Data Report</a>&emsp;</li>
 		</ul>
 		<!-- <input type="button" class="button" value="Print Summary" /> -->
@@ -97,6 +100,7 @@ function cc_aha_render_summary_page(){
 		</div>
 	</section>
 
+	
 	<section id="physical-activity" class="clear">
 		<?php // Section setup
 			$pe_in_schools = cc_aha_calc_three_tiers( $data, '2.1.4.6' );
@@ -146,6 +150,91 @@ function cc_aha_render_summary_page(){
 
 
 
+	
+	<section id="healthy-diet" class="clear">
+		<?php // Section setup
+			$nutrition_policy_questions = [ '3.1.3.1.0', '3.1.3.1.1', '3.1.3.1.2', '3.1.3.1.3' ];
+			$nutrition_policy = cc_aha_calc_n_question_district_yes_tiers( $school_data, $nutrition_policy_questions );
+			$nutrition_imp_questions = [ '3.2.1.1', '3.2.1.2', '3.2.1.3', '3.2.1.4', '3.2.1.5' ];
+			$nutrition_imp = cc_aha_calc_n_question_district_yes_tiers( $school_data, $nutrition_imp_questions );
+		?>
+		<h2 class="screamer">Healthy Diet</h2>
+		<h3>School Nutrition Policy</h3>
+		<div class="content-row">
+			<div class="third-block clear">
+				<?php // Get a big dial
+					cc_aha_print_dial( $nutrition_policy );
+				?>
+			</div>
+
+			<div class="third-block spans-2">
+				<ul>
+					<li>Your state XXX clean indoor air laws covering restaurants, bars, and workplaces.</li>
+					<li>The state does XXX preempt local communities from adopting their own clean indoor air laws.</li>
+					<li>XX % of your community's population is covered by clean indoor air laws.
+						<ul>
+							<li>Workplaces XX %</li>
+							<li>Restaurants XX %</li>
+							<li>Bars XX %</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<h3>3.2 School Nutrition Implementation</h3>
+		<div class="content-row">
+			<div class="third-block clear">
+				<?php // Get a big dial
+					cc_aha_print_dial( $nutrition_imp );
+				?>
+			</div>
+
+			<div class="third-block spans-2">
+				<ul>
+					<?php 
+						cc_aha_get_assessment_school_results( $metro_id, '3.2.2' );
+					?>
+				</ul>
+			</div>
+		</div>
+	</section>
+	
+	
+	<section id="chain-of-survival" class="clear">
+		<?php // Section setup
+			$chain_questions = [ '5.1.4.1' ];  //only 5.1.4.1 right now, there is no - 5.1.4.5
+			$chain_indicator = cc_aha_calc_n_question_district_yes_tiers( $school_data, $chain_questions );
+		?>
+		<h2 class="screamer">CHAIN OF SURVIVAL</h2>
+		<h3>CPR Graduation Requirements</h3>
+		<div class="content-row">
+			<div class="third-block clear">
+				<?php // Get a big dial
+					cc_aha_print_dial( $chain_indicator );
+				?>
+			</div>
+
+			<div class="third-block spans-2">
+				<ul>
+					<li>Your state XXX clean indoor air laws covering restaurants, bars, and workplaces.</li>
+					<li>The state does XXX preempt local communities from adopting their own clean indoor air laws.</li>
+					<li>XX % of your community's population is covered by clean indoor air laws.
+						<ul>
+							<li>Workplaces XX %</li>
+							<li>Restaurants XX %</li>
+							<li>Bars XX %</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	
+	
+	
+	
+	
 
 
 	<script type="text/javascript">
@@ -284,4 +373,42 @@ function cc_aha_calc_three_tiers( $data, $qid ) {
 	} else {
 		return 'poor';
 	}
+}
+
+/* Generalized to take N yes/no questions for a board,
+ *	get all data for districts w/in board,
+ *	calculate % yes for total and place in tiers
+ *	
+ *	3.1, 3.2, 5.1 use this
+ */
+function cc_aha_calc_n_question_district_yes_tiers( $school_data, $qids = array() ) { //Gold star for BEST NAME EVER
+
+	$num_yes = 0;
+	$total_questions = 0;
+	
+	//loop through each school
+	foreach ( $school_data as $school ){
+	
+		//loop through each question for this school
+		foreach( $qids as $qid ){
+		
+			//if data is not defined, either no column or cell data, don't assume 'No'.
+			if( isset( $school[ $qid ] ) ) {
+				//depending on where the data comes from, it could be 'Yes' or '1'
+				if ( ( $school[ $qid ] == 'Yes' ) || ( $school[ $qid ] == '1' ) ) {
+					$num_yes++;
+				}
+				$total_questions++; //hmm
+			}
+		}
+	}
+		
+	if ( ( $num_yes == $total_questions ) && ( $num_yes > 0 ) ) {  //because 0 total questions and 0 yeses indicate 1
+		return 'healthy';
+	} else if ( ( ( $num_yes / $total_questions ) >= 0.5 ) && ( ( $num_yes / $total_questions ) < 1 ) ) {
+		return 'intermediate';
+	} else {
+		return 'poor';
+	}	
+	
 }
