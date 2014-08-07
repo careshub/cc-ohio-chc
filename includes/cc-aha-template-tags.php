@@ -37,18 +37,54 @@ function cc_aha_print_metro_select_container_markup() {
 }
 
 /**
- * Creating form to set metro ids for users
+ * Creating container for form to set metro ids when viewing summary
  *
  * @since   1.0.0
  * @return  HTML
  */
-function cc_aha_metro_select_markup(){
+function cc_aha_print_summary_metro_select_container_markup() {
+    // Get the user's selection, if set
+    if ( isset( $_COOKIE['aha_summary_metro_id'] ) ) { 
+        $summary_message = 'You are currently viewing the summary for ' . cc_aha_get_metro_nicename( $_COOKIE['aha_summary_metro_id'] );
+        $link_text = 'Change'; 
+    } else {
+        $summary_message = 'Please choose an AHA board to view.';
+        $link_text = 'Select a board';
+    }
+
+    ?>
+    <div class="toggleable toggle-closed message info">
+        <p class="toggle-switch first" id="update-metro-id-toggle">
+            <?php echo $summary_message; ?>&emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#"><span class="show-pane plus-or-minus"></span><?php echo $link_text; ?></a>
+        </p>
+
+        <div class="toggle-content">
+            <?php cc_aha_metro_select_markup( 'summary' ); ?>
+        </div>
+    </div>
+<?php
+}
+
+/**
+ * Creating form to set metro ids for users
+ * Default version is checkboxes, secondary is radio buttons, for use on selecting summary to view
+ *
+ * @since   1.0.0
+ * @return  HTML
+ */
+function cc_aha_metro_select_markup( $style = 'assessment' ){
     $user_metros_array = cc_aha_get_array_user_metro_ids();
     $metros = cc_aha_get_metro_id_array();
 
     // Using checkboxes since a user could choose one or several
     ?>
-    <form id="aha_metro_id_select" class="" method="post" action="<?php echo cc_aha_get_home_permalink(); ?>save-metro-id/">
+    <form id="aha_metro_id_select" class="" method="post" action=<?php 
+    if ( $style == 'summary' ) {
+        echo '"' . cc_aha_get_home_permalink() . 'set-metro-id-cookie/"';
+    } else {
+        echo '"' . cc_aha_get_home_permalink() . 'save-metro-id/"';
+    }
+    ?>>
     <?php 
         foreach ($metros as $metro) {
             // Close, then start new affiliate group
@@ -65,13 +101,24 @@ function cc_aha_metro_select_markup(){
 
             ?>
             <li>
-                <input type="checkbox" name="aha_metro_ids[]" id="aha_metro_ids-<?php echo $metro['BOARD_ID']; ?>" value="<?php echo $metro['BOARD_ID']; ?>" <?php if ( in_array( $metro['BOARD_ID'], $user_metros_array) ) : ?>checked<?php endif; ?> /> <label for="aha_metro_ids-<?php echo $metro['BOARD_ID']; ?>" class=""><?php echo $metro['Board_Name']; ?></label>
+                <?php if ( $style == 'summary') : ?>
+                    <input type="radio" name="aha_summary_metro_id" id="aha_summary_metro_id-<?php echo $metro['BOARD_ID']; ?>" value="<?php echo $metro['BOARD_ID']; ?>" <?php if ( isset( $_COOKIE['aha_summary_metro_id'] ) && $_COOKIE['aha_summary_metro_id'] == $metro['BOARD_ID'] ) { echo "checked"; } ?> /> <label for="aha_summary_metro_ids-<?php echo $metro['BOARD_ID']; ?>" class=""><?php echo $metro['Board_Name']; ?></label>
+                <?php else: ?>
+                     <input type="checkbox" name="aha_metro_ids[]" id="aha_metro_ids-<?php echo $metro['BOARD_ID']; ?>" value="<?php echo $metro['BOARD_ID']; ?>" <?php if ( in_array( $metro['BOARD_ID'], $user_metros_array) ) : ?>checked<?php endif; ?> /> <label for="aha_metro_ids-<?php echo $metro['BOARD_ID']; ?>" class=""><?php echo $metro['Board_Name']; ?></label>
+                <?php endif; ?>
             </li>
             <?php
             $last_affiliate = $metro[ 'Affiliate' ];
         }
         ?></ul>
-        <?php wp_nonce_field( 'cc-aha-set-metro-id', 'set-metro-nonce' ) ?>
+        <?php 
+            if ( $style == 'summary' ) {
+                wp_nonce_field( 'cc-aha-set-metro-id-cookie', 'set-metro-cookie-nonce' );
+            } else {
+                wp_nonce_field( 'cc-aha-set-metro-id', 'set-metro-nonce' );
+            }
+            ?>
+
         <div class="submit">
             <input id="submit-metro-ids" type="submit" value="Save" name="submit-metro-ids">
         </div>

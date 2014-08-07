@@ -16,11 +16,11 @@
  * @return  html - generated code
  */
 function cc_aha_render_summary_page(){
-	if ( ! $metro_id = $_COOKIE['aha_active_metro_id'] )
+	if ( ! $metro_id = $_COOKIE['aha_summary_metro_id'] )
 		return false;
 
 	// Get the data for this metro ID
-	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'] );
+	$data = cc_aha_get_form_data( $metro_id );
 
 	// Do some math to figure out what's what.
 
@@ -58,7 +58,7 @@ function cc_aha_render_summary_page(){
 		<div class="content-row">
 			<div class="third-block clear">
 				<?php // Get a big dial
-					$clean_indoor_air = cc_aha_calc_cia( $data );
+					$clean_indoor_air = cc_aha_calc_cia( $metro_id );
 					cc_aha_print_dial( $clean_indoor_air );
 				?>
 			</div>
@@ -248,7 +248,12 @@ function cc_aha_print_state_cia_preempt( $data ) {
  * @since   1.0.0
  * @return  string
  */
-function cc_aha_calc_cia( $data ) {
+function cc_aha_calc_cia( $metro_id ) {
+	if ( ! $metro_id )
+		$metro_id = $_COOKIE['aha_summary_metro_id'];
+
+	$data = cc_aha_get_form_data( $metro_id );
+
 	if ( $data[ '1.1.2.2' ] == 100 && $data[ '1.1.2.3' ] == 100 ) {
 		if ( $data[ '1.1.2.4' ] == 100 ) {
 			return 'healthy';

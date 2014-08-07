@@ -435,7 +435,7 @@ class CC_AHA_Extras {
 			return false;
 		}
 
-		//Handle saving metro ID to cookie for viewing persistence
+		//Handle saving metro ID and summary ID to cookie for viewing persistence
 		if ( bp_is_action_variable( 'set-metro-id-cookie', 0 ) ) {
 
 			// Is the nonce good?
@@ -445,6 +445,9 @@ class CC_AHA_Extras {
 			// Create the cookie
 			if ( isset( $_POST['aha_metro_id_cookie'] ) )
 				setcookie( 'aha_active_metro_id', $_POST['aha_metro_id_cookie'], 0, '/' );
+
+			if ( isset( $_POST['aha_summary_metro_id'] ) )
+				setcookie( 'aha_summary_metro_id', $_POST['aha_summary_metro_id'], 0, '/' );
 
 			// Redirect and exit
 			bp_core_redirect( wp_get_referer() );
