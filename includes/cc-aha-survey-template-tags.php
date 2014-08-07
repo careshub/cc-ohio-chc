@@ -130,10 +130,10 @@ function cc_aha_handcoded_questions_1(){
 				// Add section headers.
 				switch ( $page_number ) {
 				 	case 2:
-				 		echo '<h5>Community Policies</h5>';
+				 		echo '<h5>Health Assessment: Community Policies</h5>';
 				 		break;
 				 	case 7:
-				 		echo '<h5>Top 5 Districts Assessment</h5>';
+				 		echo '<h5>Health Assessment: Top 5 School District Policies</h5>';
 				 		break;
 				 	case 14:
 				 		echo '<h5>Revenue Assessment</h5>';

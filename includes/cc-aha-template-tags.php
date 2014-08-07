@@ -58,7 +58,7 @@ function cc_aha_metro_select_markup(){
                 echo '</ul>';
 
                 ?>
-                <h5><?php echo $metro[ 'Affiliate' ]; ?></h5>
+                <h5><?php echo $metro[ 'Affiliate' ] . ' Affiliate'; ?></h5>
                 <ul class="aha_metro_id_list no-bullets text-columns-three">
                 <?php
             }
