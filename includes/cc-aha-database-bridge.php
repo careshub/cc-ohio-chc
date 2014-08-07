@@ -203,21 +203,22 @@ function cc_aha_update_form_data( ){
 				}
 				
 				//Do we have nested followup questions?
-				$nested_followup_questions = current( cc_aha_get_follow_up_questions ( $followup_question_id ) );
+				$nested_followup_questions = cc_aha_get_follow_up_questions ( $followup_question_id );
 				
 				//disabled is not being properly set on some of these...maybe just hard-code for now, since it's one case
-				/*
+				
 				foreach( $nested_followup_questions as $nested_followup_question ) {
 					
 					$nested_followup_question_id =  $nested_followup_question[ 'QID' ];
-					$towrite .= 'Nested followup question id: ' . print_r( $nested_followup_question_id, TRUE ) . "\r\n";
+					//$towrite .= 'Nested followup question id: ' . print_r( $nested_followup_question_id, TRUE ) . "\r\n";
+					//$towrite .= 'Nested followup question: ' . print_r( $nested_followup_question, TRUE ) . "\r\n";
 					
 					//if we have a followup question, let's see if it's value is $_POSTed and, if not, set it to update to NULL in the db
 					// if the input has disabled attribute, it won't submit
 					if ( !empty( $nested_followup_question_id ) ) {
 						//get the value of the followup question
 						$nested_followup_question_value = $update_school_dist_data[ $nested_followup_question_id ];
-						$towrite .= 'not empty id: ' . print_r($nested_followup_question_id, TRUE) . ', value: ' . $nested_followup_question_value;
+						//$towrite .= 'not empty id: ' . print_r($nested_followup_question_id, TRUE) . ', value: ' . $nested_followup_question_value;
 						
 						//if there IS no value to a followup question, it's been disabled
 						if ( empty( $nested_followup_question_value ) && ( $nested_followup_question_value != '0' ) ) {
@@ -227,13 +228,13 @@ function cc_aha_update_form_data( ){
 						}
 					}
 				}
-				*/
+				
 				
 				//hard coding because of the bug above...boo-urns
-				if ( ( $nested_followup_questions['QID'] == '2.2.5.1.1.1' ) && ( $update_school_dist_data[ '2.2.5.1' ] != '0' ) && ( $update_school_dist_data[ '2.2.5.1.1' ] != 'other' ) ) {
+				/*if ( ( $nested_followup_questions['QID'] == '2.2.5.1.1.1' ) && ( $update_school_dist_data[ '2.2.5.1' ] != '0' ) && ( $update_school_dist_data[ '2.2.5.1.1' ] != 'other' ) ) {
 					
 					$towrite .= 'followup id: ' . print_r( $followup_question[ 'QID' ], TRUE) . 'nested qid: ' . print_r( $nested_followup_questions['QID'], TRUE );
-				}
+				}*/
 				
 			}
 
@@ -254,9 +255,9 @@ function cc_aha_update_form_data( ){
 	//$towrite .= print_r($update_board_data_notempty, TRUE);
 	
 	//$towrite .= print_r($update_board_data, TRUE);
-	$fp = fopen("c:\\xampp\\logs\\aha_log.txt", 'a');
-	fwrite($fp, $towrite);
-	fclose($fp);
+	//$fp = fopen("c:\\xampp\\logs\\aha_log.txt", 'a');
+	//fwrite($fp, $towrite);
+	//fclose($fp);
 	
 	
 	//will have to account for school data getting updated as well
