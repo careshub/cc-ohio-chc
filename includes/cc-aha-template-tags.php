@@ -102,7 +102,7 @@ function cc_aha_metro_select_markup( $style = 'assessment' ){
             ?>
             <li>
                 <?php if ( $style == 'summary') : ?>
-                    <input type="radio" name="aha_summary_metro_id" id="aha_summary_metro_id-<?php echo $metro['BOARD_ID']; ?>" value="<?php echo $metro['BOARD_ID']; ?>" <?php if ( isset( $_COOKIE['aha_summary_metro_id'] ) && $_COOKIE['aha_summary_metro_id'] == $metro['BOARD_ID'] ) { echo "checked"; } ?> /> <label for="aha_summary_metro_ids-<?php echo $metro['BOARD_ID']; ?>" class=""><?php echo $metro['Board_Name']; ?></label>
+                    <input type="radio" name="aha_summary_metro_id" id="aha_summary_metro_id-<?php echo $metro['BOARD_ID']; ?>" value="<?php echo $metro['BOARD_ID']; ?>" <?php if ( isset( $_COOKIE['aha_summary_metro_id'] ) && $_COOKIE['aha_summary_metro_id'] == $metro['BOARD_ID'] ) { echo "checked"; } ?> /> <label for="aha_summary_metro_id-<?php echo $metro['BOARD_ID']; ?>" class=""><?php echo $metro['Board_Name']; ?></label>
                 <?php else: ?>
                      <input type="checkbox" name="aha_metro_ids[]" id="aha_metro_ids-<?php echo $metro['BOARD_ID']; ?>" value="<?php echo $metro['BOARD_ID']; ?>" <?php if ( in_array( $metro['BOARD_ID'], $user_metros_array) ) : ?>checked<?php endif; ?> /> <label for="aha_metro_ids-<?php echo $metro['BOARD_ID']; ?>" class=""><?php echo $metro['Board_Name']; ?></label>
                 <?php endif; ?>

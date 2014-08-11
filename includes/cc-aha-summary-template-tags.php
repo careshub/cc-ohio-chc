@@ -61,8 +61,7 @@ function cc_aha_render_summary_page(){
 		<div class="content-row">
 			<div class="third-block clear">
 				<?php // Get a big dial
-					$clean_indoor_air = cc_aha_calc_cia( $metro_id );
-					cc_aha_print_dial( $clean_indoor_air );
+					cc_aha_print_dial( cc_aha_section_get_score( 'comm_tobacco_1' ) );
 				?>
 			</div>
 
@@ -85,8 +84,7 @@ function cc_aha_render_summary_page(){
 		<div class="content-row">
 			<div class="third-block clear">
 				<?php // Get a big dial
-					$tobacco_excise = cc_aha_calc_tobacco_excise( $data );
-					cc_aha_print_dial( $tobacco_excise );
+					cc_aha_print_dial( cc_aha_section_get_score( 'comm_tobacco_2' ) );
 				?>
 			</div>
 
@@ -111,7 +109,7 @@ function cc_aha_render_summary_page(){
 		<div class="content-row">
 			<div class="third-block clear">
 				<?php // Get a big dial
-					cc_aha_print_dial( 'poor' );
+					cc_aha_print_dial( cc_aha_section_get_score( 'school_phys_1' ) );
 				?>
 			</div>
 
@@ -134,13 +132,13 @@ function cc_aha_render_summary_page(){
 		<div class="content-row">
 			<div class="third-block clear">
 				<?php // Get a big dial
-					cc_aha_print_dial( 'intermediate' );
+					cc_aha_print_dial( cc_aha_section_get_score( 'school_phys_2' )  );
 				?>
 			</div>
 
 			<div class="third-block spans-2">
 				<ul>
-					<li>The current state tobacco excise tax rate is $<</li>
+					<li>The current state tobacco excise tax rate is $</li>
 					<li>The current local tobacco excise tax rate is $.XX</li>
 					<li>There is currently XX ability to levy tabacco excise taxes locally</li>
 				</ul>
@@ -333,14 +331,83 @@ function cc_aha_print_state_cia_preempt( $data ) {
 
 /**
  * Analysis-related calculations.
+ * Catch-all switch for health-related scoring: this takes the section name and returns the score string
  *
  * @since   1.0.0
- * @return  string
- */
-function cc_aha_calc_cia( $metro_id ) {
+ * @return  string - "healthy", "intermediate" or "poor"
+ */ 
+function cc_aha_section_get_score( $section, $metro_id = null ){
 	if ( ! $metro_id )
 		$metro_id = $_COOKIE['aha_summary_metro_id'];
 
+	switch ( $section ) {
+		case 'comm_tobacco_1':
+			// Clean indoor air
+			$score = cc_aha_calc_cia( $metro_id );
+			break;
+		case 'comm_tobacco_2':
+			// Tobacco excise tax
+			$score = cc_aha_calc_tobacco_excise( $metro_id );
+			break;
+		case 'comm_phys_1':
+			// Complete streets
+			$tiers = array( 'Yes, meets our guidelines', 'Yes, but below our guidelines' );
+			$score = cc_aha_calc_three_text_tiers( $metro_id, '2.3.1.1', $tiers );
+			break;
+		case 'comm_diet_1':
+			// Local gov't procurement
+			$tiers = cc_aha_get_options_for_question( '3.3.1.1' );
+			$score = cc_aha_calc_three_text_tiers( $metro_id, '3.3.1.1', $tiers );
+			break;
+		case 'comm_diet_2':
+			// Sugar-sweetened beverage tax
+			// All are poor; no policies have passed
+			$score = 'poor';
+			break;
+		case 'comm_diet_3':
+			// Healthy food financing
+			// TODO
+			$score = cc_aha_calc_tobacco_excise( $metro_id );
+			break;		
+		case 'school_phys_1':
+			// PE in schools
+			$score = cc_aha_calc_three_tiers( $metro_id, '2.1.4.6' );
+			break;
+		case 'school_phys_2':
+			// Shared use
+			$score = cc_aha_calc_three_tiers( $metro_id, '2.2.5.6' );
+			break;		
+		case 'school_diet_1':
+			// School nutrition policy
+			$score = cc_aha_calc_three_tiers( $metro_id, '3.1.3.6' );
+			break;
+		case 'school_diet_2':
+			// School nutrition implementation
+			$score = cc_aha_calc_three_tiers( $metro_id, '3.2.1.6' );
+			break;
+		case 'school_cpr_1':
+			// CPR grad requirement
+			$score = cc_aha_calc_three_tiers( $metro_id, '5.1.4.6' );
+			break;
+		case 'care_factors_1':
+			// Insurance coverage
+			// TODO
+			$score = 'poor';
+			break;
+		case 'care_acute_1':
+			// CMS penalty
+			// TODO
+			$score = 'poor';
+			break;
+		default:
+			// When in doubt...
+			$score = 'poor';
+			break;
+	}
+	return $score;
+}
+
+function cc_aha_calc_cia( $metro_id ) {
 	$data = cc_aha_get_form_data( $metro_id );
 
 	if ( $data[ '1.1.2.2' ] == 100 && $data[ '1.1.2.3' ] == 100 ) {
@@ -354,7 +421,9 @@ function cc_aha_calc_cia( $metro_id ) {
 		return 'poor';
 	}
 }
-function cc_aha_calc_tobacco_excise( $data ){ 
+function cc_aha_calc_tobacco_excise( $metro_id ){ 
+	$data = cc_aha_get_form_data( $metro_id );
+
 	$total_excise = $data[ '1.2.1.1' ] + $data[ '1.2.2.1' ];
 	if ( $total_excise >= 1.85 ) {
 		return 'healthy';
@@ -364,8 +433,28 @@ function cc_aha_calc_tobacco_excise( $data ){
 		return 'poor';
 	}
 }
+function cc_aha_calc_three_text_tiers( $metro_id, $qid, $tiers ){
+	// This takes an array for the third arg: the first value is the "healthy" value, the second is the "intermediate" value.
+	if ( ! $metro_id )
+		$metro_id = $_COOKIE['aha_summary_metro_id'];
+
+	$data = cc_aha_get_form_data( $metro_id );
+
+	if ( $data[ $qid ] == $tiers[0] ) {
+		return 'healthy';
+	} else if ( $data[ $qid ] == $tiers[1] ) {
+		return 'intermediate';
+	} else {
+		return 'poor';
+	}
+}
 // Generalized to identify 0-49, 50-99 and 100% tiers
-function cc_aha_calc_three_tiers( $data, $qid ) {
+function cc_aha_calc_three_tiers( $metro_id, $qid ) {
+	if ( ! $metro_id )
+		$metro_id = $_COOKIE['aha_summary_metro_id'];
+
+	$data = cc_aha_get_form_data( $metro_id );
+
 	if ( $data[ $qid ] == 100 ) {
 		return 'healthy';
 	} else if ( $data[ $qid ] >= 50 ) {
