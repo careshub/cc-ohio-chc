@@ -425,7 +425,8 @@ function aha_render_text_input( $qid, $data ){
 
 function cc_aha_render_number_input( $qid, $data, $step = 1 ){
 	?>
-	<input type="number" name="<?php echo 'board[' . $qid . ']'; ?>" id="<?php echo $qid; ?>" value="<?php echo $data[ $qid ]; ?>" step="<?php echo $step; ?>"/>
+	<input type="text" name="<?php echo 'board[' . $qid . ']'; ?>" id="<?php echo $qid; ?>" value="<?php echo $data[ $qid ]; ?>"/>
+	<p class="input-helper">Please do not include dollar (&#36;) or percent (&#37;) signs in your answer.</p>
 	<?php
 }
 
@@ -510,7 +511,7 @@ function aha_render_school_text_input( $qid, $district ){
 function cc_aha_render_school_number_input( $qid, $district, $step = 1 ){
 	$qname = 'school[' . $district['DIST_ID'] . '][' . $qid . ']'; 
 	?>
-	<input type="number" name="<?php echo $qname; ?>" id="<?php echo $qname; ?>" value="<?php echo $district[ $qid ]; ?>"  step="<?php echo $step; ?>" />
+	<input type="text" name="<?php echo $qname; ?>" id="<?php echo $qname; ?>" value="<?php echo $district[ $qid ]; ?>" />
 	<?php
 }
 

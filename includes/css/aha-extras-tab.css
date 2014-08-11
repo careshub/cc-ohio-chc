@@ -34,6 +34,11 @@
 .aha-survey .follow-up-question.enabled {
 	display: block;
 }
+.aha-survey .input-helper {
+	font-size: 90%;
+	color: #666;
+	font-style: italic;
+}
 
 /* Summary page styles */
 .progress-dial{

@@ -162,7 +162,7 @@ function cc_aha_update_form_data( ){
 
 		// Strip dollar signs and percent signs from numeric entries
 		if ( in_array( $key, $numeric_inputs ) )
-			$update_board_data[ $key ] = str_replace( array( '$', '%'), '', $value);
+			$update_board_data[ $key ] = str_replace( array( '$', '%', ','), '', $value);
 		
 		//Empty disabled form fields in the db (or those that ARE followups whose followee question option != followup_id of $this)
 		
@@ -224,7 +224,7 @@ function cc_aha_update_form_data( ){
 
 			// Strip dollar signs and percent signs from numeric entries
 			if ( in_array( $key, $numeric_inputs ) )
-				$update_school_dist_data[ $key ] = str_replace( array( '$', '%'), '', $value);
+				$update_school_dist_data[ $key ] = str_replace( array( '$', '%', ','), '', $value);
 				
 				
 			/** Set currently-disabled form fields to NULL in the db update 
