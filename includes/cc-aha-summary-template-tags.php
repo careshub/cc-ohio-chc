@@ -153,9 +153,9 @@ function cc_aha_render_summary_page(){
 	
 	<section id="healthy-diet" class="clear">
 		<?php // Section setup
-			$nutrition_policy_questions = [ '3.1.3.1.0', '3.1.3.1.1', '3.1.3.1.2', '3.1.3.1.3' ];
+			$nutrition_policy_questions = array( '3.1.3.1.0', '3.1.3.1.1', '3.1.3.1.2', '3.1.3.1.3' );
 			$nutrition_policy = cc_aha_calc_n_question_district_yes_tiers( $school_data, $nutrition_policy_questions );
-			$nutrition_imp_questions = [ '3.2.1.1', '3.2.1.2', '3.2.1.3', '3.2.1.4', '3.2.1.5' ];
+			$nutrition_imp_questions = array( '3.2.1.1', '3.2.1.2', '3.2.1.3', '3.2.1.4', '3.2.1.5' );
 			$nutrition_imp = cc_aha_calc_n_question_district_yes_tiers( $school_data, $nutrition_imp_questions );
 		?>
 		<h2 class="screamer">Healthy Diet</h2>
@@ -203,7 +203,7 @@ function cc_aha_render_summary_page(){
 	
 	<section id="chain-of-survival" class="clear">
 		<?php // Section setup
-			$chain_questions = [ '5.1.4.1' ];  //only 5.1.4.1 right now, there is no - 5.1.4.5
+			$chain_questions = array( '5.1.4.1' );  //only 5.1.4.1 right now, there is no - 5.1.4.5
 			$chain_indicator = cc_aha_calc_n_question_district_yes_tiers( $school_data, $chain_questions );
 		?>
 		<h2 class="screamer">CHAIN OF SURVIVAL</h2>

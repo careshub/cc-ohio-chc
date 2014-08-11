@@ -18,26 +18,24 @@
 function cc_aha_form_page_list(){
 	return array(
 	1 => 'Table of Contents',
-	2 => 'Tobacco',
-	3 => 'Complete Streets',
-	4 => 'Local Government Procurement Policy (Vending & Service Contracts)',
-	5 => 'Healthy Food Financing',
-	6 => 'Health Factors - Insurance Coverage',
-	7 => 'Physical Education in Schools',
-	8 => 'Shared Use Policies',
-	9 => 'Shared Use Policies, continued',
-	10 => 'School Nutrition Policies',
-	11 => 'School Nutrition Policies, continued',
-	12 => 'School Nutrition Implementation',
-	13 => 'Chain of Survival - CPR Graduation Requirements',
-	14 => 'Recruit Event Leadership',
-	15 => 'Secure Top ELT Leadership',
-	16 => 'Secure Platform/ Signature Sponsorship',
-	17 => 'Expand Youth Market Efforts - Participating Schools',
-	18 => 'Increase Individual Giving - Individual Giving Prospects',
-	19 => 'Increase Individual Giving - Cor Vitae Recruitment',
-	20 => 'Enhance Donor Stewardship - Donor Retention',
-	21 => 'Membership in the Paul Dudley White Legacy Society - Donor Retention'
+	2 => 'Complete Streets',
+	3 => 'Local Government Procurement Policy (Vending & Service Contracts)',
+	4 => 'Healthy Food Financing',
+	5 => 'Health Factors - Insurance Coverage',
+	6 => 'Quality Physical Education in Schools',
+	7 => 'Shared Use Policies',
+	8 => 'Shared Use Policies, continued',
+	9  => 'School Nutrition Policies',
+	10  => 'School Nutrition Policies, continued',
+	11  => 'Chain of Survival - CPR Graduation Requirements',
+	12  => 'Recruit Event Leadership',
+	13  => 'Secure Top ELT Leadership',
+	14  => 'Secure Platform/Signature Sponsorship',
+	15  => 'Expand Youth Market Efforts - Participating Schools',
+	16  => 'Increase Individual Giving - Individual Giving Prospects',
+	17  => 'Increase Individual Giving - Cor Vitae Recruitment',
+	18  => 'Enhance Donor Stewardship - Donor Retention',
+	19  => 'Membership in the Paul Dudley White Legacy Society - Donor Retention'
 	);
 }
 
@@ -65,7 +63,7 @@ function cc_aha_render_form( $page = null ){
 		<?php
 
 			// Some pages can be auto-built. Others we're going to hand-code.
-			$hand_built = array( 1, 7, 9, 10, 13 );
+			$hand_built = array( 1, 6, 7, 9, 11 );
 			if ( in_array( $page, $hand_built ) ) {
 				$aha_form_function_name = 'cc_aha_handcoded_questions_' . $page;
 				$aha_form_function_name();
@@ -132,10 +130,10 @@ function cc_aha_handcoded_questions_1(){
 				 	case 2:
 				 		echo '<h5>Health Assessment: Community Policies</h5>';
 				 		break;
-				 	case 7:
+				 	case 6:
 				 		echo '<h5>Health Assessment: Top 5 School District Policies</h5>';
 				 		break;
-				 	case 14:
+				 	case 12:
 				 		echo '<h5>Revenue Assessment</h5>';
 				 		break;
 				 	
@@ -153,12 +151,12 @@ function cc_aha_handcoded_questions_1(){
 	<?php
 }
 
-function cc_aha_handcoded_questions_7(){
+function cc_aha_handcoded_questions_6(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 2 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
 
-	<h2><?php cc_aha_print_form_page_header( 7 ); ?></h2>
+	<h2><?php cc_aha_print_form_page_header( 6 ); ?></h2>
 		<?php 
 	if ( $data['2.1.1.1'] && $data['2.1.1.2'] && $data['2.1.1.3'] ) {
 		echo "Your state has enacted state-wide physical education requirements at all levels.";
@@ -189,12 +187,12 @@ function cc_aha_handcoded_questions_7(){
 	}
 }
 
-function cc_aha_handcoded_questions_9(){
+function cc_aha_handcoded_questions_7(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 9 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
 
-	<h2><?php cc_aha_print_form_page_header( 9 ); ?></h2>
+	<h2><?php cc_aha_print_form_page_header( 7 ); ?></h2>
 	<?php
 	foreach ( $school_districts as $district ) {
 		?>
@@ -228,12 +226,12 @@ function cc_aha_handcoded_questions_9(){
 	}
 }
 
-function cc_aha_handcoded_questions_10(){
+function cc_aha_handcoded_questions_9(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 10 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
 
-	<h2><?php cc_aha_print_form_page_header( 10 ); ?></h2>
+	<h2><?php cc_aha_print_form_page_header( 9 ); ?></h2>
 	<?php
 	foreach ( $school_districts as $district ) {
 			// School district stuff will require a different save routine, since they're keyed by district ID.
@@ -266,12 +264,12 @@ function cc_aha_handcoded_questions_10(){
 	//aha_render_checkbox_input( '3.1.4', $data);
 }
 
-function cc_aha_handcoded_questions_13(){
+function cc_aha_handcoded_questions_11(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 2 );
-	$questions = cc_aha_get_form_questions( 13 );
+	$questions = cc_aha_get_form_questions( 11 );
 	?>
 
-	<h2><?php cc_aha_print_form_page_header( 13 ); ?></h2>
+	<h2><?php cc_aha_print_form_page_header( 11 ); ?></h2>
 	<?php 
 	if ( $data['5.1.1'] ) {
 		echo "Your state has CPR graduation requirements in place.";
