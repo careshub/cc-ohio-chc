@@ -65,6 +65,9 @@ function cc_aha_get_slug(){
 function cc_aha_get_survey_slug(){
     return 'survey';
 }
+function cc_aha_get_quick_survey_summary_slug(){
+    return 'quick-summary';
+}
 function cc_aha_get_analysis_slug(){
     return 'analysis';
 }
@@ -112,6 +115,13 @@ function cc_aha_on_survey_screen(){
 }
 function cc_aha_on_analysis_screen(){
    if ( cc_aha_is_component() && bp_is_action_variable( cc_aha_get_analysis_slug(), 0 ) ){
+        return true;
+    } else {
+        return false;
+    }
+}
+function cc_aha_on_survey_quick_summary_screen(){
+    if ( cc_aha_is_component() && bp_is_action_variable( cc_aha_get_quick_survey_summary_slug(), 0 ) ){
         return true;
     } else {
         return false;

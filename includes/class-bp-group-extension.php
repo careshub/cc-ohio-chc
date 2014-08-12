@@ -53,6 +53,8 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
             // Get the right summary page to display.
             cc_aha_render_summary_page();
             
+        } else if ( cc_aha_on_survey_quick_summary_screen() ) {
+            cc_aha_render_all_questions_and_answers();
         }
     }
 

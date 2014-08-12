@@ -76,6 +76,7 @@ function cc_aha_render_form( $page = null ){
 		<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
 		<div class="form-navigation clear">
 		<?php if ( $page == 1 ) : ?>
+			<a href="<?php echo cc_aha_get_home_permalink() . cc_aha_get_quick_survey_summary_slug(); ?>" class="button alignleft">View Quick Summary of Responses</a>
 			<a href="<?php echo cc_aha_get_survey_permalink(2); ?>" class="begin-survey button alignright">Begin Survey</a>
 		<?php else: ?>
 			<div class="submit toc alignleft">
@@ -569,4 +570,105 @@ function cc_aha_question_has_follow_up( $options ){
 		}
 	}
 	return $has_follow_up;
+}
+
+function cc_aha_render_all_questions_and_answers( $metro_id = null ) {
+	// Get all of the questions.
+	$questions = cc_aha_get_all_form_questions();
+
+	// Get all of the answers for this metro_id.
+	if ( ! $metro_id )
+		$metro_id = $_COOKIE['aha_active_metro_id'];
+
+	$data = cc_aha_get_form_data( $metro_id );
+
+	date_default_timezone_set("America/Chicago");
+	echo '<h3>Responses for ' . $data[ 'Board_Name' ] . ' | ' . date( "F j, Y, g:i a T" ) . '</h3>';
+
+	// Get the school data for this metro_id.
+	$school_data = cc_aha_get_school_data( $metro_id );
+
+	foreach ($questions as $question) {
+
+		if ( $question[ 'loop_schools' ] ){
+			echo '<p>' . str_replace('%%district_name%%', '(list follows)', $question[ 'label' ]) . '<br />';
+
+			$options = array();
+			if ( in_array( $question[ 'type' ], array( 'radio', 'checkboxes' ) ) )
+				$options = cc_aha_get_options_for_question( $question[ 'QID' ] );
+
+			foreach ($school_data as $school) {
+				$response = $school[ $question[ 'QID' ] ];
+				if ( is_null( $response ) || strlen( trim( $response ) ) == 0 ) {
+					echo $school[ 'DIST_NAME' ] . ': ' . 'Not answered.' . '<br />';
+				} else {
+					// Display the option's human-readable label, if there 
+					if ( ! empty( $options ) ) {
+						if ( $question[ 'type' ] == 'radio' ) {
+
+							foreach ($options as $option) {
+								if ( $option[ 'value' ] == $response ){
+									echo $school[ 'DIST_NAME' ] . ': ' . $option[ 'label' ] . '<br />';
+									break; // Once we have a match, we can stop.
+								}
+							}
+						} else {
+							// must be checkboxes
+							$response_array = array_keys( maybe_unserialize( $response ) );
+							$selected_options = array();
+
+							foreach ($options as $option) {
+								if ( in_array( $option[ 'value' ], $response_array ) ){
+									$selected_options[] = $option[ 'label' ];
+								}
+							}
+							echo implode('<br /> ', $selected_options);
+						}
+					} else {
+						echo $school[ 'DIST_NAME' ] . ': ' . $response . '<br />';
+					}
+				}
+			}
+			echo '</p>';
+
+		} else {
+			echo '<p>' . $question[ 'label' ] . '<br />';
+
+			$response = $data[ $question[ 'QID' ] ];
+			if ( is_null( $response )  || strlen( trim( $response ) ) == 0 ) {
+				echo "Not answered.";
+			} else {
+				// Display the option's human-readable label
+				$options = array();
+				if ( in_array( $question[ 'type' ], array( 'radio', 'checkboxes' ) ) )
+					$options = cc_aha_get_options_for_question( $question[ 'QID' ] );
+
+				if ( ! empty( $options ) ) {
+					if ( $question[ 'type' ] == 'radio' ) {
+						foreach ($options as $option) {
+							if ( $option[ 'value' ] == $response ){
+								echo $option[ 'label' ] . '</p>';
+								break; // Once we have a match, we can stop.
+							}
+						}
+					} else {
+						// must be checkboxes
+						$response_array = array_keys( maybe_unserialize( $response ) );
+						$selected_options = array();
+
+						foreach ($options as $option) {
+							if ( in_array( $option[ 'value' ], $response_array ) ){
+								$selected_options[] = $option[ 'label' ];
+							}
+						}
+						echo implode('<br /> ', $selected_options);
+					}
+				} else {
+					echo $response . '</p>';
+				}
+			}
+		}
+
+	}
+
 }

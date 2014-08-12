@@ -327,6 +327,28 @@ function cc_aha_get_form_questions( $page = 1 ){
 }
 
 /**
+ * Returns array of arrays of all questions that should appear on form.
+ * Questions with a page of 0 shouldn't appear on the form
+ *
+ * @since    1.0.0
+ * @return 	array of arrays
+ */
+function cc_aha_get_all_form_questions(){
+	global $wpdb;
+	
+	$questions = $wpdb->get_results( 
+		"
+		SELECT * 
+		FROM $wpdb->aha_assessment_questions
+		WHERE page != 0
+		",
+		ARRAY_A
+	);
+
+	return $questions;
+}
+
+/**
  * Returns single question info.
  *
  * @since    1.0.0
