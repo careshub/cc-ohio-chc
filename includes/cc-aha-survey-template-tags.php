@@ -199,6 +199,7 @@ function cc_aha_handcoded_questions_7(){
 		<fieldset class="spacious">
 			<legend><h4><?php cc_aha_print_school_question_text( '2.2.5.1', $district ); ?></h4></legend>
 			<?php aha_render_school_radio_group( '2.2.5.1', $district ); ?>
+		</fieldset>
 
 			<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID']; ?>-2.2.5.1.1">
 				<fieldset>
@@ -206,13 +207,14 @@ function cc_aha_handcoded_questions_7(){
 					<?php
 						aha_render_school_radio_group( '2.2.5.1.1', $district );
 					?>
-					<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID']; ?>-2.2.5.1.1.1">
-						<label><?php
-							cc_aha_print_school_question_text( '2.2.5.1.1.1', $district );
-							aha_render_school_textarea_input( '2.2.5.1.1.1', $district );
-							?></label>
-					</div>
 				</fieldset>
+			</div>
+
+			<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID']; ?>-2.2.5.1.1.1">
+				<label><?php
+					cc_aha_print_school_question_text( '2.2.5.1.1.1', $district );
+					aha_render_school_textarea_input( '2.2.5.1.1.1', $district );
+					?></label>
 			</div>
 
 			<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID']; ?>-2.2.5.1.3">
@@ -221,7 +223,7 @@ function cc_aha_handcoded_questions_7(){
 				aha_render_school_text_input( '2.2.5.1.3', $district );
 				?></label>
 			</div>
-		</fieldset>
+
 		<?php
 	}
 }
@@ -239,8 +241,10 @@ function cc_aha_handcoded_questions_9(){
 			<fieldset class="spacious">
 				<legend><h4><?php cc_aha_print_school_question_text( '3.1.3.1.0', $district ); ?></h4></legend>
 				<?php aha_render_school_radio_group( '3.1.3.1.0', $district ); ?>
+			</fieldset>
 
-				<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID'] . '-3.1.3.1.x'; ?>">
+			<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID'] . '-3.1.3.1.x'; ?>">
+				<fieldset>
 					<label><?php 
 					cc_aha_print_school_question_text( '3.1.3.1.1', $district );
 					aha_render_school_boolean_radios( '3.1.3.1.1', $district ); 
@@ -257,8 +261,8 @@ function cc_aha_handcoded_questions_9(){
 					cc_aha_print_school_question_text( '3.1.3.1.4', $district );
 					aha_render_school_text_input( '3.1.3.1.4', $district );
 					?></label>
-				</div>
-			</fieldset>
+				</fieldset>
+			</div>
 			<?php
 		}
 	//aha_render_checkbox_input( '3.1.4', $data);
@@ -290,12 +294,12 @@ function cc_aha_render_question( $question, $data ){
 	switch ( trim( $question[ 'type' ] ) ) {
 		case 'text':
 		?>
-			<label for="<?php echo $question[ 'QID' ]; ?>"><?php echo $question[ 'label' ]; ?></label>
+			<label for="<?php echo $question[ 'QID' ]; ?>"><h4><?php echo $question[ 'label' ]; ?></h4></label>
 			<?php aha_render_text_input( $question[ 'QID' ], $data );
 			break;
 		case 'number':
 		?>
-			<label for="<?php echo $question[ 'QID' ]; ?>"><?php echo $question[ 'label' ]; ?></label>
+			<label for="<?php echo $question[ 'QID' ]; ?>"><h4><?php echo $question[ 'label' ]; ?></h4></label>
 			<?php cc_aha_render_number_input( $question[ 'QID' ], $data, .01 );
 			break;
 		case 'radio':
@@ -307,7 +311,7 @@ function cc_aha_render_question( $question, $data ){
 			break;
 		case 'textarea':
 		?>	<fieldset>
-				<label for="<?php echo $question[ 'QID' ]; ?>"><?php echo $question[ 'label' ]; ?></label>
+				<label for="<?php echo $question[ 'QID' ]; ?>"><h4><?php echo $question[ 'label' ]; ?></h4></label>
 				<?php aha_render_textarea_input( $question[ 'QID' ], $data ); ?>
 			</fieldset>
 			<?php
@@ -348,12 +352,12 @@ function cc_aha_render_school_question( $question, $data ){
 		switch ( trim( $question[ 'type' ] ) ) {
 			case 'text':
 			?>
-				<label for="<?php echo $qname; ?>"><?php cc_aha_print_school_question_text( $question[ 'QID' ], $district ); ?></label>
+				<label for="<?php echo $qname; ?>"><h4><?php cc_aha_print_school_question_text( $question[ 'QID' ], $district ); ?></h4></label>
 				<?php aha_render_school_text_input( $question[ 'QID' ], $district );
 				break;
 			case 'number':
 			?>
-				<label for="<?php echo $qname; ?>"><?php cc_aha_print_school_question_text( $question[ 'QID' ], $district ); ?></label>
+				<label for="<?php echo $qname; ?>"><h4><?php cc_aha_print_school_question_text( $question[ 'QID' ], $district ); ?></h4></label>
 				<?php cc_aha_render_school_number_input( $question[ 'QID' ], $district, .01 );
 				break;
 			case 'radio':
@@ -365,7 +369,7 @@ function cc_aha_render_school_question( $question, $data ){
 				break;
 			case 'textarea':
 			?>	<fieldset>
-					<label for="<?php echo $qname; ?>"><?php cc_aha_print_school_question_text( $question[ 'QID' ], $district ); ?></label>
+					<label for="<?php echo $qname; ?>"><h4><?php cc_aha_print_school_question_text( $question[ 'QID' ], $district ); ?></h4></label>
 					<?php aha_render_school_textarea_input( $question[ 'QID' ],  $district ); ?>
 				</fieldset>
 				<?php
@@ -512,6 +516,7 @@ function cc_aha_render_school_number_input( $qid, $district, $step = 1 ){
 	$qname = 'school[' . $district['DIST_ID'] . '][' . $qid . ']'; 
 	?>
 	<input type="text" name="<?php echo $qname; ?>" id="<?php echo $qname; ?>" value="<?php echo $district[ $qid ]; ?>" />
+	<p class="input-helper">Please do not include dollar (&#36;) or percent (&#37;) signs in your answer.</p>
 	<?php
 }
 

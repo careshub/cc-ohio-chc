@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.14)
 # Database: commonsdev
-# Generation Time: 2014-08-05 21:44:22 +0000
+# Generation Time: 2014-08-12 14:38:33 +0000
 # ************************************************************
 
 
@@ -33,41 +33,63 @@ CREATE TABLE `wp_aha_assessment_questions` (
   `label` text,
   `loop_schools` tinyint(1) DEFAULT NULL,
   `follows_up` tinytext,
+  `summary_section` tinytext,
+  `summary_label` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `wp_aha_assessment_questions` WRITE;
 /*!40000 ALTER TABLE `wp_aha_assessment_questions` DISABLE KEYS */;
 
-INSERT INTO `wp_aha_assessment_questions` (`id`, `page`, `QID`, `type`, `label`, `loop_schools`, `follows_up`)
+INSERT INTO `wp_aha_assessment_questions` (`id`, `page`, `QID`, `type`, `label`, `loop_schools`, `follows_up`, `summary_section`, `summary_label`)
 VALUES
-	(1,2,'1.2.2.1','number','If your community has a local tobacco excise tax, what is the tax rate? If none, enter 0.',0,'0'),
-	(2,3,'2.1.4.1.1','radio','In school district %%district_name%%, do schools meet our PE requirements?',1,'0'),
-	(3,4,'2.2.2.1','radio','Does the state provide promotion, incentives, technical assistance or other resources to schools to encourage shared use?',0,'0'),
-	(4,4,'2.2.2.2','textarea','Please describe:',0,'2.2.2.1'),
-	(5,4,'2.2.4.1','radio','Given the current political/policy environment, where can this local board most likely help drive impact relative to shared use policies?',0,'0'),
-	(6,5,'2.2.5.1','radio','In school district %%district_name%%, is there a district-wide policy and/or guidance in place for shared use of school facilities?',1,'0'),
-	(7,5,'2.2.5.1.1','radio','What rationale was provided for not having a district-wide shared use policy?',1,'2.2.5.1'),
-	(8,5,'2.2.5.1.1.1','text','If other, please describe:',1,'2.2.5.1.2'),
-	(9,5,'2.2.5.1.3','text','If available, please provide a URL for the district shared use policy: ',1,'2.2.5.1'),
-	(10,6,'2.3.2.1','radio','Is there a state, regional or local complete streets policy under consideration?',0,'0'),
-	(11,6,'2.3.2.2','text','Who is leading this effort?',0,'2.3.2.1'),
-	(12,6,'2.3.3','radio','Given the current political/policy environment, where do you envision complete streets public policy change most likely occurring/most activity taking place?',0,'0'),
-	(13,7,'3.1.3.1.0','radio','In district %%district_name%%, is there a documented and publicly available district wellness policy in place?',1,'0'),
-	(14,7,'3.1.3.1.1','radio','Does the policy meet the criteria related to school meals?',1,'3.1.3.1.0'),
-	(15,7,'3.1.3.1.2','radio','Does the policy meet the criteria related to smart snacks?',1,'3.1.3.1.0'),
-	(16,7,'3.1.3.1.3','radio','Does the policy meet the criteria related to before/after school offering?',1,'3.1.3.1.0'),
-	(17,7,'3.1.3.1.4','text','Please provide the URL to the district\'s wellness policy. ',1,'3.1.3.1.0'),
-	(18,8,'3.1.4','checkboxes','Would you recommend that the local board take action in any of these areas?',0,'0'),
-	(19,9,'3.2.1.1','radio','Is district %%district_name%% compliant with the School Meals Nutrition regulations?  ',1,'0'),
-	(20,9,'3.2.2','radio','Are there impactful opportunities for the local board to help school districts implement School Meals Nutrition regulations?',0,'0'),
-	(21,10,'3.3.3.1','radio','Are there local vending and/or service policies in place?',0,'0'),
-	(22,10,'3.3.3.2','textarea','Please list which cities or counties.',0,'3.3.3.1'),
-	(23,10,'3.3.4','radio','Given the current political/policy environment, where do you envision food and beverage vending and/or procurement service policy change most likely occurring/most activity taking place?',0,'0'),
-	(24,11,'3.5.2','radio','Is your state or community pursuing an appropriation to establish or supplement a HFFI program?',0,'0'),
-	(25,11,'3.5.4','radio','Given the current political/policy environment, where do you envision Healthy Food Financing public policy change most likely occurring/most activity taking place?',0,'0'),
-	(26,12,'4.1.4','radio','Would you recommend the local board adopt this as a priority issue?',0,'0'),
-	(27,13,'5.1.4.1','radio','For %%district_name%%, is CPR training meeting AHA criteria a graduation requirement?',1,'0');
+	(1,0,'1.2.2.1','number','If your community has a local tobacco excise tax, what is the tax rate? If none, enter 0.',0,'0','comm_tobacco_2',NULL),
+	(2,6,'2.1.4.1.1','radio','In school district %%district_name%%, do schools meet our PE requirements?',1,'0','school_phys_1',NULL),
+	(3,8,'2.2.2.1','radio','Does the state provide promotion, incentives, technical assistance or other resources to schools to encourage shared use?',0,'0','school_phys_2',NULL),
+	(4,8,'2.2.2.2','textarea','Please describe:',0,'2.2.2.1',NULL,NULL),
+	(5,8,'2.2.4.1','radio','Given the current political/policy environment, where can this local board most likely help drive impact relative to shared use policies?',0,'0',NULL,NULL),
+	(6,7,'2.2.5.1','radio','In school district %%district_name%%, is there a district-wide policy and/or guidance in place for shared use of school facilities?',1,'0',NULL,NULL),
+	(7,7,'2.2.5.1.1','radio','What rationale was provided for not having a district-wide shared use policy?',1,'2.2.5.1',NULL,NULL),
+	(8,7,'2.2.5.1.1.1','text','If other, please describe:',1,'2.2.5.1.1',NULL,NULL),
+	(9,7,'2.2.5.1.3','text','If available, please provide a URL for the district shared use policy: ',1,'2.2.5.1',NULL,NULL),
+	(10,2,'2.3.2.1','radio','Is there a state, regional or local complete streets policy under consideration?',0,'0',NULL,NULL),
+	(11,2,'2.3.2.2','text','Who is leading this effort?',0,'2.3.2.1',NULL,NULL),
+	(12,2,'2.3.3','radio','Given the current political/policy environment, where do you envision complete streets public policy change most likely occurring/most activity taking place?',0,'0',NULL,NULL),
+	(13,9,'3.1.3.1.0','radio','In district %%district_name%%, is there a documented and publicly available district wellness policy in place?',1,'0',NULL,NULL),
+	(14,9,'3.1.3.1.1','radio','Does the policy meet the criteria related to school meals?',1,'3.1.3.1.0',NULL,NULL),
+	(15,9,'3.1.3.1.2','radio','Does the policy meet the criteria related to smart snacks?',1,'3.1.3.1.0',NULL,NULL),
+	(16,9,'3.1.3.1.3','radio','Does the policy meet the criteria related to before/after school offering?',1,'3.1.3.1.0',NULL,NULL),
+	(17,9,'3.1.3.1.4','text','Please provide the URL to the district\'s wellness policy. ',1,'3.1.3.1.0',NULL,NULL),
+	(18,10,'3.1.4','checkboxes','Would you recommend that the local board take action in any of these areas?',0,'0',NULL,NULL),
+	(19,0,'3.2.1.1','radio','Is district %%district_name%% compliant with the School Meals Nutrition regulations?  ',1,'0',NULL,NULL),
+	(20,0,'3.2.2','radio','Are there impactful opportunities for the local board to help school districts implement School Meals Nutrition regulations?',0,'0',NULL,NULL),
+	(21,3,'3.3.3.1','radio','Are there local vending and/or service policies in place?',0,'0',NULL,NULL),
+	(22,3,'3.3.3.2','textarea','Please list which cities or counties.',0,'3.3.3.1',NULL,NULL),
+	(23,3,'3.3.4','radio','Given the current political/policy environment, where do you envision food and beverage vending and/or procurement service policy change most likely occurring/most activity taking place?',0,'0',NULL,NULL),
+	(24,4,'3.5.2','radio','Is your state or community pursuing an appropriation to establish or supplement a Healthy Food Financing Initiative program?',0,'0',NULL,NULL),
+	(25,4,'3.5.4','radio','Given the current political/policy environment, where do you envision Healthy Food Financing public policy change most likely occurring/most activity taking place?',0,'0',NULL,NULL),
+	(26,5,'4.1.4','radio','Would you recommend the local board adopt this as a priority issue?',0,'0',NULL,NULL),
+	(27,11,'5.1.4.1','radio','For %%district_name%%, is CPR training meeting AHA criteria a graduation requirement?',1,'0',NULL,NULL),
+	(28,12,'7.1.1','radio','Do you have all your event chairs for FY 14-15?',0,'0',NULL,NULL),
+	(29,12,'7.1.2','textarea','List unfilled event chairs',0,'7.1.1',NULL,NULL),
+	(30,12,'7.1.2.1','radio','In 2014-2015 have ALL Event Chairs given at the Top 2 levels for Go Red?',0,'0',NULL,NULL),
+	(31,12,'7.1.2.2','radio','In 2014-2015 have ALL Event Chairs given at the Top 2 levels for Heart Ball?',0,'0',NULL,NULL),
+	(32,12,'7.1.2.3','radio','In 2014-2015 have ALL Event Chairs given at the Top 2 levels for Heart Walk?',0,'0',NULL,NULL),
+	(33,13,'8.1.2','radio','Do you have all the industries represented? (Accounting, Banking, Energy, Cable, Healthcare, Media, Lawyers, Manufacturing, Real Estate, etc.)',0,'0',NULL,NULL),
+	(35,13,'8.1.5','number','How many ELT members are giving no corporate gift?',0,'0',NULL,NULL),
+	(36,14,'9.4','textarea','Which companies in your community place a focus on corporate social responsibility?',0,'0',NULL,NULL),
+	(37,15,'11.1.1','radio','Do we currently have Superintendents’ support within %%district_name%% covered by this board? ',1,'0',NULL,NULL),
+	(38,15,'11.1.2','number','How much does %%district_name%% raise?',1,'0',NULL,NULL),
+	(40,16,'12.1.2','text','How many $100k donors do we have in the pipeline?',0,'0',NULL,NULL),
+	(41,17,'12.2.1','number','What percentage of board members are currently a Cor Vitae member?',0,'0',NULL,NULL),
+	(42,17,'12.2.2','number','How many Cor Vitae members are in your market?',0,'0',NULL,NULL),
+	(43,17,'12.2.3','textarea','How are you retaining your Cor Vitae members?',0,'0',NULL,NULL),
+	(44,18,'13.1.2','textarea','How are you acknowledging these donors?',0,'0',NULL,NULL),
+	(45,18,'13.1.3','radio','Do you have a current list of stewardship events in your market?',0,'0',NULL,NULL),
+	(46,18,'13.1.6','radio','Are you following cultivation plan?',0,'0',NULL,NULL),
+	(47,19,'14.1.1','radio','Does your board have knowledge of the Paul Dudley White Legacy Society program?',0,'0',NULL,NULL),
+	(48,19,'14.1.2','radio','Does your market have a Paul Dudley White Legacy Society Champion connected to the board and/or a board member?',0,'0',NULL,NULL),
+	(49,19,'14.1.3','number','What percentage of board members are currently Paul Dudley White Legacy Society?',0,'0',NULL,NULL);
 
 /*!40000 ALTER TABLE `wp_aha_assessment_questions` ENABLE KEYS */;
 UNLOCK TABLES;

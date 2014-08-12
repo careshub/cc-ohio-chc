@@ -28,6 +28,7 @@
 /*Handling showing/hiding "related" questions*/
 .aha-survey .follow-up-question {
 	display: none;
+	margin-top: -3em;
 	padding: .5em 1.5em;
 	/*background-color: #FFFFEA; /*#fef4dd;*/*/
 }
