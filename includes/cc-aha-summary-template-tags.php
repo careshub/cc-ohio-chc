@@ -32,6 +32,24 @@ function cc_aha_render_summary_page(){
 	$yellow = '#FCA93C';
 
 
+	$metroid = $data['BOARD_ID'];
+	
+	//MB added JSON service to get FIPS using selected metro id.
+		$response = wp_remote_get( 'http://maps.communitycommons.org/api/service.svc/json/AHAfips/?metroid=' . $metroid );
+
+	//default fips if JSON response fails.	
+	 $fips = '05000US17143';
+	
+	//read JSON response
+	 if( is_array( $response ) ) {
+			$r = wp_remote_retrieve_body( $response );
+			$output = json_decode( $r, true );
+			//var_dump($output);
+			$fips = $output['getAHAfipsResult'][0]['fips'];
+				
+		} 	
+	
+	
 	?>
 	<div id="summary-navigation">
 		<ul class="horizontal no-bullets">
@@ -50,10 +68,10 @@ function cc_aha_render_summary_page(){
 		<div class="content-row">
 			<div class="half-block">
 				<?php //TODO: What kind of GeoID should be used to draw these gauges? ?>
-				<script src='http://maps.communitycommons.org/jscripts/dialWidget.js?geoid=05000US17143&id=305'></script>
+				<script src='http://maps.communitycommons.org/jscripts/dialWidget.js?geoid=<?php echo $fips; ?>&id=305'></script>
 			</div>
 			<div class="half-block">
-				<script src='http://maps.communitycommons.org/jscripts/dialWidget.js?geoid=05000US17143&id=354'></script>	
+				<script src='http://maps.communitycommons.org/jscripts/dialWidget.js?geoid=<?php echo $fips; ?>&id=354'></script>	
 			</div>
 		</div>
 
