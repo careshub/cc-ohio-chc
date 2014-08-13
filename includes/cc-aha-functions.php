@@ -92,6 +92,28 @@ function cc_aha_get_analysis_permalink( $group_id = false ) {
 }
 
 /**
+ * Can this user fill out the assessment and such?
+ * 
+ * @return boolean
+ */
+function cc_aha_user_can_do_assessment(){
+    // Only members who have an "@heart.org" email address (and site admins) are allowed to fill out the assessment 
+    if ( ! is_user_logged_in() ) {
+        return false;
+    } else if ( current_user_can( 'delete_others_posts' ) ) {
+        return true;
+    } else {
+        $current_user = wp_get_current_user();
+        $email_parts = explode('@', $current_user->user_email);
+        if ( $email_parts[1] == 'heart.org' ) {
+            return true;
+        } 
+    }
+    // If none of the above fired...
+    return false;
+}
+
+/**
  * Where are we?
  * Checks for the various screens
  *

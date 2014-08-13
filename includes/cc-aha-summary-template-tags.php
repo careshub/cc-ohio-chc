@@ -19,6 +19,12 @@ function cc_aha_render_summary_page(){
 	if ( ! $metro_id = $_COOKIE['aha_summary_metro_id'] )
 		return false;
 
+	// TODO: This must be removed before the summaries are made public.
+	if ( ! cc_aha_user_can_do_assessment() ) {
+		echo '<p class="info">Sorry, you do not have permission to view this page.</p>';
+		return;
+	}
+
 	// Get the data for this metro ID
 	$data = cc_aha_get_form_data( $metro_id );
 	$school_data = cc_aha_get_school_data( $metro_id );

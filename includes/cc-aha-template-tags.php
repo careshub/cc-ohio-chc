@@ -159,9 +159,7 @@ function cc_aha_get_metro_id_list(){
  */
 function cc_aha_render_tab_subnav(){
 
-        // Only members who have an "@heart.org" email address (and site admins) are allowed to fill out the assessment 
-        $current_user = wp_get_current_user();
-        $email_parts = explode('@', $current_user->user_email);
+
         ?>
         <div id="subnav" class="item-list-tabs no-ajax">
             <ul class="nav-tabs">
@@ -169,15 +167,17 @@ function cc_aha_render_tab_subnav(){
                     <a href="<?php echo cc_aha_get_home_permalink(); ?>">Introduction</a>
                 </li>
                 <?php
-                if ( current_user_can( 'delete_others_posts' ) || $email_parts[1] == 'heart.org' ) :
+                if ( cc_aha_user_can_do_assessment() ) :
                     ?>
                     <li <?php if ( cc_aha_on_survey_screen() ) { echo 'class="current"'; } ?>>
                         <a href="<?php echo cc_aha_get_survey_permalink(); ?>">Assessment</a>
                     </li>
                 <?php endif; ?>
+                <?php /* TODO: Unhide this when we want summaries to be publicly accessible ?>
                 <li <?php if ( cc_aha_on_analysis_screen() ) { echo 'class="current"'; } ?>>
                     <a href="<?php echo cc_aha_get_analysis_permalink(); ?>">View Report</a>
                 </li>
+                <?php */ ?>
             </ul>
         </div>
         <?php

@@ -573,6 +573,11 @@ function cc_aha_question_has_follow_up( $options ){
 }
 
 function cc_aha_render_all_questions_and_answers( $metro_id = null ) {
+	if ( ! cc_aha_user_can_do_assessment() ) {
+		echo '<p class="info">Sorry, you do not have permission to view this page.</p>';
+		return;
+	}
+
 	// Get all of the questions.
 	$questions = cc_aha_get_all_form_questions();
 

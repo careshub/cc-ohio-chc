@@ -41,10 +41,14 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
 
         } else if ( cc_aha_on_survey_screen() ) {
 
-            // We'll store the "active" metro id in a cookie for persistence.
-            cc_aha_metro_id_cookie_selector();
-            // Get the right page of the form to display. bp_action_variable(1) is the page number
-            cc_aha_render_form( bp_action_variable(1) );
+                if ( ! cc_aha_user_can_do_assessment() ) {
+                    echo '<p class="info">Sorry, you do not have permission to view this page.</p>';
+                } else {
+                    // We'll store the "active" metro id in a cookie for persistence.
+                    cc_aha_metro_id_cookie_selector();
+                    // Get the right page of the form to display. bp_action_variable(1) is the page number
+                    cc_aha_render_form( bp_action_variable(1) );
+                }
 
         } else if ( cc_aha_on_analysis_screen() ) {
 
