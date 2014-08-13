@@ -86,13 +86,18 @@ class CC_AHA_Extras {
 		// add_action('bp_group_request_membership_content', array( $this, 'print_grantee_list' ) );
 		// add_filter( 'groups_member_comments_before_save', array( $this, 'append_grantee_comment' ), 25, 2 );
 
-		// Registration form additions
-		add_action( 'bp_before_registration_submit_buttons', array( $this, 'registration_section_output' ), 60 );
-		add_action( 'bp_core_signup_user', array( $this, 'registration_extras_processing'), 1, 71 );
 		// Add "aha" as an interest if the registration originates from an AHA page
 		// Filters array provided by registration_form_interest_query_string
 		// @returns array with new element (or not)
 		add_filter( 'registration_form_interest_query_string', array( $this, 'add_registration_interest_parameter' ), 12, 1 );
+
+		// Registration form additions - These all rely on ?aha=1 being appended to the register url.
+		add_action( 'bp_before_account_details_fields', array( $this, 'registration_form_intro_text' ), 60 );
+		add_action( 'bp_before_registration_submit_buttons', array( $this, 'registration_section_output' ), 60 );
+		add_action( 'bp_core_signup_user', array( $this, 'registration_extras_processing'), 1, 71 );
+		// BuddyPress redirects logged-in users away fromm the registration page. Catch that request and redirect requests that include the AHA parameter to the AHA group.
+        add_filter( 'bp_loggedin_register_page_redirect_to', array( $this, 'loggedin_register_page_redirect_to' ) );
+
 
         add_filter( 'group_reports_create_new_label', array( $this, 'change_group_create_report_label' ), 2, 12 );
 
@@ -328,6 +333,18 @@ class CC_AHA_Extras {
 	}
 
 	// Registration form additions
+	function registration_form_intro_text() {
+	  if ( isset( $_GET['aha'] ) && $_GET['aha'] ) :
+	  ?>
+	    <p class="">
+		  If you are already a Community Commons member, simply visit the <a href="<?php 
+    		echo bp_get_group_permalink( groups_get_group( array( 'group_id' => cc_aha_get_group_id() ) ) );
+    	?>">American Heart Assocation group</a> to get started. 
+	    </p>
+	    <?php
+	    endif;
+	}
+
 	function registration_section_output() {
 	  if ( isset( $_GET['aha'] ) && $_GET['aha'] ) :
 	  ?>
@@ -355,6 +372,14 @@ class CC_AHA_Extras {
 	    </div>
 	    <?php
 	    endif;
+	}
+
+	function loggedin_register_page_redirect_to( $redirect_to ) {
+	  	if ( isset( $_GET['aha'] ) && $_GET['aha'] ) {
+	  		$redirect_to = bp_get_group_permalink( groups_get_group( array( 'group_id' => cc_aha_get_group_id() ) ) );
+	  	}
+
+	  	return $redirect_to;
 	}
 
 	/**
