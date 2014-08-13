@@ -51,9 +51,12 @@ function cc_aha_get_form_data( $metro_id, $page = 1 ){
 		$metro_id )
 		, ARRAY_A
 	);
-	
-	// get_results returns a multi-dimensional array, we just want the first array
-	return current( $form_rows );
+
+	// Grab the first array only
+	$row = current( $form_rows );
+
+	// Process the data to remove escape characters and return
+	return array_map( 'stripslashes', $row );
 }
 
 /**
