@@ -43,16 +43,14 @@ function cc_aha_render_summary_page(){
 	//MB added JSON service to get FIPS using selected metro id.
 		$response = wp_remote_get( 'http://maps.communitycommons.org/api/service.svc/json/AHAfips/?metroid=' . $metroid );
 
-	//default fips if JSON response fails.	
-	 $fips = '05000US17143';
-	
 	//read JSON response
 	 if( is_array( $response ) ) {
 			$r = wp_remote_retrieve_body( $response );
 			$output = json_decode( $r, true );
 			//var_dump($output);
 			$fips = $output['getAHAfipsResult'][0]['fips'];
-				
+			$cleanedfips = str_replace('05000US','',$fips);	
+			
 		} 	
 	
 	
@@ -63,7 +61,13 @@ function cc_aha_render_summary_page(){
 			<li><a href="#physical-activity" class="tab-select">Physical Activity</a></li>
 			<li><a href="#healthy-diet" class="tab-select">Healthy Diet</a></li>
 			<li><a href="#chain-of-survival" class="tab-select">Chain of Survival</a></li>
-			<li class="alignright"><a href="http://staging.maps.communitycommons.org/CHNA/SelectArea.aspx?reporttype=AHA" target="_blank" class="button">View Data Report</a>&emsp;</li>
+			<li class="alignright">
+			<?php if (!empty($cleanedfips)) { ?>
+				<a href="http://assessment.communitycommons.org/CHNA/OpenReport.aspx?reporttype=AHA&areatype=county&areaid=<?php echo $cleanedfips; ?>" target="_blank" class="button">View Data Report</a>
+			<?php } else { ?>	
+				<a href="http://assessment.communitycommons.org/CHNA/selectarea.aspx?reporttype=AHA " target="_blank" class="button">View Data Report</a>				
+			<?php } ?>	
+				&emsp;</li>
 		</ul>
 		<!-- <input type="button" class="button" value="Print Summary" /> -->
 	</div>
@@ -73,11 +77,18 @@ function cc_aha_render_summary_page(){
 		<h3>How we fit in to the bigger picture</h3>
 		<div class="content-row">
 			<div class="half-block">
-				<?php //TODO: What kind of GeoID should be used to draw these gauges? ?>
-				<script src='http://maps.communitycommons.org/jscripts/dialWidget.js?geoid=<?php echo $fips; ?>&id=305'></script>
+				<?php if (!empty($fips)) { ?>
+					<script src='http://maps.communitycommons.org/jscripts/dialWidget.js?geoid=<?php echo $fips; ?>&id=305'></script>
+				<?php } else { ?>
+					Graphs need a board affiliation selected in order to render properly.
+				<?php } ?>
 			</div>
 			<div class="half-block">
-				<script src='http://maps.communitycommons.org/jscripts/dialWidget.js?geoid=<?php echo $fips; ?>&id=354'></script>	
+				<?php if (!empty($fips)) { ?>
+					<script src='http://maps.communitycommons.org/jscripts/dialWidget.js?geoid=<?php echo $fips; ?>&id=354'></script>
+				<?php } else { ?>
+					Graphs need a board affiliation selected in order to render properly.
+				<?php } ?>
 			</div>
 		</div>
 
