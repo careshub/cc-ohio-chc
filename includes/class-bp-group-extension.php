@@ -6,7 +6,7 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
     function __construct() {
         $args = array(
             'slug' => cc_aha_get_slug(),
-            'name' => 'AHA Tab Name',
+            'name' => 'Community Planning Tool',
             'visibility' => 'private',
             'enable_nav_item'   => $this->aha_tab_is_enabled(),
             // 'access' => 'members',
