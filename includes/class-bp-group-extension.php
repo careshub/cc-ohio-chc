@@ -39,6 +39,8 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
 
             cc_aha_print_metro_select_container_markup();
 
+            cc_aha_print_introductory_text();
+
         } else if ( cc_aha_on_survey_screen() ) {
 
                 if ( ! cc_aha_user_can_do_assessment() ) {

@@ -8,6 +8,19 @@
  * @copyright 2014 CommmunityCommons.org
  */
 /**
+ * Print content for the "Introduction" (default tab)
+ *
+ * @since   1.0.0
+ * @return  HTML
+ */
+function cc_aha_print_introductory_text(){
+    ?>
+    <p>
+        Welcome to the American Heart Association’s Community Planning 2.0 page. We are pleased to partner with Community Commons to build a culture of health so that all Americans live in environments that support healthy behaviors, timely and quality care. The American Heart Association has established a robust and overarching goal to improve the cardiovascular health of all Americans by 20% and reduce deaths from cardiovascular diseases and stroke by 20% by the year 2020. Here on the Commons, we're conducting an internal survey to identify needs and priorities for each of the American Heart Associations's metro areas. Our results and related community indicators will be available later this fall. //Or... Check back later this fall as we share our results and related community indicators. 
+    </p>
+    <?php
+}
+/**
  * Creating container for form to set metro ids for users
  *
  * @since   1.0.0
