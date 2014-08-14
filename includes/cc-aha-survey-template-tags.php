@@ -30,12 +30,13 @@ function cc_aha_form_page_list(){
 	11  => 'Chain of Survival - CPR Graduation Requirements',
 	12  => 'Recruit Event Leadership',
 	13  => 'Secure Top ELT Leadership',
-	14  => 'Secure Platform/Signature Sponsorship',
-	15  => 'Expand Youth Market Efforts - Participating Schools',
-	16  => 'Increase Individual Giving - Individual Giving Prospects',
-	17  => 'Increase Individual Giving - Cor Vitae Recruitment',
-	18  => 'Enhance Donor Stewardship - Donor Retention',
-	19  => 'Membership in the Paul Dudley White Legacy Society - Donor Retention'
+	14	=> 'Top 25 Companies',
+	15  => 'Secure Platform/Signature Sponsorship',
+	16  => 'Expand Youth Market Efforts - Participating Schools',
+	17  => 'Increase Individual Giving - Individual Giving Prospects',
+	18  => 'Increase Individual Giving - Cor Vitae Recruitment',
+	19  => 'Enhance Donor Stewardship - Donor Retention',
+	20  => 'Membership in the Paul Dudley White Legacy Society - Donor Retention'
 	);
 }
 
@@ -63,7 +64,7 @@ function cc_aha_render_form( $page = null ){
 		<?php
 
 			// Some pages can be auto-built. Others we're going to hand-code.
-			$hand_built = array( 1, 6, 7, 9, 11 );
+			$hand_built = array( 1, 6, 7, 9, 11, 14 );
 			if ( in_array( $page, $hand_built ) ) {
 				$aha_form_function_name = 'cc_aha_handcoded_questions_' . $page;
 				$aha_form_function_name();
@@ -284,6 +285,24 @@ function cc_aha_handcoded_questions_11(){
 			//aha_render_school_boolean_radios( '5.1.4.1', $district );
 		}
 	}
+}
+
+function cc_aha_handcoded_questions_14(){
+	?>
+
+	<h2><?php cc_aha_print_form_page_header( 14 ); ?></h2>
+
+	<ol>
+		<li><a href="http://sharepoint.heart.org/nat/Volunteerism/Affiliate%20Market%20Assessments/Top%2025%20Company%20Assessment/top25worksheet.xlsx
+">Download the worksheet</a> for the top 25 companies in your area.</li>
+		<li>After you’ve opened the spreadsheet, click the field next to the instruction to Select Board and choose your board name from the drop down list.</li>
+		<li>Once the data for your area has been populated save the spreadsheet back to the sharepoint site with your board name in the file name, for example <code>top25worksheetdallas.xls</code> if you are representing the Dallas board.</li>
+		<li>After you have saved your file, you can now enter your data. Save that data and we will compile it for the analysis.</li>
+	</ol>
+	<p class="info">
+		<strong>Note:</strong> Do not exceed 25 Companies as the spreadsheet calculations and data population will not include any entries after the 25th Company.
+	</p>
+	<?php 
 }
 
 function cc_aha_render_question( $question, $data ){
