@@ -22,21 +22,21 @@ function cc_aha_form_page_list(){
 	3 => 'Local Government Procurement Policy (Vending & Service Contracts)',
 	4 => 'Healthy Food Financing',
 	5 => 'Health Factors - Insurance Coverage',
-	6 => 'Quality Physical Education in Schools',
-	7 => 'Shared Use Policies',
-	8 => 'Shared Use Policies, continued',
-	9  => 'School Nutrition Policies',
-	10  => 'School Nutrition Policies, continued',
-	11  => 'Chain of Survival - CPR Graduation Requirements',
-	12  => 'Recruit Event Leadership',
-	13  => 'Secure Top ELT Leadership',
-	14	=> 'Top 25 Companies',
-	15  => 'Secure Platform/Signature Sponsorship',
-	16  => 'Expand Youth Market Efforts - Participating Schools',
-	17  => 'Increase Individual Giving - Individual Giving Prospects',
-	18  => 'Increase Individual Giving - Cor Vitae Recruitment',
-	19  => 'Enhance Donor Stewardship - Donor Retention',
-	20  => 'Membership in the Paul Dudley White Legacy Society - Donor Retention'
+	// 6 => 'Quality Physical Education in Schools',
+	// 7 => 'Shared Use Policies',
+	6 => 'Shared Use Policies',
+	// 9  => 'School Nutrition Policies',
+	// 10  => 'School Nutrition Policies, continued',
+	// 11  => 'Chain of Survival - CPR Graduation Requirements',
+	7 => 'Recruit Event Leadership',
+	8 => 'Secure Top ELT Leadership',
+	9 => 'Top 25 Companies',
+	10 => 'Secure Platform/Signature Sponsorship',
+	11 => 'Expand Youth Market Efforts - Participating Schools',
+	12 => 'Increase Individual Giving - Individual Giving Prospects',
+	13 => 'Increase Individual Giving - Cor Vitae Recruitment',
+	14 => 'Enhance Donor Stewardship - Donor Retention',
+	15 => 'Membership in the Paul Dudley White Legacy Society - Donor Retention'
 	);
 }
 
@@ -64,7 +64,7 @@ function cc_aha_render_form( $page = null ){
 		<?php
 
 			// Some pages can be auto-built. Others we're going to hand-code.
-			$hand_built = array( 1, 6, 7, 9, 11, 14 );
+			$hand_built = array( 1, 9 );
 			if ( in_array( $page, $hand_built ) ) {
 				$aha_form_function_name = 'cc_aha_handcoded_questions_' . $page;
 				$aha_form_function_name();
@@ -135,7 +135,7 @@ function cc_aha_handcoded_questions_1(){
 				 	case 6:
 				 		echo '<h5>Health Assessment: Top 5 School District Policies</h5>';
 				 		break;
-				 	case 12:
+				 	case 7:
 				 		echo '<h5>Revenue Assessment</h5>';
 				 		break;
 				 	
@@ -153,7 +153,7 @@ function cc_aha_handcoded_questions_1(){
 	<?php
 }
 
-function cc_aha_handcoded_questions_6(){
+function cc_aha_handcoded_questions_6_old(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 2 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
@@ -189,7 +189,7 @@ function cc_aha_handcoded_questions_6(){
 	}
 }
 
-function cc_aha_handcoded_questions_7(){
+function cc_aha_handcoded_questions_7_old(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 9 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
@@ -230,7 +230,7 @@ function cc_aha_handcoded_questions_7(){
 	}
 }
 
-function cc_aha_handcoded_questions_9(){
+function cc_aha_handcoded_questions_9_old(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 10 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
@@ -270,7 +270,7 @@ function cc_aha_handcoded_questions_9(){
 	//aha_render_checkbox_input( '3.1.4', $data);
 }
 
-function cc_aha_handcoded_questions_11(){
+function cc_aha_handcoded_questions_11_old(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 2 );
 	$questions = cc_aha_get_form_questions( 11 );
 	?>
@@ -287,7 +287,7 @@ function cc_aha_handcoded_questions_11(){
 	}
 }
 
-function cc_aha_handcoded_questions_14(){
+function cc_aha_handcoded_questions_9(){
 	?>
 
 	<h2><?php cc_aha_print_form_page_header( 14 ); ?></h2>
