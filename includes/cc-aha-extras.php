@@ -339,7 +339,7 @@ class CC_AHA_Extras {
 	    <p class="">
 		  If you are already a Community Commons member, simply visit the <a href="<?php 
     		echo bp_get_group_permalink( groups_get_group( array( 'group_id' => cc_aha_get_group_id() ) ) );
-    	?>">American Heart Assocation group</a> to get started. 
+    	?>">American Heart Association group</a> to get started. 
 	    </p>
 	    <?php
 	    endif;

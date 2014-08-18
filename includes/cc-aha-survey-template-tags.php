@@ -24,19 +24,19 @@ function cc_aha_form_page_list(){
 	5 => 'Health Factors - Insurance Coverage',
 	// 6 => 'Quality Physical Education in Schools',
 	// 7 => 'Shared Use Policies',
-	6 => 'Shared Use Policies',
+	// 6 => 'Shared Use Policies',
 	// 9  => 'School Nutrition Policies',
 	// 10  => 'School Nutrition Policies, continued',
 	// 11  => 'Chain of Survival - CPR Graduation Requirements',
-	7 => 'Recruit Event Leadership',
-	8 => 'Secure Top ELT Leadership',
-	9 => 'Top 25 Companies',
-	10 => 'Secure Platform/Signature Sponsorship',
-	11 => 'Expand Youth Market Efforts - Participating Schools',
-	12 => 'Increase Individual Giving - Individual Giving Prospects',
-	13 => 'Increase Individual Giving - Cor Vitae Recruitment',
-	14 => 'Enhance Donor Stewardship - Donor Retention',
-	15 => 'Membership in the Paul Dudley White Legacy Society - Donor Retention'
+	6 => 'Recruit Event Leadership',
+	7 => 'Secure Top ELT Leadership',
+	8 => 'Top 25 Companies',
+	9 => 'Secure Platform/Signature Sponsorship',
+	10 => 'Expand Youth Market Efforts - Participating Schools',
+	11 => 'Increase Individual Giving - Individual Giving Prospects',
+	12 => 'Increase Individual Giving - Cor Vitae Recruitment',
+	13 => 'Enhance Donor Stewardship - Donor Retention',
+	14 => 'Membership in the Paul Dudley White Legacy Society (individuals who have named AHA as a beneficiary of their estate plans) - Donor Retention'
 	);
 }
 
@@ -64,7 +64,7 @@ function cc_aha_render_form( $page = null ){
 		<?php
 
 			// Some pages can be auto-built. Others we're going to hand-code.
-			$hand_built = array( 1, 9 );
+			$hand_built = array( 1, 8 );
 			if ( in_array( $page, $hand_built ) ) {
 				$aha_form_function_name = 'cc_aha_handcoded_questions_' . $page;
 				$aha_form_function_name();
@@ -116,7 +116,7 @@ function cc_aha_auto_build_questions( $page ) {
 function cc_aha_handcoded_questions_1(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 1 );
 	?>
-	<p>Introductory paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut adipiscing sem a nisl egestas, nec tempus massa pretium. Nam sagittis hendrerit lectus eget imperdiet. Nunc eget est magna. Nullam adipiscing, urna eu tempus dictum, mi mauris malesuada ligula, non pulvinar tellus dolor id velit. Fusce et augue nec libero elementum porttitor in quis ligula. Cras lacinia turpis a dictum malesuada. Duis gravida dapibus commodo.</p>
+	<p><em>Please note:</em> If  the Community Health Director position is present in the market, this staff member has the overall responsibility for Community Planning 2.0 and should be present throughout the assessment.</p>
 
 	<h2><?php cc_aha_print_form_page_header( 1 ); ?></h2>
 	<ul>
@@ -130,13 +130,13 @@ function cc_aha_handcoded_questions_1(){
 				// Add section headers.
 				switch ( $page_number ) {
 				 	case 2:
-				 		echo '<h5>Health Assessment: Community Policies</h5>';
+				 		echo '<h5>Health Assessment: Community Policies</h5><p><em>Section One:</em> This section of the assessment should be led by the Advocacy Director  along with the participation of the following staff: Executive Director, Youth Market Director and Community Health Director. Additional potential participants may be designated by the Executive Director.</p>';
 				 		break;
+				 	// case 6:
+				 	// 	echo '<h5>Health Assessment: Top 5 School District Policies</h5>';
+				 	// 	break;
 				 	case 6:
-				 		echo '<h5>Health Assessment: Top 5 School District Policies</h5>';
-				 		break;
-				 	case 7:
-				 		echo '<h5>Revenue Assessment</h5>';
+				 		echo '<h5>Revenue Assessment</h5><p><em>Section Three:</em> This section of the assessment should be led by the Executive Director along with the participation of the following staff: Heart Ball Director, Heart Walk Director, Go Red Director as well as other staff serving in the capacity of Donor Stewardship, Sponsorship Management, Workplace Giving and Cor Vitae</p>';
 				 		break;
 				 	
 				 	default:
@@ -287,10 +287,10 @@ function cc_aha_handcoded_questions_11_old(){
 	}
 }
 
-function cc_aha_handcoded_questions_9(){
+function cc_aha_handcoded_questions_8(){
 	?>
 
-	<h2><?php cc_aha_print_form_page_header( 14 ); ?></h2>
+	<h2><?php cc_aha_print_form_page_header( 8 ); ?></h2>
 
 	<ol>
 		<li><a href="http://sharepoint.heart.org/nat/Volunteerism/Affiliate%20Market%20Assessments/Top%2025%20Company%20Assessment/top25worksheet.xlsx

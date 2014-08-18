@@ -5,9 +5,9 @@
 # http://www.sequelpro.com/
 # http://code.google.com/p/sequel-pro/
 #
-# Host: 127.0.0.1 (MySQL 5.6.10)
+# Host: 127.0.0.1 (MySQL 5.6.14)
 # Database: commonsdev
-# Generation Time: 2014-08-15 12:41:51 +0000
+# Generation Time: 2014-08-18 14:47:06 +0000
 # ************************************************************
 
 
@@ -420,9 +420,9 @@ INSERT INTO `wp_aha_assessment_questions` (`id`, `page`, `QID`, `type`, `label`,
 VALUES
 	(1,0,'1.2.2.1','number','If your community has a local tobacco excise tax, what is the tax rate? If none, enter 0.',0,'0','comm_tobacco_2',NULL),
 	(2,0,'2.1.4.1.1','radio','In school district %%district_name%%, do schools meet our PE requirements?',1,'0','school_phys_1',NULL),
-	(3,6,'2.2.2.1','radio','Does the state provide promotion, incentives, technical assistance or other resources to schools to encourage shared use?',0,'0','school_phys_2',NULL),
-	(4,6,'2.2.2.2','textarea','Please describe:',0,'2.2.2.1',NULL,NULL),
-	(5,6,'2.2.4.1','radio','Given the current political/policy environment, where can this local board most likely help drive impact relative to shared use policies?',0,'0',NULL,NULL),
+	(3,0,'2.2.2.1','radio','Does the state provide promotion, incentives, technical assistance or other resources to schools to encourage shared use?',0,'0','school_phys_2',NULL),
+	(4,0,'2.2.2.2','textarea','Please describe:',0,'2.2.2.1',NULL,NULL),
+	(5,0,'2.2.4.1','radio','Given the current political/policy environment, where can this local board most likely help drive impact relative to shared use policies?',0,'0',NULL,NULL),
 	(6,0,'2.2.5.1','radio','In school district %%district_name%%, is there a district-wide policy and/or guidance in place for shared use of school facilities?',1,'0',NULL,NULL),
 	(7,0,'2.2.5.1.1','radio','What rationale was provided for not having a district-wide shared use policy?',1,'2.2.5.1',NULL,NULL),
 	(8,0,'2.2.5.1.1.1','text','If other, please describe:',1,'2.2.5.1.1',NULL,NULL),
@@ -445,30 +445,30 @@ VALUES
 	(25,4,'3.5.4','radio','Given the current political/policy environment, where do you envision Healthy Food Financing public policy change most likely occurring/most activity taking place?',0,'0',NULL,NULL),
 	(26,5,'4.1.4','radio','Would you recommend the local board adopt this as a priority issue?',0,'0',NULL,NULL),
 	(27,0,'5.1.4.1','radio','For %%district_name%%, is CPR training meeting AHA criteria a graduation requirement?',1,'0',NULL,NULL),
-	(28,7,'7.1.1','radio','Do you have all your event chairs for FY 14-15?',0,'0',NULL,NULL),
-	(29,7,'7.1.1.1','textarea','List unfilled event chairs',0,'7.1.1',NULL,NULL),
-	(30,7,'7.1.2','radio','Do you have all your event chairs for FY 15-16?',0,'0',NULL,NULL),
-	(31,7,'7.1.2.1','textarea','List unfilled event chairs',0,'7.1.2',NULL,NULL),
-	(32,7,'7.1.3','radio','Do you have all your event chairs for FY 16-17?',0,'0',NULL,NULL),
-	(33,7,'7.1.3.1','textarea','List unfilled event chairs',0,'7.1.3',NULL,NULL),
-	(34,7,'7.1.4.1','radio','In 2014-2015 have the Event Chairs given at the Top 2 levels for Go Red?',0,'0',NULL,NULL),
-	(35,7,'7.1.4.2','radio','In 2014-2015 have the Event Chairs given at the Top 2 levels for Heart Ball?',0,'0',NULL,NULL),
-	(36,7,'7.1.4.3','radio','In 2014-2015 have the Event Chairs given at the Top 2 levels for Heart Walk?',0,'0',NULL,NULL),
-	(37,8,'8.1.2','radio','Do you have all the industries represented? (Accounting, Banking, Energy, Cable, Healthcare, Media, Lawyers, Manufacturing, Real Estate, etc.)',0,'0',NULL,NULL),
-	(38,8,'8.1.5','number','How many ELT members haven\'t given a corporate gift?',0,'0',NULL,NULL),
-	(39,10,'9.4','textarea','Which companies in your community place a focus on corporate social responsibility?',0,'0',NULL,NULL),
-	(40,11,'11.1.1','radio','Do we currently have Superintendents’ support within %%district_name%% covered by this board? ',1,'0',NULL,NULL),
-	(41,11,'11.1.2','number','How much does %%district_name%% raise?',1,'0',NULL,NULL),
-	(42,12,'12.1.2','text','How many $100k donors do we have in the pipeline?',0,'0',NULL,NULL),
-	(43,13,'12.2.1','number','What percentage of board members are currently a Cor Vitae member?',0,'0',NULL,NULL),
-	(44,13,'12.2.2','number','How many Cor Vitae members are in your market?',0,'0',NULL,NULL),
-	(45,13,'12.2.3','textarea','How are you retaining your Cor Vitae members?',0,'0',NULL,NULL),
-	(46,14,'13.1.2','textarea','How are you acknowledging these donors?',0,'0',NULL,NULL),
-	(47,14,'13.1.3','radio','Do you have a current list of stewardship events in your market?',0,'0',NULL,NULL),
-	(48,14,'13.1.6','radio','Are you following a cultivation plan?',0,'0',NULL,NULL),
-	(49,15,'14.1.1','radio','Does your board have knowledge of the Paul Dudley White Legacy Society program?',0,'0',NULL,NULL),
-	(50,15,'14.1.2','radio','Does your market have a Paul Dudley White Legacy Society Champion connected to the board and/or a board member?',0,'0',NULL,NULL),
-	(51,15,'14.1.3','number','What percentage of board members are currently Paul Dudley White Legacy Society?',0,'0',NULL,NULL);
+	(28,6,'7.1.1','radio','Do you have all your event chairs for FY 14-15?',0,'0',NULL,NULL),
+	(29,6,'7.1.1.1','textarea','List unfilled event chairs',0,'7.1.1',NULL,NULL),
+	(30,6,'7.1.2','radio','Do you have all your event chairs for FY 15-16?',0,'0',NULL,NULL),
+	(31,6,'7.1.2.1','textarea','List unfilled event chairs',0,'7.1.2',NULL,NULL),
+	(32,6,'7.1.3','radio','Do you have all your event chairs for FY 16-17?',0,'0',NULL,NULL),
+	(33,6,'7.1.3.1','textarea','List unfilled event chairs',0,'7.1.3',NULL,NULL),
+	(34,6,'7.1.4.1','radio','In 2014-2015 have the Event Chairs given at the Top 2 levels for Go Red?',0,'0',NULL,NULL),
+	(35,6,'7.1.4.2','radio','In 2014-2015 have the Event Chairs given at the Top 2 levels for Heart Ball?',0,'0',NULL,NULL),
+	(36,6,'7.1.4.3','radio','In 2014-2015 have the Event Chairs given at the Top 2 levels for Heart Walk?',0,'0',NULL,NULL),
+	(37,7,'8.1.2','radio','Do you have all the industries represented? (Accounting, Banking, Energy, Cable, Healthcare, Media, Lawyers, Manufacturing, Real Estate, etc.)',0,'0',NULL,NULL),
+	(38,7,'8.1.5','number','How many ELT members haven\'t given a corporate gift?',0,'0',NULL,NULL),
+	(39,9,'9.4','textarea','Which companies in your community place a focus on corporate social responsibility?',0,'0',NULL,NULL),
+	(40,10,'11.1.1','radio','Do we currently have Superintendents’ support within %%district_name%% covered by this board? ',1,'0',NULL,NULL),
+	(41,10,'11.1.2','number','How much does %%district_name%% raise?',1,'0',NULL,NULL),
+	(42,11,'12.1.2','text','How many $100k donors do we have in the pipeline?',0,'0',NULL,NULL),
+	(43,12,'12.2.1','number','What percentage of board members are currently a Cor Vitae member?',0,'0',NULL,NULL),
+	(44,12,'12.2.2','number','How many Cor Vitae members are in your market?',0,'0',NULL,NULL),
+	(45,12,'12.2.3','textarea','How are you retaining your Cor Vitae members?',0,'0',NULL,NULL),
+	(46,13,'13.1.2','textarea','How are you acknowledging these donors?',0,'0',NULL,NULL),
+	(47,13,'13.1.3','radio','Do you have a current list of stewardship events in your market?',0,'0',NULL,NULL),
+	(48,13,'13.1.6','radio','Are you following a cultivation plan?',0,'0',NULL,NULL),
+	(49,14,'14.1.1','radio','Does your board have knowledge of the Paul Dudley White Legacy Society program?',0,'0',NULL,NULL),
+	(50,14,'14.1.2','radio','Does your market have a Paul Dudley White Legacy Society Champion connected to the board and/or a board member?',0,'0',NULL,NULL),
+	(51,14,'14.1.3','number','What percentage of board members are currently Paul Dudley White Legacy Society?',0,'0',NULL,NULL);
 
 /*!40000 ALTER TABLE `wp_aha_assessment_questions` ENABLE KEYS */;
 UNLOCK TABLES;

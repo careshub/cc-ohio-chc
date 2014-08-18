@@ -16,7 +16,7 @@
 function cc_aha_print_introductory_text(){
     ?>
     <p>
-        Welcome to the American Heart Association’s Community Planning 2.0 page. We are pleased to partner with Community Commons to build a culture of health so that all Americans live in environments that support healthy behaviors, timely and quality care. The American Heart Association has established a robust and overarching goal to improve the cardiovascular health of all Americans by 20% and reduce deaths from cardiovascular diseases and stroke by 20% by the year 2020. Here on the Commons, we're conducting an internal survey to identify needs and priorities for each of the American Heart Associations's metro areas. Our results and related community indicators will be available later this fall. //Or... Check back later this fall as we share our results and related community indicators. 
+        Welcome to the American Heart Association’s Community Planning 2.0 page. We are pleased to partner with Community Commons to build a culture of health so that all Americans live in environments that support healthy behaviors, timely and quality care. The American Heart Association has established a robust and overarching goal to improve the cardiovascular health of all Americans by 20% and reduce deaths from cardiovascular diseases and stroke by 20% by the year 2020. Here on the Commons, we're conducting an internal survey to identify needs and priorities for each of the American Heart Associations's metro areas. Check back later this fall as we share our results and related community indicators. 
     </p>
     <?php
 }
@@ -27,26 +27,28 @@ function cc_aha_print_introductory_text(){
  * @return  HTML
  */
 function cc_aha_print_metro_select_container_markup() {
-    // Get the user's Metro ID
-    if ( cc_aha_get_array_user_metro_ids() ) {
-        $summary_message = 'Your board affiliations: ' . cc_aha_get_metro_id_list();
-        $link_text = 'Change';
-    } else {
-        $summary_message = 'Please select your AHA board affiliation.';
-        $link_text = 'Select your board';
-    }
+    if ( cc_aha_user_can_do_assessment() ): 
+        // Get the user's Metro ID
+        if ( cc_aha_get_array_user_metro_ids() ) {
+            $summary_message = 'Your board affiliations: ' . cc_aha_get_metro_id_list();
+            $link_text = 'Change';
+        } else {
+            $summary_message = 'Please select your AHA board affiliation.';
+            $link_text = 'Select your board';
+        }
 
-    ?>
-    <div class="toggleable toggle-closed message info">
-        <p class="toggle-switch first" id="update-metro-id-toggle">
-            <?php echo $summary_message; ?>&emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#"><span class="show-pane plus-or-minus"></span><?php echo $link_text; ?></a>
-        </p>
+        ?>
+        <div class="toggleable toggle-closed message info">
+            <p class="toggle-switch first" id="update-metro-id-toggle">
+                <?php echo $summary_message; ?>&emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#"><span class="show-pane plus-or-minus"></span><?php echo $link_text; ?></a>
+            </p>
 
-        <div class="toggle-content">
-            <?php cc_aha_metro_select_markup(); ?>
+            <div class="toggle-content">
+                <?php cc_aha_metro_select_markup(); ?>
+            </div>
         </div>
-    </div>
 <?php
+    endif;
 }
 
 /**
