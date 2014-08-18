@@ -98,6 +98,9 @@ class CC_AHA_Extras {
 		// BuddyPress redirects logged-in users away fromm the registration page. Catch that request and redirect requests that include the AHA parameter to the AHA group.
         add_filter( 'bp_loggedin_register_page_redirect_to', array( $this, 'loggedin_register_page_redirect_to' ) );
 
+        // If a user with an @heart email address makes a request, approve it automatically
+        add_action( 'groups_membership_requested', array( $this, 'approve_member_requests' ), 12, 4 );
+
 
         add_filter( 'group_reports_create_new_label', array( $this, 'change_group_create_report_label' ), 2, 12 );
 
@@ -380,6 +383,22 @@ class CC_AHA_Extras {
 	  	}
 
 	  	return $redirect_to;
+	}
+
+	function approve_member_requests( $user_id, $admins, $group_id, $membership_id ) {
+
+		// For the AHA group, accept requests that come from members with @heart.org email addresses
+		if ( cc_aha_get_group_id() == $group_id ) {
+
+			$requestor = get_userdata( $user_id );
+	        $email_parts = explode('@', $requestor->user_email);
+	        if ( $email_parts[1] == 'heart.org' ) {
+       			groups_accept_membership_request( $membership_id, $user_id, $group_id );
+       			// TODO: This message gets overwritten at bp-groups-screens L 522. Not sure if that's beatable.
+       			bp_core_add_message( __( 'Your membership request has been approved.', 'cc-aha-extras' ) );
+	        }
+		}
+
 	}
 
 	/**
