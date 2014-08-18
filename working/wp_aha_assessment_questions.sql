@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.14)
 # Database: commonsdev
-# Generation Time: 2014-08-18 14:46:30 +0000
+# Generation Time: 2014-08-18 20:14:04 +0000
 # ************************************************************
 
 
@@ -69,31 +69,31 @@ VALUES
 	(24,4,'3.5.2','radio','Is your state or community pursuing an appropriation to establish or supplement a Healthy Food Financing Initiative program?',0,'0',NULL,NULL),
 	(25,4,'3.5.4','radio','Given the current political/policy environment, where do you envision Healthy Food Financing public policy change most likely occurring/most activity taking place?',0,'0',NULL,NULL),
 	(26,5,'4.1.4','radio','Would you recommend the local board adopt this as a priority issue?',0,'0',NULL,NULL),
-	(27,0,'5.1.4.1','radio','For %%district_name%%, is CPR training meeting AHA criteria a graduation requirement?',1,'0',NULL,NULL),
-	(28,6,'7.1.1','radio','Do you have all your event chairs for FY 14-15?',0,'0',NULL,NULL),
-	(29,6,'7.1.1.1','textarea','List unfilled event chairs',0,'7.1.1',NULL,NULL),
-	(30,6,'7.1.2','radio','Do you have all your event chairs for FY 15-16?',0,'0',NULL,NULL),
-	(31,6,'7.1.2.1','textarea','List unfilled event chairs',0,'7.1.2',NULL,NULL),
-	(32,6,'7.1.3','radio','Do you have all your event chairs for FY 16-17?',0,'0',NULL,NULL),
-	(33,6,'7.1.3.1','textarea','List unfilled event chairs',0,'7.1.3',NULL,NULL),
-	(34,6,'7.1.4.1','radio','In 2014-2015 have the Event Chairs given at the Top 2 levels for Go Red?',0,'0',NULL,NULL),
-	(35,6,'7.1.4.2','radio','In 2014-2015 have the Event Chairs given at the Top 2 levels for Heart Ball?',0,'0',NULL,NULL),
-	(36,6,'7.1.4.3','radio','In 2014-2015 have the Event Chairs given at the Top 2 levels for Heart Walk?',0,'0',NULL,NULL),
-	(37,7,'8.1.2','radio','Do you have all the industries represented? (Accounting, Banking, Energy, Cable, Healthcare, Media, Lawyers, Manufacturing, Real Estate, etc.)',0,'0',NULL,NULL),
-	(38,7,'8.1.5','number','How many ELT members haven\'t given a corporate gift?',0,'0',NULL,NULL),
-	(39,9,'9.4','textarea','Which companies in your community place a focus on corporate social responsibility?',0,'0',NULL,NULL),
-	(40,10,'11.1.1','radio','Do we currently have Superintendents’ support within %%district_name%% covered by this board? ',1,'0',NULL,NULL),
-	(41,10,'11.1.2','number','How much does %%district_name%% raise?',1,'0',NULL,NULL),
-	(42,11,'12.1.2','text','How many $100k donors do we have in the pipeline?',0,'0',NULL,NULL),
-	(43,12,'12.2.1','number','What percentage of board members are currently a Cor Vitae member?',0,'0',NULL,NULL),
-	(44,12,'12.2.2','number','How many Cor Vitae members are in your market?',0,'0',NULL,NULL),
-	(45,12,'12.2.3','textarea','How are you retaining your Cor Vitae members?',0,'0',NULL,NULL),
-	(46,13,'13.1.2','textarea','How are you acknowledging these donors?',0,'0',NULL,NULL),
-	(47,13,'13.1.3','radio','Do you have a current list of stewardship events in your market?',0,'0',NULL,NULL),
-	(48,13,'13.1.6','radio','Are you following a cultivation plan?',0,'0',NULL,NULL),
-	(49,14,'14.1.1','radio','Does your board have knowledge of the Paul Dudley White Legacy Society program?',0,'0',NULL,NULL),
-	(50,14,'14.1.2','radio','Does your market have a Paul Dudley White Legacy Society Champion connected to the board and/or a board member?',0,'0',NULL,NULL),
-	(51,14,'14.1.3','number','What percentage of board members are currently Paul Dudley White Legacy Society?',0,'0',NULL,NULL);
+	(27,6,'5.1.4.1','radio','For %%district_name%%, is CPR training meeting AHA criteria a graduation requirement?',1,'0',NULL,NULL),
+	(28,7,'7.1.1','radio','Do you have all your event chairs for FY 14-15?',0,'0',NULL,NULL),
+	(29,7,'7.1.1.1','textarea','List unfilled event chairs',0,'7.1.1',NULL,NULL),
+	(30,7,'7.1.2','radio','Do you have all your event chairs for FY 15-16?',0,'0',NULL,NULL),
+	(31,7,'7.1.2.1','textarea','List unfilled event chairs',0,'7.1.2',NULL,NULL),
+	(32,7,'7.1.3','radio','Do you have all your event chairs for FY 16-17?',0,'0',NULL,NULL),
+	(33,7,'7.1.3.1','textarea','List unfilled event chairs',0,'7.1.3',NULL,NULL),
+	(34,7,'7.1.4.1','radio','In 2014-2015 have the Event Chairs given at the Top 2 levels for Go Red?',0,'0',NULL,NULL),
+	(35,7,'7.1.4.2','radio','In 2014-2015 have the Event Chairs given at the Top 2 levels for Heart Ball?',0,'0',NULL,NULL),
+	(36,7,'7.1.4.3','radio','In 2014-2015 have the Event Chairs given at the Top 2 levels for Heart Walk?',0,'0',NULL,NULL),
+	(37,8,'8.1.2','radio','Do you have all the industries represented? (Accounting, Banking, Energy, Cable, Healthcare, Media, Lawyers, Manufacturing, Real Estate, etc.)',0,'0',NULL,NULL),
+	(38,8,'8.1.5','number','How many ELT members haven\'t given a corporate gift?',0,'0',NULL,NULL),
+	(39,10,'9.4','textarea','Which companies in your community place a focus on corporate social responsibility?',0,'0',NULL,NULL),
+	(40,11,'11.1.1','radio','Do we currently have Superintendents’ support within %%district_name%% covered by this board? ',1,'0',NULL,NULL),
+	(41,11,'11.1.2','number','How much does %%district_name%% raise?',1,'0',NULL,NULL),
+	(42,12,'12.1.2','number','How many $100k donors do we have in the pipeline?',0,'0',NULL,NULL),
+	(43,13,'12.2.1','number','What percentage of board members are currently a Cor Vitae member?',0,'0',NULL,NULL),
+	(44,13,'12.2.2','number','How many Cor Vitae members are in your market?',0,'0',NULL,NULL),
+	(45,13,'12.2.3','textarea','How are you retaining your Cor Vitae members?',0,'0',NULL,NULL),
+	(46,14,'13.1.2','textarea','How are you acknowledging these donors?',0,'0',NULL,NULL),
+	(47,14,'13.1.3','radio','Do you have a current list of stewardship events in your market?',0,'0',NULL,NULL),
+	(48,14,'13.1.6','radio','Are you following a cultivation plan?',0,'0',NULL,NULL),
+	(49,15,'14.1.1','radio','Does your board have knowledge of the Paul Dudley White Legacy Society program?',0,'0',NULL,NULL),
+	(50,15,'14.1.2','radio','Does your market have a Paul Dudley White Legacy Society Champion connected to the board and/or a board member?',0,'0',NULL,NULL),
+	(51,15,'14.1.3','number','What percentage of board members are currently Paul Dudley White Legacy Society?',0,'0',NULL,NULL);
 
 /*!40000 ALTER TABLE `wp_aha_assessment_questions` ENABLE KEYS */;
 UNLOCK TABLES;

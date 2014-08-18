@@ -27,16 +27,16 @@ function cc_aha_form_page_list(){
 	// 6 => 'Shared Use Policies',
 	// 9  => 'School Nutrition Policies',
 	// 10  => 'School Nutrition Policies, continued',
-	// 11  => 'Chain of Survival - CPR Graduation Requirements',
-	6 => 'Recruit Event Leadership',
-	7 => 'Secure Top ELT Leadership',
-	8 => 'Top 25 Companies',
-	9 => 'Secure Platform/Signature Sponsorship',
-	10 => 'Expand Youth Market Efforts - Participating Schools',
-	11 => 'Increase Individual Giving - Individual Giving Prospects',
-	12 => 'Increase Individual Giving - Cor Vitae Recruitment',
-	13 => 'Enhance Donor Stewardship - Donor Retention',
-	14 => 'Membership in the Paul Dudley White Legacy Society (individuals who have named AHA as a beneficiary of their estate plans) - Donor Retention'
+	6 => 'Chain of Survival - CPR Graduation Requirements',
+	7 => 'Recruit Event Leadership',
+	8 => 'Secure Top ELT Leadership',
+	9 => 'Top 25 Companies',
+	10 => 'Secure Platform/Signature Sponsorship',
+	11 => 'Expand Youth Market Efforts - Participating Schools',
+	12 => 'Increase Individual Giving - Individual Giving Prospects',
+	13 => 'Increase Individual Giving - Cor Vitae Recruitment',
+	14 => 'Enhance Donor Stewardship - Donor Retention',
+	15 => 'Membership in the Paul Dudley White Legacy Society (individuals who have named AHA as a beneficiary of their estate plans) - Donor Retention'
 	);
 }
 
@@ -64,7 +64,7 @@ function cc_aha_render_form( $page = null ){
 		<?php
 
 			// Some pages can be auto-built. Others we're going to hand-code.
-			$hand_built = array( 1, 8 );
+			$hand_built = array( 1, 6, 9 );
 			if ( in_array( $page, $hand_built ) ) {
 				$aha_form_function_name = 'cc_aha_handcoded_questions_' . $page;
 				$aha_form_function_name();
@@ -132,10 +132,10 @@ function cc_aha_handcoded_questions_1(){
 				 	case 2:
 				 		echo '<h5>Health Assessment: Community Policies</h5><p><em>Section One:</em> This section of the assessment should be led by the Advocacy Director  along with the participation of the following staff: Executive Director, Youth Market Director and Community Health Director. Additional potential participants may be designated by the Executive Director.</p>';
 				 		break;
-				 	// case 6:
-				 	// 	echo '<h5>Health Assessment: Top 5 School District Policies</h5>';
-				 	// 	break;
 				 	case 6:
+				 		echo '<h5>Health Assessment: Top 5 School District Policies</h5>';
+				 		break;
+				 	case 7:
 				 		echo '<h5>Revenue Assessment</h5><p><em>Section Three:</em> This section of the assessment should be led by the Executive Director along with the participation of the following staff: Heart Ball Director, Heart Walk Director, Go Red Director as well as other staff serving in the capacity of Donor Stewardship, Sponsorship Management, Workplace Giving and Cor Vitae</p>';
 				 		break;
 				 	
@@ -270,16 +270,17 @@ function cc_aha_handcoded_questions_9_old(){
 	//aha_render_checkbox_input( '3.1.4', $data);
 }
 
-function cc_aha_handcoded_questions_11_old(){
+function cc_aha_handcoded_questions_6(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 2 );
-	$questions = cc_aha_get_form_questions( 11 );
+	$questions = cc_aha_get_form_questions( 6 );
 	?>
 
-	<h2><?php cc_aha_print_form_page_header( 11 ); ?></h2>
+	<h2><?php cc_aha_print_form_page_header( 6 ); ?></h2>
 	<?php 
 	if ( $data['5.1.1'] ) {
 		echo "Your state has CPR graduation requirements in place.";
 	} else {
+		echo 'If you do not have a state level policy already in place and need to confirm whether your local school districts have policies in place, you may wish to contact your districts&rsquo; curriculum directors, health services directors, or other school district administrators.  A list of district staff is available here: <a href="http://bit.ly/1oURxH0">http://bit.ly/1oURxH0</a>';
 		foreach ( $questions as $question ) {
 			cc_aha_render_school_question( $question, $data );
 			//aha_render_school_boolean_radios( '5.1.4.1', $district );
@@ -287,21 +288,19 @@ function cc_aha_handcoded_questions_11_old(){
 	}
 }
 
-function cc_aha_handcoded_questions_8(){
+function cc_aha_handcoded_questions_9(){
 	?>
 
-	<h2><?php cc_aha_print_form_page_header( 8 ); ?></h2>
+	<h2><?php cc_aha_print_form_page_header( 9 ); ?></h2>
 
 	<ol>
-		<li><a href="http://sharepoint.heart.org/nat/Volunteerism/Affiliate%20Market%20Assessments/Top%2025%20Company%20Assessment/top25worksheet.xlsx
-">Download the worksheet</a> for the top 25 companies in your area.</li>
-		<li>After you’ve opened the spreadsheet, click the field next to the instruction to Select Board and choose your board name from the drop down list.</li>
-		<li>Once the data for your area has been populated save the spreadsheet back to the sharepoint site with your board name in the file name, for example <code>top25worksheetdallas.xls</code> if you are representing the Dallas board.</li>
-		<li>After you have saved your file, you can now enter your data. Save that data and we will compile it for the analysis.</li>
+		<li><a href="http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Forms/AllItems.aspx?RootFolder=%2Fnat%2FVolunteerism%2FCommunity%20Planning%202014%2D2017%2FCPP2%20Top%2025%20Companies&FolderCTID=0x012000CFD890B30E39714BB20EE7AD8D89525D&View=%7b035A3458-0EA6-40A9-9276-2F7B89EA536B%7d
+">Follow this link to sharepoint.</a></li>
+		<li>Find your affiliate and open that folder.</li>
+		<li>Find your spreadsheet in the affiliate folder and open it.</li>
+		<li>Fill out the answers for each of the top 25 companies. <strong>Note:</strong> If you need to change a company, you can, but do not add a 26th company, only the top 25 will be used.</li>
+		<li>After you have finished, save the file and close it.</li>
 	</ol>
-	<p class="info">
-		<strong>Note:</strong> Do not exceed 25 Companies as the spreadsheet calculations and data population will not include any entries after the 25th Company.
-	</p>
 	<?php 
 }
 
