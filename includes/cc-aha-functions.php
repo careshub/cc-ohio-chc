@@ -183,3 +183,50 @@ function cc_aha_get_metro_nicename( $metro_id = null ) {
     // return $metro['Board_Name'] . ' &ndash; ' . $metro['BOARD_ID'];
 
 }
+/**
+ * Check for a survey page's completeness by comparing the questions to the saved data
+ * 
+ * @since   1.0.0
+ * @return  boolean
+ */
+function aha_survey_page_completed( $page, $board_data, $school_data ) {
+    $questions = cc_aha_get_form_questions( $page );
+
+    // Some pages need to be handled differently. 
+    $form_pages = cc_aha_form_page_list();
+
+    // CPR is weird. If the state has requirements, we don't need to ask.
+    $cpr_page = array_search( 'Chain of Survival - CPR Graduation Requirements', $form_pages );
+    if ( $page == $cpr_page && $board_data['5.1.1'] ){
+        return true;
+    }
+
+    // Top 25 Companies is weird
+    $top_25 = array_search( 'Top 25 Companies', $form_pages ); 
+    if ( $page == $top_25 ){
+        return false;
+    }
+
+    foreach ($questions as $question) {
+        // Ignore the follow-up questions
+        if ( $question['follows_up'] )
+            continue;
+
+        // If any of the data points are null (they might be 0, which is OK), we return false.
+        if ( $question['loop_schools'] ){
+            // This data will be in the schools table. And we'll need to loop through
+            foreach ($school_data as $district) {
+                if ( $district[ $question['QID'] ] == '' ) {
+                    return false;   
+                }
+            }
+        } else {
+            // This data will be in the board table
+            if ( $board_data[ $question['QID'] ] == '' ) {
+                return false;   
+            }
+        }
+    }
+    // If we make it out of the foreach, all is well.
+    return true;
+}

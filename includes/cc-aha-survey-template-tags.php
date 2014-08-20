@@ -114,7 +114,8 @@ function cc_aha_auto_build_questions( $page ) {
 
 
 function cc_aha_handcoded_questions_1(){
-	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 1 );
+	$board_data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 1 );
+	$school_data = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
 	<p><em>Please note:</em> If  the Community Health Director position is present in the market, this staff member has the overall responsibility for Community Planning 2.0 and should be present throughout the assessment.</p>
 
@@ -144,7 +145,7 @@ function cc_aha_handcoded_questions_1(){
 				 		break;
 				 } 
 			?>
-			<li><a href="<?php echo cc_aha_get_survey_permalink( $page_number ); ?>"><?php echo $label; ?></a><?php if ( $data['p'.$page_number] ) { echo '&emsp;<em>completed</em>'; } ?></li>
+			<li><a href="<?php echo cc_aha_get_survey_permalink( $page_number ); ?>"><?php echo $label; ?></a><?php if ( aha_survey_page_completed( $page_number, $board_data, $school_data ) ) { echo '&emsp;<em>completed</em>'; } ?></li>
 			<?php 
 			}
 		?>
