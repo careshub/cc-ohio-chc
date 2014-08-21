@@ -87,7 +87,9 @@ function cc_aha_get_survey_permalink( $page = 1, $group_id = false ) {
     return apply_filters( "cc_aha_survey_permalink", $permalink, $group_id);
 }
 function cc_aha_get_analysis_permalink( $group_id = false ) {
-    $permalink = cc_aha_get_home_permalink( $group_id ) . cc_aha_get_analysis_slug() . '/';
+    $metro_id_string = ( $metro_id = $_COOKIE['aha_summary_metro_id'] ) ? $metro_id . '/' : '';
+
+    $permalink = cc_aha_get_home_permalink( $group_id ) . cc_aha_get_analysis_slug() . '/' . $metro_id_string;
     return apply_filters( "cc_aha_analysis_permalink", $permalink, $group_id);
 }
 
@@ -201,7 +203,7 @@ function aha_survey_page_completed( $page, $board_data, $school_data ) {
         return true;
     }
 
-    // Top 25 Companies is weird
+    // Top 25 Companies is weird. We have no idea how "complete" this section is, since it's done off-site.
     $top_25 = array_search( 'Top 25 Companies', $form_pages ); 
     if ( $page == $top_25 ){
         return false;

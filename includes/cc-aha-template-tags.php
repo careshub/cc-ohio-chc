@@ -191,11 +191,11 @@ function cc_aha_render_tab_subnav(){
                         <a href="<?php echo cc_aha_get_survey_permalink(); ?>">Assessment</a>
                     </li>
                 <?php endif; ?>
-                <?php /* TODO: Unhide this when we want summaries to be publicly accessible ?>
+                <?php if ( current_user_can( 'delete_plugins' ) ) : ?>
                 <li <?php if ( cc_aha_on_analysis_screen() ) { echo 'class="current"'; } ?>>
                     <a href="<?php echo cc_aha_get_analysis_permalink(); ?>">View Report</a>
                 </li>
-                <?php */ ?>
+                <?php endif; ?>
             </ul>
         </div>
         <?php

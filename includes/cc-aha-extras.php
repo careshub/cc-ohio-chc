@@ -384,7 +384,10 @@ class CC_AHA_Extras {
 
 	  	return $redirect_to;
 	}
-
+	/**
+	* Accept requests that come from members with @heart.org email addresses
+	* @since 0.1
+	*/
 	function approve_member_requests( $user_id, $admins, $group_id, $membership_id ) {
 
 		// For the AHA group, accept requests that come from members with @heart.org email addresses
@@ -487,14 +490,19 @@ class CC_AHA_Extras {
 				return false;
 
 			// Create the cookie
-			if ( isset( $_POST['aha_metro_id_cookie'] ) )
+			if ( isset( $_POST['aha_metro_id_cookie'] ) ) {
 				setcookie( 'aha_active_metro_id', $_POST['aha_metro_id_cookie'], 0, '/' );
+				$url = wp_get_referer();
+			}
 
-			if ( isset( $_POST['aha_summary_metro_id'] ) )
+			// TODO: this isn't redirecting to the right location.
+			if ( isset( $_POST['aha_summary_metro_id'] ) ) {
 				setcookie( 'aha_summary_metro_id', $_POST['aha_summary_metro_id'], 0, '/' );
+				$url = cc_aha_get_analysis_permalink();
+			}
 
 			// Redirect and exit
-			bp_core_redirect( wp_get_referer() );
+			bp_core_redirect( $url );
 
 			return false;
 		}
