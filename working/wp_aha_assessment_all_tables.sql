@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.14)
 # Database: commonsdev
-# Generation Time: 2014-08-19 15:24:40 +0000
+# Generation Time: 2014-08-21 17:20:21 +0000
 # ************************************************************
 
 
@@ -304,8 +304,8 @@ LOCK TABLES `wp_aha_assessment_q_options` WRITE;
 
 INSERT INTO `wp_aha_assessment_q_options` (`id`, `qid`, `value`, `label`, `followup_id`, `summary_value`)
 VALUES
-	(1,'2.1.4.1.1','1','Yes','0','0'),
-	(2,'2.1.4.1.1','0','No','0','0'),
+	(1,'2.1.4.1.1','1','Yes','0','does'),
+	(2,'2.1.4.1.1','0','No','0','does not'),
 	(3,'2.1.4.1.2','1','Yes','0','0'),
 	(4,'2.1.4.1.2','0','No','0','0'),
 	(5,'2.1.4.1.3','1','Yes','0','0'),
@@ -419,7 +419,7 @@ LOCK TABLES `wp_aha_assessment_questions` WRITE;
 INSERT INTO `wp_aha_assessment_questions` (`id`, `page`, `QID`, `type`, `label`, `loop_schools`, `follows_up`, `summary_section`, `summary_label`)
 VALUES
 	(1,0,'1.2.2.1','number','If your community has a local tobacco excise tax, what is the tax rate? If none, enter 0.',0,'0','comm_tobacco_2',NULL),
-	(2,0,'2.1.4.1.1','radio','In school district %%district_name%%, do schools meet our PE requirements?',1,'0','school_phys_1',NULL),
+	(2,0,'2.1.4.1.1','radio','In school district %%district_name%%, do schools meet our PE requirements?',1,'0','school_phys_1','Your state %%response%% not preempt local communities from adopting their own clean indoor air laws.'),
 	(3,0,'2.2.2.1','radio','Does the state provide promotion, incentives, technical assistance or other resources to schools to encourage shared use?',0,'0','school_phys_2',NULL),
 	(4,0,'2.2.2.2','textarea','Please describe:',0,'2.2.2.1',NULL,NULL),
 	(5,0,'2.2.4.1','radio','Given the current political/policy environment, where can this local board most likely help drive impact relative to shared use policies?',0,'0',NULL,NULL),

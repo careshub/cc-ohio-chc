@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.14)
 # Database: commonsdev
-# Generation Time: 2014-08-14 14:50:09 +0000
+# Generation Time: 2014-08-21 17:20:34 +0000
 # ************************************************************
 
 
@@ -40,8 +40,8 @@ LOCK TABLES `wp_aha_assessment_q_options` WRITE;
 
 INSERT INTO `wp_aha_assessment_q_options` (`id`, `qid`, `value`, `label`, `followup_id`, `summary_value`)
 VALUES
-	(1,'2.1.4.1.1','1','Yes','0','0'),
-	(2,'2.1.4.1.1','0','No','0','0'),
+	(1,'2.1.4.1.1','1','Yes','0','does'),
+	(2,'2.1.4.1.1','0','No','0','does not'),
 	(3,'2.1.4.1.2','1','Yes','0','0'),
 	(4,'2.1.4.1.2','0','No','0','0'),
 	(5,'2.1.4.1.3','1','Yes','0','0'),
