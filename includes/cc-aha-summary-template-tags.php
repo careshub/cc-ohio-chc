@@ -35,19 +35,9 @@ function cc_aha_render_summary_page(){
 	$red = '#FF0A17';
 	$green = '#78B451';
 	$yellow = '#FCA93C';
-	
-	//MB added JSON service to get FIPS using selected metro id.
-	$response = wp_remote_get( 'http://maps.communitycommons.org/api/service.svc/json/AHAfips/?metroid=' . $metro_id );
 
-	//read JSON response
-	 if( is_array( $response ) ) {
-			$r = wp_remote_retrieve_body( $response );
-			$output = json_decode( $r, true );
-			//var_dump($output);
-			$fips = $output['getAHAfipsResult'][0]['fips'];
-			$cleanedfips = str_replace('05000US','',$fips);	
-			
-		} 	
+	$cleanedfips = cc_aha_get_fips( true );	
+	
 	?>
 	<div id="summary-navigation">
 		<ul class="horizontal no-bullets">
@@ -57,7 +47,7 @@ function cc_aha_render_summary_page(){
 			<li><a href="#chain-of-survival" class="tab-select">Chain of Survival</a></li> -->
 			<li><a href="<?php echo cc_aha_get_analysis_permalink(); ?>" class="button">Return to Analysis Summary</a></li>
 			<li class="alignright">
-			<?php if (!empty($cleanedfips)) { ?>
+			<?php if ( ! empty( $cleanedfips ) ) { ?>
 				<a href="http://assessment.communitycommons.org/CHNA/OpenReport.aspx?reporttype=AHA&areatype=county&areaid=<?php echo $cleanedfips; ?>" target="_blank" class="button">View Data Report</a>
 			<?php } else { ?>	
 				<a href="http://assessment.communitycommons.org/CHNA/selectarea.aspx?reporttype=AHA " target="_blank" class="button">View Data Report</a>				
@@ -145,6 +135,8 @@ function cc_aha_print_single_report_card( $metro_id = 0 ) {
 }
 
 function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
+	$fips = cc_aha_get_fips();	
+
 	if ( $section == 'community' ) {
 		switch ( $impact_area ) {
 		 	case 'tobacco':

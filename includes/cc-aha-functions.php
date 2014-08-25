@@ -273,3 +273,23 @@ function aha_survey_page_completed( $page, $board_data, $school_data ) {
     // If we make it out of the foreach, all is well.
     return true;
 }
+
+function cc_aha_get_fips( $cleaned = false ){
+    if ( ! $metro_id = $_COOKIE['aha_summary_metro_id'] )
+        return false;
+
+    //MB added JSON service to get FIPS using selected metro id.
+    $response = wp_remote_get( 'http://maps.communitycommons.org/api/service.svc/json/AHAfips/?metroid=' . $metro_id );
+
+    //read JSON response
+     if( is_array( $response ) ) {
+         $r = wp_remote_retrieve_body( $response );
+         $output = json_decode( $r, true );
+         //var_dump($output);
+         $fips = $output['getAHAfipsResult'][0]['fips'];
+         $cleanedfips = str_replace('05000US','',$fips); 
+
+         return ( $cleaned ) ? $cleanedfips : $fips;
+     } 
+
+}
