@@ -59,8 +59,8 @@ function cc_aha_print_metro_select_container_markup() {
  */
 function cc_aha_print_summary_metro_select_container_markup() {
     // Get the user's selection, if set
-    if ( isset( $_COOKIE['aha_summary_metro_id'] ) ) { 
-        $summary_message = 'You are currently viewing the summary for ' . cc_aha_get_metro_nicename( $_COOKIE['aha_summary_metro_id'] );
+    if ( $metro_id = cc_aha_resolve_summary_metro_id() ) { 
+        $summary_message = 'You are currently viewing the summary for ' . cc_aha_get_metro_nicename( $metro_id );
         $link_text = 'Change'; 
     } else {
         $summary_message = 'Please choose an AHA board to view.';
@@ -191,7 +191,7 @@ function cc_aha_render_tab_subnav(){
                         <a href="<?php echo cc_aha_get_survey_permalink(); ?>">Assessment</a>
                     </li>
                 <?php endif; ?>
-                <?php if ( current_user_can( 'delete_plugins' ) ) : ?>
+                <?php if ( cc_aha_user_has_super_secret_clearance() ) : ?>
                 <li <?php if ( cc_aha_on_analysis_screen() ) { echo 'class="current"'; } ?>>
                     <a href="<?php echo cc_aha_get_analysis_permalink(); ?>">View Report</a>
                 </li>

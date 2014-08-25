@@ -16,8 +16,8 @@
  * @return  html - generated code
  */
 function cc_aha_render_summary_page(){
-	if ( ! $metro_id = $_COOKIE['aha_summary_metro_id'] )
-		return false;
+	// if ( ! $metro_id = cc_aha_resolve_summary_metro_id() )
+	// 	return false;
 
 	// TODO: This must be removed before the summaries are made public.
 	if ( ! cc_aha_user_can_do_assessment() ) {

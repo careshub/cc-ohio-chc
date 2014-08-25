@@ -116,6 +116,47 @@ function cc_aha_user_can_do_assessment(){
 }
 
 /**
+ * Super access for secret development
+ * 
+ * @return boolean
+ */
+function cc_aha_user_has_super_secret_clearance(){
+    // Only members who have an "@heart.org" email address (and site admins) are allowed to fill out the assessment 
+    if ( ! is_user_logged_in() ) {
+        return false;
+    } else if ( current_user_can( 'delete_others_posts' ) ) {
+        return true;
+    } else {
+        $current_user = wp_get_current_user();
+        if ( in_array( strtolower( $current_user->user_email ), cc_aha_super_secret_access_list() ) ) {
+            return true;
+        } 
+    }
+    // If none of the above fired...
+    return false;
+}
+
+function cc_aha_super_secret_access_list(){
+    return array(
+            'ben.weittenhiller@heart.org', 'christian.caldwell@heart.org'
+        );
+
+}
+
+function cc_aha_resolve_summary_metro_id(){
+    // Cookies set with setcookie() aren't available until next page load. So we compare the URL to the cookie and see what's what. We prefer the URL info.
+
+    if ( $metro_id = bp_action_variable( 1 ) )
+        return $metro_id;
+
+    if ( $metro_id = $_COOKIE['aha_summary_metro_id'] )
+        return $metro_id;
+
+    return false;
+
+}
+
+/**
  * Where are we?
  * Checks for the various screens
  *
@@ -234,7 +275,7 @@ function aha_survey_page_completed( $page, $board_data, $school_data ) {
 }
 
 function cc_aha_get_fips( $cleaned = false ){
-    if ( ! $metro_id = $_COOKIE['aha_summary_metro_id'] )
+    if ( ! $metro_id = cc_aha_resolve_summary_metro_id() )
         return false;
 
     //MB added JSON service to get FIPS using selected metro id.

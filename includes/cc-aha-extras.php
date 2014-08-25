@@ -109,6 +109,9 @@ class CC_AHA_Extras {
 
 		// Checks existing metro ID cookie value and tries to gracefully set cookie value for Metro ID on page load.
 		add_action( 'bp_init', array( $this, 'set_metro_id_cookie_on_load'), 22 );
+		
+		// Checks requested analysis URL for specified metro_id. Sets cookie if not in agreement.
+		add_action( 'bp_init', array( $this, 'check_summary_metro_id_cookie_on_load'), 11 );
 
 	}
 
@@ -498,7 +501,8 @@ class CC_AHA_Extras {
 			// TODO: this isn't redirecting to the right location.
 			if ( isset( $_POST['aha_summary_metro_id'] ) ) {
 				setcookie( 'aha_summary_metro_id', $_POST['aha_summary_metro_id'], 0, '/' );
-				$url = cc_aha_get_analysis_permalink();
+				// $url = cc_aha_get_analysis_permalink(); // Can't access the cookie data
+				$url = cc_aha_get_home_permalink( $group_id ) . cc_aha_get_analysis_slug() . '/' . $_POST['aha_summary_metro_id'];
 			}
 
 			// Redirect and exit
@@ -646,6 +650,10 @@ class CC_AHA_Extras {
             setcookie( $cookie_name, '', time()-3600, '/' );
             // Remove it from the $_COOKIE array, too, so the following action will fire.
             unset( $_COOKIE[ $cookie_name ] );
+			$towrite = PHP_EOL . 'set cookie is firing: ';
+			$fp = fopen('aha_summary_setup.txt', 'a');
+			fwrite($fp, $towrite);
+			fclose($fp);
 			$redirect = true;	           
 	    }
 
@@ -653,12 +661,47 @@ class CC_AHA_Extras {
 	    // If user has only one affiliation, we can set the cookie
 	    if ( empty( $_COOKIE[ $cookie_name ] ) && count( $selected_metro_ids ) == 1  ){
             setcookie( $cookie_name, reset( $selected_metro_ids ), 0, '/' );
-			$redirect = true;	
+			$redirect = true;
+			$towrite = PHP_EOL . 'empty cookie is firing: ';
+			$fp = fopen('aha_summary_setup.txt', 'a');
+			fwrite($fp, $towrite);
+			fclose($fp);
         }
 
-        if ( $redirect )
+        if ( $redirect ) {
         	wp_redirect( wp_get_referer() );
+        }
 
+	}
 
+	/**
+	 * Checks existing metro ID cookie value and tries to gracefully set cookie value for Metro ID on page load - For summary section only
+	 *  
+	 * @since   1.0.0
+	 * @return  none, creates cookie
+	 * @uses 	setcookie(), wp_redirect()
+	 */
+	public function check_summary_metro_id_cookie_on_load() {
+
+		// We only do this on the analysis screen.
+		if ( ! cc_aha_on_analysis_screen() )
+			return;
+
+		// Only continue if there is a metro id set in the URL.
+		if ( ! $url_metro_id = bp_action_variable( 1 ) )
+			return;
+
+		// Is there a cookie set that matches that url?
+		if ( $url_metro_id != $_COOKIE['aha_summary_metro_id'] ){
+			// Either the cookie isn't set, or the two metros don't match. URL should trump cookie.
+            setcookie( 'aha_summary_metro_id', $url_metro_id, 0, '/' );
+			$current_url = home_url( $_SERVER['REQUEST_URI'] );
+			$towrite = PHP_EOL . 'redirecting to: ' . print_r( $current_url, TRUE);
+			$fp = fopen('aha_summary_setup.txt', 'a');
+			fwrite($fp, $towrite);
+			fclose($fp);
+            wp_redirect( $current_url );
+            exit;
+		}
 	}
 } // End class
