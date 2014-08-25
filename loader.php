@@ -46,6 +46,7 @@ function cc_aha_extras_class_init(){
     $wpdb->aha_assessment_q_options = $wpdb->prefix . 'aha_assessment_q_options';
     $wpdb->aha_assessment_school = $wpdb->prefix . 'aha_assessment_school';
     $wpdb->aha_assessment_board = $wpdb->prefix . 'aha_assessment_board';
+    $wpdb->aha_assessment_counties = $wpdb->prefix . 'aha_assessment_counties';
 	
 }
 add_action( 'bp_include', 'cc_aha_extras_class_init' );

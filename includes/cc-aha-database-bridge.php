@@ -486,3 +486,44 @@ function cc_aha_get_single_metro_data( $metro_id ){
 	// We want to return a single result, so the first will do.
 	return current( $metro );
 }
+
+/**
+ * Returns all the counties sharing a metro ID.
+ *
+ * @since   1.0.0
+ * @return 	array
+ */
+function cc_aha_get_county_data( $metro_id ){
+	global $wpdb;
+	 
+	$counties = $wpdb->get_results( 
+		$wpdb->prepare( 
+		"
+		SELECT *
+		FROM $wpdb->aha_assessment_counties
+		WHERE board_id = %s
+		",
+		$metro_id )
+		, ARRAY_A
+	);
+	
+	return $counties;
+}
+
+function cc_aha_get_questions_for_summary_criterion( $criterion = null ){
+	global $wpdb;
+	
+	$questions = $wpdb->get_results( 
+		$wpdb->prepare( 
+		"
+		SELECT * 
+		FROM $wpdb->aha_assessment_questions
+		WHERE summary_section = %s
+		ORDER BY QID
+		",
+		$criterion )
+		, ARRAY_A
+	);
+
+	return $questions;
+}
