@@ -275,7 +275,7 @@ function aha_survey_page_completed( $page, $board_data, $school_data ) {
 }
 
 function cc_aha_get_fips( $cleaned = false ){
-    if ( ! $metro_id = $_COOKIE['aha_summary_metro_id'] )
+    if ( ! $metro_id = cc_aha_resolve_summary_metro_id() )
         return false;
 
     //MB added JSON service to get FIPS using selected metro id.

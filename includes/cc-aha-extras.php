@@ -700,8 +700,8 @@ class CC_AHA_Extras {
 			$fp = fopen('aha_summary_setup.txt', 'a');
 			fwrite($fp, $towrite);
 			fclose($fp);
-            // wp_redirect( $current_url );
-            // exit;
+            wp_redirect( $current_url );
+            exit;
 		}
 	}
 } // End class
