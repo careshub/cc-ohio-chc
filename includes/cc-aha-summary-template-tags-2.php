@@ -239,3 +239,53 @@ function cc_aha_print_criterion_school_cpr_1( $metro_id ) {
 	echo PHP_EOL . ">> top 3";
 
 }
+
+
+
+
+//TODO: move these to summary-template-tags(-1)
+
+// Generalized to identify 0- <80, 80-90 and >90% tiers
+function cc_aha_calc_three_tiers_80( $metro_id, $qid ) {
+	if ( ! $metro_id )
+		$metro_id = $_COOKIE['aha_summary_metro_id'];
+
+	$data = cc_aha_get_form_data( $metro_id );
+
+	if ( $data[ $qid ] > 90 ) {
+		return 'healthy';
+	} else if ( ( $data[ $qid ] >= 80 ) && ( $data[ $qid ] <= 90 ) ) {
+		return 'intermediate';
+	} else {
+		return 'poor';
+	}
+}
+
+
+function cc_aha_calc_n_question_district_yes_percent( $school_data, $qids = array() ) {
+	$num_yes = 0;
+	$total_questions = 0;
+	
+	//loop through each school
+	foreach ( $school_data as $school ){
+	
+		//loop through each question for this school
+		foreach( $qids as $qid ){
+		
+			//if data is not defined, either no column or cell data, don't assume 'No'.
+			if( isset( $school[ $qid ] ) ) {
+				//depending on where the data comes from, it could be 'Yes' or '1'
+				if ( ( $school[ $qid ] == 'Yes' ) || ( $school[ $qid ] == '1' ) ) {
+					$num_yes++;
+				}
+				$total_questions++; //hmm
+			}
+		}
+	}
+	
+	if ( $total_questions > 0 ){
+		return ( $num_yes / $total_questions ) * 100;
+	} else {
+		return false;
+	}
+}

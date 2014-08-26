@@ -918,10 +918,14 @@ function cc_aha_section_get_score( $section, $impact_area, $crit_key, $metro_id 
 			break;
 		case 'care_factors_1':
 			// Insurance coverage
+			$score = cc_aha_calc_three_tiers_80( $metro_id, '4.1.1' );
+			break;
+		case 'care_acute_1':
+			// CMS penalty
 			// TODO
 			$score = 'poor';
 			break;
-		case 'care_acute_1':
+		case 'care_acute_2':
 			// CMS penalty
 			// TODO
 			$score = 'poor';
@@ -975,6 +979,7 @@ function cc_aha_calc_three_text_tiers( $metro_id, $qid, $tiers ){
 		return 'poor';
 	}
 }
+
 // Generalized to identify 0-49, 50-99 and 100% tiers
 function cc_aha_calc_three_tiers( $metro_id, $qid ) {
 	if ( ! $metro_id )
@@ -1028,30 +1033,3 @@ function cc_aha_calc_n_question_district_yes_tiers( $school_data, $qids = array(
 	}	
 }
 
-function cc_aha_calc_n_question_district_yes_percent( $school_data, $qids = array() ) {
-	$num_yes = 0;
-	$total_questions = 0;
-	
-	//loop through each school
-	foreach ( $school_data as $school ){
-	
-		//loop through each question for this school
-		foreach( $qids as $qid ){
-		
-			//if data is not defined, either no column or cell data, don't assume 'No'.
-			if( isset( $school[ $qid ] ) ) {
-				//depending on where the data comes from, it could be 'Yes' or '1'
-				if ( ( $school[ $qid ] == 'Yes' ) || ( $school[ $qid ] == '1' ) ) {
-					$num_yes++;
-				}
-				$total_questions++; //hmm
-			}
-		}
-	}
-	
-	if ( $total_questions > 0 ){
-		return ( $num_yes / $total_questions ) * 100;
-	} else {
-		return false;
-	}
-}
