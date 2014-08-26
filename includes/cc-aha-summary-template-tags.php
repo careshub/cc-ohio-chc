@@ -449,7 +449,6 @@ function cc_aha_print_criterion_community_phys_1( $metro_id ) {
 
 }
 
-<<<<<<< HEAD
 function cc_aha_print_criterion_community_diet_1( $metro_id ) {
 	$data = cc_aha_get_form_data( $metro_id );
 	?>
@@ -611,8 +610,6 @@ function cc_aha_print_criterion_community_diet_3( $metro_id ) {
 	echo PHP_EOL . ">> top 3";
 
 }
-=======
->>>>>>> FETCH_HEAD
 
 /**
  * Output dial html based on input
@@ -835,10 +832,6 @@ function cc_aha_get_summary_sections() {
 		),
 	);
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> FETCH_HEAD
 
 function cc_aha_get_summary_impact_area_title( $section, $impact_area ) {
 	$section_data = cc_aha_get_summary_sections();
