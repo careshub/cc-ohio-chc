@@ -1014,11 +1014,11 @@ function cc_aha_get_summary_sections() {
 					'dial_ids' => array( 640, 625 ),
 					'criteria' => array(
 						1 => array(
-							'label' => 'CMS PENALTY: Total Discharges & Underserved Discharges',
+							'label' => 'CMS PENALTY: Total Discharges',
 							'background' => 'More hospitals are receiving penalties than bonuses in the second year of Medicare’s quality incentive program.  Government records show that the average penalty is steeper than it was last year. These penalties were based on two-dozen quality measurements, including surveys of patient satisfaction and—for the first time—death rates.  Hospitals are encouraged to find ways to improve their scores.  The AHA believes that GWTG can help to increase their quality by helping them to identify process improvements, monitoring compliance with the AHA guidelines for Stroke, HF, Resuscitation, ACTION Registry-GWTG and AFIB.',
 							'group' => 'care_acute_1' ),
 						2 => array(
-							'label' => '',
+							'label' => 'CMS PENALTY: Underserved Discharges',
 							'background' => '',
 							'group' => 'care_acute_2' ),
 					),
