@@ -534,6 +534,29 @@ function cc_aha_get_complete_streets_data( $metro_id ){
 }
 
 /**
+ * Returns all the hospital entries for a metro ID.
+ *
+ * @since   1.0.0
+ * @return 	array
+ */
+function cc_aha_get_hospital_data( $metro_id ){
+	global $wpdb;
+	 
+	$results = $wpdb->get_results( 
+		$wpdb->prepare( 
+		"
+		SELECT *
+		FROM $wpdb->aha_assessment_hospitals
+		WHERE `AHA Board Territory` = %s
+		",
+		$metro_id )
+		, ARRAY_A
+	);
+	
+	return $results;
+}
+
+/**
  * Retrieve all of the questions that should appear in an analysis criterion.
  *
  * @since   1.0.0

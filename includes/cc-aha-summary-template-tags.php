@@ -224,6 +224,11 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 	$counties = cc_aha_get_county_data( $metro_id );
 	$data = cc_aha_get_form_data( $metro_id );
+	
+	$section = 'community';
+	$impact_area = 'tobacco';
+	$group = 'community_tobacco_1';
+	
 	?>
 	<h5>Current Status</h5>
 	<table>
@@ -275,6 +280,32 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 	</ul>
 
 	<h5>Discussion Questions</h5>
+	<?php 
+	//Show Discussion questions from the db (where 'group' here == 'summary_section' in db)
+	$criteria = cc_aha_get_impact_area_criteria( $section, $impact_area );
+	
+	$disc_questions = array();
+	
+	foreach ( $criteria as $criterion ){
+		//echo 'Criteria !' . $criterion;
+		//print_r( $criterion );
+		$disc_questions[] = cc_aha_get_questions_for_summary_criterion( $criterion['group'] ); 
+	}
+	
+	$disc_questions = current( $disc_questions );
+	
+	//if we have multiple question rows in table for group
+	foreach ( $disc_questions as $question ) {
+		//$question = current( $question );
+		
+		if ( $question['summary_section'] == $group ) { //make sure we're looking at the right set of questions
+			echo $question['summary_label'];
+		}
+	}
+	
+	?>
+	
+	<!--<h5>Discussion Questions</h5>
 	<strong>Is this a priority at the state level?</strong>
 	<ul>
 		<li>Are their state legislators from this community who are key targets that we need to influence for supporting a state-wide campaign?</li>
@@ -289,7 +320,8 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 		<li>What is the likelihood of the current council support for clean indoor air law?  </li>
 		<li>Do the board members and other AHA volunteers have the capacity to lead and fully engage in this campaign?</li>
 		<li>Is there any external funding available to do the work?  (ex. Community Transformation Grants, etc.)</li>
-	</ul>
+	</ul>-->
+	
 	<?php 
 	echo PHP_EOL . ">> open response";
 	echo PHP_EOL . ">> top 3";
@@ -417,6 +449,7 @@ function cc_aha_print_criterion_community_phys_1( $metro_id ) {
 
 }
 
+<<<<<<< HEAD
 function cc_aha_print_criterion_community_diet_1( $metro_id ) {
 	$data = cc_aha_get_form_data( $metro_id );
 	?>
@@ -578,6 +611,8 @@ function cc_aha_print_criterion_community_diet_3( $metro_id ) {
 	echo PHP_EOL . ">> top 3";
 
 }
+=======
+>>>>>>> FETCH_HEAD
 
 /**
  * Output dial html based on input
@@ -777,7 +812,7 @@ function cc_aha_get_summary_sections() {
 					'criteria' => array(
 						1 => array(
 							'label' => 'Insurance Coverage',
-							'background' => '',
+							'background' => 'The burden of heart disease and stroke can be especially challenging for those without health insurance or with inadequate coverage.  Uninsured Americans with CVD have higher mortality rates and a more difficult time controlling their blood pressure or accessing needed medications. The uninsured and underinsured are also have a harder time accessing preventative care and needed medications.  The AHA advocates for states to accept federal funds to provide health insurance to low income adults and cover of all cardiovascular-related preventative benefits with an A or B recommendation by the USPSTF for Medicaid enrollees, with no cost for patients. <a href="http://www.heartforhealthcare.org">www.heartforhealthcare.org</a>',
 							'group' => 'care_factors_1' ),
 					),
 				),
@@ -788,7 +823,7 @@ function cc_aha_get_summary_sections() {
 					'criteria' => array(
 						1 => array(
 							'label' => 'CMS Penalty: Total CVD Discharges',
-							'background' => '',
+							'background' => 'More hospitals are receiving penalties than bonuses in the second year of Medicare’s quality incentive program.  Government records show that the average penalty is steeper than it was last year. These penalties were based on two-dozen quality measurements, including surveys of patient satisfaction and—for the first time—death rates.  Hospitals are encouraged to find ways to improve their scores.  The AHA believes that GWTG can help to increase their quality by helping them to identify process improvements, monitoring compliance with the AHA guidelines for Stroke, HF, Resuscitation, ACTION Registry-GWTG and AFIB.',
 							'group' => 'care_acute_1' ),
 						2 => array(
 							'label' => 'CMS Penalty: Total CVD Discharges',
@@ -800,6 +835,10 @@ function cc_aha_get_summary_sections() {
 		),
 	);
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> FETCH_HEAD
 
 function cc_aha_get_summary_impact_area_title( $section, $impact_area ) {
 	$section_data = cc_aha_get_summary_sections();

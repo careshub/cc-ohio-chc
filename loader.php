@@ -32,6 +32,7 @@ function cc_aha_extras_class_init(){
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-survey-template-tags.php' );
 	// Template functions for the summary pages
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-summary-template-tags.php' );
+	require_once( dirname( __FILE__ ) . '/includes/cc-aha-summary-template-tags-2.php' );
 	// Database helper functions
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-database-bridge.php' );
 	// The main class
@@ -48,6 +49,7 @@ function cc_aha_extras_class_init(){
     $wpdb->aha_assessment_board = $wpdb->prefix . 'aha_assessment_board';
     $wpdb->aha_assessment_counties = $wpdb->prefix . 'aha_assessment_counties';
     $wpdb->aha_assessment_complete_streets = $wpdb->prefix . 'aha_assessment_complete_streets';
+    $wpdb->aha_assessment_hospitals = $wpdb->prefix . 'aha_assessment_hospitals';
 	
 }
 add_action( 'bp_include', 'cc_aha_extras_class_init' );
