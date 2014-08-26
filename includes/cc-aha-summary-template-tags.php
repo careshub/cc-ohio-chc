@@ -794,7 +794,7 @@ function cc_aha_get_summary_sections() {
 					'criteria' => array(
 						1 => array(
 							'label' => 'CPR Grad Requirement',
-							'background' => '',
+							'background' => 'Sudden Cardiac Arrest is a leading cause of death in the U.S.—but when ordinary people, not just doctors and EMTs, are equipped with the skills to perform CPR, the survival rate can double, or even triple.  Help us add thousands of lifesavers to our communities. Join us in supporting public policy that will ensure all students learn quality CPR before they graduate from high school. <a href="http://www.becprsmart.org">www.becprsmart.org</a>',
 							'group' => 'school_cpr_1' ),
 					),
 				),
@@ -912,7 +912,9 @@ function cc_aha_section_get_score( $section, $impact_area, $crit_key, $metro_id 
 			break;
 		case 'school_cpr_1':
 			// CPR grad requirement
-			$score = cc_aha_calc_three_tiers( $metro_id, '5.1.4.6' );
+			$qids = array( '5.1.4.1' );
+			$school_data = cc_aha_get_school_data( $metro_id );
+			$score = cc_aha_calc_n_question_district_yes_tiers( $school_data, $qids );
 			break;
 		case 'care_factors_1':
 			// Insurance coverage
@@ -1024,5 +1026,32 @@ function cc_aha_calc_n_question_district_yes_tiers( $school_data, $qids = array(
 	} else {
 		return 'poor';
 	}	
+}
+
+function cc_aha_calc_n_question_district_yes_percent( $school_data, $qids = array() ) {
+	$num_yes = 0;
+	$total_questions = 0;
 	
+	//loop through each school
+	foreach ( $school_data as $school ){
+	
+		//loop through each question for this school
+		foreach( $qids as $qid ){
+		
+			//if data is not defined, either no column or cell data, don't assume 'No'.
+			if( isset( $school[ $qid ] ) ) {
+				//depending on where the data comes from, it could be 'Yes' or '1'
+				if ( ( $school[ $qid ] == 'Yes' ) || ( $school[ $qid ] == '1' ) ) {
+					$num_yes++;
+				}
+				$total_questions++; //hmm
+			}
+		}
+	}
+	
+	if ( $total_questions > 0 ){
+		return ( $num_yes / $total_questions ) * 100;
+	} else {
+		return false;
+	}
 }
