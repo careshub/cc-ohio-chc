@@ -457,9 +457,9 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 				?>
 				<tr>
 					<td><?php echo $county['County_Name']; ?></td>
-					<td><?php echo $county['smokefree_restaurants_local'] ? 'Yes' : 'No'; ?></td>
-					<td><?php echo $county['smokefree_bars_local'] ? 'Yes' : 'No'; ?></td>
-					<td><?php echo $county['smokefree_workplaces_local'] ? 'Yes' : 'No'; ?></td>
+					<td><?php echo $county['smokefree_restaurants_state_local'] ? 'Yes' : 'No'; ?></td>
+					<td><?php echo $county['smokefree_bars_state_local'] ? 'Yes' : 'No'; ?></td>
+					<td><?php echo $county['smokefree_workplaces_state_local'] ? 'Yes' : 'No'; ?></td>
 				</tr>
 				<?php
 			} ?>
@@ -511,7 +511,11 @@ function cc_aha_print_criterion_community_tobacco_2( $metro_id ) {
 	$data = cc_aha_get_form_data( $metro_id );
 	?>
 	<h5>Current Status</h5>
-	<p>Your current state tobacco excise tax is $<?php echo $data['1.2.1.1']; ?> and your local excise tax rate (for the largest municipality in your area) is $<?php echo ( $data['1.2.2.1'] ) ? $data['1.2.2.1'] : 0 ; ?> for a total effective tax rate of $<?php echo money_format('%i', $data['1.2.1.1'] + $data['1.2.2.1'] ); ?>.</p>
+	<p>Your current state tobacco excise tax is $<?php echo $data['1.2.1.1']; ?> and your local excise tax rate (for the largest municipality in your area) is $<?php echo ( $data['1.2.2.1'] ) ? $data['1.2.2.1'] : 0 ; ?> for a total effective tax rate of $<?php 
+	// echo money_format('%i', $data['1.2.1.1'] + $data['1.2.2.1'] ); // money_format fails on dev
+		echo $data['1.2.1.1'] + $data['1.2.2.1']; 
+
+	?>.</p>
 	
 	<h5>Policy Landscape</h5>
 	<ul>
