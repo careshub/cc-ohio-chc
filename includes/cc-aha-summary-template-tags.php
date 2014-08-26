@@ -224,6 +224,11 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 	$counties = cc_aha_get_county_data( $metro_id );
 	$data = cc_aha_get_form_data( $metro_id );
+	
+	$section = 'community';
+	$impact_area = 'tobacco';
+	$group = 'community_tobacco_1';
+	
 	?>
 	<h5>Current Status</h5>
 	<table>
@@ -275,6 +280,32 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 	</ul>
 
 	<h5>Discussion Questions</h5>
+	<?php 
+	//Show Discussion questions from the db (where 'group' here == 'summary_section' in db)
+	$criteria = cc_aha_get_impact_area_criteria( $section, $impact_area );
+	
+	$disc_questions = array();
+	
+	foreach ( $criteria as $criterion ){
+		//echo 'Criteria !' . $criterion;
+		//print_r( $criterion );
+		$disc_questions[] = cc_aha_get_questions_for_summary_criterion( $criterion['group'] ); 
+	}
+	
+	$disc_questions = current( $disc_questions );
+	
+	//if we have multiple question rows in table for group
+	foreach ( $disc_questions as $question ) {
+		//$question = current( $question );
+		
+		if ( $question['summary_section'] == $group ) { //make sure we're looking at the right set of questions
+			echo $question['summary_label'];
+		}
+	}
+	
+	?>
+	
+	<!--<h5>Discussion Questions</h5>
 	<strong>Is this a priority at the state level?</strong>
 	<ul>
 		<li>Are their state legislators from this community who are key targets that we need to influence for supporting a state-wide campaign?</li>
@@ -289,7 +320,8 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 		<li>What is the likelihood of the current council support for clean indoor air law?  </li>
 		<li>Do the board members and other AHA volunteers have the capacity to lead and fully engage in this campaign?</li>
 		<li>Is there any external funding available to do the work?  (ex. Community Transformation Grants, etc.)</li>
-	</ul>
+	</ul>-->
+	
 	<?php 
 	echo PHP_EOL . ">> open response";
 	echo PHP_EOL . ">> top 3";
@@ -415,6 +447,148 @@ function cc_aha_print_criterion_community_phys_1( $metro_id ) {
 	echo PHP_EOL . ">> top 3";
 
 }
+
+
+
+function cc_aha_print_criterion_care_factors_1( $metro_id ) {
+	$counties = cc_aha_get_county_data( $metro_id );
+	$data = cc_aha_get_form_data( $metro_id );
+	
+	$section = 'care';
+	$impact_area = 'factors';
+	$group = 'care_factors_1';
+	
+	?>
+	<h5>Current State</h5>
+	<p><?php echo $data['4.1.1']; ?>% of residents aged <65 have health insurance.</p>
+	
+	<p><?php echo $data['State']; ?> <?php echo $data['4.1.2.1'] ? 'is' : 'is not'; ?> covered by Medicaid expansion.</p>
+	
+	<p><?php echo $data['State']; ?> <?php echo $data['4.1.2.2'] ? 'is' : 'is not'; ?> covered by USPSTF A and/or B.</p>
+	
+	<h5>Policy Landscape</h5>
+	<ul>
+		<li><?php 
+		if ( ( $data['4.1.4'] == 'Not a viable issue at any level at this time' ) || ( $data['4.1.4'] == 'no' ) ) {
+			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
+		} else if ( ( $data['4.1.4'] == 'Yes – Medicaid expansion at the state level' ) || ( $data['4.1.4'] == 'yes - Medicaid expansion' ) ) {
+			echo 'Given the current political/policy environment, we envision “Medicaid expansion at the state level”'; 
+			if ( isset ( $data['4.1.3.1'] ) ) 
+				echo ' potentially in ' . $data['4.1.3.1'];
+		} else if ( ( $data['4.1.4'] == 'Yes – USPSTF at the state level' ) || ( $data['4.1.4'] == 'yes - USPSTF' ) ) {
+			echo 'Given the current political/policy environment, we envision “USPSTF A and B cardiovascular preventative benefits under Medicaid” will be passed in your state'; 
+			if ( isset ( $data['4.1.3.2'] ) ) 
+				echo ' potentially in ' . $data['4.1.3.2'];
+		}
+		?></li>
+	</ul>
+	
+	<h5>Discussion Questions</h5>
+	<?php 
+	//Show Discussion questions from the db (where 'group' here == 'summary_section' in db)
+	$criteria = cc_aha_get_impact_area_criteria( $section, $impact_area );
+	
+	$disc_questions = array();
+	
+	foreach ( $criteria as $criterion ){
+		$disc_questions[] = cc_aha_get_questions_for_summary_criterion( $criterion['group'] ); 
+	}
+	
+	$disc_questions = current( $disc_questions );
+	
+	//if we have multiple question rows in table for group
+	foreach ( $disc_questions as $question ) {
+		
+		if ( $question['summary_section'] == $group ) { //make sure we're looking at the right set of questions
+			echo $question['summary_label'];
+		}
+	}
+	
+	?>
+	
+	<?php 
+	echo PHP_EOL . ">> open response";
+	echo PHP_EOL . ">> top 3";
+
+}
+
+function cc_aha_print_criterion_care_acute_1( $metro_id ) {
+	$counties = cc_aha_get_county_data( $metro_id );
+	$data = cc_aha_get_form_data( $metro_id );
+	$hospitals = cc_aha_get_hospital_data( $metro_id );
+	
+	$section = 'care';
+	$impact_area = 'acute';
+	$group = 'care_acute_1';
+	
+	?>
+	<h5>Current State</h5>
+	<p><?php echo $data['6.1.1']; ?>% of CVD discharges are from hospitals with a CMS bonus penalty >-0.4%.</p>
+	
+	<p><?php echo $data['6.1.2']; ?>% of underserved CVD discharges are from hospitals with a CMS bonus penalty ≥-0.4%.</p>
+	
+	
+	<table>
+		<thead>
+			<tr>
+				<th>Hospital Name</th>
+				<th>CVD Discharges</th>
+				<th>Underserved CVD Discharges</th>
+				<th>Any AHA Quality Program</th>
+				<th>Total VBP Bonus/Penalty</th>
+				<th>CVD Discharge Target Rank by Board</th>
+				<th>Underserved Discharge Rank by Board</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php 
+			foreach ( $hospitals as $hospital ) {
+				?>
+				<tr>
+					<td><?php echo $hospital['Hospital Name']; ?></td>
+					<td><?php echo $hospital['CVD Discharges']; ?></td>
+					<td><?php echo $hospital['Underserved CVD Discharges']; ?></td>
+					<td><?php echo $hospital['Any AHA Quality Program']; ?></td>
+					<td><?php echo $hospital['Total VBP & Readmission Bonus/Penalty  2014']; ?></td>
+					<td><?php echo $hospital['CVD Discharge Target Rank by Board']; ?></td>
+					<td><?php echo $hospital['Underserved Discharge Rank by Board']; ?></td>
+				</tr>
+				<?php
+			} ?>
+		</tbody>
+	</table>
+	
+	<h5>Discussion Questions</h5>
+	<?php 
+	//Show Discussion questions from the db (where 'group' here == 'summary_section' in db)
+	$criteria = cc_aha_get_impact_area_criteria( $section, $impact_area );
+	
+	$disc_questions = array();
+	
+	foreach ( $criteria as $criterion ){
+		$disc_questions[] = cc_aha_get_questions_for_summary_criterion( $criterion['group'] ); 
+	}
+	
+	$disc_questions = current( $disc_questions );
+	
+	//if we have multiple question rows in table for group
+	foreach ( $disc_questions as $question ) {
+		
+		if ( $question['summary_section'] == $group ) { //make sure we're looking at the right set of questions
+			echo $question['summary_label'];
+		}
+	}
+	
+	?>
+	
+	<?php 
+	echo PHP_EOL . ">> open response";
+	echo PHP_EOL . ">> top 3";
+
+}
+
+
+
 
 /**
  * Output dial html based on input
@@ -604,7 +778,7 @@ function cc_aha_get_summary_sections() {
 					'criteria' => array(
 						1 => array(
 							'label' => 'Insurance Coverage',
-							'background' => '',
+							'background' => 'The burden of heart disease and stroke can be especially challenging for those without health insurance or with inadequate coverage.  Uninsured Americans with CVD have higher mortality rates and a more difficult time controlling their blood pressure or accessing needed medications. The uninsured and underinsured are also have a harder time accessing preventative care and needed medications.  The AHA advocates for states to accept federal funds to provide health insurance to low income adults and cover of all cardiovascular-related preventative benefits with an A or B recommendation by the USPSTF for Medicaid enrollees, with no cost for patients. <a href="http://www.heartforhealthcare.org">www.heartforhealthcare.org</a>',
 							'group' => 'care_factors_1' ),
 					),
 				),
@@ -615,7 +789,7 @@ function cc_aha_get_summary_sections() {
 					'criteria' => array(
 						1 => array(
 							'label' => 'CMS Penalty: Total CVD Discharges',
-							'background' => '',
+							'background' => 'More hospitals are receiving penalties than bonuses in the second year of Medicare’s quality incentive program.  Government records show that the average penalty is steeper than it was last year. These penalties were based on two-dozen quality measurements, including surveys of patient satisfaction and—for the first time—death rates.  Hospitals are encouraged to find ways to improve their scores.  The AHA believes that GWTG can help to increase their quality by helping them to identify process improvements, monitoring compliance with the AHA guidelines for Stroke, HF, Resuscitation, ACTION Registry-GWTG and AFIB.',
 							'group' => 'care_acute_1' ),
 						2 => array(
 							'label' => 'CMS Penalty: Total CVD Discharges',
@@ -627,84 +801,7 @@ function cc_aha_get_summary_sections() {
 		),
 	);
 }
-/*
-function cc_aha_get_summary_section_title( $section ) {
-	switch ( $section ) {
-		case 'community':
-			$title = 'Community Policies';
-			break;
-		case 'school':
-			$title = 'Healthy Schools';
-			break;
-		case 'care':
-			$title = 'Healthcare Access and Quality';
-			break;		
-		default:
-			# code...
-			break;
-	}
 
-	return $title;
-}
-*/
-//Houses each section's data, fetched via helper functions.
-/*
-function cc_aha_get_summary_impact_area_data( $section, $key ) {
-	switch ( $section ) {
-		case 'community':
-				switch ( $key ) {
-					case 'tobacco':
-						$title = 'Tobacco';
-						$text = 'Advocating for comprehensive smoke free air laws at the state and local level is a pillar of the AHA&rsquo;s tobacco control advocacy efforts. Second hand smoke causes heart disease, cancer, lung disease and other illnesses in non-smokers. Research shows smoke-free laws lead to drastic reductions in cardiovascular incidents. These laws should be in compliance with the Fundamentals of Smoke-free Workplace Laws guidelines which guide and maximize the impact of smoke free policy efforts and increase the number of workers and residents who are protected from second hand smoke.
-
-							<a href="http://www.heart.org/idc/groups/heart-public/@wcm/@adv/documents/downloadable/ucm_463595.pdf">Learn more</a>';
-						$dial_ids = array( 305, 354 );
-						break;
-					case 'phys':
-						$title = 'Physical Activity';
-						break;
-					case 'diet':
-						$title = 'Healthy Diet';
-						break;
-				}
-			break;
-		case 'school':
-				switch ( $key ) {
-					case 'phys':
-						$title = 'Physical Activity';
-						break;
-					case 'diet':
-						$title = 'Healthy Diet';
-						break;
-					case 'cpr':
-						$title = 'Chain of Survival';
-						break;
-				}
-			break;
-		case 'care':
-				switch ( $key ) {
-					case 'factors':
-						$title = 'Health Factors';
-						break;
-					case 'acute':
-						$title = 'Acute Event';
-						break;
-				}
-			break;		
-		default:
-			# code...
-			break;
-	}
-
-
-	return array( 
-		'title' 	=> 	$title,
-		'text' 		=> 	$text,
-		'dial_ids' 	=>	$dial_ids,
-
-	 );
-}
-*/
 
 function cc_aha_get_summary_impact_area_title( $section, $impact_area ) {
 	$section_data = cc_aha_get_summary_sections();
