@@ -779,11 +779,11 @@ function cc_aha_get_summary_sections() {
 					'criteria' => array(
 						1 => array(
 							'label' => 'School Nutrition Policy',
-							'background' => '',
+							'background' => ' The USDA Food and Nutrition Service interim final rule establishes nutrition standards for foods sold in schools other than those foods provided as part of the National School Lunch and School Breakfast Programs (NSLP/SBP).  These foods and beverages are called Competitive Foods because they “compete” with the traditional school lunch programs.  Examples are foods/beverages sold in the a la carte line, vending machines, school canteens, and onsite fundraisers.',
 							'group' => 'school_diet_1' ),
 						2 => array(
 							'label' => 'School Nutrition Implementation',
-							'background' => '',
+							'background' => 'The Healthy, Hunger-Free Kids Act of 2010 instituted many changes to the National School Lunch Program (NSLP), and in concert with those changes, USDA issued new, more strin¬gent school meal nutrition standards for the 2012-13 school year. All changes within school meals are expected to have occurred in advance of the beginning of the 2014-2015 school year to bring schools in compliance with federal law.',
 							'group' => 'school_diet_2' ),
 					),
 				),
@@ -814,16 +814,16 @@ function cc_aha_get_summary_sections() {
 					),
 				),
 				'acute' => array(
-					'label' => 'Acute Event',
+					'label' => 'Acute & Emergency Response',
 					'background' => '',
 					'dial_ids' => array( 640, 625 ),
 					'criteria' => array(
 						1 => array(
-							'label' => 'CMS Penalty: Total CVD Discharges',
+							'label' => 'CMS PENALTY: Total Discharges & Underserved Discharges',
 							'background' => 'More hospitals are receiving penalties than bonuses in the second year of Medicare’s quality incentive program.  Government records show that the average penalty is steeper than it was last year. These penalties were based on two-dozen quality measurements, including surveys of patient satisfaction and—for the first time—death rates.  Hospitals are encouraged to find ways to improve their scores.  The AHA believes that GWTG can help to increase their quality by helping them to identify process improvements, monitoring compliance with the AHA guidelines for Stroke, HF, Resuscitation, ACTION Registry-GWTG and AFIB.',
 							'group' => 'care_acute_1' ),
 						2 => array(
-							'label' => 'CMS Penalty: Total CVD Discharges',
+							'label' => '',
 							'background' => '',
 							'group' => 'care_acute_2' ),
 					),
@@ -904,11 +904,18 @@ function cc_aha_section_get_score( $section, $impact_area, $crit_key, $metro_id 
 			break;		
 		case 'school_diet_1':
 			// School nutrition policy
-			$score = cc_aha_calc_three_tiers( $metro_id, '3.1.3.6' );
+			//$score = cc_aha_calc_three_tiers( $metro_id, '3.1.3.6' );
+			$qids = array( '3.1.3.1.0', '3.1.3.1.1', '3.1.3.1.2', '3.1.3.1.3' );
+			$school_data = cc_aha_get_school_data( $metro_id );
+			$score = cc_aha_calc_n_question_district_yes_tiers( $school_data, $qids );
+			//$score = cc_aha_calc_three_tiers( $metro_id, '3.1.3.6' );
 			break;
 		case 'school_diet_2':
 			// School nutrition implementation
-			$score = cc_aha_calc_three_tiers( $metro_id, '3.2.1.6' );
+			//From AHA(Q3.2.1.6) CALCULATED: Percentage of top 5 districts answering “Yes” to Q3.2.1.1 – Q3.2.1.5 (we only have 3.2.1.1)
+			$qids = array( '3.2.1.1' );
+			$school_data = cc_aha_get_school_data( $metro_id );
+			$score = cc_aha_calc_n_question_district_yes_tiers( $school_data, $qids );
 			break;
 		case 'school_cpr_1':
 			// CPR grad requirement
@@ -921,14 +928,12 @@ function cc_aha_section_get_score( $section, $impact_area, $crit_key, $metro_id 
 			$score = cc_aha_calc_three_tiers_80( $metro_id, '4.1.1' );
 			break;
 		case 'care_acute_1':
-			// CMS penalty
-			// TODO
-			$score = 'poor';
+			// CMS penalty - TOTAL DISCHARGES
+			$score = cc_aha_calc_three_tiers_50( $metro_id, '6.1.1' );
 			break;
 		case 'care_acute_2':
-			// CMS penalty
-			// TODO
-			$score = 'poor';
+			// CMS penalty - UNDERSERVED DISCHARGES
+			$score = cc_aha_calc_three_tiers_50( $metro_id, '6.1.2' );
 			break;
 		default:
 			// When in doubt...
@@ -1026,8 +1031,10 @@ function cc_aha_calc_n_question_district_yes_tiers( $school_data, $qids = array(
 		
 	if ( ( $num_yes == $total_questions ) && ( $num_yes > 0 ) ) {  //because 0 total questions and 0 yeses indicate 1
 		return 'healthy';
-	} else if ( ( ( $num_yes / $total_questions ) >= 0.5 ) && ( ( $num_yes / $total_questions ) < 1 ) ) {
-		return 'intermediate';
+	} else if ( $total_questions > 0 ){
+		if ( ( ( $num_yes / $total_questions ) >= 0.5 ) && ( ( $num_yes / $total_questions ) < 1 ) ) {
+			return 'intermediate';
+		}
 	} else {
 		return 'poor';
 	}	
