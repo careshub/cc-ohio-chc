@@ -213,216 +213,6 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 		</div>
 <?php
 	}
-/*
-	if ( $section == 'community' ) {
-		switch ( $impact_area ) {
-		 	case 'tobacco':
-		 	// Hope we can abstract these!
-		 	?>
-
-
-					<h3>Clean Indoor Air Laws</h3>
-					<div class="content-row">
-						<div class="third-block clear">
-							<?php // Get a big dial
-								cc_aha_print_dial( cc_aha_section_get_score( 'comm_tobacco_1' ) );
-							?>
-						</div>
-
-						<div class="third-block spans-2">
-							<p><?php echo cc_aha_get_summary_introductory_text( $section, $impact_area ); ?></p>
-							<ul>
-								<li><?php cc_aha_print_cia_law_status( $data ); ?></li>
-								<li><?php cc_aha_print_state_cia_preempt( $data ); ?></li>
-								<li>XX % of your community's population is covered by clean indoor air laws.
-									<ul>
-										<li>Workplaces <?php echo $data[ '1.1.2.2' ]; ?>%</li>
-										<li>Restaurants <?php echo $data[ '1.1.2.3' ]; ?>%</li>
-										<li>Bars <?php echo $data[ '1.1.2.4' ]; ?>%</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>
-
-					<h3>Tobacco Excise Taxes</h3>
-					<div class="content-row">
-						<div class="third-block clear">
-							<?php // Get a big dial
-								cc_aha_print_dial( cc_aha_section_get_score( 'comm_tobacco_2' ) );
-							?>
-						</div>
-
-						<div class="third-block spans-2">
-							<ul>
-								<li>The current state tobacco excise tax rate is $<?php echo $data[ '1.2.1.1' ]; ?></li>
-								<li>The current local tobacco excise tax rate is $<?php echo $data[ '1.2.2.1' ]; ?></li>
-								<li>There is currently XX ability to levy tabacco excise taxes locally</li>
-							</ul>
-						</div>
-					</div>
-				</section>
-		 	<?php 
-		 		break;
-		 	case 'phys':
-	 		?>
-		 			<section id="physical-activity" class="clear">
-						<?php // Section setup
-							$pe_in_schools = cc_aha_calc_three_tiers( $data, '2.1.4.6' );
-							$shared_use = cc_aha_calc_three_tiers( $data, '2.2.5.6' );
-						?>
-						<h2 class="screamer">Physical Activity</h2>
-						<h3>Physical Education in Schools</h3>
-						<div class="content-row">
-							<div class="third-block clear">
-								<?php // Get a big dial
-									cc_aha_print_dial( cc_aha_section_get_score( 'school_phys_1' ) );
-								?>
-							</div>
-
-							<div class="third-block spans-2">
-								<ul>
-									<li>Your state XXX clean indoor air laws covering restaurants, bars, and workplaces.</li>
-									<li>The state does XXX preempt local communities from adopting their own clean indoor air laws.</li>
-									<li>XX % of your community's population is covered by clean indoor air laws.
-										<ul>
-											<li>Workplaces XX %</li>
-											<li>Restaurants XX %</li>
-											<li>Bars XX %</li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-						</div>
-
-						<h3>Shared Use Policies</h3>
-						<div class="content-row">
-							<div class="third-block clear">
-								<?php // Get a big dial
-									cc_aha_print_dial( cc_aha_section_get_score( 'school_phys_2' )  );
-								?>
-							</div>
-
-							<div class="third-block spans-2">
-								<ul>
-									<li>The current state tobacco excise tax rate is $</li>
-									<li>The current local tobacco excise tax rate is $.XX</li>
-									<li>There is currently XX ability to levy tabacco excise taxes locally</li>
-								</ul>
-							</div>
-						</div>
-					</section>
-	 		<?php
-		 		break;
-		 	case 'diet':
-		 	?>
-		 		<section id="healthy-diet" class="clear">
-					<?php // Section setup
-						$nutrition_policy_questions = array( '3.1.3.1.0', '3.1.3.1.1', '3.1.3.1.2', '3.1.3.1.3' );
-						$nutrition_policy = cc_aha_calc_n_question_district_yes_tiers( $school_data, $nutrition_policy_questions );
-						$nutrition_imp_questions = array( '3.2.1.1', '3.2.1.2', '3.2.1.3', '3.2.1.4', '3.2.1.5' );
-						$nutrition_imp = cc_aha_calc_n_question_district_yes_tiers( $school_data, $nutrition_imp_questions );
-					?>
-					<h2 class="screamer">Healthy Diet</h2>
-					<h3>School Nutrition Policy</h3>
-					<div class="content-row">
-						<div class="third-block clear">
-							<?php // Get a big dial
-								cc_aha_print_dial( $nutrition_policy );
-							?>
-						</div>
-
-						<div class="third-block spans-2">
-							<ul>
-								<li>Your state XXX clean indoor air laws covering restaurants, bars, and workplaces.</li>
-								<li>The state does XXX preempt local communities from adopting their own clean indoor air laws.</li>
-								<li>XX % of your community's population is covered by clean indoor air laws.
-									<ul>
-										<li>Workplaces XX %</li>
-										<li>Restaurants XX %</li>
-										<li>Bars XX %</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>
-
-					<h3>3.2 School Nutrition Implementation</h3>
-					<div class="content-row">
-						<div class="third-block clear">
-							<?php // Get a big dial
-								cc_aha_print_dial( $nutrition_imp );
-							?>
-						</div>
-
-						<div class="third-block spans-2">
-							<ul>
-								<?php 
-									cc_aha_get_assessment_school_results( $metro_id, '3.2.2' );
-								?>
-							</ul>
-						</div>
-					</div>
-				</section>
-		 	<?php
-		 		break;
-		 	
-		 	default:
-		 		# code...
-		 		break;
-		 }
-	} else if ( $section == 'school' ) {
-		switch ( $impact_area ) {
-		 	case 'phys':
-		 	// Hope we can abstract these!
-		 	?>
-
-		 	<?php 
-		 		break;
-		 	case 'diet':
-	 		?>
-	 		<?php
-		 		break;
-		 	case 'cpr':
-		 	?>
-			<section id="chain-of-survival" class="clear">
-				<?php // Section setup
-					$chain_questions = array( '5.1.4.1' );  //only 5.1.4.1 right now, there is no - 5.1.4.5
-					$chain_indicator = cc_aha_calc_n_question_district_yes_tiers( $school_data, $chain_questions );
-				?>
-				<h2 class="screamer">CHAIN OF SURVIVAL</h2>
-				<h3>CPR Graduation Requirements</h3>
-				<div class="content-row">
-					<div class="third-block clear">
-						<?php // Get a big dial
-							cc_aha_print_dial( $chain_indicator );
-						?>
-					</div>
-
-					<div class="third-block spans-2">
-						<ul>
-							<li>Your state XXX clean indoor air laws covering restaurants, bars, and workplaces.</li>
-							<li>The state does XXX preempt local communities from adopting their own clean indoor air laws.</li>
-							<li>XX % of your community's population is covered by clean indoor air laws.
-								<ul>
-									<li>Workplaces XX %</li>
-									<li>Restaurants XX %</li>
-									<li>Bars XX %</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</section>
-		 	<?php
-		 		break;
-		 	
-		 	default:
-		 		# code...
-		 		break;
-		 }
-	}
-	*/
 }
 
 /**
@@ -543,6 +333,88 @@ function cc_aha_print_criterion_community_tobacco_2( $metro_id ) {
 
 }
 
+function cc_aha_print_criterion_community_phys_1( $metro_id ) {
+	$complete_streets = cc_aha_get_complete_streets_data( $metro_id );
+	$data = cc_aha_get_form_data( $metro_id );
+	?>
+	<h5>Current Status</h5>
+	<p>Your community is <?php 
+		if ( $data['2.3.1.1'] == "meet guidelines" ) {
+			echo 'covered by a Complete Streets policy that meets AHA guidelines';
+		} else if ( $data['2.3.1.1'] == "below guidelines" ) {
+			echo 'covered by a Complete Streets policy that is below AHA guidelines';
+		} else {
+			echo 'not covered by a Complete Streets policy';
+		}
+
+	?>.</p>
+
+	<?php if ( ! empty( $complete_streets ) ) : ?>
+	<p>The following Complete Streets policies are in effect in your area.</p>
+	<table>
+		<thead>
+			<tr>
+				<th></th>
+				<th>Geography Level</th>
+				<th>Policy Name</th>
+				<th>Policy Year</th>
+				<th>Policy Score</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php 
+			foreach ( $complete_streets as $entry ) {
+				?>
+				<tr>
+					<td><?php echo $entry['geog_name']; ?></td>
+					<td><?php echo $entry['geog_level']; ?></td>
+					<td><?php echo $entry['policy']; ?></td>
+					<td><?php echo $entry['year']; ?></td>
+					<td><?php echo $entry['score']; ?></td>
+
+				</tr>
+				<?php
+			} ?>
+		</tbody>
+	</table>
+	<?php endif; // if ( ! empty( $complete_streets ) )  ?>
+
+	<h5>Policy Landscape</h5>
+	<ul>
+		<li>There <?php echo $data['2.3.2.1'] ? 'is' : 'is not'; ?> a state, regional or local complete streets policy under consideration.</li>
+		<?php if ( $data['2.3.2.1'] ) : ?>
+			<ul>
+				<li><?php echo $data['2.3.2.2']; ?> is leading the effort.</li>
+			</ul>
+		<?php endif; ?>
+		<li><?php
+		if ( ! $data['2.3.3'] || $data['2.3.3']  == 'neither' ) {
+			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
+		} else if ( $data['2.3.3']  == 'state and local' ) {
+			echo 'Given the current political/policy environment, we envision complete streets policy will most likely occur at the state and local level. We expect to see state level policy potentially in ' . $data['2.3.1.2'] . ' and local level policy in ' . $data['2.3.1.3'];
+		} else {
+			echo 'Given the current political/policy environment, we envision complete streets policy will most likely occur at the' . $data['2.3.3'] . 'level potentially in ';
+			echo  ( $data['2.3.1.2'] == 'state') ? $data['2.3.1.2'] : $data['2.3.1.3'] ;
+		}
+		?></li>
+	</ul>
+
+	<h5>Discussion Questions</h5>
+	<strong>Does the community have capacity to take on this issue?</strong>
+	<ul>
+		<li>What potential coalition partners are in place?</li>
+		<li>Who would pass a Complete Streets Policy at the local level – i.e. Mayor’s Office, City Council, Zoning Authority, other?</li>
+		<li>What is the current political climate?</li>
+		<li>Does AHA have volunteers that are involved in this effort?</li>
+		<li>Do the board members and other AHA volunteers have the capacity to lead and fully engage in this campaign?  </li>
+		<li>Is there any external funding available to do the work?  (ex. Community Transformation Grants, Voices for Healthy Kids, etc.)</li>
+		<li>What is the current level of grassroots activity in the community to support this effort?</li>
+	</ul>
+	<?php 
+	echo PHP_EOL . ">> open response";
+	echo PHP_EOL . ">> top 3";
+
+}
 
 /**
  * Output dial html based on input
@@ -651,27 +523,29 @@ function cc_aha_get_summary_sections() {
 				),
 				'phys' => array(
 					'label' => 'Physical Activity',
-					'background' => '',
 					'dial_ids' => array( 306, 307, 603, 605, 540 ),
 					'criteria' => array(
 						1 => array(
 							'label' => 'Complete Streets',
+							'background' => 'Complete Streets policies consider the needs of all users in all transportation projects incorporating walking, bicycling, public transportation, and driving.',
 							'group' => 'community_phys_1' ),
 					),
 				),
 				'diet' => array(
 					'label' => 'Healthy Diet',
-					'background' => '',
 					'dial_ids' => array( 301, 356, 358, 603, 605, 303 ),
 					'criteria' => array(
 						1 => array(
 							'label' => 'Local Government Procurement',
+							'background' => '',
 							'group' => 'community_diet_1' ),
 						2 => array(
 							'label' => 'Sugar-sweetened Beverage Tax',
+							'background' => '',
 							'group' => 'community_diet_2' ),
 						3 => array(
 							'label' => 'Healthy Food Financing',
+							'background' => '',
 							'group' => 'community_diet_3' ),
 					),
 				),
@@ -682,27 +556,29 @@ function cc_aha_get_summary_sections() {
 			'impact_areas' => array(
 				'phys' => array(
 					'label' => 'Physical Activity',
-					'background' => '',
 					'dial_ids' => array( 307, 605, 408 ),
 					'criteria' => array(
 						1 => array(
 							'label' => 'PE in Schools',
+							'background' => '',
 							'group' => 'school_phys_1' ),
 						2 => array(
 							'label' => 'Shared Use',
+							'background' => '',
 							'group' => 'school_phys_2' ),
 					),
 				),
 				'diet' => array(
 					'label' => 'Healthy Diet',
-					'background' => '',
 					'dial_ids' => array( 356, 358, 605 ),
 					'criteria' => array(
 						1 => array(
 							'label' => 'School Nutrition Policy',
+							'background' => '',
 							'group' => 'school_diet_1' ),
 						2 => array(
 							'label' => 'School Nutrition Implementation',
+							'background' => '',
 							'group' => 'school_diet_2' ),
 					),
 				),
@@ -713,6 +589,7 @@ function cc_aha_get_summary_sections() {
 					'criteria' => array(
 						1 => array(
 							'label' => 'CPR Grad Requirement',
+							'background' => '',
 							'group' => 'school_cpr_1' ),
 					),
 				),
@@ -723,11 +600,11 @@ function cc_aha_get_summary_sections() {
 			'impact_areas' => array(
 				'factors' => array(
 					'label' => 'Health Factors',
-					'background' => '',
 					'dial_ids' => array( 504, 508, 637, 607 ),
 					'criteria' => array(
 						1 => array(
 							'label' => 'Insurance Coverage',
+							'background' => '',
 							'group' => 'care_factors_1' ),
 					),
 				),
@@ -738,9 +615,11 @@ function cc_aha_get_summary_sections() {
 					'criteria' => array(
 						1 => array(
 							'label' => 'CMS Penalty: Total CVD Discharges',
+							'background' => '',
 							'group' => 'care_acute_1' ),
 						2 => array(
 							'label' => 'CMS Penalty: Total CVD Discharges',
+							'background' => '',
 							'group' => 'care_acute_2' ),
 					),
 				),
@@ -870,7 +749,7 @@ function cc_aha_section_get_score( $section, $impact_area, $crit_key, $metro_id 
 			break;
 		case 'community_phys_1':
 			// Complete streets
-			$tiers = array( 'Yes, meets our guidelines', 'Yes, but below our guidelines' );
+			$tiers = array( 'meets guideline', 'below guidelines' );
 			$score = cc_aha_calc_three_text_tiers( $metro_id, '2.3.1.1', $tiers );
 			break;
 		case 'community_diet_1':

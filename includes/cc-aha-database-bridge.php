@@ -491,7 +491,7 @@ function cc_aha_get_single_metro_data( $metro_id ){
  * Returns all the counties sharing a metro ID.
  *
  * @since   1.0.0
- * @return 	array
+ * @return 	array of arrays
  */
 function cc_aha_get_county_data( $metro_id ){
 	global $wpdb;
@@ -510,6 +510,35 @@ function cc_aha_get_county_data( $metro_id ){
 	return $counties;
 }
 
+/**
+ * Returns all the complete streets entries for a metro ID.
+ *
+ * @since   1.0.0
+ * @return 	array
+ */
+function cc_aha_get_complete_streets_data( $metro_id ){
+	global $wpdb;
+	 
+	$results = $wpdb->get_results( 
+		$wpdb->prepare( 
+		"
+		SELECT *
+		FROM $wpdb->aha_assessment_complete_streets
+		WHERE board_id = %s
+		",
+		$metro_id )
+		, ARRAY_A
+	);
+	
+	return $results;
+}
+
+/**
+ * Retrieve all of the questions that should appear in an analysis criterion.
+ *
+ * @since   1.0.0
+ * @return 	array of arrays
+ */
 function cc_aha_get_questions_for_summary_criterion( $criterion = null ){
 	global $wpdb;
 	
@@ -527,3 +556,4 @@ function cc_aha_get_questions_for_summary_criterion( $criterion = null ){
 
 	return $questions;
 }
+
