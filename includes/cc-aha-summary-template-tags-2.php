@@ -101,7 +101,7 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 		} else {
 			echo 'Possible opportunities to drive impact include: ';
 			
-			//TODO: figure this out based on data they're giving us - will it be an array?  Will it be just one option?  How will the data be presented?
+			//TODO: figure this out based on data we're collecting
 			//publish / strengthen the district wellness policy and/or open a door for the Alliance for a Healthier Generation and/or strengthen competitive foods policy by applying nutrition standards to after school activities and/or strengthen competitive foods policy by addressing celebrations and fundraisers.”'; 
 			echo ' potentially in ' . $data['3.1.4'];
 		} 
