@@ -138,7 +138,7 @@ function cc_aha_user_has_super_secret_clearance(){
 
 function cc_aha_super_secret_access_list(){
     return array(
-            'ben.weittenhiller@heart.org', 'christian.caldwell@heart.org'
+            'ben.weittenhiller@heart.org', 'christian.caldwell@heart.org', 'johnsonange@missouri.edu'
         );
 
 }

@@ -20,7 +20,7 @@ function cc_aha_render_summary_page(){
 		return false;
 
 	// TODO: This must be removed before the summaries are made public.
-	if ( ! cc_aha_user_can_do_assessment() ) {
+	if ( ! cc_aha_user_can_do_assessment() && ! cc_aha_user_has_super_secret_clearance() ) {
 		echo '<p class="info">Sorry, you do not have permission to view this page.</p>';
 		return;
 	}
@@ -339,7 +339,7 @@ function cc_aha_print_criterion_community_phys_1( $metro_id ) {
 	?>
 	<h5>Current Status</h5>
 	<p>Your community is <?php 
-		if ( $data['2.3.1.1'] == "meet guidelines" ) {
+		if ( $data['2.3.1.1'] == "meets guidelines" ) {
 			echo 'covered by a Complete Streets policy that meets AHA guidelines';
 		} else if ( $data['2.3.1.1'] == "below guidelines" ) {
 			echo 'covered by a Complete Streets policy that is below AHA guidelines';
@@ -381,19 +381,20 @@ function cc_aha_print_criterion_community_phys_1( $metro_id ) {
 
 	<h5>Policy Landscape</h5>
 	<ul>
-		<li>There <?php echo $data['2.3.2.1'] ? 'is' : 'is not'; ?> a state, regional or local complete streets policy under consideration.</li>
-		<?php if ( $data['2.3.2.1'] ) : ?>
-			<ul>
-				<li><?php echo $data['2.3.2.2']; ?> is leading the effort.</li>
-			</ul>
-		<?php endif; ?>
+		<li>There <?php echo $data['2.3.2.1'] ? 'is' : 'is not'; ?> a state, regional or local complete streets policy under consideration.
+			<?php if ( $data['2.3.2.1'] ) : ?>
+				<ul>
+					<li><?php echo $data['2.3.2.2']; ?> is leading the effort.</li>
+				</ul>
+			<?php endif; ?>
+		</li>
 		<li><?php
 		if ( ! $data['2.3.3'] || $data['2.3.3']  == 'neither' ) {
 			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
 		} else if ( $data['2.3.3']  == 'state and local' ) {
 			echo 'Given the current political/policy environment, we envision complete streets policy will most likely occur at the state and local level. We expect to see state level policy potentially in ' . $data['2.3.1.2'] . ' and local level policy in ' . $data['2.3.1.3'];
 		} else {
-			echo 'Given the current political/policy environment, we envision complete streets policy will most likely occur at the' . $data['2.3.3'] . 'level potentially in ';
+			echo 'Given the current political/policy environment, we envision complete streets policy will most likely occur at the ' . $data['2.3.3'] . ' level potentially in ';
 			echo  ( $data['2.3.1.2'] == 'state') ? $data['2.3.1.2'] : $data['2.3.1.3'] ;
 		}
 		?></li>
@@ -409,6 +410,168 @@ function cc_aha_print_criterion_community_phys_1( $metro_id ) {
 		<li>Do the board members and other AHA volunteers have the capacity to lead and fully engage in this campaign?  </li>
 		<li>Is there any external funding available to do the work?  (ex. Community Transformation Grants, Voices for Healthy Kids, etc.)</li>
 		<li>What is the current level of grassroots activity in the community to support this effort?</li>
+	</ul>
+	<?php 
+	echo PHP_EOL . ">> open response";
+	echo PHP_EOL . ">> top 3";
+
+}
+
+function cc_aha_print_criterion_community_diet_1( $metro_id ) {
+	$data = cc_aha_get_form_data( $metro_id );
+	?>
+	<h5>Current Status</h5>
+	<ul>
+		<li>There are <?php 
+			if ( $data['3.3.3.1'] == 'yes - exceed AHA standards' ) {
+				echo 'vending and/or service policies that meet or exceed AHA standards';
+			} else if ( $data['3.3.3.1'] == 'yes - below AHA standards' ) {
+				echo 'vending and/or service policies below AHA’s standards';
+			} else {
+				echo 'not vending and/or service policies';
+			}
+
+			?> in place in this community.
+			<?php if ( $data['3.3.3.1'] == 'yes - exceed AHA standards' || $data['3.3.3.1'] == 'yes - below AHA standards' ) : ?>
+						<ul>
+							<li>Those cities and counties are <?php echo $data['3.3.3.2']; ?>.</li>
+						</ul>
+			<?php endif; ?>
+		</li>
+		<li><?php echo $data['State']; ?> <?php echo $data['3.3.1.1'] ? 'does' : 'does not'; ?> currently have nutrition standards related to state level food and beverage vending policy.</li>
+		<li><?php echo $data['State']; ?> <?php echo $data['3.3.1.2'] ? 'does' : 'does not'; ?> currently have food and beverage procurement service policies for all state agencies.</li>
+	</ul>
+
+	<h5>Policy Landscape</h5>
+	<ul>
+		<li>There <?php echo $data['2.3.2.1'] ? 'is' : 'is not'; ?> a state, regional or local complete streets policy under consideration.
+			<?php if ( $data['2.3.2.1'] ) : ?>
+					<ul>
+						<li><?php echo $data['2.3.2.2']; ?> is leading the effort.</li>
+					</ul>
+			<?php endif; ?>
+		</li>
+		<li><?php
+		if ( ! $data['3.3.4'] || $data['3.3.4']  == 'neither' ) {
+			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
+		} else if ( $data['3.3.4']  == 'state' ) {
+			echo 'Given the current political/policy environment, we envision food and beverage vending and/or procurement service policy change will most likely occur at the state level.';
+		} else { // "local" or "state and local"
+			echo 'Given the current political/policy environment, we envision food and beverage vending and/or procurement service policy change will most likely occur at the ' . $data['3.3.4'] . ' level.';
+			if ( $data['3.3.2.1'] || $data['3.3.2.2'] ) {
+				?>
+				<ul>
+					<?php 
+					if ( $data['3.3.2.1'] ) {
+						?>
+						<li>We anticipate that food and beverage <em>vending</em> policies will be passed in this community in <?php echo $data['3.3.2.1']; ?></li>
+						<?php
+					}
+					?>
+					<?php 
+					if ( $data['3.3.2.2'] ) {
+						?>
+						<li>We anticipate that food and beverage <em>procurement service</em> policies will be passed in this community in <?php echo $data['3.3.2.2']; ?></li>
+						<?php
+					}
+					?>
+				</ul>
+				<?php
+			}
+		}
+		?></li>
+	</ul>
+
+	<h5>Discussion Questions</h5>
+	<strong>Does the community have capacity to take on this issue?</strong>
+	<ul>
+		<li>What potential coalition partners are in place?</li>
+		<li>What is the current political climate?</li>
+		<li>Has your mayor and/or govt. leadership expressed interest in this topic&mdash;in providing healthy food options for city employees, visitors to city buildings, and custodial populations within their care (i.e., inmates)?</li>
+		<li>Has the local AHA office adopted the AHA’s Healthy Workplace Guidelines?</li>
+		<li>Do the board members and other AHA volunteers have the capacity to lead and fully engage in this campaign?  </li>
+		<li>Is there any external funding available to do the work?  (ex. Community Transformation Grants, Voices for Healthy Kids, etc.)</li>
+		<li>Within the community who has the authority (mayor, city manager, city council or city procurement officer) to pass these policies?</li>
+	</ul>
+	<?php 
+	echo PHP_EOL . ">> open response";
+	echo PHP_EOL . ">> top 3";
+
+}
+
+function cc_aha_print_criterion_community_diet_2( $metro_id ) {
+	$data = cc_aha_get_form_data( $metro_id );
+	?>
+	<h5>Current Status</h5>
+	<ul>
+		<li>There are currently no sugar sweetened beverage tax policies in place in your community that meet AHA's guidelines.</li>
+		<li>There is <?php 
+			if ( $data['3.4.1'] == 'meets guidelines' ) {
+				echo 'a state or local SSB tax policy proposed which meets our guidelines under consideration';
+			} else if ( $data['3.4.1'] == 'below guidelines' ) {
+				echo 'a state or local SSB tax policy proposed which does not meet our guidelines';
+			} else {
+				echo 'not a state or local SSB tax policy under consideration';
+			}
+			?>.</li>
+	</ul>
+
+	<h5>Policy Landscape</h5>
+	<ul>
+		<li>There <?php echo $data['3.4.2'] ? 'is' : 'is not'; ?> the ability to levy SSB taxes locally in <?php echo $data['State']; ?>.</li>
+		<li><?php
+		if ( ! $data['3.4.4'] || $data['3.4.4']  == 'neither' ) {
+			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
+		} else if ( $data['3.4.4']  == 'state and local' ) {
+			echo 'Given the current political/policy environment, we envision sugar sweetened beverage tax policy will most likely occur at the state and local level. We expect to see state level policy potentially in ' . $data['3.4.3.1'] . ' and local level policy in ' . $data['3.4.3.2'];
+		} else {
+			echo 'Given the current political/policy environment, we envision sugar sweetened beverage tax policy will most likely occur at the ' . $data['3.4.4'] . ' level potentially in ';
+			echo  ( $data['3.4.4'] == 'state') ? $data['3.4.3.1'] : $data['3.4.3.2'] ;
+		}
+		?></li>
+	</ul>
+
+	<h5>Discussion Questions</h5>
+	<strong>Does the community have capacity to take on this issue?</strong>
+	<ul>
+		<li>What potential coalition partners are in place?</li>
+		<li>What is the current political climate?</li>
+		<li>Do the volunteers have the needed skills?</li>
+		<li>Is there any external funding available to do the work? (ex. Community Transformation Grants, Voices for Healthy Kids, etc.)</li>
+	</ul>
+	<?php 
+	echo PHP_EOL . ">> open response";
+	echo PHP_EOL . ">> top 3";
+
+}
+
+function cc_aha_print_criterion_community_diet_3( $metro_id ) {
+	$data = cc_aha_get_form_data( $metro_id );
+	?>
+	<h5>Current Status</h5>
+	<ul>
+		<li><?php echo $data['3.5.1'] ?>% of the population in your community lives in a “food desert” being low income and having low access to healthy food.</li>
+	</ul>
+
+	<h5>Policy Landscape</h5>
+	<ul>
+		<li>Your state or community <?php echo $data['3.5.2'] ? 'is' : 'is not'; ?> pursuing an appropriate to establish or supplement a Healthy Food Financing Initiative program.</li>
+		<li><?php
+		if ( ! $data['3.5.4'] || $data['3.5.4']  == 'neither' ) {
+			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
+		} else {
+			echo 'Given the current political/policy environment, we envision Healthy Food Financing policy change will most likely occur at the ' . $data['3.5.4'] . ' level potentially in ' . $data['3.5.3'] ;
+		}
+		?>.</li>
+	</ul>
+
+	<h5>Discussion Questions</h5>
+	<strong>Does the community have capacity to take on this issue?</strong>
+	<ul>
+		<li>What potential coalition partners are in place?</li>
+		<li>What is the current political climate?</li>
+		<li>Do the volunteers have the needed skills?</li>
+		<li>Is there any external funding available to do the work? (ex. Community Transformation Grants, Voices for Healthy Kids, etc.)</li>
 	</ul>
 	<?php 
 	echo PHP_EOL . ">> open response";
@@ -537,15 +700,25 @@ function cc_aha_get_summary_sections() {
 					'criteria' => array(
 						1 => array(
 							'label' => 'Local Government Procurement',
-							'background' => '',
+							'background' => 'Procurement by definition is the basic term utilized by state and local government entities that provide all food services for government facilities.  Procurement is the way they contract with external parties to provide foods and beverages in vending machines and prepared foods/beverages on government property.  The AHA advocates for nutrition criteria to be included in these contracts to better provide government employees healthier options for food and beverage in their worksites and to members of the public who visit government buildings.',
 							'group' => 'community_diet_1' ),
 						2 => array(
 							'label' => 'Sugar-sweetened Beverage Tax',
-							'background' => '',
+							'background' => 'Reducing the consumption of excess sugars from sugary beverages is an important way to improve the health of Americans. The American Heart Association advocates for: Impact assessments of beverage sales taxes or excise taxes on consumption rates and shifts in consumer choice with special attention on vulnerable populations by supporting tax initiatives in some states and localities.
+								Key criteria for the association&rsquo;s support are: 
+								<ol>
+								<li>at least a portion of the money is dedicated for heart disease and stroke prevention and/or obesity prevention</li>
+								<li>the tax is structured so as to result in an increase in price for sugar-sweetened beverages (e.g., imposed at the time of sale as opposed to the manufacturer that can spread the cost of the tax among all products)</li>
+								<li>the amount of tax is anticipated to be sufficient to result in a reduction in consumption of sugar-sweetened beverages (at least 1 cent/ounce)</li>
+								<li>there are funds dedicated for evaluation with guidance that ensure rigorous evaluation including health outcome</li>
+								<li>there is a standard definition of &ldquo;sugar-sweetened beverage,&rdquo;</li>
+								<li>there is no sunset.</li>
+								</ol>
+								<a href="http://www.heart.org/HEARTORG/Advocate/Voices-for-Healthy-Kids---Healthy-Drinks_UCM_460610_SubHomePage.jsp">Learn more.</a>',
 							'group' => 'community_diet_2' ),
 						3 => array(
 							'label' => 'Healthy Food Financing',
-							'background' => '',
+							'background' => 'A food desert is an area where residents lack affordable access to foods that would allow them to have a healthy diet, such as fruits, vegetables, low-fat milk and whole grains. Existing in urban, suburban and rural communities, they are places where the nearest supermarket is too far away for residents to shop. Healthy Food Financing is a viable, effective, and economically sustainable solution to the problem of limited access to healthy foods. Healthy Food Financing Initiatives attract investment in underserved communities by providing critical loan and grant financing. These one-time resources help fresh food retailers overcome the initial barriers to entry into underserved, low-income urban and rural communities, and support renovation and expansion of existing stores so they can provide the healthy foods that communities want and need. Identifying food deserts is not an exact science, but you can <a href="#">look at an overview of your county&rsquo;s access to healthier food here.</a>',
 							'group' => 'community_diet_3' ),
 					),
 				),
@@ -627,84 +800,6 @@ function cc_aha_get_summary_sections() {
 		),
 	);
 }
-/*
-function cc_aha_get_summary_section_title( $section ) {
-	switch ( $section ) {
-		case 'community':
-			$title = 'Community Policies';
-			break;
-		case 'school':
-			$title = 'Healthy Schools';
-			break;
-		case 'care':
-			$title = 'Healthcare Access and Quality';
-			break;		
-		default:
-			# code...
-			break;
-	}
-
-	return $title;
-}
-*/
-//Houses each section's data, fetched via helper functions.
-/*
-function cc_aha_get_summary_impact_area_data( $section, $key ) {
-	switch ( $section ) {
-		case 'community':
-				switch ( $key ) {
-					case 'tobacco':
-						$title = 'Tobacco';
-						$text = 'Advocating for comprehensive smoke free air laws at the state and local level is a pillar of the AHA&rsquo;s tobacco control advocacy efforts. Second hand smoke causes heart disease, cancer, lung disease and other illnesses in non-smokers. Research shows smoke-free laws lead to drastic reductions in cardiovascular incidents. These laws should be in compliance with the Fundamentals of Smoke-free Workplace Laws guidelines which guide and maximize the impact of smoke free policy efforts and increase the number of workers and residents who are protected from second hand smoke.
-
-							<a href="http://www.heart.org/idc/groups/heart-public/@wcm/@adv/documents/downloadable/ucm_463595.pdf">Learn more</a>';
-						$dial_ids = array( 305, 354 );
-						break;
-					case 'phys':
-						$title = 'Physical Activity';
-						break;
-					case 'diet':
-						$title = 'Healthy Diet';
-						break;
-				}
-			break;
-		case 'school':
-				switch ( $key ) {
-					case 'phys':
-						$title = 'Physical Activity';
-						break;
-					case 'diet':
-						$title = 'Healthy Diet';
-						break;
-					case 'cpr':
-						$title = 'Chain of Survival';
-						break;
-				}
-			break;
-		case 'care':
-				switch ( $key ) {
-					case 'factors':
-						$title = 'Health Factors';
-						break;
-					case 'acute':
-						$title = 'Acute Event';
-						break;
-				}
-			break;		
-		default:
-			# code...
-			break;
-	}
-
-
-	return array( 
-		'title' 	=> 	$title,
-		'text' 		=> 	$text,
-		'dial_ids' 	=>	$dial_ids,
-
-	 );
-}
-*/
 
 function cc_aha_get_summary_impact_area_title( $section, $impact_area ) {
 	$section_data = cc_aha_get_summary_sections();
