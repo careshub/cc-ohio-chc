@@ -560,7 +560,7 @@ function cc_aha_print_criterion_community_diet_2( $metro_id ) {
 			echo 'Given the current political/policy environment, we envision sugar sweetened beverage tax policy will most likely occur at the ' . $data['3.4.4'] . ' level potentially in ';
 			echo  ( $data['3.4.4'] == 'state') ? $data['3.4.3.1'] : $data['3.4.3.2'] ;
 		}
-		?></li>
+		?>.</li>
 	</ul>
 
 	<h5>Discussion Questions</h5>
@@ -604,6 +604,201 @@ function cc_aha_print_criterion_community_diet_3( $metro_id ) {
 		<li>What is the current political climate?</li>
 		<li>Do the volunteers have the needed skills?</li>
 		<li>Is there any external funding available to do the work? (ex. Community Transformation Grants, Voices for Healthy Kids, etc.)</li>
+	</ul>
+	<?php 
+	echo PHP_EOL . ">> open response";
+	echo PHP_EOL . ">> top 3";
+
+}
+
+function cc_aha_print_criterion_school_phys_1( $metro_id ) {
+	$data = cc_aha_get_form_data( $metro_id );
+	$school_data = cc_aha_get_school_data( $metro_id );
+
+	?>
+	<h5>Current Status</h5>
+	<ul>
+		<li><?php echo cc_aha_top_5_school_pe_calculation( $metro_id, 'all' ); ?>% of students in your community’s top 5 school districts receive the AHA’s recommended amount of PE minutes.</li>
+	</ul>
+
+	<?php if ( ! empty( $school_data ) ) : ?>
+	<table>
+		<thead>
+			<tr>
+				<th></th>
+				<th>Elementary PE (150 min/wk)</th>
+				<th>Middle School PE (225 min/wk)</th>
+				<th>High School PE (required for graduation)</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th>Total Percent of student covered in your community</th>
+				<th><?php echo cc_aha_top_5_school_pe_calculation( $metro_id, 'elem' ); ?>%</th>
+				<th><?php echo cc_aha_top_5_school_pe_calculation( $metro_id, 'midd' ); ?>%</th>
+				<th><?php echo cc_aha_top_5_school_pe_calculation( $metro_id, 'high' ); ?>%</th>
+			</tr>
+		</tfoot>
+		<tbody>
+			<tr>
+				<td>State of <?php echo $data['State']; ?></td>
+				<td><?php echo $data['2.1.1.1'] ? 'Yes' : 'No'; ?></td>
+				<td><?php echo $data['2.1.1.2'] ? 'Yes' : 'No'; ?></td>
+				<td><?php echo $data['2.1.1.3'] ? 'Yes' : 'No'; ?></td>
+			</tr>
+			<?php 
+			foreach ( $school_data as $entry ) {
+				?>
+				<tr>
+					<td><?php echo $entry['DIST_NAME']; ?></td>
+					<td><?php echo $entry['2.1.4.1.1'] ? 'Yes' : 'No'; ?></td>
+					<td><?php echo $entry['2.1.4.1.2'] ? 'Yes' : 'No'; ?></td>
+					<td><?php echo $entry['2.1.4.1.3'] ? 'Yes' : 'No'; ?></td>
+				</tr>
+				<?php
+			} ?>
+		</tbody>
+	</table>
+	<?php endif; // if ( ! empty( $complete_streets ) )  ?>
+
+	<h5>Policy Landscape</h5>
+	<?php
+	$pe_levels = array( 
+		array( 'label' => 'Elementary School PE', 'likelihood' => '2.1.3.1', 'local_time' => '2.1.2.2', 'state_time' => '2.1.2.1', 'name' => 'elementary' ),
+		array( 'label' => 'Middle School PE', 'likelihood' => '2.1.3.2', 'local_time' => '2.1.2.4', 'state_time' => '2.1.2.3', 'name' => 'middle' ),
+		);
+	foreach ($pe_levels as $level) {
+		?>
+		<h6><?php echo $level['label']; ?></h6>
+		<ul>
+			<li><?php
+			if ( ! $data[ $level['likelihood'] ] || $data[ $level['likelihood'] ]  == 'neither' ) {
+				echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
+			} else if ( $data[ $level['likelihood'] ]  == 'state and local' ) {
+				echo 'Given the current political/policy environment, we envision PE in ' . $level['name'] . ' schools policy will most likely occur at the state and local level. We expect to see state level policy potentially in ' . $data[ $level['state_time'] ] . ' and local level policy in ' . $data[ $level['state_time'] ];
+			} else {
+				echo 'Given the current political/policy environment, we envision PE in ' . $level['name'] . ' schools policy will most likely occur at the ' . $data[ $level['likelihood'] ] . ' level potentially in ';
+				echo ( $data[ $level['likelihood'] ] == 'state') ? $data[ $level['state_time'] ] : $data[ $level['local_time'] ] ;
+			}
+			?>.</li>
+		</ul>
+		<?php
+		}
+		?> 
+
+	<h5>Discussion Questions</h5>
+	<strong>Does the community have capacity to take on this issue?</strong>
+	<ul>
+		<li>Is there a local coalition or other grassroots activity already in place and is AHA an active member?</li>
+		<li>Does your state policy allow local districts to make these core curriculum decisions?</li>
+		<li>Is there a plan in place to gauge the interest of the local school district to take action on this issue?</li>
+		<li>What is the current local political climate for this topic?</li>
+		<li>Does AHA already have volunteers that may be involved with this topic?</li>
+		<li>Do the volunteers have the needed skills?</li>
+		<li>Is there any external funding available to do the work? (ex. Community Transformation Grants, Voices for Healthy Kids, etc.)</li>
+	</ul>
+	<?php 
+	echo PHP_EOL . ">> open response";
+	echo PHP_EOL . ">> top 3";
+
+}
+
+function cc_aha_print_criterion_school_phys_2( $metro_id ) {
+	$data = cc_aha_get_form_data( $metro_id );
+	$school_data = cc_aha_get_school_data( $metro_id );
+
+	?>
+	<h5>Current Status</h5>
+	<ul>
+		<li><?php echo cc_aha_top_5_school_percent_match_value( $metro_id, '2.2.5.1', 'broad' ); ?>% of the top 5 school districts in your community have a shared use policy to open up their facilities for broad community use.</li>
+		<li><?php 
+			if ( $data[ '2.2.1.1' ] == 'None of the above - we have already met this goal' ) {
+				echo 'None of the above - we have already met this goal';
+			} else {
+				echo 'Your state&rsquo;s shared use policy does not address ' . $data[ '2.2.1.1' ];
+			}
+		?></li>
+		<li><?php echo $data[ 'State' ] ?> currently <?php echo $data['2.2.2.1'] ? 'does' : 'does not'; ?> provide promotion, incentives, technical assistance or other resources to schools to encourage shared use.
+		<?php if ( $data[ '2.2.2.2' ] ) : ?>
+			<ul>
+				<li>The policies can be described as follows: <?php echo $data[ '2.2.2.2' ]; ?></li>
+			</ul>
+		<?php endif; ?></li>
+	</ul>
+
+	<?php if ( ! empty( $school_data ) ) : ?>
+	<table>
+		<thead>
+			<tr>
+				<th>Top 5 School Districts</th>
+				<th>Shared Use Policy in Place</th>
+				<th>More Information</th>
+				<th>District Policy URL</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php 
+			foreach ( $school_data as $entry ) {
+				?>
+				<tr>
+					<td><?php echo $entry['DIST_NAME']; ?></td>
+					<td><?php echo cc_aha_get_matching_option_label( '2.2.5.1', $entry[ '2.2.5.1' ] ); ?></td>
+					<td><?php 
+						if ( $entry[ '2.2.5.1' ] == 'no' ){
+							if ( $entry[ '2.2.5.1.1' ] ){
+								// Get option label to display
+								echo cc_aha_get_matching_option_label( '2.2.5.1.1', $entry[ '2.2.5.1.1' ] );
+							}
+							if ( $entry[ '2.2.5.1.2' ] ){
+								echo 'Includes only ';
+								// Get option label to display
+								echo $entry[ '2.2.5.1.2' ];
+							}
+						}
+
+					?></td>
+					<td><?php echo '<a href="' . $entry['2.2.5.1.3'] . '">' . $entry['2.2.5.1.3'] . '</a>'; ?></td>
+				</tr>
+				<?php
+			} ?>
+		</tbody>
+	</table>
+	<?php endif; // if ( ! empty( $school_data ) )  ?>
+
+	<h5>Policy Landscape</h5>
+	<ul>
+		<li><?php
+		if ( ! $data['2.2.4.1'] || $data['2.2.4.1']  == 'neither' ) {
+			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
+		} else {
+			echo 'Given the current political/policy environment, we envision shared use policy will most likely occur at the ' . $data['2.2.4.1'] . ' level.';
+		}
+		?></li>
+		<li><?php
+		if ( ! $data['2.2.3.1'] || $data['2.2.3.1']  == 'no' ) {
+			echo 'Preliminary analyses indicate that shared use liability protection policy will not be passed in ' . $data['State'] . ' in the next 3 years';
+		} else {
+			echo 'We expect shared use liability protection policy may be passed in ' . $data['State'] . ' in ' . $data['2.2.3.1'];
+		}
+		?>.</li>
+		<li><?php
+		if ( ! $data['2.2.3.2'] || $data['2.2.3.2']  == 'no' ) {
+			echo 'Preliminary analyses indicate that shared use incentives and monitoring appropriations will not be passed in ' . $data['State'] . ' in the next 3 years';
+		} else {
+			echo 'We expect shared use incentives and monitoring appropriations may be passed in ' . $data['State'] . ' in ' . $data['2.2.3.2'];
+		}
+		?>.</li>
+	</ul>
+
+
+	<h5>Discussion Questions</h5>
+	<strong>Does the community have capacity to take on this issue?</strong>
+	<ul>
+		<li>What potential coalition partners are in place?</li>
+		<li>What is the current political climate?</li>
+		<li>Do the volunteers have the needed skills?</li>
+		<li>Is there any external funding available to do the work? (ex. Community Transformation Grants, Voices for Healthy Kids, etc.)</li>
+		<li>If Liability Protection is not in place at the state level is there still interested in Shared Use Agreements at the local level?</li>
 	</ul>
 	<?php 
 	echo PHP_EOL . ">> open response";
@@ -765,11 +960,11 @@ function cc_aha_get_summary_sections() {
 					'criteria' => array(
 						1 => array(
 							'label' => 'PE in Schools',
-							'background' => '',
+							'background' => 'The quality and quantity of physical education in the nation&rsquo;s schools is an important part of a student&rsquo;s comprehensive, well-rounded education program and a means of positively affecting life-long health and well-being. The AHA advocates for daily physical education for all students in all school levels.',
 							'group' => 'school_phys_1' ),
 						2 => array(
 							'label' => 'Shared Use',
-							'background' => '',
+							'background' => 'Shared Use Agreements allow schools to share their physical activity facilities (gyms, running/walking tracks, multi-purpose rooms) with the community for recreation and exercise opportunities. The AHA works to provide liability protection within state law so school districts will feel comfortable opening up school facilities both before and after school hours without the fear of lawsuits for injuries occurring on school property. Once the liability protection is enacted into state law the AHA works to provide incentives and monitoring of shared use agreements once they are put in place.',
 							'group' => 'school_phys_2' ),
 					),
 				),
@@ -900,7 +1095,8 @@ function cc_aha_section_get_score( $section, $impact_area, $crit_key, $metro_id 
 			break;
 		case 'school_phys_2':
 			// Shared use
-			$score = cc_aha_calc_three_tiers( $metro_id, '2.2.5.6' );
+			$value = cc_aha_top_5_school_percent_match_value( $metro_id, '2.2.5.1', 'broad' );
+			$score = cc_aha_convert_percent_to_three_tiers( $value );
 			break;		
 		case 'school_diet_1':
 			// School nutrition policy
@@ -980,9 +1176,16 @@ function cc_aha_calc_three_tiers( $metro_id, $qid ) {
 
 	$data = cc_aha_get_form_data( $metro_id );
 
-	if ( $data[ $qid ] == 100 ) {
+	return cc_aha_convert_percent_to_three_tiers( $data[ $qid ] );
+
+}
+
+// Generalized to identify 0-49, 50-99 and 100% tiers
+function cc_aha_convert_percent_to_three_tiers( $value ) {
+
+	if ( $value == 100 ) {
 		return 'healthy';
-	} else if ( $data[ $qid ] >= 50 ) {
+	} else if ( $value >= 50 ) {
 		return 'intermediate';
 	} else {
 		return 'poor';

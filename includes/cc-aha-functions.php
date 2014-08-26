@@ -227,6 +227,39 @@ function cc_aha_get_metro_nicename( $metro_id = null ) {
 
 }
 /**
+ * Find the human-readable option label for a question's saved response.
+ * 
+ * @since   1.0.0
+ * @return  string
+ */
+function cc_aha_get_matching_option_label( $qid, $value ){
+    $question = cc_aha_get_question( $qid );
+    $options = cc_aha_get_options_for_question( $qid );
+    
+    if ( $question[ 'type' ] == 'radio' ) {
+        foreach ($options as $option) {
+            if ( $option[ 'value' ] == $value ){
+                $retval = $option[ 'label' ];
+                break; // Once we have a match, we can stop.
+            }
+        }
+    } else {
+        // must be checkboxes
+        $response_array = array_keys( maybe_unserialize( $value ) );
+        $selected_options = array();
+
+        foreach ($options as $option) {
+            if ( in_array( $option[ 'value' ], $response_array ) ){
+                $selected_options[] = $option[ 'label' ];
+            }
+        }
+        $retval = implode(', ', $selected_options);
+    }
+
+    return $retval;
+}
+
+/**
  * Check for a survey page's completeness by comparing the questions to the saved data
  * 
  * @since   1.0.0
@@ -291,5 +324,61 @@ function cc_aha_get_fips( $cleaned = false ){
 
          return ( $cleaned ) ? $cleanedfips : $fips;
      } 
+
+}
+
+/**
+ * Not a statistically sound calculation of % of students that receive a certain number of PE minutes per week.
+ *
+ * @since   1.0.0
+ * @arguments   $metro_id and $level which is one of elem, midd, high, or all
+ * @return  integer (formatted like a percentage)
+ */ 
+function cc_aha_top_5_school_pe_calculation( $metro_id, $level ) {
+    $school_data = cc_aha_get_school_data( $metro_id );
+    $total_pop = 0;
+    $covered_pop = 0;
+    foreach ( $school_data as $district ) {
+        if ( $level == 'elem' || $level == 'all' ) {
+            $total_pop = $total_pop + (int) $district['ELEM'];
+            if ( $district['2.1.4.1.1'] ) {
+                $covered_pop = $covered_pop + (int) $district['ELEM'];
+            }
+        }
+        if ( $level == 'midd' || $level == 'all' ) {
+            $total_pop = $total_pop + (int) $district['MIDD'];
+            if ( $district['2.1.4.1.2'] ) {
+                $covered_pop = $covered_pop + (int) $district['MIDD'];
+            }
+        }
+        if ( $level == 'high' || $level == 'all' ) {
+            $total_pop = $total_pop + (int) $district['HIGH'];
+            if ( $district['2.1.4.1.3'] ) {
+                $covered_pop = $covered_pop + (int) $district['HIGH'];
+            }
+        }
+    }
+
+    return ( $total_pop ) ? round( $covered_pop / $total_pop * 100 ) : 0;
+
+}
+
+/**
+ * % of districts that have a particular value for a particular question.
+ *
+ * @since   1.0.0
+ * @arguments   $metro_id and $level which is one of elem, midd, high, or all
+ * @return  integer (formatted like a percentage)
+ */ 
+function cc_aha_top_5_school_percent_match_value( $metro_id, $qid, $value ) {
+    $school_data = cc_aha_get_school_data( $metro_id );
+    $matches = 0;
+    $num_disticts = count( $school_data );
+    foreach ( $school_data as $district ) {
+        if ( $district[ $qid ] == $value )
+            ++$matches;
+    }
+
+    return ( $num_disticts ) ? round( $matches / $num_disticts * 100 ) : 0;
 
 }

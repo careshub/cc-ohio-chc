@@ -78,3 +78,6 @@
 .assessment td.poor {
 	color: red;
 }
+.assessment tfoot tr {
+	background-color: #eaeaea;
+}
