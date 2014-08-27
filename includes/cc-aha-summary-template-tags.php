@@ -585,7 +585,7 @@ function cc_aha_print_criterion_community_diet_2( $metro_id ) {
 		<li>There <?php echo $data['3.4.2'] ? 'is' : 'is not'; ?> the ability to levy SSB taxes locally in <?php echo $data['State']; ?>.</li>
 		<li><?php
 		if ( ! $data['3.4.4'] || $data['3.4.4']  == 'neither' ) {
-			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
+			echo 'Preliminary analyses indicate that this is not a viable issue at this time';
 		} else if ( $data['3.4.4']  == 'state and local' ) {
 			echo 'Given the current political/policy environment, we envision sugar sweetened beverage tax policy will most likely occur at the state and local level. We expect to see state level policy potentially in ' . $data['3.4.3.1'] . ' and local level policy in ' . $data['3.4.3.2'];
 		} else {
@@ -673,9 +673,27 @@ function cc_aha_print_criterion_school_phys_1( $metro_id ) {
 				?>
 				<tr>
 					<td><?php echo $entry['DIST_NAME']; ?></td>
-					<td><?php echo $entry['2.1.4.1.1'] ? 'Yes' : 'No'; ?></td>
-					<td><?php echo $entry['2.1.4.1.2'] ? 'Yes' : 'No'; ?></td>
-					<td><?php echo $entry['2.1.4.1.3'] ? 'Yes' : 'No'; ?></td>
+					<td><?php //echo $entry['2.1.4.1.1'] ? 'Yes' : 'No'; ?>
+						<?php if ( isset ( $school['2.1.4.1.1']) && $school['2.1.4.1.1'] != '' ) {
+							echo $school['2.1.4.1.1'] ? 'Yes' : 'No'; 
+						} else {
+							echo 'Don\'t Know';
+						} ?>
+					</td>
+					<td><?php //echo $entry['2.1.4.1.2'] ? 'Yes' : 'No'; ?>
+						<?php if ( isset ( $school['2.1.4.1.2']) && $school['2.1.4.1.2'] != '' ) {
+							echo $school['2.1.4.1.2'] ? 'Yes' : 'No'; 
+						} else {
+							echo 'Don\'t Know';
+						} ?>
+					</td>
+					<td><?php //echo $entry['2.1.4.1.3'] ? 'Yes' : 'No'; ?>
+						<?php if ( isset ( $school['2.1.4.1.3']) && $school['2.1.4.1.3'] != '' ) {
+							echo $school['2.1.4.1.3'] ? 'Yes' : 'No'; 
+						} else {
+							echo 'Don\'t Know';
+						} ?>
+					</td>
 				</tr>
 				<?php
 			} ?>
@@ -695,7 +713,7 @@ function cc_aha_print_criterion_school_phys_1( $metro_id ) {
 		<ul>
 			<li><?php
 			if ( ! $data[ $level['likelihood'] ] || $data[ $level['likelihood'] ]  == 'neither' ) {
-				echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
+				echo 'Preliminary analyses indicate that this is not a viable issue at this time';
 			} else if ( $data[ $level['likelihood'] ]  == 'state and local' ) {
 				echo 'Given the current political/policy environment, we envision PE in ' . $level['name'] . ' schools policy will most likely occur at the state and local level. We expect to see state level policy potentially in ' . $data[ $level['state_time'] ] . ' and local level policy in ' . $data[ $level['state_time'] ];
 			} else {
