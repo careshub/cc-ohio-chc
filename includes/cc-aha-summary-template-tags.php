@@ -224,9 +224,10 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 		 		<fieldset>
 		 			<?php 
 		 			$input_prefix = $section . '-' . $impact_area . '-' . $crit_key;
-		 			?>
-					<textarea id="<?php echo $input_prefix . '-open-response'; ?>" name="board[<?php echo $input_prefix . '-open-response'; ?>]"><?php echo $data[$input_prefix . '-open-response']; ?></textarea>
-					
+		 			
+					if( $input_prefix != 'care-acute-1' ) { //because this one has no discussion questions.. ?>
+						<textarea id="<?php echo $input_prefix . '-open-response'; ?>" name="board[<?php echo $input_prefix . '-open-response'; ?>]"><?php echo $data[$input_prefix . '-open-response']; ?></textarea>
+					<?php } ?>
 					<?php $radio_checked = $data[$section . '-' . $impact_area . '-' . $crit_key . '-top-3']; ?>
 					<label for="<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>"><h6>Based on your preliminary discussions, do you think this may be a top 3 health impact opportunity for your board?</h6>
 					<label><input type="radio" value="1" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
@@ -806,7 +807,7 @@ function cc_aha_print_criterion_school_phys_2( $metro_id ) {
 	<ul>
 		<li><?php
 		if ( ! $data['2.2.4.1'] || $data['2.2.4.1']  == 'neither' ) {
-			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
+			echo 'Preliminary analyses indicate that this is not a viable issue at this time';
 		} else {
 			echo 'Given the current political/policy environment, we envision shared use policy will most likely occur at the ' . $data['2.2.4.1'] . ' level.';
 		}
