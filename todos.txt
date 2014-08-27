@@ -1,9 +1,19 @@
 
 - Make sure 5.1.2 in Board table is varchar(>3) or whatever - enough to hold 'No – none of the above;
 
-- Make this conditional on whether background exists (I'm looking at you cares_acute_1)?
+- Add columns in board table for environmental scan section:
+	environmental-scan-health
+	environmental-scan-demographics
+	environmental-scan-political
+	environmental-scan-economic
+	environmental-scan-social
+	environmental-scan-environmental
+	environmental-scan-education
+	environmental-scan-other
+
+- DONE: Make this conditional on whether background exists (I'm looking at you cares_acute_1)?
 	<p><strong>Background: </strong><?php echo cc_aha_get_summary_introductory_text( $section, $impact_area, $crit_key ); ?></p>
 	
-- Calculation-based things remove from board table
+- Calculation-based columns remove from board table
 
 - Fix table layout/look for complex tables: http://localhost/cc_local/groups/american-heart-association/assessment/analysis/FDA01/school/diet/
