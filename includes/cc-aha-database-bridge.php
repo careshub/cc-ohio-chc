@@ -128,7 +128,7 @@ function cc_aha_get_assessment_school_results( $metro_id, $qid ){
  * @param 	array
  * @return	
  */
-function cc_aha_update_form_data( ){
+function cc_aha_update_form_data( $board_id = null ){
 	
 	// $towrite = PHP_EOL . '$_POST: ' . print_r( $_POST, TRUE);
 	// $fp = fopen('aha_form_save.txt', 'a');
@@ -141,7 +141,10 @@ function cc_aha_update_form_data( ){
 	global $wpdb;
 	
 	//get our board vars for the wpdb->update statement
-	$board_id = $_COOKIE['aha_active_metro_id']; // 'BOARD_ID' column in wp_aha_assessment_board; our WHERE clause
+	// If we haven't supplied a board ID, use the cookie setting
+	//TODO: Check saving summary responses with two diff cookie vals.
+	if ( ! $board_id )
+		$board_id = $_COOKIE['aha_active_metro_id']; // 'BOARD_ID' column in wp_aha_assessment_board; our WHERE clause
 	$board_table_name = $wpdb->aha_assessment_board;
 	$board_where = array(
 		'BOARD_ID' => $board_id 
