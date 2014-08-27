@@ -307,7 +307,7 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 		?></li>
 	</ul>
 
-	<h5>Discussion Questions</h5>
+	<!-- <h5>Discussion Questions</h5> -->
 	<?php /*
 	//Show Discussion questions from the db (where 'group' here == 'summary_section' in db)
 	$criteria = cc_aha_get_impact_area_criteria( $section, $impact_area );

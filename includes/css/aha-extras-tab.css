@@ -54,15 +54,6 @@
 	left: 0;
 	right: 0;
 }
-.entry-content .gaugechart {
-	display: table;
-	margin-left: auto;
-	margin-right: auto;
-}
-.entry-content .gaugechart img {
-	box-shadow: none;
-	border-radius: 0;
-}
 .assessment tr.summary-table-section {
 	border-top: 2px solid #666;
 } 
