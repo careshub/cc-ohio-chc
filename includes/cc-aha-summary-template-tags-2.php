@@ -28,7 +28,7 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 	
 	<?php //TODO: what is going on here? According to the table provided, these are yes/no answers... 
 	?>
-	<p>The competitive foods policy in <?php echo $data['State'] ?> is “required by law and is stronger than the USDA policy / voluntary… etc.” [Q3.1.1.1]
+	<p>The competitive foods policy in <?php echo $data['State'] ?> is <?php echo $data['3.1.1.1']; ?>
 	</p>
 	
 	<p>The competitive foods policy defense priority level in <?php echo $data['State'] ?> is <?php echo $data['3.1.1.2'] ?>.
