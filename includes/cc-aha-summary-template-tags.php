@@ -226,8 +226,8 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 					
 					<?php $radio_checked = $data[$section . '-' . $impact_area . '-' . $crit_key . '-top-3']; ?>
 					<label for="<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>"><h6>Based on your preliminary discussions, do you think this may be a top 3 health impact opportunity for your board?</h6>
-					<label><input type="radio" value="1" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php if ( isset( $radio_checked ) && $radio_checked == "1" ) echo "checked"; ?>> Yes</label>
-					<label><input type="radio" value="0" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php if ( isset( $radio_checked ) && $radio_checked == "0" ) echo "checked"; ?>> No</label>
+					<label><input type="radio" value="1" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
+					<label><input type="radio" value="0" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
 				</fieldset>
 			</div>
 		</div>
