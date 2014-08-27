@@ -121,7 +121,7 @@ function cc_aha_print_single_report_card( $metro_id = 0 ) {
 									<?php cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key ) ); ?>
 								</td>
 								<td>
-									Yes (?)
+									<?php echo $data[$section . '-' . $impact_area . '-' . $crit_key . '-top-3'] ? 'Yes' : 'No'; ?>
 								</td>
 							</tr>
 
