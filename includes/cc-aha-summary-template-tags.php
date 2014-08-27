@@ -62,7 +62,10 @@ function cc_aha_render_summary_page(){
 	// [2] is section
 	// [3] is the impact area
 	if ( ! bp_action_variable( 2 ) ) {
+		cc_aha_print_environmental_scan_link( $metro_id );
 		cc_aha_print_single_report_card( $metro_id );
+	} else if( bp_action_variable( 2 ) == 'environmental-scan' ) { //TODO - ask Davefor recs on this inelegance, since he's more familiar with the bp_action setup..
+		cc_aha_print_environmental_scan( $metro_id );
 	} else {
 		cc_aha_print_impact_area_report( $metro_id, bp_action_variable( 2 ), bp_action_variable( 3 ) );
 	}
@@ -183,7 +186,10 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 			</div>
 
 			<div class="third-block spans-2">
-				<p><strong>Background: </strong><?php echo cc_aha_get_summary_introductory_text( $section, $impact_area, $crit_key ); ?></p>
+				<?php if( cc_aha_get_summary_introductory_text( $section, $impact_area, $crit_key ) != '' ) { 
+					//since at least one of our sections - care_acute_1 is a dial only.. ?>
+					<p><strong>Background: </strong><?php echo cc_aha_get_summary_introductory_text( $section, $impact_area, $crit_key ); ?></p>
+				<?php } ?>
 				<?php // Mayhaps we can loop through these.
 				if ( $criterion[ 'auto_build' ] ) {
 					// Get the questions for this criterion

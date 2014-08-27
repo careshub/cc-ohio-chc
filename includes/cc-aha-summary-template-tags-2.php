@@ -101,7 +101,7 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 		} else {
 			echo 'Possible opportunities to drive impact include: ';
 			
-			//TODO: figure this out based on data we're collecting
+			//TODO: Mel, figure this out based on data we're collecting
 			//publish / strengthen the district wellness policy and/or open a door for the Alliance for a Healthier Generation and/or strengthen competitive foods policy by applying nutrition standards to after school activities and/or strengthen competitive foods policy by addressing celebrations and fundraisers.”'; 
 			echo ' potentially in ' . $data['3.1.4'];
 		} 
@@ -410,7 +410,101 @@ function cc_aha_print_criterion_school_cpr_1( $metro_id ) {
 	<?php
 }
 
+/*
+ * Environmental Scan print function
+ *
+ */
+function cc_aha_print_environmental_scan( $metro_id = 0 ) {
 
+	$questions = cc_aha_get_environmental_scan_sections();
+?>
+	<section id="environmental-scan" class="clear">
+		<form id="aha_summary-<?php echo $section . '-' . $impact_area; ?>" class="standard-form aha-survey" method="post" action="<?php echo cc_aha_get_home_permalink() . 'update-summary/'; ?>">
+		
+		<h2 class="screamer">Environmental Scan</h2>
+		<div class="content-row">
+		
+			<strong>For the following section please consult your Community Health Needs Assessment as well as discuss these questions strategically with staff and volunteers.</strong>
+			
+			<ul>
+				<?php foreach( $questions['questions'] as $question ){ 
+				?>
+				
+					<fieldset>
+						<label for="environmental-scan-<?php echo $question['name']; ?>"><h6><?php echo ucfirst( $question['name'] ) . ' - ' . $question['label']; ?></h6>
+						<textarea id="environmental-scan-<?php echo $question['name']; ?>" name="board[environmental-scan-<?php echo $question['name']; ?>]"></textarea>
+
+					</fieldset>
+					
+				<?php } ?>				
+				
+			</ul>
+		</div>
+		
+		<input type="hidden" name="metro_id" value="<?php echo $metro_id; ?>">
+		
+		<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
+			
+		<div class="form-navigation clear">
+			<div class="submit">
+				<input type="submit" name="submit-survey-to-toc" value="Save, Return to Table of Contents" id="submit-survey-to-toc">
+			</div>
+		</div>
+		</form>
+
+<?php
+}
+
+function cc_aha_print_environmental_scan_link(){
+?>
+	<a href="<?php echo cc_aha_get_analysis_permalink() . 'environmental-scan/' ; ?>">
+		Environmental Scan
+	</a>
+<?php
+}
+
+/* 
+ * Returns array of Environmental Scan questions 
+*/
+function cc_aha_get_environmental_scan_sections() {
+
+	return array( 
+		'questions' => array(
+			'Health' => array(
+				'name' => 'health',
+				'label' => 'What are the areas of greatest health need for your community? Are there sub-populations of higher need? See your CHNA and consider the Simple 7, mortality, etc.'
+			),
+			'Demographica' => array(
+				'name' => 'demographics',
+				'label' => 'What major demographic changes are occurring in your community which your plan should consider?  (Ex. growing diverse or aging populations)'
+			),
+			'Political' => array(
+				'name' => 'political',
+				'label' => 'What is the present political environment in your community?  Is this an election year in your community or state?  Do you anticipate significant shifts in the political landscape in the next 3 years?  Is the general political climate accepting of health related priorities?  Has your community adopted a “Health in All Policies” approach?'
+			),
+			'Economic' => array(
+				'name' => 'economic',
+				'label' => 'What is the present economic environment in your community?  What is the unemployment rate?  Is your community economically stable?  Do you anticipate that changing in the next 3 years?'
+			),
+			'Social' => array(
+				'name' => 'social',
+				'label' => 'Is your community socially stable or are there social issues (homelessness, poverty, discrimination) that are social justices issues that may impact health or health policy?'
+			),
+			'Environmental' => array(
+				'name' => 'environmental',
+				'label' => 'Is your community environmentally progressive?  Is there strong policy and adoption of environmentally sound practices?'
+			),
+			'Education' => array(
+				'name' => 'education',
+				'label' => 'What is the general education climate?  Graduation rates?  Significant variation between areas of the community?  Quality of schools?'
+			),
+			'Other' => array(
+				'name' => 'other',
+				'label' => 'Other Opportunities or Barriers that are not identified above that might influence interest in improved health initiatives'
+			),
+		),
+	);
+}
 
 
 //TODO: move these to summary-template-tags(-1)
