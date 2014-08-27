@@ -42,7 +42,7 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 				<th rowspan="1" colspan="3">Policy meets AHA’s criteria for</th>
 				
 				<th rowspan="2">District Policy URL</th>
-				<th rowspan="2">Alliance for a Healthier Generation Recruitment Interest</th><
+				<th rowspan="2">Alliance for a Healthier Generation Recruitment Interest</th>
 			</tr>
 				<th>School meals</th>
 				<th>Competitive Foods</th>

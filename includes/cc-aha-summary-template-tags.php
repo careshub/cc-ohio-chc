@@ -305,7 +305,7 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 
 	<h5>Policy Landscape</h5>
 	<ul>
-		<?php if ( ! empty( $data['1.1.2.1'] ) ) : ?>
+		<?php if ( $data['1.1.2.1'] != '' ) : ?>
 			<li>Your state <?php echo ( $data['1.1.2.1'] == 'Yes' ) ? 'does' : 'does not'; ?> preempt local communities from adopting their own clean indoor air laws.</li>
 		<?php endif; ?>
 		<li><?php 
@@ -614,7 +614,7 @@ function cc_aha_print_criterion_community_diet_3( $metro_id ) {
 	<h5>Policy Landscape</h5>
 	<ul>
 		<li>Your state or community <?php echo $data['3.5.2'] ? 'is' : 'is not'; ?> pursuing an appropriate to establish or supplement a Healthy Food Financing Initiative program.</li>
-		<?php if ( $data['3.5.3'] ) : ?>
+		<?php if ( $data['3.5.3'] != '' ) : ?>
 			<li>We envision Healthy Food Financing policy change will most likely occur in <?php echo $data['3.5.3']; ?>.</li>
 		<?php endif; ?>
 	</ul>
