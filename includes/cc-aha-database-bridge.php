@@ -131,12 +131,9 @@ function cc_aha_get_assessment_school_results( $metro_id, $qid ){
 function cc_aha_update_form_data( $board_id = null ){
 	
 	// $towrite = PHP_EOL . '$_POST: ' . print_r( $_POST, TRUE);
-	// $fp = fopen('aha_form_save.txt', 'a');
+	// $fp = fopen("c:\\xampp\\logs\\aha_log.txt", 'a');
 	// fwrite($fp, $towrite);
 	// fclose($fp);
-
-	//Mel isn't sure if this is necessary?
-	if ( $_POST['metro_id'] != $_COOKIE['aha_active_metro_id'] ) return 0;
 
 	global $wpdb;
 	
@@ -156,12 +153,11 @@ function cc_aha_update_form_data( $board_id = null ){
 	$numeric_inputs = cc_aha_get_number_type_questions();
 	
 	$followup_question = array();
-
+	 
 	// Input data cleaning
 	foreach ($update_board_data as $key => $value) {
 		
 		//just triple-checking to make sure we won't clear out OTHER followup values of non-displayed questions..
-		//$towrite .= 'MASTER KEY: ' . $key ;
 		// Serialize data if necessary
 		if ( is_array( $value ) )
 			$update_board_data[ $key ] = maybe_serialize( $value );
@@ -191,7 +187,7 @@ function cc_aha_update_form_data( $board_id = null ){
 			}
 		}
 	}
-
+	 
 	//if we have [board] values set by the form, update the table
 	// wpdb->update is perfect for this. Wow. Ref: https://codex.wordpress.org/Class_Reference/wpdb#UPDATE_rows
 	if ( !empty ( $update_board_data ) ) {

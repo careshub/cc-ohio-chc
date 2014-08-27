@@ -380,9 +380,6 @@ function cc_aha_print_criterion_school_cpr_1( $metro_id ) {
 	}
 	?></p>
 	
-	
-	
-	
 	<h5>Discussion Questions</h5>
 	
 	<?php 
@@ -399,24 +396,24 @@ function cc_aha_print_criterion_school_cpr_1( $metro_id ) {
 	
 	//if we have multiple question rows in table for group
 	foreach ( $disc_questions as $question ) {
-		
 		if ( $question['summary_section'] == $group ) { //make sure we're looking at the right set of questions
 			echo $question['summary_label'];
 		}
 	}
-	
 	?>
 	
 	<?php
 }
 
 /*
- * Environmental Scan print function
+ * Produce page code for Environmental Scan form with appropriate data if filled out already
  *
  */
 function cc_aha_print_environmental_scan( $metro_id = 0 ) {
 
-	$questions = cc_aha_get_environmental_scan_sections();
+	$questions = cc_aha_get_environmental_scan_questions();
+	$data = cc_aha_get_form_data( $metro_id );
+	
 ?>
 	<section id="environmental-scan" class="clear">
 		<form id="aha_summary-<?php echo $section . '-' . $impact_area; ?>" class="standard-form aha-survey" method="post" action="<?php echo cc_aha_get_home_permalink() . 'update-summary/'; ?>">
@@ -428,11 +425,12 @@ function cc_aha_print_environmental_scan( $metro_id = 0 ) {
 			
 			<ul>
 				<?php foreach( $questions['questions'] as $question ){ 
+					$title = "environmental-scan-" . $question['name']; 
 				?>
 				
 					<fieldset>
-						<label for="environmental-scan-<?php echo $question['name']; ?>"><h6><?php echo ucfirst( $question['name'] ) . ' - ' . $question['label']; ?></h6>
-						<textarea id="environmental-scan-<?php echo $question['name']; ?>" name="board[environmental-scan-<?php echo $question['name']; ?>]"></textarea>
+						<label for="<?php echo $title; ?>"><h6><?php echo ucfirst( $question['name'] ) . ' - ' . $question['label']; ?></h6>
+						<textarea id="<?php echo $title; ?>" name="board[<?php echo $title; ?>]"><?php echo $data[$title]; ?></textarea>
 
 					</fieldset>
 					
@@ -466,7 +464,7 @@ function cc_aha_print_environmental_scan_link(){
 /* 
  * Returns array of Environmental Scan questions 
 */
-function cc_aha_get_environmental_scan_sections() {
+function cc_aha_get_environmental_scan_questions() {
 
 	return array( 
 		'questions' => array(
@@ -505,9 +503,6 @@ function cc_aha_get_environmental_scan_sections() {
 		),
 	);
 }
-
-
-//TODO: move these to summary-template-tags(-1)
 
 // Generalized to identify 0- <80, 80-90 and >90% tiers
 function cc_aha_calc_three_tiers_80( $metro_id, $qid ) {
