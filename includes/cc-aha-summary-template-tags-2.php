@@ -122,9 +122,8 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 	</ul>
 
 <?php
-	echo PHP_EOL . ">> open response";
-	echo PHP_EOL . ">> top 3";
 }
+
 function cc_aha_print_criterion_school_diet_2( $metro_id ) {
 	$data = cc_aha_get_form_data( $metro_id );
 	$school_data = cc_aha_get_school_data( $metro_id );
@@ -181,9 +180,6 @@ function cc_aha_print_criterion_school_diet_2( $metro_id ) {
 	</ul>
 	
 	<?php 
-	echo PHP_EOL . ">> open response";
-	echo PHP_EOL . ">> top 3";
-
 }
  
  
@@ -245,9 +241,6 @@ function cc_aha_print_criterion_care_factors_1( $metro_id ) {
 	?>
 	
 	<?php 
-	echo PHP_EOL . ">> open response";
-	echo PHP_EOL . ">> top 3";
-
 }
 
 //6.1 CMS PENALTY: Total Discharges & Underserved Discharges
@@ -325,9 +318,6 @@ function cc_aha_print_criterion_care_acute_2( $metro_id ) {
 	?>
 	
 	<?php 
-	echo PHP_EOL . ">> open response";
-	echo PHP_EOL . ">> top 3";
-
 }
 
 //school_cpr_1
@@ -417,10 +407,7 @@ function cc_aha_print_criterion_school_cpr_1( $metro_id ) {
 	
 	?>
 	
-	<?php 
-	echo PHP_EOL . ">> open response";
-	echo PHP_EOL . ">> top 3";
-
+	<?php
 }
 
 

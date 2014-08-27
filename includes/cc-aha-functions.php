@@ -334,7 +334,7 @@ function cc_aha_get_fips( $cleaned = false ){
  * @arguments   $metro_id and $level which is one of elem, midd, high, or all
  * @return  integer (formatted like a percentage)
  */ 
-function cc_aha_top_5_school_pe_calculation( $metro_id, $level ) {
+function cc_aha_top_5_school_pe_calculation( $metro_id, $level = 'all' ) {
     $school_data = cc_aha_get_school_data( $metro_id );
     $total_pop = 0;
     $covered_pop = 0;

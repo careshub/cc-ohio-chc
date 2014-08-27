@@ -138,6 +138,8 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 	?>
 
 	<section id="<?php echo $impact_area; ?>" class="clear">
+		<form id="aha_summary-<?php echo $section . '-' . $impact_area; ?>" class="standard-form aha-survey" method="post" action="<?php echo cc_aha_get_home_permalink() . 'update-summary/'; ?>">
+		
 		<h2 class="screamer"><?php echo cc_aha_get_summary_impact_area_title( $section, $impact_area ); ?></h2>
 
 		<?php 
@@ -209,10 +211,34 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 				}
 
 				 ?>
+
+		 		<fieldset>
+					<textarea id="<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-open-response'; ?>" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-open-response'; ?>]"></textarea>
+
+					<label for="<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>"><h6>Based on your preliminary discussions, do you think this may be a top 3 health impact opportunity for your board?</h6>
+					<label><input type="radio" value="1" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]"> Yes</label>
+					<label><input type="radio" value="0" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]"> No</label>
+				</fieldset>
 			</div>
 		</div>
+
 <?php
 	}
+	?>
+	<input type="hidden" name="metro_id" value="<?php echo $metro_id; ?>">
+	<input type="hidden" name="section-impact-area" value="<?php echo $section . '-' . $impact_area; ?>">
+	<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
+		
+	<div class="form-navigation clear">
+		<div class="submit">
+	        <input type="submit" name="submit-survey-to-toc" value="Save, Return to Table of Contents" id="submit-survey-to-toc">
+	    </div>
+		<!-- <div class="submit">
+	        <input type="submit" name="submit-survey-next-page" value="Save Responses and Continue" id="submit-survey-next-page">
+	    </div> -->
+	</div>
+	</form>
+	<?php
 }
 
 /**
@@ -269,7 +295,9 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 
 	<h5>Policy Landscape</h5>
 	<ul>
-		<li>Your state <?php echo $data['1.1.2.1'] ? 'does' : 'does not'; ?> preempt local communities from adopting their own clean indoor air laws.</li>
+		<?php if ( ! empty( $data['1.1.2.1'] ) ) : ?>
+			<li>Your state <?php echo ( $data['1.1.2.1'] == 'Yes' ) ? 'does' : 'does not'; ?> preempt local communities from adopting their own clean indoor air laws.</li>
+		<?php endif; ?>
 		<li><?php 
 		if ( ! $data['1.1.1.4'] || $data['1.1.3.1'] == 'Not a viable issue at any level at this time' ) {
 			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
@@ -280,7 +308,7 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 	</ul>
 
 	<h5>Discussion Questions</h5>
-	<?php 
+	<?php /*
 	//Show Discussion questions from the db (where 'group' here == 'summary_section' in db)
 	$criteria = cc_aha_get_impact_area_criteria( $section, $impact_area );
 	
@@ -302,10 +330,10 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 			echo $question['summary_label'];
 		}
 	}
-	
+	*/
 	?>
 	
-	<!--<h5>Discussion Questions</h5>
+	<h5>Discussion Questions</h5>
 	<strong>Is this a priority at the state level?</strong>
 	<ul>
 		<li>Are their state legislators from this community who are key targets that we need to influence for supporting a state-wide campaign?</li>
@@ -320,11 +348,9 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 		<li>What is the likelihood of the current council support for clean indoor air law?  </li>
 		<li>Do the board members and other AHA volunteers have the capacity to lead and fully engage in this campaign?</li>
 		<li>Is there any external funding available to do the work?  (ex. Community Transformation Grants, etc.)</li>
-	</ul>-->
+	</ul>
 	
 	<?php 
-	echo PHP_EOL . ">> open response";
-	echo PHP_EOL . ">> top 3";
 
 }
 
@@ -360,8 +386,6 @@ function cc_aha_print_criterion_community_tobacco_2( $metro_id ) {
 		<li>Is there any external funding available to do the work?  (ex. Community Transformation Grants,  etc.)</li>
 	</ul>
 	<?php 
-	echo PHP_EOL . ">> open response";
-	echo PHP_EOL . ">> top 3";
 
 }
 
@@ -444,8 +468,6 @@ function cc_aha_print_criterion_community_phys_1( $metro_id ) {
 		<li>What is the current level of grassroots activity in the community to support this effort?</li>
 	</ul>
 	<?php 
-	echo PHP_EOL . ">> open response";
-	echo PHP_EOL . ">> top 3";
 
 }
 
@@ -526,9 +548,6 @@ function cc_aha_print_criterion_community_diet_1( $metro_id ) {
 		<li>Within the community who has the authority (mayor, city manager, city council or city procurement officer) to pass these policies?</li>
 	</ul>
 	<?php 
-	echo PHP_EOL . ">> open response";
-	echo PHP_EOL . ">> top 3";
-
 }
 
 function cc_aha_print_criterion_community_diet_2( $metro_id ) {
@@ -572,9 +591,6 @@ function cc_aha_print_criterion_community_diet_2( $metro_id ) {
 		<li>Is there any external funding available to do the work? (ex. Community Transformation Grants, Voices for Healthy Kids, etc.)</li>
 	</ul>
 	<?php 
-	echo PHP_EOL . ">> open response";
-	echo PHP_EOL . ">> top 3";
-
 }
 
 function cc_aha_print_criterion_community_diet_3( $metro_id ) {
@@ -588,13 +604,9 @@ function cc_aha_print_criterion_community_diet_3( $metro_id ) {
 	<h5>Policy Landscape</h5>
 	<ul>
 		<li>Your state or community <?php echo $data['3.5.2'] ? 'is' : 'is not'; ?> pursuing an appropriate to establish or supplement a Healthy Food Financing Initiative program.</li>
-		<li><?php
-		if ( ! $data['3.5.4'] || $data['3.5.4']  == 'neither' ) {
-			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
-		} else {
-			echo 'Given the current political/policy environment, we envision Healthy Food Financing policy change will most likely occur at the ' . $data['3.5.4'] . ' level potentially in ' . $data['3.5.3'] ;
-		}
-		?>.</li>
+		<?php if ( $data['3.5.3'] ) : ?>
+			<li>We envision Healthy Food Financing policy change will most likely occur in <?php echo $data['3.5.3']; ?>.</li>
+		<?php endif; ?>
 	</ul>
 
 	<h5>Discussion Questions</h5>
@@ -606,9 +618,6 @@ function cc_aha_print_criterion_community_diet_3( $metro_id ) {
 		<li>Is there any external funding available to do the work? (ex. Community Transformation Grants, Voices for Healthy Kids, etc.)</li>
 	</ul>
 	<?php 
-	echo PHP_EOL . ">> open response";
-	echo PHP_EOL . ">> top 3";
-
 }
 
 function cc_aha_print_criterion_school_phys_1( $metro_id ) {
@@ -698,9 +707,6 @@ function cc_aha_print_criterion_school_phys_1( $metro_id ) {
 		<li>Is there any external funding available to do the work? (ex. Community Transformation Grants, Voices for Healthy Kids, etc.)</li>
 	</ul>
 	<?php 
-	echo PHP_EOL . ">> open response";
-	echo PHP_EOL . ">> top 3";
-
 }
 
 function cc_aha_print_criterion_school_phys_2( $metro_id ) {
@@ -801,9 +807,6 @@ function cc_aha_print_criterion_school_phys_2( $metro_id ) {
 		<li>If Liability Protection is not in place at the state level is there still interested in Shared Use Agreements at the local level?</li>
 	</ul>
 	<?php 
-	echo PHP_EOL . ">> open response";
-	echo PHP_EOL . ">> top 3";
-
 }
 
 /**
@@ -1087,11 +1090,12 @@ function cc_aha_section_get_score( $section, $impact_area, $crit_key, $metro_id 
 		case 'community_diet_3':
 			// Healthy food financing
 			// TODO
-			$score = cc_aha_calc_tobacco_excise( $metro_id );
+			$score = cc_aha_calc_hffi( $metro_id );
 			break;		
 		case 'school_phys_1':
 			// PE in schools
-			$score = cc_aha_calc_three_tiers( $metro_id, '2.1.4.6' );
+			$percent = cc_aha_top_5_school_pe_calculation( $metro_id, 'all' );
+			$score = cc_aha_convert_percent_to_three_tiers( $percent );
 			break;
 		case 'school_phys_2':
 			// Shared use
@@ -1160,6 +1164,18 @@ function cc_aha_calc_tobacco_excise( $metro_id ){
 	if ( $total_excise >= 1.85 ) {
 		return 'healthy';
 	} else if ( $total_excise >= 1 ) {
+		return 'intermediate';
+	} else {
+		return 'poor';
+	}
+}
+function cc_aha_calc_hffi( $metro_id ){ 
+	$data = cc_aha_get_form_data( $metro_id );
+
+	$pop = $data[ '3.5.1' ];
+	if ( $pop < 46 ) {
+		return 'healthy';
+	} else if ( $pop < 53 ) {
 		return 'intermediate';
 	} else {
 		return 'poor';

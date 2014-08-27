@@ -530,6 +530,26 @@ class CC_AHA_Extras {
 			bp_core_redirect( $this->after_save_get_form_page_url( $page ) );
 			
 		}
+
+		// Handle summary/analysis response saves
+		if ( bp_is_action_variable( 'update-summary', 0 ) ) {
+			// Is the nonce good?
+			if ( ! wp_verify_nonce( $_REQUEST['set-aha-assessment-nonce'], 'cc-aha-assessment' ) )
+				return false;
+
+			$page = isset( $_POST['section-impact-area'] ) ? $_POST['section-impact-area'] : null;
+
+			// Try to save the form data
+		    if ( cc_aha_update_form_data( $_COOKIE['aha_summary_metro_id'] ) != FALSE ) {
+   				bp_core_add_message( __( 'Your responses have been recorded.', $this->plugin_slug ) );
+		    } else {
+				bp_core_add_message( __( 'There was a problem saving your responses.', $this->plugin_slug ), 'error' );
+		    }
+
+			// Redirect to the appropriate page of the form
+			bp_core_redirect( $this->after_save_get_summary_page_url( $page ) );
+			
+		}
 	}
 
 	/**
@@ -568,6 +588,28 @@ class CC_AHA_Extras {
 			} else {
 				$url = cc_aha_get_survey_permalink( ++$page );
 			}
+
+		return $url;
+	}
+
+	/**
+	 * Determine the correct page to redirect the user to after a summary response save
+	 *  
+	 * @since   1.0.0
+	 * @return  string - url
+	 */
+	public function after_save_get_summary_page_url( $page ){
+			// From $_POST, we know whether the user clicked "continue" or "return to toc" and the form page number
+			// TODO: Maybe add some logic here.
+			$url = cc_aha_get_analysis_permalink();
+			// if ( isset( $_POST['submit-survey-to-toc'] ) ) {
+			// 	$url = cc_aha_get_survey_permalink( 1 );
+			// } else if ( $page == cc_aha_get_max_page_number() ) {
+			// 	bp_core_add_message( __( 'Thank you for completing the assessment.', $this->plugin_slug ) );
+			// 	$url = cc_aha_get_survey_permalink( 1 );
+			// } else {
+			// 	$url = cc_aha_get_survey_permalink( ++$page );
+			// }
 
 		return $url;
 	}

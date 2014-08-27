@@ -457,6 +457,7 @@ function cc_aha_get_metro_id_array(){
 		"
 		SELECT BOARD_ID, Board_Name, Affiliate
 		FROM $wpdb->aha_assessment_board
+		ORDER BY BOARD_ID
 		", ARRAY_A
 	);
 	
