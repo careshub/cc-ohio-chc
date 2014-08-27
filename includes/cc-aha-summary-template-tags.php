@@ -222,12 +222,14 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 				 ?>
 
 		 		<fieldset>
-					<textarea id="<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-open-response'; ?>" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-open-response'; ?>]"><?php echo $data[$section . '-' . $impact_area . '-' . $crit_key . '-open-response']; ?></textarea>
+		 			<?php 
+		 			$input_prefix = $section . '-' . $impact_area . '-' . $crit_key;
+		 			?>
+					<textarea id="<?php echo $input_prefix . '-open-response'; ?>" name="board[<?php echo $input_prefix . '-open-response'; ?>]"><?php echo $data[$input_prefix . '-open-response']; ?></textarea>
 					
-					<?php $radio_checked = $data[$section . '-' . $impact_area . '-' . $crit_key . '-top-3']; ?>
-					<label for="<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>"><h6>Based on your preliminary discussions, do you think this may be a top 3 health impact opportunity for your board?</h6>
-					<label><input type="radio" value="1" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php if ( isset( $radio_checked ) && $radio_checked == "1" ) echo "checked"; ?>> Yes</label>
-					<label><input type="radio" value="0" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php if ( isset( $radio_checked ) && $radio_checked == "0" ) echo "checked"; ?>> No</label>
+					<label for="<?php echo $input_prefix . '-top-3'; ?>"><h6>Based on your preliminary discussions, do you think this may be a top 3 health impact opportunity for your board?</h6>
+					<label><input type="radio" value="1" name="board[<?php echo $input_prefix . '-top-3'; ?>]" <?php checked( $data[$input_prefix . '-top-3'], 1 ); ?>> Yes</label>
+					<label><input type="radio" value="0" name="board[<?php echo $input_prefix . '-top-3'; ?>]" <?php checked( $data[$input_prefix . '-top-3'], 0 ); ?>> No</label>
 				</fieldset>
 			</div>
 		</div>
@@ -1257,13 +1259,16 @@ function cc_aha_calc_n_question_district_yes_tiers( $school_data, $qids = array(
 			}
 		}
 	}
-		
-	if ( ( $num_yes == $total_questions ) && ( $num_yes > 0 ) ) {  //because 0 total questions and 0 yeses indicate 1
+	
+	// If no total questions, bail rather than divide by zero.
+	if ( ! $total_questions )
+		return 'poor';
+
+	if ( ( $num_yes == $total_questions ) ) {  // all are yes
 		return 'healthy';
-	} else if ( $total_questions > 0 ){
-		if ( ( ( $num_yes / $total_questions ) >= 0.5 ) && ( ( $num_yes / $total_questions ) < 1 ) ) {
-			return 'intermediate';
-		}
+	} else if ( ( $num_yes / $total_questions ) >= 0.5 ) { 
+		// Returns stop the function, so this continues only if the first 'if' didn't fire.
+		return 'intermediate';
 	} else {
 		return 'poor';
 	}
