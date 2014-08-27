@@ -26,7 +26,7 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 	<p><?php echo $policy_percent; ?>% of the top 5 school districts have a documented and publicly available wellness policy covering school meals, smart snacks and before/after school offerings meeting AHA criteria.
 	</p>
 	
-	<?php //TODO: what is going on here? According to the table provided, these are yes/no answers... 
+	<?php //TODO: check new data from Ben once incorporated 
 	?>
 	<p>The competitive foods policy in <?php echo $data['State'] ?> is <?php echo $data['3.1.1.1']; ?>
 	</p>
@@ -42,7 +42,7 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 				<th rowspan="1" colspan="3">Policy meets AHA’s criteria for</th>
 				
 				<th rowspan="2">District Policy URL</th>
-				<th rowspan="2">Alliance for a Healthier Generation Recruitment Interest</th>
+				<th rowspan="2">Alliance for a Healthier Generation Recruitment Interest</th><
 			</tr>
 				<th>School meals</th>
 				<th>Competitive Foods</th>
@@ -85,7 +85,7 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 					} ?>
 					</td>
 					<td><?php if ( isset ( $school['3.1.2']) && $school['3.1.2'] != '' ) {
-						echo $school['3.1.2'] ? 'Yes' : 'No'; 
+						echo $school['3.1.2'] ? 'Yes' : 'No'; //TODO: check new data from Ben once incorporated 
 					} ?>
 					</td>
 				</tr>
@@ -101,8 +101,7 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 		} else {
 			echo 'Possible opportunities to drive impact include: ';
 			
-			//TODO: Mel, figure this out based on data we're collecting
-			//publish / strengthen the district wellness policy and/or open a door for the Alliance for a Healthier Generation and/or strengthen competitive foods policy by applying nutrition standards to after school activities and/or strengthen competitive foods policy by addressing celebrations and fundraisers.”'; 
+			//TODO: Mel, figure this out based on data we're no longer collecting
 			echo ' potentially in ' . $data['3.1.4'];
 		} 
 		?></li>
