@@ -53,7 +53,7 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 			foreach ( $school_data as $school ) {
 				?>
 				<tr>
-					<td><?php echo $school['DIST_NAME'] . '<br / >' . $school['DIST_ID']; ?></td>
+					<td><?php echo $school['DIST_NAME']; ?></td>
 					<td><?php if ( isset ( $school['3.1.3.1.0']) && $school['3.1.3.1.0'] != '' ) {
 						echo $school['3.1.3.1.0'] ? 'Yes' : 'No'; 
 					} else {
@@ -150,7 +150,7 @@ function cc_aha_print_criterion_school_diet_2( $metro_id ) {
 			foreach ( $school_data as $school ) {
 				?>
 				<tr>
-					<td><?php echo $school['DIST_NAME'] . '<br / >' . $school['DIST_ID']; ?></td>
+					<td><?php echo $school['DIST_NAME']; ?></td>
 					<td><?php if ( isset ( $school['3.2.1.1']) && $school['3.2.1.1'] != '' ) {
 						echo $school['3.2.1.1'] ? 'Yes' : 'No'; 
 					} else {
@@ -183,7 +183,6 @@ function cc_aha_print_criterion_school_diet_2( $metro_id ) {
  
  
 function cc_aha_print_criterion_care_factors_1( $metro_id ) {
-	$counties = cc_aha_get_county_data( $metro_id );
 	$data = cc_aha_get_form_data( $metro_id );
 	
 	$section = 'care';
@@ -247,7 +246,6 @@ function cc_aha_print_criterion_care_acute_1( $metro_id ) {
 	//Just need the function to get rid of the warning, no actual data being displayed here, except the dial
 }
 function cc_aha_print_criterion_care_acute_2( $metro_id ) {
-	$counties = cc_aha_get_county_data( $metro_id );
 	$data = cc_aha_get_form_data( $metro_id );
 	$hospitals = cc_aha_get_hospital_data( $metro_id );
 	
@@ -321,7 +319,6 @@ function cc_aha_print_criterion_care_acute_2( $metro_id ) {
 
 //school_cpr_1
 function cc_aha_print_criterion_school_cpr_1( $metro_id ) {
-	$counties = cc_aha_get_county_data( $metro_id );
 	$data = cc_aha_get_form_data( $metro_id );
 	$school_data = cc_aha_get_school_data( $metro_id );
 	
@@ -351,7 +348,7 @@ function cc_aha_print_criterion_school_cpr_1( $metro_id ) {
 			foreach ( $school_data as $school ) {
 				?>
 				<tr>
-					<td><?php echo $school['DIST_NAME'] . '<br / >' . $school['DIST_ID']; ?></td>
+					<td><?php echo $school['DIST_NAME']; ?></td>
 					<td><?php if ( isset ( $school['5.1.4.1']) && $school['5.1.4.1'] != '' ) {
 						echo $school['5.1.4.1'] ? 'Yes' : 'No'; 
 					} else {
@@ -562,4 +559,20 @@ function cc_aha_calc_n_question_district_yes_percent( $school_data, $qids = arra
 	} else {
 		return false;
 	}
+}
+
+function cc_aha_calc_n_question_district_add_amount( $school_data, $qids = array() ) {
+	$total_amount = 0;
+	
+	//loop through each school
+	foreach ( $school_data as $school ){
+	
+		//loop through each question for this school
+		foreach( $qids as $qid ){
+			$num = intval($school[ $qid ]);
+			$total_amount = $total_amount + $num;
+		}
+	}
+	
+	return $total_amount;
 }
