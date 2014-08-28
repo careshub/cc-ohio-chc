@@ -387,7 +387,7 @@ function cc_aha_print_criterion_community_tobacco_2( $metro_id ) {
 		<li><?php 
 		if ( ! $data['1.2.1.2'] || $data['1.2.3.1'] == 'neither' ) {
 			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
-		} else {
+		} else { //TODO - Mel thinks 1.2.3.1 and 1.2.1.2 should be swapped, based on data (email pending to Ben)
 			echo 'Given the current political/policy environment, we envision tobacco excise tax public policy change will most likely occur at the ' . $data['1.2.3.1'] . ' level potentially in ' . $data['1.2.1.2']; 
 		}
 		?></li>
