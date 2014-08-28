@@ -193,7 +193,7 @@ function cc_aha_render_tab_subnav(){
                 <?php endif; ?>
                 <?php if ( cc_aha_user_has_super_secret_clearance() ) : ?>
                 <li <?php if ( cc_aha_on_analysis_screen() ) { echo 'class="current"'; } ?>>
-                    <a href="<?php echo cc_aha_get_analysis_permalink(); ?>">View Report</a>
+                    <a href="<?php echo cc_aha_get_analysis_permalink(); ?>">Analysis</a>
                 </li>
                 <?php endif; ?>
             </ul>

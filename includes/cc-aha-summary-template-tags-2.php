@@ -29,9 +29,9 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 	<?php //TODO: check new data from Ben once incorporated 
 	?>
 	<p>The competitive foods policy in <?php echo $data['State'] ?> is <?php echo $data['3.1.1.1']; ?>
-	</p>
+	.</p>
 	
-	<p>The competitive foods policy defense priority level in <?php echo $data['State'] ?> is <?php echo $data['3.1.1.2'] ?>.
+	<p>The competitive foods policy defense priority level in <?php echo $data['State'] ?> is <?php echo $data['3.1.1.1.1'] ?>.
 	</p>
 	
 	<table>
@@ -205,11 +205,11 @@ function cc_aha_print_criterion_care_factors_1( $metro_id ) {
 			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
 		} else if ( ( $data['4.1.4'] == 'Yes – Medicaid expansion at the state level' ) || ( $data['4.1.4'] == 'yes - Medicaid expansion' ) ) {
 			echo 'Given the current political/policy environment, we envision “Medicaid expansion at the state level”'; 
-			if ( isset ( $data['4.1.3.1'] ) ) 
+			if ( isset( $data['4.1.3.1'] ) ) 
 				echo ' potentially in ' . $data['4.1.3.1'];
 		} else if ( ( $data['4.1.4'] == 'Yes – USPSTF at the state level' ) || ( $data['4.1.4'] == 'yes - USPSTF' ) ) {
 			echo 'Given the current political/policy environment, we envision “USPSTF A and B cardiovascular preventative benefits under Medicaid” will be passed in your state'; 
-			if ( isset ( $data['4.1.3.2'] ) ) 
+			if ( isset( $data['4.1.3.2'] ) ) 
 				echo ' potentially in ' . $data['4.1.3.2'];
 		}
 		?></li>
@@ -364,17 +364,17 @@ function cc_aha_print_criterion_school_cpr_1( $metro_id ) {
 	</table>
 	
 	<p>
-	<?php if ( $data['5.1.3'] == 'Not a viable issue at any level at this time' ) {
+	<?php if ( $data['5.1.3'] == 'neither' ) {
 		echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
 	} else if ( $data['5.1.3'] != '' ) { 
-		echo 'Given the current political/policy environment, we envision policies requiring CPR training for high school graduation will most likely occur ' . strtolower( $data['5.1.3'] );
+		echo 'Given the current political/policy environment, we envision policies requiring CPR training for high school graduation will most likely occur at the ' . $data['5.1.3'] . 'level.';
 	}
 	?></p>
 	
 	<p>
-	<?php if ( $data['5.1.2'] == 'No – none of the above' ) {
+	<?php if ( ! $data['5.1.2'] ) {
 		echo 'We do not anticipate that policies requiring CPR training for high school graduation will be passed in ' . $data['State'] . ' in the next 3 years.';
-	} else if ( $data['5.1.2'] != '' ){ 
+	} else { 
 		echo 'We anticipate policies requiring CPR training for high school graduation will be passed in ' . $data['State'] . ' in ' . $data['5.1.2'];
 	}
 	?></p>
@@ -512,7 +512,7 @@ function cc_aha_calc_three_tiers_80( $metro_id, $qid ) {
 
 	if ( $data[ $qid ] > 90 ) {
 		return 'healthy';
-	} else if ( ( $data[ $qid ] >= 80 ) && ( $data[ $qid ] <= 90 ) ) {
+	} else if ( $data[ $qid ] >= 80 ) {
 		return 'intermediate';
 	} else {
 		return 'poor';
@@ -528,7 +528,7 @@ function cc_aha_calc_three_tiers_50( $metro_id, $qid ) {
 
 	if ( $data[ $qid ] > 90 ) {
 		return 'healthy';
-	} else if ( ( $data[ $qid ] >= 50 ) && ( $data[ $qid ] <= 90 ) ) {
+	} else if ( $data[ $qid ] >= 50 ) {
 		return 'intermediate';
 	} else {
 		return 'poor';

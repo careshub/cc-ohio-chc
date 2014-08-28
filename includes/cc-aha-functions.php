@@ -307,6 +307,12 @@ function aha_survey_page_completed( $page, $board_data, $school_data ) {
     return true;
 }
 
+/**
+ * Get the FIPS codes for a metro_id
+ *
+ * @since   1.0.0
+ * @return  comma-delimited string.
+ */ 
 function cc_aha_get_fips( $cleaned = false ){
     if ( ! $metro_id = cc_aha_resolve_summary_metro_id() )
         return false;
@@ -321,11 +327,12 @@ function cc_aha_get_fips( $cleaned = false ){
          //var_dump($output);
          $fips = $output['getAHAfipsResult'][0]['fips'];
          $cleanedfips = str_replace('05000US','',$fips); 
-
+         
          return ( $cleaned ) ? $cleanedfips : $fips;
      } 
 
 }
+
 
 /**
  * Not a statistically sound calculation of % of students that receive a certain number of PE minutes per week.

@@ -84,6 +84,7 @@ function cc_aha_print_single_report_card( $metro_id = 0 ) {
 	<section id="single-report-card" class="clear">
 		<?php // Building out a table of responses for one metro
 		$sections = cc_aha_get_summary_sections( $metro_id );
+		$data = cc_aha_get_form_data( $metro_id ); 
 		?>
 		<table>
 			<thead>
@@ -121,7 +122,7 @@ function cc_aha_print_single_report_card( $metro_id = 0 ) {
 									<?php cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key ) ); ?>
 								</td>
 								<td>
-									<?php echo $data[$section . '-' . $impact_area . '-' . $crit_key . '-top-3'] ? 'Yes' : 'No'; ?>
+									<?php echo $data[$section_name . '-' . $impact_area_name . '-' . $crit_key . '-top-3'] ? 'Yes' : 'No'; ?>
 								</td>
 							</tr>
 
@@ -190,7 +191,8 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 
 			<div class="third-block spans-2">
 				<?php if( cc_aha_get_summary_introductory_text( $section, $impact_area, $crit_key ) != '' ) { 
-					//since at least one of our sections - care_acute_1 is a dial only.. ?>
+					//since at least one of our sections - care_acute_1 is a dial only.. 
+					?>
 					<p><strong>Background: </strong><?php echo cc_aha_get_summary_introductory_text( $section, $impact_area, $crit_key ); ?></p>
 				<?php } ?>
 				<?php // Mayhaps we can loop through these.
@@ -310,13 +312,13 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 	<h5>Policy Landscape</h5>
 	<ul>
 		<?php if ( $data['1.1.2.1'] != '' ) : ?>
-			<li>Your state <?php echo ( $data['1.1.2.1'] == 'Yes' ) ? 'does' : 'does not'; ?> preempt local communities from adopting their own clean indoor air laws.</li>
+			<li>Your state <?php echo ( $data['1.1.2.1'] ) ? 'does' : 'does not'; ?> preempt local communities from adopting their own clean indoor air laws.</li>
 		<?php endif; ?>
 		<li><?php 
-		if ( ! $data['1.1.1.4'] || $data['1.1.3.1'] == 'Not a viable issue at any level at this time' ) {
+		if ( ! $data['1.1.1.4'] || $data['1.1.3.1'] == 'neither' ) {
 			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
 		} else {
-			echo 'Given the current political/policy environment, we envision smoke­free air public policy change will most likely occur ' . $data['1.1.3.1'] . ' potentially in ' . $data['1.1.1.4']; 
+			echo 'Given the current political/policy environment, we envision smoke­free air public policy change will most likely occur at the ' . $data['1.1.3.1'] . 'level potentially in ' . $data['1.1.1.4']; 
 		}
 		?></li>
 	</ul>
@@ -383,10 +385,10 @@ function cc_aha_print_criterion_community_tobacco_2( $metro_id ) {
 	<ul>
 		<li><?php echo $data['State']; ?> <?php echo $data['1.2.2.2'] ? 'does' : 'does not'; ?> allow local communities to levy tobacco excise taxes locally.</li>
 		<li><?php 
-		if ( ! $data['1.2.1.2'] || $data['1.2.3.1'] == 'Not a viable issue at any level at this time' ) {
+		if ( ! $data['1.2.1.2'] || $data['1.2.3.1'] == 'neither' ) {
 			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
 		} else {
-			echo 'Given the current political/policy environment, we envision tobacco excise tax public policy change will most likely occur ' . $data['1.2.1.2'] . ' potentially in ' . $data['1.2.3.1']; 
+			echo 'Given the current political/policy environment, we envision tobacco excise tax public policy change will most likely occur at the ' . $data['1.2.3.1'] . ' level potentially in ' . $data['1.2.1.2']; 
 		}
 		?></li>
 	</ul>
@@ -512,13 +514,6 @@ function cc_aha_print_criterion_community_diet_1( $metro_id ) {
 
 	<h5>Policy Landscape</h5>
 	<ul>
-		<li>There <?php echo $data['2.3.2.1'] ? 'is' : 'is not'; ?> a state, regional or local complete streets policy under consideration.
-			<?php if ( $data['2.3.2.1'] ) : ?>
-					<ul>
-						<li><?php echo $data['2.3.2.2']; ?> is leading the effort.</li>
-					</ul>
-			<?php endif; ?>
-		</li>
 		<li><?php
 		if ( ! $data['3.3.4'] || $data['3.3.4']  == 'neither' ) {
 			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
@@ -588,12 +583,19 @@ function cc_aha_print_criterion_community_diet_2( $metro_id ) {
 		if ( ! $data['3.4.4'] || $data['3.4.4']  == 'neither' ) {
 			echo 'Preliminary analyses indicate that this is not a viable issue at this time';
 		} else if ( $data['3.4.4']  == 'state and local' ) {
-			echo 'Given the current political/policy environment, we envision sugar sweetened beverage tax policy will most likely occur at the state and local level. We expect to see state level policy potentially in ' . $data['3.4.3.1'] . ' and local level policy in ' . $data['3.4.3.2'];
+			echo 'Given the current political/policy environment, we envision sugar sweetened beverage tax policy will most likely occur at the state and local level.';
+			if ( $data['3.4.3.1'] && $data['3.4.3.2'] ){
+				echo 'We expect to see state level policy potentially in ' . $data['3.4.3.1'] . ' and local level policy in ' . $data['3.4.3.2'] . '.';
+			}
 		} else {
-			echo 'Given the current political/policy environment, we envision sugar sweetened beverage tax policy will most likely occur at the ' . $data['3.4.4'] . ' level potentially in ';
-			echo  ( $data['3.4.4'] == 'state') ? $data['3.4.3.1'] : $data['3.4.3.2'] ;
+			echo 'Given the current political/policy environment, we envision sugar sweetened beverage tax policy will most likely occur at the ' . $data['3.4.4'] . ' level';
+			if ( $data['3.4.4'] == 'state' && $data['3.4.3.1'] ) {
+				echo 'potentially in ' . $data['3.4.3.1'] . '.';
+			} else if ( $data['3.4.4'] == 'local' && $data['3.4.3.2'] ) {
+				echo 'potentially in ' . $data['3.4.3.2'] . '.';
+			}
 		}
-		?>.</li>
+		?></li>
 	</ul>
 
 	<h5>Discussion Questions</h5>
@@ -612,13 +614,13 @@ function cc_aha_print_criterion_community_diet_3( $metro_id ) {
 	?>
 	<h5>Current Status</h5>
 	<ul>
-		<li><?php echo $data['3.5.1'] ?>% of the population in your community lives in a “food desert” being low income and having low access to healthy food.</li>
+		<li><?php echo $data['3.5.1'] ?>% of the population in your community lives in a &ldquo;food desert&rdquo; being low income and having low access to healthy food.</li>
 	</ul>
 
 	<h5>Policy Landscape</h5>
 	<ul>
 		<li>Your state or community <?php echo $data['3.5.2'] ? 'is' : 'is not'; ?> pursuing an appropriate to establish or supplement a Healthy Food Financing Initiative program.</li>
-		<?php if ( $data['3.5.3'] != '' ) : ?>
+		<?php if ( $data['3.5.3'] ) : ?>
 			<li>We envision Healthy Food Financing policy change will most likely occur in <?php echo $data['3.5.3']; ?>.</li>
 		<?php endif; ?>
 	</ul>
@@ -813,14 +815,14 @@ function cc_aha_print_criterion_school_phys_2( $metro_id ) {
 		}
 		?></li>
 		<li><?php
-		if ( ! $data['2.2.3.1'] || $data['2.2.3.1']  == 'no' ) {
+		if ( ! $data['2.2.3.1'] ) {
 			echo 'Preliminary analyses indicate that shared use liability protection policy will not be passed in ' . $data['State'] . ' in the next 3 years';
 		} else {
 			echo 'We expect shared use liability protection policy may be passed in ' . $data['State'] . ' in ' . $data['2.2.3.1'];
 		}
 		?>.</li>
 		<li><?php
-		if ( ! $data['2.2.3.2'] || $data['2.2.3.2']  == 'no' ) {
+		if ( ! $data['2.2.3.2'] ) {
 			echo 'Preliminary analyses indicate that shared use incentives and monitoring appropriations will not be passed in ' . $data['State'] . ' in the next 3 years';
 		} else {
 			echo 'We expect shared use incentives and monitoring appropriations may be passed in ' . $data['State'] . ' in ' . $data['2.2.3.2'];
@@ -980,7 +982,7 @@ function cc_aha_get_summary_sections() {
 							'group' => 'community_diet_2' ),
 						3 => array(
 							'label' => 'Healthy Food Financing',
-							'background' => 'A food desert is an area where residents lack affordable access to foods that would allow them to have a healthy diet, such as fruits, vegetables, low-fat milk and whole grains. Existing in urban, suburban and rural communities, they are places where the nearest supermarket is too far away for residents to shop. Healthy Food Financing is a viable, effective, and economically sustainable solution to the problem of limited access to healthy foods. Healthy Food Financing Initiatives attract investment in underserved communities by providing critical loan and grant financing. These one-time resources help fresh food retailers overcome the initial barriers to entry into underserved, low-income urban and rural communities, and support renovation and expansion of existing stores so they can provide the healthy foods that communities want and need. Identifying food deserts is not an exact science, but you can <a href="#">look at an overview of your county&rsquo;s access to healthier food here.</a>',
+							'background' => 'A food desert is an area where residents lack affordable access to foods that would allow them to have a healthy diet, such as fruits, vegetables, low-fat milk and whole grains. Existing in urban, suburban and rural communities, they are places where the nearest supermarket is too far away for residents to shop. Healthy Food Financing is a viable, effective, and economically sustainable solution to the problem of limited access to healthy foods. Healthy Food Financing Initiatives attract investment in underserved communities by providing critical loan and grant financing. These one-time resources help fresh food retailers overcome the initial barriers to entry into underserved, low-income urban and rural communities, and support renovation and expansion of existing stores so they can provide the healthy foods that communities want and need. Identifying food deserts is not an exact science, but you can <a href="%food_desert_url%" target="_blank">look at an overview of your county&rsquo;s access to healthier food here.</a>',
 							'group' => 'community_diet_3' ),
 					),
 				),
@@ -1070,7 +1072,16 @@ function cc_aha_get_summary_impact_area_title( $section, $impact_area ) {
 
 function cc_aha_get_summary_introductory_text( $section, $impact_area, $crit_key ) {
 	$section_data = cc_aha_get_summary_sections();
-	return $section_data[$section]['impact_areas'][$impact_area]['criteria'][$crit_key]['background'];
+	$text = $section_data[$section]['impact_areas'][$impact_area]['criteria'][$crit_key]['background'];
+
+	// Customize the url for the food desert map in the HFFI section
+	if ( $section == 'community' && $impact_area == 'diet' && $crit_key == 3 ){
+		// Create a string of the complete fips code
+		$url = 'http://maps.communitycommons.org/viewer/?action=link_map&vm=1231&groupid=594&geoid=' . cc_aha_get_fips();
+		$text = str_replace( '%food_desert_url%', $url, $text );
+	}
+
+	return $text;
 }
 
 function cc_aha_get_summary_impact_area_widgets( $section, $impact_area ) {
