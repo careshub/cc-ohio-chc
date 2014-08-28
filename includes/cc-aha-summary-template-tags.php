@@ -62,10 +62,11 @@ function cc_aha_render_summary_page(){
 	// [2] is section
 	// [3] is the impact area
 	if ( ! bp_action_variable( 2 ) ) {
-		cc_aha_print_environmental_scan_link( $metro_id );
 		cc_aha_print_single_report_card( $metro_id );
 	} else if( bp_action_variable( 2 ) == 'environmental-scan' ) { //TODO - ask Davefor recs on this inelegance, since he's more familiar with the bp_action setup..
 		cc_aha_print_environmental_scan( $metro_id );
+	} else if( bp_action_variable( 2 ) == 'revenue' ) { //TODO - ask Davefor recs on this inelegance, since he's more familiar with the bp_action setup..
+		cc_aha_print_revenue_section_report( $metro_id, bp_action_variable( 3 ) );
 	} else {
 		cc_aha_print_impact_area_report( $metro_id, bp_action_variable( 2 ), bp_action_variable( 3 ) );
 	}
@@ -80,18 +81,22 @@ function cc_aha_render_summary_page(){
 }
 // Major template pieces
 function cc_aha_print_single_report_card( $metro_id = 0 ) {
+	$data = cc_aha_get_form_data( $metro_id ); 
 	?>
-	<section id="single-report-card" class="clear">
+
+	<h3><?php cc_aha_print_environmental_scan_link( $metro_id ); ?></h3>
+
+	<section id="single-report-card-health" class="clear">
 		<?php // Building out a table of responses for one metro
 		$sections = cc_aha_get_summary_sections( $metro_id );
-		$data = cc_aha_get_form_data( $metro_id ); 
 		?>
+		<h3>Community Health Assessment Analysis</h3>
 		<table>
 			<thead>
 				<tr>
 					<th>Impact Area</th>
 					<th>Healthy Community Criteria</th>
-					<th>Health Need</th>
+					<!-- <th>Health Need</th> -->
 					<th>Score</th>
 					<th>Top 3 Priority</th>
 				</tr>
@@ -115,9 +120,9 @@ function cc_aha_print_single_report_card( $metro_id = 0 ) {
 								<td>
 									<?php echo $criteria_data['label']; ?>
 								</td>
-								<td>
+								<!-- <td>
 									Maybe a gauge goes here.
-								</td>
+								</td> -->
 								<td class="<?php echo cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key ); ?>">
 									<?php cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key ) ); ?>
 								</td>
@@ -135,6 +140,23 @@ function cc_aha_print_single_report_card( $metro_id = 0 ) {
 		</table>
 
 	</section>
+
+	<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+	<section id="revenue-analysis-nvaigation" class="clear">
+		<h3>Revenue Assessment Analysis</h3>
+		<ul>
+		<?php 
+		$revenue_sections = cc_aha_get_summary_revenue_sections();
+		foreach ( $revenue_sections as $revenue_name => $revenue_section ) {
+			?>
+			<li><a href="<?php echo cc_aha_get_analysis_permalink() . 'revenue/' . $revenue_section['slug'];?>"><?php  echo $revenue_section['label']; ?></a></li>
+			<?php
+		}
+
+		?>
+		</ul>
+	</section>
+	<?php endif; ?>
 	<?php 
 }
 
@@ -925,6 +947,7 @@ function cc_aha_print_state_cia_preempt( $data ) {
 		echo 'The state does not preempt local communities from adopting their own clean indoor air laws.';
 	}
 }
+
 function cc_aha_get_summary_sections() {
 	return array( 
 		'community' => array(
@@ -1064,7 +1087,6 @@ function cc_aha_get_summary_sections() {
 		),
 	);
 }
-
 function cc_aha_get_summary_impact_area_title( $section, $impact_area ) {
 	$section_data = cc_aha_get_summary_sections();
 	return $section_data[$section]['impact_areas'][$impact_area]['label'];

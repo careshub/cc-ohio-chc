@@ -33,6 +33,8 @@ function cc_aha_extras_class_init(){
 	// Template functions for the summary pages
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-summary-template-tags.php' );
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-summary-template-tags-2.php' );
+	require_once( dirname( __FILE__ ) . '/includes/cc-aha-summary-template-tags-revenue.php' );
+
 	// Database helper functions
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-database-bridge.php' );
 	// The main class
