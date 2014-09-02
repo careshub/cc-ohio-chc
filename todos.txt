@@ -1,7 +1,7 @@
 
-- DONE (on dev.cc): Make sure 5.1.2 in Board table is varchar(>3) or whatever - enough to hold 'No – none of the above;
+- (DONE on dev.cc): Make sure 5.1.2 in Board table is varchar(>3) or whatever - enough to hold 'No – none of the above;
 
-- DONE (on dev.cc): Add columns in board table for environmental scan section (TEXT):
+- (DONE on dev.cc): Add columns in board table for environmental scan section (TEXT):
 	environmental-scan-health
 	environmental-scan-demographics
 	environmental-scan-political
@@ -11,15 +11,24 @@
 	environmental-scan-education
 	environmental-scan-other
 
-- DONE (on dev.cc) Add columns to board table for summary discussion question responses (TEXT):
+- (DONE on dev.cc) Add columns to board table for summary discussion question responses (TEXT):
+	
+- Add columns to board rable for revenue discussion question responses:
+	revenue-7.1-1: TEXT
+	revenue-7.1-2: TEXT
+	revenue-7.1-3: TEXT
+	
+	revenue-10.1: TEXT
+	revenue-10.3: TEXT
+	revenue-10.6: TEXT
+	revenue-10.7: TEXT
+	
+	revenue-13.1.5: TEXT
+	revenue-13.1.6: TEXT
+	revenue-13.1.7: TEXT
+	revenue-13.1.8: TEXT
 	
 	
-	
-	
-	
-	
-- DONE: Make this conditional on whether background exists (I'm looking at you cares_acute_1)?
-	<p><strong>Background: </strong><?php echo cc_aha_get_summary_introductory_text( $section, $impact_area, $crit_key ); ?></p>
 	
 - Calculation-based columns remove from board table
 

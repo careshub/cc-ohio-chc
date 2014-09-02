@@ -136,7 +136,7 @@ function cc_aha_update_form_data( $board_id = null ){
 	// fclose($fp);
 
 	global $wpdb;
-	
+		
 	//get our board vars for the wpdb->update statement
 	// If we haven't supplied a board ID, use the cookie setting
 	//TODO: Check saving summary responses with two diff cookie vals.
@@ -191,6 +191,10 @@ function cc_aha_update_form_data( $board_id = null ){
 	//if we have [board] values set by the form, update the table
 	// wpdb->update is perfect for this. Wow. Ref: https://codex.wordpress.org/Class_Reference/wpdb#UPDATE_rows
 	if ( !empty ( $update_board_data ) ) {
+		$towrite = 'we made it this far...' . "\r\n";
+		$towrite .= 'board table name: ' . $board_table_name . "\r\n";
+		$towrite .= 'update_board_data: ' . $update_board_data . "\r\n";
+		$towrite .= 'board_where: ' . $board_where['BOARD_ID'] . "\r\n";
 		$num_board_rows_updated = $wpdb->update( $board_table_name, $update_board_data, $board_where, $format = null, $where_format = null );
 	}
 	
@@ -290,10 +294,10 @@ function cc_aha_update_form_data( $board_id = null ){
 	}
 
 	
-	//$towrite .= print_r($update_board_data, TRUE);
-	//$fp = fopen("c:\\xampp\\logs\\aha_log.txt", 'a');
-	//fwrite($fp, $towrite);
-	//fclose($fp);
+	$towrite .= print_r($update_board_data, TRUE);
+	$fp = fopen("c:\\xampp\\logs\\aha_log.txt", 'a');
+	fwrite($fp, $towrite);
+	fclose($fp);
 
 	//wpdb->update returns num rows on success, 0 if no data change, FALSE on error
 	//either wpdb->update return error?

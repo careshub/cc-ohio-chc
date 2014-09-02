@@ -38,11 +38,13 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 	
 		<?php //to form or not to form?
 		
-		if( $section_key == 'event_leadership' || $section_key == 'elt_leadership' || $section_key == 'sponsorship' || $section_key == 'donor_stewardship' ) { ?>
+		if( $section_key == 'event_leadership' || $section_key == 'sponsorship' || $section_key == 'donor_stewardship' ) { ?>
 		
 			<form id="aha_summary-revenue-<?php echo $section_key; ?>" class="standard-form aha-survey" method="post" action="<?php echo cc_aha_get_home_permalink() . 'update-summary/'; ?>">
 			
 			<h2 class="screamer"><?php echo $revenue_sections[$section_key]['label']; ?></h2>
+			
+			<p><strong>Background: </strong><?php echo cc_aha_get_summary_introductory_text_revenue( $section_key ); ?></p>
 			<?php 
 				
 				$function_name = 'cc_aha_print_revenue_summary_' . $section_key;
@@ -50,15 +52,15 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 					$function_name( $metro_id );
 				} else {
 					// TODO: Remove this debugging code.
-					echo "no function by the name: " . $function_name;
+					//echo "no function by the name: " . $function_name;
 				}
 			 ?>
 			 
-			<fieldset>
+			<!--<fieldset>
 				
 				<textarea id="<?php echo $section_key . '-open-response'; ?>" name="board[<?php echo $section_key . '-open-response'; ?>]"><?php echo $data[$section_key . '-open-response']; ?></textarea>
 				
-			</fieldset>
+			</fieldset>-->
 			
 			<input type="hidden" name="metro_id" value="<?php echo $metro_id; ?>">
 			<input type="hidden" name="revenue-section" value="revenue-<?php echo $section; ?>">
@@ -68,9 +70,6 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 				<div class="submit">
 					<input type="submit" name="submit-survey-to-toc" value="Save, Return to Table of Contents" id="submit-survey-to-toc">
 				</div>
-				<!-- <div class="submit">
-					<input type="submit" name="submit-survey-next-page" value="Save Responses and Continue" id="submit-survey-next-page">
-				</div> -->
 			</div>
 			</form>
 		<?php } else { ?>
@@ -83,7 +82,7 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 					$function_name( $metro_id );
 				} else {
 					// TODO: Remove this debugging code.
-					echo "no function by the name: " . $function_name;
+					//echo "no function by the name: " . $function_name;
 				}
 			 ?>
 		
@@ -91,11 +90,7 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 			<input type="hidden" name="revenue-section" value="revenue-<?php echo $section_key; ?>">
 				
 			<div class="form-navigation clear">
-				<!--<input type="submit" name="submit-survey-to-toc" value="Return to Table of Contents" id="submit-survey-to-toc">-->
 				<a href="<?php echo cc_aha_get_analysis_permalink(); ?>" class="button alignright">Return to Table of Contents</a>
-				<!-- <div class="submit">
-					<input type="submit" name="submit-survey-next-page" value="Save Responses and Continue" id="submit-survey-next-page">
-				</div> -->
 			</div>
 			
 		<?php } ?>
@@ -136,12 +131,25 @@ function cc_aha_print_revenue_summary_event_leadership( $metro_id ){
 	<h5>Discussion Questions</h5>
 	
 	<strong>When considering your open Chair positions:</strong>
-	<ul>
-		<li>What companies are in your pipeline for recruitment (for next year and next 3 years)?</li>
-		<li>Who are the top 5 executives that are in your pipeline for Event Chair for the next year?</li>
-		<li>Who are the top 10 executives that are in your pipeline for Event Chair for the next three years?</li>
-	</ul>
 	
+	<ul>
+		
+		<fieldset>
+			<label for="revenue-7.1-1"><h4>What companies are in your pipeline for recruitment (for next year and next 3 years)?</h4>
+			<textarea id="revenue-7.1-1" name="board[revenue-7.1-1]"><?php echo $data['revenue-7.1-1']; ?></textarea>
+		</fieldset>
+		
+		<fieldset>
+			<label for="revenue-7.1-2"><h4>Who are the top 5 executives that are in your pipeline for Event Chair for the next year?</h4>			
+			<textarea id="revenue-7.1-2" name="board[revenue-7.1-2]"><?php echo $data['revenue-7.1-2']; ?></textarea>
+		</fieldset>
+		
+		<fieldset>
+			<label for="revenue-7.1-3"><h4>Who are the top 10 executives that are in your pipeline for Event Chair for the next three years?</h4>
+			<textarea id="revenue-7.1-3" name="board[revenue-7.1-3]"><?php echo $data['revenue-7.1-3']; ?></textarea>
+		</fieldset>
+		
+	</ul>
 
 <?php
 }
@@ -153,31 +161,12 @@ function cc_aha_print_revenue_summary_elt_leadership( $metro_id ){
 	<h5>Current State</h5>
 
 	<p>A report has been prepared for you showing ELT giving overall and by event and how you compare to markets of like size. 
-	Click here to download the report to share with your board [insert link].</p> <?php //TODO: where are these links coming from? ?>
+	Click <a href='http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Forms/AllItems.aspx?RootFolder=%2Fnat%2FVolunteerism%2FCommunity%20Planning%202014%2D2017%2FCPP2%20Revenue%20Assessment%20Analysis&FolderCTID=0x012000CFD890B30E39714BB20EE7AD8D89525D&View={035A3458-0EA6-40A9-9276-2F7B89EA536B}' target='_blank'>here</a> to download the report to share with your board.</p>
+	
+	<p><em>Please Note: This link will open in Sharepoint where you will see a list of affiliate folders. Choose the one you belong to and find your offices analysis. There you will find summaries of many of the criteria in the revenue section. Keep this report and note the tabs summarizing different aspects of this assessment.</em></p>
 	
 	<p><?php echo $data['8.1.2'] ? 'Your ELT leadership has all industries for your area represented.' : 'Your ELT leadership does not have all industries for your area represented.'; ?>
 	</p>
-	
-	<?php 
-	//TODO: Some of the questions in this section are already asked in the assessment. Are we re-asking or just adding? Mel asked Christian 8/28 ?>
-	
-	<h5>Discussion Questions</h5>
-	<ul>
-		<li>What is the average gift of the ELT for 
-		<ul>
-			<li>Heart Walk?</li>
-			<li>Heart Ball?</li>
-			<li>Go Red for Women?</li>
-		</ul>
-		</li>
-		<li>Do you have all the industries represented? (Accounting, Banking, Energy, Cable, Healthcare, Media, Lawyers, Manufacturing, Real Estate, etc.)</li>
-		<li>What is the largest gift given by an ELT member?</li>
-		<li>What is the average size gift? </li>
-		<li>How many ELT members are giving no corporate gift? </li>
-		<li>How do you compare to other markets of like size?</li>
-	</ul>
-
-
 	
 	<?php
 }
@@ -187,7 +176,10 @@ function cc_aha_print_revenue_summary_top_25_companies( $metro_id ){
 	$data = cc_aha_get_form_data( $metro_id );
 	?>
 	<h5>Current State</h5>
-	<p>Find a link to your Top 25 report with summary here. [provide link]</p>
+	<p>Find a link to your Top 25 report with summary <a href='http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Forms/AllItems.aspx?RootFolder=%2Fnat%2FVolunteerism%2FCommunity%20Planning%202014%2D2017%2FCPP2%20Revenue%20Assessment%20Analysis&FolderCTID=0x012000CFD890B30E39714BB20EE7AD8D89525D&View={035A3458-0EA6-40A9-9276-2F7B89EA536B}' target='_blank'>here</a>.</p>
+	
+	<p><em>Please Note: This link will open in Sharepoint where you will see a list of affiliate folders. Choose the one you belong to and find your offices analysis. There you will find summaries of many of the criteria in the revenue section. Keep this report and note the tabs summarizing different aspects of this assessment. </em></p>
+	
 	<p>Locate your affiliate and find your office from the list there.</p>
 	
 	<?php //TODO: get this link..
@@ -200,17 +192,36 @@ function cc_aha_print_revenue_summary_sponsorship( $metro_id ){
 	?>
 	<h5>Current State</h5>
 
-	<?php //TODO: get this link; also, Mel coded a 'none' below, hope that's great.  ?>
-	<p>Find a report on your Platform and Signature sponsorships for the market’s events here. [provide link]</p>
+	<p>Find a report on your Platform and Signature sponsorships for the market’s events <a href='http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Forms/AllItems.aspx?RootFolder=%2Fnat%2FVolunteerism%2FCommunity%20Planning%202014%2D2017%2FCPP2%20Revenue%20Assessment%20Analysis&FolderCTID=0x012000CFD890B30E39714BB20EE7AD8D89525D&View={035A3458-0EA6-40A9-9276-2F7B89EA536B}' target='_blank'>here</a>.</p>
+
+	<p><em>Please Note: This link will open in Sharepoint where you will see a list of affiliate folders. Choose the one you belong to and find your offices analysis. There you will find summaries of many of the criteria in the revenue section. Keep this report and note the tabs summarizing different aspects of this assessment. </em></p>
 	
 	<p>You listed the following companies as ones who place a focus on corporate social responsibility: <?php echo $data['9.1.4'] ? $data['9.1.4'] : '<em>none</em>'; ?></p>
 
 	<h5>Discussion Questions</h5>
 	<ul>
-		<li>Is the board involved in developing a pipeline for Platform and Signature sponsorship?</li>
-		<li>What other companies could be top prospects to join your existing Platform/Signature sponsors?</li>
-		<li>What can be done to bring those current sponsors up to the recommended level?</li>
-		<li>How is the metro market team working together to implement account management of Platform sponsors or potential Platform sponsors?</li>
+		<fieldset>
+			<label for="revenue-10.1"><h4>Is the board involved in developing a pipeline for Platform and Signature sponsorship?</h4>
+			<textarea id="revenue-10.1" name="board[revenue-10.1]"><?php echo $data['revenue-10.1']; ?></textarea>
+			<!--<input type="text" name="board[revenue-10.1]" value="<?php echo $data['revenue-10.1']; ?>" autocomplete="off" />-->
+		</fieldset>
+		
+		<fieldset>
+			<label for="revenue-10.3"><h4>What other companies could be top prospects to join your existing Platform/Signature sponsors?</h4>
+			<textarea id="revenue-10.3" name="board[revenue-10.3]"><?php echo $data['revenue-10.3']; ?></textarea>
+			<!--<input type="text" name="10.3" value="<?php echo $data['revenue-10.3']; ?>" autocomplete="off" />-->
+		</fieldset>
+		
+		<fieldset>
+			<label for="revenue-10.6"><h4>What can be done to bring those current sponsors up to the recommended level?</h4>			
+			<textarea id="revenue-10.6" name="board[revenue-10.6]"><?php echo $data['revenue-10.6']; ?></textarea>
+		</fieldset>
+		
+		<fieldset>
+			<label for="revenue-10.7"><h4>How is the metro market team working together to implement account management of Platform sponsors or potential Platform sponsors?</h4>
+			<textarea id="revenue-10.7" name="board[revenue-10.7]"><?php echo $data['revenue-10.7']; ?></textarea>
+		</fieldset>
+		
 	</ul>
 	
 	<?php
@@ -323,13 +334,30 @@ function cc_aha_print_revenue_summary_donor_stewardship( $metro_id ){
 
 
 	<h5>Discussion Questions</h5>
+	
 	<ul>
 		<?php if ( $data['13.1.6'] == 0 ) { ?> 
-			<li>Will you be developing a cultivation plan this year?</li>
+			<fieldset>
+				<label for="revenue-13.1.6"><h4>Will you be developing a cultivation plan this year?</h4>
+				<!--<input type="text" name="board[revenue-13.1.6]" value="<?php echo $data['revenue-13.1.6']; ?>" autocomplete="off" />-->
+				<textarea id="revenue-13.1.6" name="board[revenue-13.1.6]"><?php echo $data['revenue-13.1.6']; ?></textarea></fieldset>
 		<?php } ?>
-		<li>Are you inviting top donors to all events in market?</li>
-		<li>Do you know who your top donors are?</li>
-		<li>Is there a way board members could engage top donors?</li>
+		
+		<fieldset>
+			<label for="revenue-13.1.5"><h4>Are you inviting top donors to all events in market?</h4>
+			<textarea id="revenue-13.1.5" name="board[revenue-13.1.5]"><?php echo $data['revenue-13.1.5']; ?></textarea>
+		</fieldset>
+		
+		<fieldset>
+			<label for="revenue-13.1.7"><h4>Do you know who your top donors are?</h4>			
+			<textarea id="revenue-13.1.7" name="board[revenue-13.1.7]"><?php echo $data['revenue-13.1.7']; ?></textarea>
+		</fieldset>
+		
+		<fieldset>
+			<label for="revenue-13.1.8"><h4>Is there a way board members could engage top donors?</h4>
+			<textarea id="revenue-13.1.8" name="revenue-13.1.8"><?php echo $data['revenue-13.1.8']; ?></textarea>
+		</fieldset>
+		
 	</ul>
 
 	<?php
@@ -357,35 +385,78 @@ function cc_aha_get_summary_revenue_sections() {
 	return array( 
 		'event_leadership' => array(
 			'label' => 'Recruit Event Leadership',
-			'slug' 	=> 'event-leadership'
+			'slug' 	=> 'event-leadership',
+			'background' => 'The Best Practice for recruitment of Event Chair leadership is a critical element in the successful execution of fundraising events which both raise the greatest potential revenue and reach our targeted audiences for community outreach.  Individuals that are selected to be chair are ideally leaders/top managers in the community that have the ability to recruit and lead others, give corporately at the prescribed top 2 levels for that MSA, and give personally of their time and financial commitment.  Chairs should be recruited, at a minimum, 12-18 months prior to the event, with a focus on the depth of recruitment being multiple (3) years in order to allow sufficient time for future chairs to observe, train, network, and become active in AHA/ASA’s mission.',
+			'outcome-stats' => array(
+				1 	=> 'Recruit event chairs who are community and corporate leaders, decision makers, and have the ability to give at the top two levels of sponsorship for the market size.',
+				2	=> 'Recruit 3 years of event chairs who are community and corporate leaders, decision makers, and have the ability to give at the top two levels of sponsorship for the market size.'
+				)
 			),
 		'elt_leadership' => array(
 			'label' => 'Secure Top ELT Leadership',
-			'slug' 	=> 'elt-leadership'
+			'slug' 	=> 'elt-leadership',
+			'background' => 'The Best Practice for recruitment of the Executive Leadership Team (ELT)  is a critical element in the execution of successful fundraising events.  Ideally, these committees will be made up of at least fifteen members who can give corporately at one of the prescribed top levels of sponsorship, give a generous personal gift, and dedicate sufficient time to complete their responsibilities as a member of ELT.  These individuals should be recruited by the event Chair, in partnership with staff.  They are responsible for helping raise new and renewed corporate and individual revenue.',
+			'outcome-stats' => array(
+				1	=> 'Recruit 15 or more ELT members for all three core events that are giving at the top four levels of sponsorship for the size market and securing other companies giving at the same level.'
+				)
 			),
 		'top_25_companies' => array(
 			'label' => 'Grow Top 25 Company Engagement',
-			'slug' 	=> 'top-25-companies'
+			'slug' 	=> 'top-25-companies',
+			'background' => 'Involvement from the top 25 corporations in markets is critical for the current and future success of fundraising events and for helping us “meet people where they are” with healthy living strategies.  Because of the larger number of employees involved, there is greater likelihood for employee involvement in different AHA events, and the greatest financial potential for corporate giving.  This corporate segment gives a pipeline for recruitment and source for new company development as well as provides depth with current partners due to size and scope.',
+			'outcome-stats' => array(
+				1	=> 'Increase companies that raise over 100K to X.',
+				2	=> 'Increase top 25 employers featuring AHA in their employee giving program from X to Y.'
+				)
 			),
 		'sponsorship' => array(
 			'label' => 'Secure Platform/ Signature Sponsorship',
-			'slug' 	=> 'sponsorship'
+			'slug' 	=> 'sponsorship',
+			'background' => 'The recruitment of renewed and additional top level partners each year for events are critical to the fundraising success of corporate events.  These partners bring year-round opportunities for partnering with AHA/ASA in our mission activation and helping people in our communities become healthier.',
+			'outcome-stats' => array(
+				1	=> 'Increase Platform/Signature sponsors in market to X'
+				)
 			),
 		'youth_market' => array(
 			'label' => 'Expand Youth Market Efforts',
-			'slug' 	=> 'youth-market'
+			'slug' 	=> 'youth-market',
+			'background' => 'Increasing the number of donors who have the capacity to make a $100,000+ gift, as well as increasing the acquisition and retention of Cor Vitae Society Members ($5,000+ annually) will help further the mission of AHA/ASA.  These measurements are consistent with our commitment to our Guiding Values and directly correlate with “Making an Extraordinary Impact” and “Inspiring Passionate Commitment”.  By increasing revenue from Cor Vitae Society Members, as well as those already giving at high levels, local board members will also be impacting other Guiding Values such as “Bringing Science to Life”, “Improving and Extending People’s Lives”, and “Ensuring Equitable Health for All”.',
+			'outcome-stats' => array(
+				1	=> 'Recruit Superintendent who sets a district wide goal and actively engages all the schools in the district with students, faculty & all district wide employees.'
+				)
 			),
 		'individual_giving' => array(
 			'label' => 'Increase Individual Giving',
-			'slug' 	=> 'individual-giving'
+			'slug' 	=> 'individual-giving',
+			'background' => 'Increasing the number of donors who have the capacity to make a $100,000+ gift, as well as increasing the acquisition and retention of Cor Vitae Society Members ($5,000+ annually) will help further the mission of AHA/ASA.  These measurements are consistent with our commitment to our Guiding Values and directly correlate with “Making an Extraordinary Impact” and “Inspiring Passionate Commitment”.  By increasing revenue from Cor Vitae Society Members, as well as those already giving at high levels, local board members will also be impacting other Guiding Values such as “Bringing Science to Life”, “Improving and Extending People’s Lives”, and “Ensuring Equitable Health for All”.',
+			'outcome-stats' => array(
+				1	=> 'Increase prospects that have the ability of giving a gift of $100,000 or more from X to Y.',
+				2	=> 'Retain at least X Cor Vitae members.'
+				)
 			),
 		'donor_stewardship' => array(
 			'label' => 'Enhance Donor Stewardship',
-			'slug' 	=> 'donor-stewardship'
+			'slug' 	=> 'donor-stewardship',
+			'background' => 'A consistent, strategic Stewardship plan is the cornerstone for building engagement with any mission-centered organization.  In order to help meet the AHA’s 2020 Impact Goal, organization-wide standards and practices are being implemented to provide consistent, meaningful stewardship and engagement opportunities for donors and volunteers.  National and Affiliate staff and volunteers will partner to implement a comprehensive Stewardship plan in order to: <ul><li>Advance our strategic priorities</li><li>Support annual and long-range fundraising goals</li><li>Increase donor retention</li><li>Create inspiring opportunities to engage our donors and volunteers for the long-term</li>',
+			'outcome-stats' => array(
+				1	=> 'Increase stewardship activities (thank you calls, personal notes, invitations to lunches, dinners, events) in order to foster ongoing interest and engagement in AHA’s mission.'
+				)
 			),
 		'pdw_legacy' => array(
 			'label' => 'Membership in the Paul Dudley White Legacy Society',
-			'slug' 	=> 'pdw-legacy'
+			'slug' 	=> 'pdw-legacy',
+			'background' => 'Paul Dudley White was President Eisenhower’s personal physician. He guided the president’s recovery from heart attack in 1955. But this forward-thinking physician was also a founder of the American Heart Association and served as its president from 1940-41. In honor of his vision in building an organization that would lead in heart research and education and to honor those who share that vision, the Paul Dudley White Legacy Society was organized. In joining the Paul Dudley White Legacy Society you are securing the immortality of your generosity through the lives that will be touched by the research and education made possible through your gifts.',
+			'outcome-stats' => array(
+				1	=> 'Increase understanding of AHA’s personal legacy and estate planning programs.'
+				)
 			),
 		);
 }
+
+function cc_aha_get_summary_introductory_text_revenue( $section_key ) {
+	$section_data = cc_aha_get_summary_revenue_sections();
+	$text = $section_data[$section_key]['background'];
+
+	return $text;
+}
+
