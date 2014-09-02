@@ -1022,7 +1022,7 @@ function cc_aha_get_summary_sections() {
 					'criteria' => array(
 						1 => array(
 							'label' => 'CPR Grad Requirement',
-							'background' => 'Sudden Cardiac Arrest is a leading cause of death in the U.S.—but when ordinary people, not just doctors and EMTs, are equipped with the skills to perform CPR, the survival rate can double, or even triple.  Help us add thousands of lifesavers to our communities. Join us in supporting public policy that will ensure all students learn quality CPR before they graduate from high school. <a href="http://www.becprsmart.org">www.becprsmart.org</a>',
+							'background' => 'Sudden Cardiac Arrest is a leading cause of death in the U.S.—but when ordinary people, not just doctors and EMTs, are equipped with the skills to perform CPR, the survival rate can double, or even triple.  Help us add thousands of lifesavers to our communities. Join us in supporting public policy that will ensure all students learn quality CPR before they graduate from high school. <a href="http://www.becprsmart.org" target="_blank">www.becprsmart.org</a>',
 							'group' => 'school_cpr_1' ),
 					),
 				),
@@ -1037,7 +1037,7 @@ function cc_aha_get_summary_sections() {
 					'criteria' => array(
 						1 => array(
 							'label' => 'Insurance Coverage',
-							'background' => 'The burden of heart disease and stroke can be especially challenging for those without health insurance or with inadequate coverage.  Uninsured Americans with CVD have higher mortality rates and a more difficult time controlling their blood pressure or accessing needed medications. The uninsured and underinsured are also have a harder time accessing preventative care and needed medications.  The AHA advocates for states to accept federal funds to provide health insurance to low income adults and cover of all cardiovascular-related preventative benefits with an A or B recommendation by the USPSTF for Medicaid enrollees, with no cost for patients. <a href="http://www.heartforhealthcare.org">www.heartforhealthcare.org</a>',
+							'background' => 'The burden of heart disease and stroke can be especially challenging for those without health insurance or with inadequate coverage.  Uninsured Americans with CVD have higher mortality rates and a more difficult time controlling their blood pressure or accessing needed medications. The uninsured and underinsured also have a harder time accessing preventative care and needed medications.  The AHA advocates for states to accept federal funds to provide health insurance to low income adults and coverage of all cardiovascular-related preventative benefits with an A or B recommendation by the USPSTF for Medicaid enrollees, with no cost for patients. <a href="http://www.heartforhealthcare.org" target="_blank">www.heartforhealthcare.org</a>',
 							'group' => 'care_factors_1' ),
 					),
 				),

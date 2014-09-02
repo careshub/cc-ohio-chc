@@ -193,6 +193,7 @@ function cc_aha_print_criterion_care_factors_1( $metro_id ) {
 	?>
 	<h5>Current State</h5>
 	<p><?php echo $data['4.1.1']; ?>% of residents aged <65 have health insurance.</p>
+	<p><em>For a community to earn a <span class="healthy">“Healthy”</span> score, >90% of residents aged <65 must have health insurance.</em></p>
 	
 	<p><?php echo $data['State']; ?> <?php echo $data['4.1.2.1'] ? 'is' : 'is not'; ?> covered by Medicaid expansion.</p>
 	
@@ -216,29 +217,16 @@ function cc_aha_print_criterion_care_factors_1( $metro_id ) {
 	</ul>
 	
 	<h5>Discussion Questions</h5>
-	<?php 
-	//Show Discussion questions from the db (where 'group' here == 'summary_section' in db)
-	$criteria = cc_aha_get_impact_area_criteria( $section, $impact_area );
-	
-	$disc_questions = array();
-	
-	foreach ( $criteria as $criterion ){
-		$disc_questions[] = cc_aha_get_questions_for_summary_criterion( $criterion['group'] ); 
-	}
-	
-	$disc_questions = current( $disc_questions );
-	
-	//if we have multiple question rows in table for group, make sure we get them all
-	foreach ( $disc_questions as $question ) {
-	
-		//make sure we're looking at the right set of questions
-		if ( $question['summary_section'] == $group ) { 
-			echo $question['summary_label'];
-		}
-	}
-	
-	?>
-	
+	<strong>Does the community have capacity to take on this issue?</strong>
+	<ul>
+		<li>Is there an active campaign around this issue in the community?</li>
+		<li>What potential and existing coalition partners are in place?</li>
+		<li>What is the current political climate?</li>
+		<li>Do the board members and other AHA volunteers have the capacity to lead and fully engage in this campaign?</li>
+		<li>Is there any external funding available to do the work?</li>
+		<li>Are there state legislators from this community that we need to engage for the statewide campaign?</li>
+		<li>What is the Grassroots capacity of the board to engage in the opportunity?</li>
+	</ul>
 	<?php 
 }
 
@@ -256,9 +244,8 @@ function cc_aha_print_criterion_care_acute_2( $metro_id ) {
 	
 	?>
 	<h5>Current State</h5>
-	<p><?php echo $data['6.1.1']; ?>% of CVD discharges are from hospitals with a CMS bonus penalty >-0.4%.</p>
-	
-	<p><?php echo $data['6.1.2']; ?>% of underserved CVD discharges are from hospitals with a CMS bonus penalty ≥-0.4%.</p>
+	<p><?php echo $data['6.1.1']; ?>% of TOTAL CVD discharges and <?php echo $data['6.1.2']; ?>% of "UNDERSERVED" CVD discharges are from hospitals with a CMS bonus penalty above -0.4%.</p>
+	<p><em>For a community to earn a <span class="healthy">“Healthy”</span> score, >90% of total CVD discharges and “underserved” patient CVD discharges in the community must be from hospitals with a CMS bonus/penalty above -0.4%.</em></p>
 	
 	<p><em>*Underserved – Racially / diverse patients and/or Medicaid patients. </em></p>
 	
@@ -266,12 +253,12 @@ function cc_aha_print_criterion_care_acute_2( $metro_id ) {
 		<thead>
 			<tr>
 				<th>Hospital Name</th>
-				<th>CVD Discharges</th>
-				<th>Underserved CVD Discharges</th>
+				<th>TOTAL CVD Discharges (2012)</th>
+				<th>Underserved CVD Discharges (Weighted – 2012)</th>
 				<th>Any AHA Quality Program</th>
 				<th>Total VBP Bonus/Penalty</th>
-				<th>CVD Discharge Target Rank by Board</th>
-				<th>Underserved Discharge Rank by Board</th>
+				<th>CVD Discharge Target Rank</th>
+				<th>Underserved Discharge Rank</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -293,27 +280,11 @@ function cc_aha_print_criterion_care_acute_2( $metro_id ) {
 	</table>
 	
 	<h5>Discussion Questions</h5>
-	<?php 
-	//Show Discussion questions from the db (where 'group' here == 'summary_section' in db)
-	$criteria = cc_aha_get_impact_area_criteria( $section, $impact_area );
-	
-	$disc_questions = array();
-	
-	foreach ( $criteria as $criterion ){
-		$disc_questions[] = cc_aha_get_questions_for_summary_criterion( $criterion['group'] ); 
-	}
-	
-	$disc_questions = current( $disc_questions );
-	
-	//if we have multiple question rows in table for group
-	foreach ( $disc_questions as $question ) {
-		
-		if ( $question['summary_section'] == $group ) { //make sure we're looking at the right set of questions
-			echo $question['summary_label'];
-		}
-	}
-	
-	?>
+	<ul>
+		<li>Based upon the list of the most penalized hospitals in your community, are there board members that can help open the door to provide AHA quality improvement solutions for these hospitals?</li>
+		<li>Are there additional hospitals that the market has prioritized for which board members can help open the door for AHA’s quality programs?</li>
+		<li>Are there other healthcare quality improvement gaps that the Board can help address?</li>
+	</ul>
 	
 	<?php 
 }
@@ -333,6 +304,7 @@ function cc_aha_print_criterion_school_cpr_1( $metro_id ) {
 	?>
 	<h5>Current State</h5>
 	<p><?php echo $cpr_percent; ?>% of school districts have CPR as a graduation requirement meeting AHA’s guidelines.</p>
+	<p><em>For a community to earn a <span class="healthy">“Healthy”</span> score, 100% of the top 5 school districts must meet this criteria.</em></p>
 	
 	<p><?php echo $data['State']; ?> <?php echo $data['5.1.1'] ? 'does' : 'does not'; ?> have CPR graduation requirements in place.</p>
 	
@@ -365,7 +337,7 @@ function cc_aha_print_criterion_school_cpr_1( $metro_id ) {
 	<?php if ( $data['5.1.3'] == 'neither' ) {
 		echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
 	} else if ( $data['5.1.3'] != '' ) { 
-		echo 'Given the current political/policy environment, we envision policies requiring CPR training for high school graduation will most likely occur at the ' . $data['5.1.3'] . 'level.';
+		echo 'Given the current political/policy environment, we envision policies requiring CPR training for high school graduation will most likely occur at the ' . $data['5.1.3'] . ' level.';
 	}
 	?></p>
 	
@@ -373,31 +345,20 @@ function cc_aha_print_criterion_school_cpr_1( $metro_id ) {
 	<?php if ( ! $data['5.1.2'] ) {
 		echo 'We do not anticipate that policies requiring CPR training for high school graduation will be passed in ' . $data['State'] . ' in the next 3 years.';
 	} else { 
-		echo 'We anticipate policies requiring CPR training for high school graduation will be passed in ' . $data['State'] . ' in ' . $data['5.1.2'];
+		echo 'We anticipate policies requiring CPR training for high school graduation will be passed in ' . $data['State'] . ' in ' . $data['5.1.2'] . '.';
 	}
 	?></p>
 	
 	<h5>Discussion Questions</h5>
+	<strong>Does the community have capacity to take on this issue?</strong>
 	
-	<?php 
-	//Show Discussion questions from the db (where 'group' here == 'summary_section' in db)
-	$criteria = cc_aha_get_impact_area_criteria( $section, $impact_area );
-	
-	$disc_questions = array();
-	
-	foreach ( $criteria as $criterion ){
-		$disc_questions[] = cc_aha_get_questions_for_summary_criterion( $criterion['group'] ); 
-	}
-	
-	$disc_questions = current( $disc_questions );
-	
-	//if we have multiple question rows in table for group
-	foreach ( $disc_questions as $question ) {
-		if ( $question['summary_section'] == $group ) { //make sure we're looking at the right set of questions
-			echo $question['summary_label'];
-		}
-	}
-	?>
+	<ul>
+		<li>What potential coalition partners are in place?</li>
+		<li>What is the current political climate?</li>
+		<li>Do the board members and other AHA volunteers have the capacity to lead and fully engage in this campaign?</li>
+		<li>Are there volunteer leaders engaged with AHA who are passionate about the issue?</li>
+		<li>Is there any external funding available to do the work?</li>
+	</ul>
 	
 	<?php
 }
