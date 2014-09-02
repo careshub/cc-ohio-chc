@@ -93,7 +93,7 @@ function cc_aha_print_single_report_card_health( $metro_id = 0 ) {
 	$data = cc_aha_get_form_data( $metro_id ); 
 	?>
 
-	
+	<h2 class="screamer">HEALTH ANALYSIS REPORT</h2>
 	<h3><?php cc_aha_print_environmental_scan_link( $metro_id ); ?></h3>
 
 	<section id="single-report-card-health" class="clear">
