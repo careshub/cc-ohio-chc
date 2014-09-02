@@ -541,7 +541,12 @@ class CC_AHA_Extras {
 
 			$page = isset( $_POST['section-impact-area'] ) ? $_POST['section-impact-area'] : null;
 			$summary_section = isset( $_POST['analysis-section'] ) ? $_POST['analysis-section'] : null;
-
+			
+			//if no summary section, check for revenue section instead
+			if ( $summary_section == null ) {
+				$summary_section = isset( $_POST['revenue-section'] ) ? 'revenue' : null;
+			}
+			
 			// Try to save the form data
 		    if ( cc_aha_update_form_data( $_COOKIE['aha_summary_metro_id'] ) !== FALSE ) {
    				bp_core_add_message( __( 'Your responses have been recorded.', $this->plugin_slug ) );
