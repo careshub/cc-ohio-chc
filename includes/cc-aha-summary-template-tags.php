@@ -107,7 +107,7 @@ function cc_aha_print_single_report_card_health( $metro_id = 0 ) {
 					<th>Impact Area</th>
 					<th>Healthy Community Criteria</th>
 					<!-- <th>Health Need</th> -->
-					<th>Score</th>
+					<th><a href="http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Healthy%20Comm.%20Criteria%208-29-14%20Color.docx" target="_blank">Score</th>
 					<th>Top 3 Priority</th>
 				</tr>
 			</thead>
@@ -149,6 +149,7 @@ function cc_aha_print_single_report_card_health( $metro_id = 0 ) {
 			</tbody>
 		</table>
 
+	<p><a href="http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Healthy%20Comm.%20Criteria%208-29-14%20Color.docx" target="_blank">Learn more about the scoring methodology</a></p>
 	</section>
 	<?php 
 }
@@ -434,7 +435,7 @@ function cc_aha_print_criterion_community_phys_1( $metro_id ) {
 	<p><em>In order to earn a <span class='healthy'>“Healthy”</span> score more than 50% of your community’s population must be covered by Complete Streets policies which meet AHA’s guidelines.</em></p>
 
 	<?php if ( ! empty( $complete_streets ) ) : ?>
-	<p>The following Complete Streets policies are in effect in your area.</p>
+	<p>The following Complete Streets policies are in effect in your area:</p>
 	<table>
 		<thead>
 			<tr>
@@ -442,7 +443,7 @@ function cc_aha_print_criterion_community_phys_1( $metro_id ) {
 				<th>Geography Level</th>
 				<th>Policy Name</th>
 				<th>Policy Year</th>
-				<th>Policy Score</th>
+				<th>Policy Score *</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -461,6 +462,7 @@ function cc_aha_print_criterion_community_phys_1( $metro_id ) {
 			} ?>
 		</tbody>
 	</table>
+	<p><em>*Source: <a href="http://www.smartgrowthamerica.org/documents/best-complete-streets-policies-of-2013.pdf" target="_blank">http://www.smartgrowthamerica.org/documents/best-complete-streets-policies-of-2013.pdf</a>
 	<?php endif; // if ( ! empty( $complete_streets ) )  ?>
 
 	<h5>Policy Landscape</h5>
@@ -1054,7 +1056,7 @@ function cc_aha_get_summary_sections() {
 					'criteria' => array(
 						1 => array(
 							'label' => 'Insurance Coverage',
-							'background' => 'The burden of heart disease and stroke can be especially challenging for those without health insurance or with inadequate coverage.  Uninsured Americans with CVD have higher mortality rates and a more difficult time controlling their blood pressure or accessing needed medications. The uninsured and underinsured also have a harder time accessing preventative care and needed medications.  The AHA advocates for states to accept federal funds to provide health insurance to low income adults and coverage of all cardiovascular-related preventative benefits with an A or B recommendation by the USPSTF for Medicaid enrollees, with no cost for patients. <a href="http://www.heartsforhealthcare.org" target="_blank">www.heartforhealthcare.org</a>',
+							'background' => 'The burden of heart disease and stroke can be especially challenging for those without health insurance or with inadequate coverage.  Uninsured Americans with CVD have higher mortality rates and a more difficult time controlling their blood pressure or accessing needed medications. The uninsured and underinsured also have a harder time accessing preventative care and needed medications.  The AHA advocates for states to accept federal funds to provide health insurance to low income adults and coverage of all cardiovascular-related preventative benefits with an A or B recommendation by the USPSTF for Medicaid enrollees, with no cost for patients. <a href="http://www.heartsforhealthcare.org" target="_blank">www.heartsforhealthcare.org</a>',
 							'group' => 'care_factors_1' ),
 					),
 				),
