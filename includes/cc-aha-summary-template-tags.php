@@ -93,6 +93,7 @@ function cc_aha_print_single_report_card_health( $metro_id = 0 ) {
 	$data = cc_aha_get_form_data( $metro_id ); 
 	?>
 
+	
 	<h3><?php cc_aha_print_environmental_scan_link( $metro_id ); ?></h3>
 
 	<section id="single-report-card-health" class="clear">
@@ -171,7 +172,7 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 		if ( $dial_ids && $fips ) :
 			// TODO: Real title needed
 		?>
-		<h3>How we fit in to the bigger picture</h3>
+		<h3>Health Needs Indicators</h3>
 		<div class="content-row">
 			<?php 
 			$dial_ids = cc_aha_get_summary_impact_area_widgets( $section, $impact_area );
@@ -245,7 +246,7 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 						<textarea id="<?php echo $input_prefix . '-open-response'; ?>" name="board[<?php echo $input_prefix . '-open-response'; ?>]"><?php echo $data[$input_prefix . '-open-response']; ?></textarea>
 					<?php } ?>
 					<?php $radio_checked = $data[$section . '-' . $impact_area . '-' . $crit_key . '-top-3']; ?>
-					<label for="<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>"><h6>Based on your preliminary discussions, do you think this may be a top 3 health impact opportunity for your board?</h6>
+					<label for="<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>"><p>Based on your preliminary discussions, do you think this may be a top 3 health impact opportunity for your board?</p>
 					<label><input type="radio" value="1" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
 					<label><input type="radio" value="0" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
 				</fieldset>
@@ -288,6 +289,8 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 	
 	?>
 	<h5>Current Status</h5>
+	<h6>Smoke free air regulations covering restaurants, bars, and workplaces</h6>
+	
 	<table>
 		<thead>
 			<tr>
@@ -324,6 +327,8 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 		</tbody>
 	</table>
 
+	<p><em>In order to earn a <span class='healthy'>“Healthy”</span> score in this category a community be 100% covered by clean indoor air legislation in all restaurants/bars/workplaces.</em></p>
+	
 	<h5>Policy Landscape</h5>
 	<ul>
 		<?php if ( $data['1.1.2.1'] != '' ) : ?>
@@ -333,48 +338,22 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 		if ( ! $data['1.1.1.4'] || $data['1.1.3.1'] == 'neither' ) {
 			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
 		} else {
-			echo 'Given the current political/policy environment, we envision smoke­free air public policy change will most likely occur at the ' . $data['1.1.3.1'] . 'level potentially in ' . $data['1.1.1.4']; 
+			echo 'Given the current political/policy environment, we envision smoke­free air public policy change will most likely occur at the ' . $data['1.1.3.1'] . 'level potentially in ' . $data['1.1.1.4'] . '.'; 
 		}
 		?></li>
 	</ul>
 
-	<!-- <h5>Discussion Questions</h5> -->
-	<?php /*
-	//Show Discussion questions from the db (where 'group' here == 'summary_section' in db)
-	$criteria = cc_aha_get_impact_area_criteria( $section, $impact_area );
-	
-	$disc_questions = array();
-	
-	foreach ( $criteria as $criterion ){
-		//echo 'Criteria !' . $criterion;
-		//print_r( $criterion );
-		$disc_questions[] = cc_aha_get_questions_for_summary_criterion( $criterion['group'] ); 
-	}
-	
-	$disc_questions = current( $disc_questions );
-	
-	//if we have multiple question rows in table for group
-	foreach ( $disc_questions as $question ) {
-		//$question = current( $question );
-		
-		if ( $question['summary_section'] == $group ) { //make sure we're looking at the right set of questions
-			echo $question['summary_label'];
-		}
-	}
-	*/
-	?>
-	
 	<h5>Discussion Questions</h5>
 	<strong>Is this a priority at the state level?</strong>
 	<ul>
-		<li>Are their state legislators from this community who are key targets that we need to influence for supporting a state-wide campaign?</li>
+		<li>Are there state legislators from this community who are key targets that we need to influence for supporting a state-wide campaign?</li>
 		<li>Do the board members or other AHA volunteers have relationships with these key targets and legislators?</li>
 		<li>Do the board members have relationships with key opinion leaders (key business leaders, members of the media, etc.) with the community to help support this effort?</li>
 		<li>What’s the current level of grassroots activity in the community to support this effort?</li>
 	</ul>
 	<strong>Does the community have capacity to take on this issue?</strong>
 	<ul>
-		<li>What potential coalition partners (such as ACS/ALA, local hospitals, medical association, etc.) community partners (neighborhood groups, PTO, church groups, etc.) are in place?  </li>
+		<li>What potential coalition partners (such as ACS/ALA, local hospitals, medical associations, etc.) and community partners (neighborhood groups, PTO, church groups, etc.) are in place?  </li>
 		<li>What is the current political climate?</li>
 		<li>What is the likelihood of the current council support for clean indoor air law?  </li>
 		<li>Do the board members and other AHA volunteers have the capacity to lead and fully engage in this campaign?</li>
@@ -395,6 +374,7 @@ function cc_aha_print_criterion_community_tobacco_2( $metro_id ) {
 		echo $data['1.2.1.1'] + $data['1.2.2.1']; 
 
 	?>.</p>
+	<p><em>For a community to earn a <span class='healthy'>“Healthy”</span> score, they must have an effective state plus local tobacco excise tax rate greater than or equal to $1.85 per pack.</em></p>
 	
 	<h5>Policy Landscape</h5>
 	<ul>
@@ -435,6 +415,7 @@ function cc_aha_print_criterion_community_phys_1( $metro_id ) {
 		}
 
 	?>.</p>
+	<p><em>In order to earn a <span class='healthy'>“Healthy”</span> score more than 50% of your community’s population must be covered by Complete Streets policies which meet AHA’s guidelines.</em></p>
 
 	<?php if ( ! empty( $complete_streets ) ) : ?>
 	<p>The following Complete Streets policies are in effect in your area.</p>
@@ -526,6 +507,8 @@ function cc_aha_print_criterion_community_diet_1( $metro_id ) {
 		<li><?php echo $data['State']; ?> <?php echo $data['3.3.1.1'] ? 'does' : 'does not'; ?> currently have nutrition standards related to state level food and beverage vending policy.</li>
 		<li><?php echo $data['State']; ?> <?php echo $data['3.3.1.2'] ? 'does' : 'does not'; ?> currently have food and beverage procurement service policies for all state agencies.</li>
 	</ul>
+	<p><em>For a community to earn a <span class='healthy'>“Healthy”</span> score, the local government must adopt procurement policy for vending AND service contracts in accordance with AHA’s standards.</em></p>
+		
 
 	<h5>Policy Landscape</h5>
 	<ul>
@@ -566,7 +549,7 @@ function cc_aha_print_criterion_community_diet_1( $metro_id ) {
 		<li>What potential coalition partners are in place?</li>
 		<li>What is the current political climate?</li>
 		<li>Has your mayor and/or govt. leadership expressed interest in this topic&mdash;in providing healthy food options for city employees, visitors to city buildings, and custodial populations within their care (i.e., inmates)?</li>
-		<li>Has the local AHA office adopted the AHA’s Healthy Workplace Guidelines?</li>
+		<li>Has the local AHA office adopted the <a href="http://www.heart.org/foodwhereur" target="_blank">AHA’s Healthy Workplace Guidelines</a>?</li>
 		<li>Do the board members and other AHA volunteers have the capacity to lead and fully engage in this campaign?  </li>
 		<li>Is there any external funding available to do the work?  (ex. Community Transformation Grants, Voices for Healthy Kids, etc.)</li>
 		<li>Within the community who has the authority (mayor, city manager, city council or city procurement officer) to pass these policies?</li>
@@ -590,6 +573,7 @@ function cc_aha_print_criterion_community_diet_2( $metro_id ) {
 			}
 			?>.</li>
 	</ul>
+	<p><em>For a community to earn a <span class="healthy">“Healthy”</span> score, the community must have a tax of more than one cent per ounce on sugar-sweetened beverages.</em></p>
 
 	<h5>Policy Landscape</h5>
 	<ul>
@@ -629,12 +613,13 @@ function cc_aha_print_criterion_community_diet_3( $metro_id ) {
 	?>
 	<h5>Current Status</h5>
 	<ul>
-		<li><?php echo $data['3.5.1'] ?>% of the population in your community lives in a &ldquo;food desert&rdquo; being low income and having low access to healthy food.</li>
+		<li><?php echo $data['3.5.1'] ?>% of the population in your community has low or no access to healthy food outlets based on the CDC’s Modified Retail Food Environmental Index (mRFEI).</li>
 	</ul>
-
+	<p><em>For a community to earn a <span class='healthy'>“Healthy”</span> score, less than 46% of the population in your community must live in tracts with a low mRFEI score.</em></p>
+	
 	<h5>Policy Landscape</h5>
 	<ul>
-		<li>Your state or community <?php echo $data['3.5.2'] ? 'is' : 'is not'; ?> pursuing an appropriate to establish or supplement a Healthy Food Financing Initiative program.</li>
+		<li>Your state or community <?php echo $data['3.5.2'] ? 'is' : 'is not'; ?> pursuing appropriations to establish or supplement a Healthy Food Financing Initiative program.</li>
 		<?php if ( $data['3.5.3'] ) : ?>
 			<li>We envision Healthy Food Financing policy change will most likely occur in <?php echo $data['3.5.3']; ?>.</li>
 		<?php endif; ?>
@@ -660,9 +645,11 @@ function cc_aha_print_criterion_school_phys_1( $metro_id ) {
 	<ul>
 		<li><?php echo cc_aha_top_5_school_pe_calculation( $metro_id, 'all' ); ?>% of students in your community’s top 5 school districts receive the AHA’s recommended amount of PE minutes.</li>
 	</ul>
-
+	<p><em>For a community to earn a <span class="healthy">“Healthy”</span> score, 100% school-age children in your top 5 largest school districts must have physical education requirement and implementation according to AHA’s guidelines.</em></p>
+	
 	<?php if ( ! empty( $school_data ) ) : ?>
 
+	<h6>Top 5 Largest School Districts: PE Requirements Meet AHA’s Guidelines</h6>
 	<table>
 		<thead>
 			<tr>
@@ -769,7 +756,7 @@ function cc_aha_print_criterion_school_phys_2( $metro_id ) {
 		<li><?php echo cc_aha_top_5_school_percent_match_value( $metro_id, '2.2.5.1', 'broad' ); ?>% of the top 5 school districts in your community have a shared use policy to open up their facilities for broad community use.</li>
 		<li><?php 
 			if ( $data[ '2.2.1.1' ] == 'None of the above - we have already met this goal' ) {
-				echo 'None of the above - we have already met this goal';
+				echo 'Your state has policies providing school districts liability protection from injury and property damage and clarifies that users are liable.';
 			} else {
 				echo 'Your state&rsquo;s shared use policy does not address ' . $data[ '2.2.1.1' ];
 			}
@@ -781,6 +768,7 @@ function cc_aha_print_criterion_school_phys_2( $metro_id ) {
 			</ul>
 		<?php endif; ?></li>
 	</ul>
+	<p><em>For a community to earn a <span class="healthy">“Healthy”</span> score, a shared use policy allowing for community recreational use of school property must be in place in 100% of the top 5 largest school districts.</em></p>
 
 	<?php if ( ! empty( $school_data ) ) : ?>
 	<table>
@@ -845,7 +833,7 @@ function cc_aha_print_criterion_school_phys_2( $metro_id ) {
 		<li>What is the current political climate?</li>
 		<li>Do the volunteers have the needed skills?</li>
 		<li>Is there any external funding available to do the work? (ex. Community Transformation Grants, Voices for Healthy Kids, etc.)</li>
-		<li>If Liability Protection is not in place at the state level is there still interested in Shared Use Agreements at the local level?</li>
+		<li>If liability protection is not in place at the state level is there still interest in Shared Use Agreements at the local level?</li>
 	</ul>
 	<?php 
 }
@@ -946,13 +934,13 @@ function cc_aha_get_summary_sections() {
 							'label' => 'Smoke Free Air',
 							'background' => 'Advocating for comprehensive smoke free air laws at the state and local level is a pillar of the AHA&rsquo;s tobacco control advocacy efforts. Second hand smoke causes heart disease, cancer, lung disease and other illnesses in non-smokers. Research shows smoke-free laws lead to drastic reductions in cardiovascular incidents. These laws should be in compliance with the Fundamentals of Smoke-free Workplace Laws guidelines which guide and maximize the impact of smoke free policy efforts and increase the number of workers and residents who are protected from second hand smoke.
 
-								<a href="http://www.heart.org/idc/groups/heart-public/@wcm/@adv/documents/downloadable/ucm_463595.pdf">Learn more</a>',
+								<a href="http://www.heart.org/idc/groups/heart-public/@wcm/@adv/documents/downloadable/ucm_463595.pdf" target="_blank">Learn more</a>',
 							'group' => 'community_tobacco_1' ),
 						2 => array(
 							'label' => 'Tobacco Excise Taxes',
 							'background' => 'To help save these lives, the AHA advocates for significant increases in tobacco excise taxes at the state, county or municipal levels that cover all tobacco products. These taxes are a health win that reduces tobacco use, saves lives, raises revenue for cash-strapped states, and lowers health care costs.
 
-								<a href="http://www.heart.org/idc/groups/heart-public/@wcm/@adv/documents/downloadable/ucm_461792.pdf">Learn more</a>',
+								<a href="http://www.heart.org/idc/groups/heart-public/@wcm/@adv/documents/downloadable/ucm_461792.pdf" target="_blank">Learn more</a>',
 							'group' => 'community_tobacco_2' ),
 					),
 				),
@@ -976,8 +964,8 @@ function cc_aha_get_summary_sections() {
 							'group' => 'community_diet_1' ),
 						2 => array(
 							'label' => 'Sugar-sweetened Beverage Tax',
-							'background' => 'Reducing the consumption of excess sugars from sugary beverages is an important way to improve the health of Americans. The American Heart Association advocates for: Impact assessments of beverage sales taxes or excise taxes on consumption rates and shifts in consumer choice with special attention on vulnerable populations by supporting tax initiatives in some states and localities.
-								Key criteria for the association&rsquo;s support are: 
+							'background' => 'Reducing the consumption of excess sugars from sugary beverages is an important way to improve the health of Americans. The American Heart Association advocates for impact assessments of beverage sales taxes or excise taxes on consumption rates and shifts in consumer choice with special attention on vulnerable populations by supporting tax initiatives in some states and localities.
+								Key criteria for the Association&rsquo;s support are: 
 								<ol>
 								<li>at least a portion of the money is dedicated for heart disease and stroke prevention and/or obesity prevention</li>
 								<li>the tax is structured so as to result in an increase in price for sugar-sweetened beverages (e.g., imposed at the time of sale as opposed to the manufacturer that can spread the cost of the tax among all products)</li>
@@ -986,11 +974,11 @@ function cc_aha_get_summary_sections() {
 								<li>there is a standard definition of &ldquo;sugar-sweetened beverage,&rdquo;</li>
 								<li>there is no sunset.</li>
 								</ol>
-								<a href="http://www.heart.org/HEARTORG/Advocate/Voices-for-Healthy-Kids---Healthy-Drinks_UCM_460610_SubHomePage.jsp">Learn more.</a>',
+								<a href="http://www.heart.org/HEARTORG/Advocate/Voices-for-Healthy-Kids---Healthy-Drinks_UCM_460610_SubHomePage.jsp" target="_blank">Learn more</a>',
 							'group' => 'community_diet_2' ),
 						3 => array(
 							'label' => 'Healthy Food Financing',
-							'background' => 'A food desert is an area where residents lack affordable access to foods that would allow them to have a healthy diet, such as fruits, vegetables, low-fat milk and whole grains. Existing in urban, suburban and rural communities, they are places where the nearest supermarket is too far away for residents to shop. Healthy Food Financing is a viable, effective, and economically sustainable solution to the problem of limited access to healthy foods. Healthy Food Financing Initiatives attract investment in underserved communities by providing critical loan and grant financing. These one-time resources help fresh food retailers overcome the initial barriers to entry into underserved, low-income urban and rural communities, and support renovation and expansion of existing stores so they can provide the healthy foods that communities want and need. Identifying food deserts is not an exact science, but you can <a href="%food_desert_url%" target="_blank">look at an overview of your county&rsquo;s access to healthier food here.</a>',
+							'background' => 'A food desert is an area where residents lack affordable access to foods that would allow them to have a healthy diet, such as fruits, vegetables, low-fat milk and whole grains. Existing in urban, suburban and rural communities, they are places where the nearest supermarket is too far away for residents to shop. Healthy Food Financing is a viable, effective, and economically sustainable solution to the problem of limited access to healthy foods. Healthy Food Financing Initiatives attract investment in underserved communities by providing critical loan and grant financing. These one-time resources help fresh food retailers overcome the initial barriers to entry into underserved, low-income urban and rural communities, and support renovation and expansion of existing stores so they can provide the healthy foods that communities want and need. Identifying food deserts is not an exact science, but you can <a href="http://maps.communitycommons.org/viewer/?action=open_map&id=2397" target="_blank">look at an overview of your county&rsquo;s access to healthier food here.</a>',
 							'group' => 'community_diet_3' ),
 					),
 				),
@@ -1023,7 +1011,7 @@ function cc_aha_get_summary_sections() {
 							'group' => 'school_diet_1' ),
 						2 => array(
 							'label' => 'School Nutrition Implementation',
-							'background' => 'The Healthy, Hunger-Free Kids Act of 2010 instituted many changes to the National School Lunch Program (NSLP), and in concert with those changes, USDA issued new, more strin¬gent school meal nutrition standards for the 2012-13 school year. All changes within school meals are expected to have occurred in advance of the beginning of the 2014-2015 school year to bring schools in compliance with federal law.',
+							'background' => 'The Healthy, Hunger-Free Kids Act of 2010 instituted many changes to the National School Lunch Program (NSLP), and in concert with those changes, USDA issued new, more stringent school meal nutrition standards for the 2012-13 school year. All changes within school meals are expected to have occurred in advance of the beginning of the 2014-2015 school year to bring schools in compliance with federal law.',
 							'group' => 'school_diet_2' ),
 					),
 				),

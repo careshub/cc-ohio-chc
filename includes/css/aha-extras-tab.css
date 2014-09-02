@@ -72,3 +72,7 @@
 .assessment tfoot tr {
 	background-color: #eaeaea;
 }
+
+.assessment span.healthy {
+	color: green;
+}

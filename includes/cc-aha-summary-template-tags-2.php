@@ -25,11 +25,11 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 	<h5>Current State</h5>
 	<p><?php echo $policy_percent; ?>% of the top 5 school districts have a documented and publicly available wellness policy covering school meals, smart snacks and before/after school offerings meeting AHA criteria.
 	</p>
+	<p><em>For a community to earn a <span class="healthy">“Healthy”</span> score, 100% of the top 5 school districts must meet this criteria.</em></p>
 	
 	<?php //TODO: check new data from Ben once incorporated 
 	?>
-	<p>The competitive foods policy in <?php echo $data['State'] ?> is <?php echo $data['3.1.1.1']; ?>
-	.</p>
+	<p>The competitive foods policy in <?php echo $data['State'] ?> is <?php echo $data['3.1.1.1']; ?>.</p>
 	
 	<p>The competitive foods policy defense priority level in <?php echo $data['State'] ?> is <?php echo $data['3.1.1.1.1'] ?>.
 	</p>
@@ -137,7 +137,8 @@ function cc_aha_print_criterion_school_diet_2( $metro_id ) {
 	?>
 	<h5>Current State</h5>
 	<p><?php echo $meals_percent; ?>% of the top 5 school districts in your community are meeting federal nutrition regulations for school meals.</p>
-		
+	<p><em>For a community to earn a <span class="healthy">“Healthy”</span> score, 100% of the top 5 school districts must meet this criteria.</em></p>
+	
 	<table>
 		<thead>
 			<tr>
