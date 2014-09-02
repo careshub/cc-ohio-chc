@@ -376,7 +376,7 @@ function cc_aha_print_revenue_summary_donor_stewardship( $metro_id ){
 		
 		<fieldset>
 			<label for="revenue-13.1.8"><h4>Is there a way board members could engage top donors?</h4>
-			<textarea id="revenue-13.1.8" name="revenue-13.1.8"><?php echo $data['revenue-13.1.8']; ?></textarea>
+			<textarea id="revenue-13.1.8" name="board[revenue-13.1.8]"><?php echo $data['revenue-13.1.8']; ?></textarea>
 		</fieldset>
 		
 	</ul>
