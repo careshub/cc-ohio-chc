@@ -662,6 +662,7 @@ function cc_aha_print_criterion_school_phys_1( $metro_id ) {
 	</ul>
 
 	<?php if ( ! empty( $school_data ) ) : ?>
+
 	<table>
 		<thead>
 			<tr>
@@ -687,10 +688,10 @@ function cc_aha_print_criterion_school_phys_1( $metro_id ) {
 				<td><?php echo $data['2.1.1.3'] ? 'Yes' : 'No'; ?></td>
 			</tr>
 			<?php 
-			foreach ( $school_data as $entry ) {
+			foreach ( $school_data as $school ) {
 				?>
 				<tr>
-					<td><?php echo $entry['DIST_NAME']; ?></td>
+					<td><?php echo $school['DIST_NAME']; ?></td>
 					<td><?php //echo $entry['2.1.4.1.1'] ? 'Yes' : 'No'; ?>
 						<?php if ( isset ( $school['2.1.4.1.1']) && $school['2.1.4.1.1'] != '' ) {
 							echo $school['2.1.4.1.1'] ? 'Yes' : 'No'; 
@@ -787,7 +788,7 @@ function cc_aha_print_criterion_school_phys_2( $metro_id ) {
 			<tr>
 				<th>Top 5 School Districts</th>
 				<th>Shared Use Policy in Place</th>
-				<th>More Information</th>
+				<th>Types of Facilities Covered</th>
 				<th>District Policy URL</th>
 			</tr>
 		</thead>
@@ -799,18 +800,9 @@ function cc_aha_print_criterion_school_phys_2( $metro_id ) {
 					<td><?php echo $entry['DIST_NAME']; ?></td>
 					<td><?php echo cc_aha_get_matching_option_label( '2.2.5.1', $entry[ '2.2.5.1' ] ); ?></td>
 					<td><?php 
-						if ( $entry[ '2.2.5.1' ] == 'no' ){
-							if ( $entry[ '2.2.5.1.1' ] ){
-								// Get option label to display
-								echo cc_aha_get_matching_option_label( '2.2.5.1.1', $entry[ '2.2.5.1.1' ] );
-							}
-							if ( $entry[ '2.2.5.1.2' ] ){
-								echo 'Includes only ';
-								// Get option label to display
-								echo $entry[ '2.2.5.1.2' ];
-							}
+						if ( $entry[ '2.2.5.1.2' ] ){
+							echo $entry[ '2.2.5.1.2' ];
 						}
-
 					?></td>
 					<td><?php echo '<a href="' . $entry['2.2.5.1.3'] . '">' . $entry['2.2.5.1.3'] . '</a>'; ?></td>
 				</tr>
