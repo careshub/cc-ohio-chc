@@ -89,7 +89,7 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 				
 			<div class="form-navigation clear">
 				<div class="submit">
-					<input type="submit" name="submit-survey-to-toc" value="Save, Return to Table of Contents" id="submit-survey-to-toc">
+					<input type="submit" name="submit-revenue-analysis-to-toc" value="Save, Return to Table of Contents" id="submit-revenue-analysis-to-toc">
 				</div>
 			</div>
 			</form>
@@ -108,14 +108,10 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 			 ?>
             <input type="hidden" name="analysis-section" value="<?php echo bp_action_variable( 2 ); ?>">
 			<input type="hidden" name="metro_id" value="<?php echo $metro_id; ?>">
-			<input type="hidden" name="revenue-section" value="revenue-<?php echo $section_key; ?>">
+			<input type="hidden" name="revenue-section" value="revenue-<?php echo $section_key['slug']; ?>">
 				
 			<div class="form-navigation clear">
-				<!--<input type="submit" name="submit-survey-to-toc" value="Return to Table of Contents" id="submit-survey-to-toc">-->
 				<a href="<?php echo cc_aha_get_analysis_permalink( 'revenue' ); ?>" class="button alignright">Return to Table of Contents</a>
-				<!-- <div class="submit">
-					<input type="submit" name="submit-survey-next-page" value="Save Responses and Continue" id="submit-survey-next-page">
-				</div> -->
 			</div>
 			
 		<?php } ?>

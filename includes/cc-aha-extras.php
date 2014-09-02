@@ -543,7 +543,7 @@ class CC_AHA_Extras {
 			$summary_section = isset( $_POST['analysis-section'] ) ? $_POST['analysis-section'] : null;
 
 			// Try to save the form data
-		    if ( cc_aha_update_form_data( $_COOKIE['aha_summary_metro_id'] ) != FALSE ) {
+		    if ( cc_aha_update_form_data( $_COOKIE['aha_summary_metro_id'] ) !== FALSE ) {
    				bp_core_add_message( __( 'Your responses have been recorded.', $this->plugin_slug ) );
 		    } else {
 				bp_core_add_message( __( 'There was a problem saving your responses.', $this->plugin_slug ), 'error' );
@@ -585,6 +585,8 @@ class CC_AHA_Extras {
 			// From $_POST, we know whether the user clicked "continue" or "return to toc" and the form page number
 			if ( isset( $_POST['submit-survey-to-toc'] ) ) {
 				$url = cc_aha_get_survey_permalink( 1 );
+			} else if ( isset( $_POST['submit-revenue-analysis-to-toc'] ) ) {
+				$url = cc_aha_get_analysis_permalink( 'revenue' );
 			} else if ( $page == cc_aha_get_max_page_number() ) {
 				bp_core_add_message( __( 'Thank you for completing the assessment.', $this->plugin_slug ) );
 				$url = cc_aha_get_survey_permalink( 1 );
