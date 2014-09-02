@@ -132,6 +132,9 @@ function cc_aha_metro_select_markup( $style = 'assessment' ){
         <?php 
             if ( $style == 'summary' ) {
                 wp_nonce_field( 'cc-aha-set-metro-id-cookie', 'set-metro-cookie-nonce' );
+                ?>
+                <input type="hidden" name="analysis-section" value="<?php echo bp_action_variable( 2 ); ?>">
+                <?php
             } else {
                 wp_nonce_field( 'cc-aha-set-metro-id', 'set-metro-nonce' );
             }
@@ -192,8 +195,13 @@ function cc_aha_render_tab_subnav(){
                     </li>
                 <?php endif; ?>
                 <?php if ( cc_aha_user_has_super_secret_clearance() ) : ?>
-                <li <?php if ( cc_aha_on_analysis_screen() ) { echo 'class="current"'; } ?>>
-                    <a href="<?php echo cc_aha_get_analysis_permalink(); ?>">Analysis</a>
+                <li <?php if ( cc_aha_on_analysis_screen( 'health' ) ) { echo 'class="current"'; } ?>>
+                    <a href="<?php echo cc_aha_get_analysis_permalink(); ?>">Health Analysis Report</a>
+                </li>
+                <?php endif; ?>
+                <?php if ( cc_aha_user_has_super_secret_clearance() ) : ?>
+                <li <?php if ( cc_aha_on_analysis_screen( 'revenue' ) ) { echo 'class="current"'; } ?>>
+                    <a href="<?php echo cc_aha_get_analysis_permalink( 'revenue' ); ?>">Revenue Analysis Report</a>
                 </li>
                 <?php endif; ?>
             </ul>

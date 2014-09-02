@@ -9,6 +9,27 @@
  */
 
 
+function cc_aha_print_single_report_card_revenue( $metro_id = 0 ){
+	if ( cc_aha_user_can_do_assessment() ) : 
+		?>
+	<section id="revenue-analysis-nvaigation" class="clear">
+		<h3>Revenue Assessment Analysis</h3>
+		<ul>
+		<?php 
+		$revenue_sections = cc_aha_get_summary_revenue_sections();
+		foreach ( $revenue_sections as $revenue_name => $revenue_section ) {
+			?>
+			<li><a href="<?php echo cc_aha_get_analysis_permalink( 'revenue' ) . $revenue_section['slug'];?>"><?php  echo $revenue_section['label']; ?></a></li>
+			<?php
+		}
+
+		?>
+		</ul>
+	</section>
+	<?php 
+	endif;
+}
+
 /**
  * Produce the page code for the revenue pages of the summary.
  *
@@ -86,13 +107,13 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 					echo "no function by the name: " . $function_name;
 				}
 			 ?>
-		
+            <input type="hidden" name="analysis-section" value="<?php echo bp_action_variable( 2 ); ?>">
 			<input type="hidden" name="metro_id" value="<?php echo $metro_id; ?>">
 			<input type="hidden" name="revenue-section" value="revenue-<?php echo $section_key; ?>">
 				
 			<div class="form-navigation clear">
 				<!--<input type="submit" name="submit-survey-to-toc" value="Return to Table of Contents" id="submit-survey-to-toc">-->
-				<a href="<?php echo cc_aha_get_analysis_permalink(); ?>" class="button alignright">Return to Table of Contents</a>
+				<a href="<?php echo cc_aha_get_analysis_permalink( 'revenue' ); ?>" class="button alignright">Return to Table of Contents</a>
 				<!-- <div class="submit">
 					<input type="submit" name="submit-survey-next-page" value="Save Responses and Continue" id="submit-survey-next-page">
 				</div> -->
@@ -346,7 +367,7 @@ function cc_aha_print_revenue_summary_pdw_legacy( $metro_id ){
 
 	<p><?php echo $data['14.1.1'] ? 'You have acknowledged that your board has knowledge of the Paul Dudley White Legacy Society.' : 'You have stated that your board does not have knowledge of the Paul Dudley White Legacy Society.'; ?></p>
 	
-	<p><?php echo $data['14.1.2'] ? 'You market has a Paul Dudley White Legacy Society Champion connected to the board and/or a board member.' : 'You market does not have a Paul Dudley White Legacy Society Champion connected to the board and/or a board member.'; ?></p>
+	<p><?php echo $data['14.1.2'] ? 'Your market has a Paul Dudley White Legacy Society Champion connected to the board and/or a board member.' : 'Your market does not have a Paul Dudley White Legacy Society Champion connected to the board and/or a board member.'; ?></p>
 
 	<p><?php echo $data['14.1.3']; ?>% of your board members are currently Paul Dudley White Legacy Society members.</p>
 	<?php
