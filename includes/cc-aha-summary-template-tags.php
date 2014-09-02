@@ -245,10 +245,26 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 					if( $input_prefix != 'care-acute-1' ) { //because this one has no discussion questions.. ?>
 						<textarea id="<?php echo $input_prefix . '-open-response'; ?>" name="board[<?php echo $input_prefix . '-open-response'; ?>]"><?php echo $data[$input_prefix . '-open-response']; ?></textarea>
 					<?php } ?>
-					<?php $radio_checked = $data[$section . '-' . $impact_area . '-' . $crit_key . '-top-3']; ?>
-					<label for="<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>"><p>Based on your preliminary discussions, do you think this may be a top 3 health impact opportunity for your board?</p>
-					<label><input type="radio" value="1" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
-					<label><input type="radio" value="0" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
+					
+					<?php if ( ( $input_prefix != 'care-acute-1' ) && ( $input_prefix != 'care-acute-2' ) ) { ?>
+						<?php $radio_checked = $data[$section . '-' . $impact_area . '-' . $crit_key . '-top-3']; ?>
+						<label for="<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>"><p>Based on your preliminary discussions, do you think this may be a top 3 health impact opportunity for your board?</p>
+						<label><input type="radio" value="1" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
+						<label><input type="radio" value="0" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
+					
+					<?php } else if ( $input_prefix == 'care-acute-2' ) { 
+						//display Top 3 radios for BOTH carse_acute_1 and cares_acute 2 in cares_acute 2 section ?>
+						<?php $radio_checked = $data['care-acute-1-top-3']; ?>
+						<label for="<?php echo 'care-acute-1-top-3'; ?>"><p>Based on your preliminary discussions, do you think addressing TOTAL CVD DISCHARGES from CMS penalty hospitals may be a top 3 health impact opportunity for your board?</p></label>
+						<label><input type="radio" value="1" name="board[<?php echo 'care-acute-1-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
+						<label><input type="radio" value="0" name="board[<?php echo 'care-acute-1-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
+					
+						<?php $radio_checked = $data['care-acute-2-top-3']; ?>
+						<label for="<?php echo 'care-acute-2-top-3'; ?>"><p>Based on your preliminary discussions, do you think addressing UNDERSERVED CVD DISCHARGES from CMS penalty hospitals may be a top 3 health impact opportunity for your board?</p></label>
+						<label><input type="radio" value="1" name="board[<?php echo 'care-acute-2-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
+						<label><input type="radio" value="0" name="board[<?php echo 'care-acute-2-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
+					
+					<?php } ?>
 				</fieldset>
 			</div>
 		</div>
@@ -464,6 +480,7 @@ function cc_aha_print_criterion_community_phys_1( $metro_id ) {
 		} else {
 			echo 'Given the current political/policy environment, we envision complete streets policy will most likely occur at the ' . $data['2.3.3'] . ' level potentially in ';
 			echo  ( $data['2.3.1.2'] == 'state') ? $data['2.3.1.2'] : $data['2.3.1.3'] ;
+			echo '.';
 		}
 		?></li>
 	</ul>
