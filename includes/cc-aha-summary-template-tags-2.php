@@ -99,10 +99,10 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 		if ( ( $data['3.1.4'] == 'No – none of the above' ) || ( $data['3.1.4'] == 'no' ) ) {
 			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
 		} else {
-			echo 'Possible opportunities to drive impact include: ';
+			echo 'Possible opportunities to drive impact include: ' . $data['3.1.4'];
 			
 			//TODO: Mel, figure this out based on data we're no longer collecting
-			echo ' potentially in ' . $data['3.1.4'];
+			//echo ' potentially in ' . $data['3.1.4'];
 		} 
 		?></li>
 	</ul>
@@ -257,8 +257,8 @@ function cc_aha_print_criterion_care_acute_2( $metro_id ) {
 				<th>Underserved CVD Discharges (Weighted – 2012)</th>
 				<th>Any AHA Quality Program</th>
 				<th>Total VBP Bonus/Penalty</th>
-				<th>CVD Discharge Target Rank</th>
-				<th>Underserved Discharge Rank</th>
+				<th>TOTAL CVD Discharge Target Rank</th>
+				<th>Underserved CVD Discharge Target Rank</th>
 			</tr>
 		</thead>
 		<tbody>
