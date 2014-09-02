@@ -597,7 +597,7 @@ function cc_aha_print_criterion_community_diet_2( $metro_id ) {
 		<li>There <?php echo $data['3.4.2'] ? 'is' : 'is not'; ?> the ability to levy SSB taxes locally in <?php echo $data['State']; ?>.</li>
 		<li><?php
 		if ( ! $data['3.4.4'] || $data['3.4.4']  == 'neither' ) {
-			echo 'Preliminary analyses indicate that this is not a viable issue at this time';
+			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
 		} else if ( $data['3.4.4']  == 'state and local' ) {
 			echo 'Given the current political/policy environment, we envision sugar sweetened beverage tax policy will most likely occur at the state and local level.';
 			if ( $data['3.4.3.1'] && $data['3.4.3.2'] ){
@@ -775,7 +775,7 @@ function cc_aha_print_criterion_school_phys_2( $metro_id ) {
 			if ( $data[ '2.2.1.1' ] == 'None of the above - we have already met this goal' ) {
 				echo 'Your state has policies providing school districts liability protection from injury and property damage and clarifies that users are liable.';
 			} else {
-				echo 'Your state&rsquo;s shared use policy does not address ' . $data[ '2.2.1.1' ];
+				echo 'Your state&rsquo;s shared use policy does not address ' . strtolower($data[ '2.2.1.1' ]);
 			}
 		?></li>
 		<li><?php echo $data[ 'State' ] ?> currently <?php echo $data['2.2.2.1'] ? 'does' : 'does not'; ?> provide promotion, incentives, technical assistance or other resources to schools to encourage shared use.
@@ -1054,7 +1054,7 @@ function cc_aha_get_summary_sections() {
 					'criteria' => array(
 						1 => array(
 							'label' => 'Insurance Coverage',
-							'background' => 'The burden of heart disease and stroke can be especially challenging for those without health insurance or with inadequate coverage.  Uninsured Americans with CVD have higher mortality rates and a more difficult time controlling their blood pressure or accessing needed medications. The uninsured and underinsured also have a harder time accessing preventative care and needed medications.  The AHA advocates for states to accept federal funds to provide health insurance to low income adults and coverage of all cardiovascular-related preventative benefits with an A or B recommendation by the USPSTF for Medicaid enrollees, with no cost for patients. <a href="http://www.heartforhealthcare.org" target="_blank">www.heartforhealthcare.org</a>',
+							'background' => 'The burden of heart disease and stroke can be especially challenging for those without health insurance or with inadequate coverage.  Uninsured Americans with CVD have higher mortality rates and a more difficult time controlling their blood pressure or accessing needed medications. The uninsured and underinsured also have a harder time accessing preventative care and needed medications.  The AHA advocates for states to accept federal funds to provide health insurance to low income adults and coverage of all cardiovascular-related preventative benefits with an A or B recommendation by the USPSTF for Medicaid enrollees, with no cost for patients. <a href="http://www.heartsforhealthcare.org" target="_blank">www.heartforhealthcare.org</a>',
 							'group' => 'care_factors_1' ),
 					),
 				),
