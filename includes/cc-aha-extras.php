@@ -501,8 +501,10 @@ class CC_AHA_Extras {
 			// TODO: this isn't redirecting to the right location.
 			if ( isset( $_POST['aha_summary_metro_id'] ) ) {
 				setcookie( 'aha_summary_metro_id', $_POST['aha_summary_metro_id'], 0, '/' );
+				$section = isset( $_POST['analysis-section'] ) ? $_POST['analysis-section'] : null ;
 				// $url = cc_aha_get_analysis_permalink(); // Can't access the cookie data
-				$url = cc_aha_get_home_permalink( $group_id ) . cc_aha_get_analysis_slug() . '/' . $_POST['aha_summary_metro_id'];
+				// $url = cc_aha_get_home_permalink( $group_id ) . cc_aha_get_analysis_slug( $section ) . '/' . $_POST['aha_summary_metro_id'];
+				$url = cc_aha_get_analysis_permalink( $section, $_POST['aha_summary_metro_id'] );
 			}
 
 			// Redirect and exit
@@ -538,6 +540,7 @@ class CC_AHA_Extras {
 				return false;
 
 			$page = isset( $_POST['section-impact-area'] ) ? $_POST['section-impact-area'] : null;
+			$summary_section = isset( $_POST['analysis-section'] ) ? $_POST['analysis-section'] : null;
 
 			// Try to save the form data
 		    if ( cc_aha_update_form_data( $_COOKIE['aha_summary_metro_id'] ) != FALSE ) {
@@ -547,7 +550,7 @@ class CC_AHA_Extras {
 		    }
 
 			// Redirect to the appropriate page of the form
-			bp_core_redirect( $this->after_save_get_summary_page_url( $page ) );
+			bp_core_redirect( $this->after_save_get_summary_page_url( $summary_section, $page ) );
 			
 		}
 	}
@@ -598,10 +601,10 @@ class CC_AHA_Extras {
 	 * @since   1.0.0
 	 * @return  string - url
 	 */
-	public function after_save_get_summary_page_url( $page ){
+	public function after_save_get_summary_page_url( $summary_section, $page ){
 			// From $_POST, we know whether the user clicked "continue" or "return to toc" and the form page number
 			// TODO: Maybe add some logic here.
-			$url = cc_aha_get_analysis_permalink();
+			$url = cc_aha_get_analysis_permalink( $summary_section );
 			// if ( isset( $_POST['submit-survey-to-toc'] ) ) {
 			// 	$url = cc_aha_get_survey_permalink( 1 );
 			// } else if ( $page == cc_aha_get_max_page_number() ) {
@@ -730,7 +733,10 @@ class CC_AHA_Extras {
 			return;
 
 		// Only continue if there is a metro id set in the URL.
-		if ( ! $url_metro_id = bp_action_variable( 1 ) )
+		if ( bp_action_variable( 1 ) && bp_action_variable( 1 ) != '00000' )
+			$url_metro_id = bp_action_variable( 1 );
+
+		if ( ! $url_metro_id )
 			return;
 
 		// Is there a cookie set that matches that url?
@@ -739,6 +745,7 @@ class CC_AHA_Extras {
             setcookie( 'aha_summary_metro_id', $url_metro_id, 0, '/' );
 			$current_url = home_url( $_SERVER['REQUEST_URI'] );
 			$towrite = PHP_EOL . 'redirecting to: ' . print_r( $current_url, TRUE);
+			$towrite .= PHP_EOL . 'actions_variable: ' . print_r( bp_action_variable( 1 ), TRUE);
 			$fp = fopen('aha_summary_setup.txt', 'a');
 			fwrite($fp, $towrite);
 			fclose($fp);

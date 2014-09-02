@@ -45,7 +45,9 @@ function cc_aha_render_summary_page(){
 			<li><a href="#physical-activity" class="tab-select">Physical Activity</a></li>
 			<li><a href="#healthy-diet" class="tab-select">Healthy Diet</a></li>
 			<li><a href="#chain-of-survival" class="tab-select">Chain of Survival</a></li> -->
-			<li><a href="<?php echo cc_aha_get_analysis_permalink(); ?>" class="button">Return to Analysis Summary</a></li>
+			<?php if ( bp_action_variable( 3 ) ) : ?>
+				<li><a href="<?php echo cc_aha_get_analysis_permalink( bp_action_variable( 2 ) ); ?>" class="button">Return to <?php echo ucwords( bp_action_variable( 2 ) ); ?> Analysis Summary</a></li>
+			<?php endif; ?>
 			<li class="alignright">
 			<?php if ( ! empty( $cleanedfips ) ) { ?>
 				<a href="http://assessment.communitycommons.org/CHNA/OpenReport.aspx?reporttype=AHA&areatype=county&areaid=<?php echo $cleanedfips; ?>" target="_blank" class="button">View Data Report</a>
@@ -59,17 +61,24 @@ function cc_aha_render_summary_page(){
 	<?php
 	// bp action variables tell us where we are.
 	// [1] is the metro_id
-	// [2] is section
+	// [2] is section (health or revenue)
 	// [3] is the impact area
-	if ( ! bp_action_variable( 2 ) ) {
-		cc_aha_print_single_report_card( $metro_id );
-	} else if( bp_action_variable( 2 ) == 'environmental-scan' ) { //TODO - ask Davefor recs on this inelegance, since he's more familiar with the bp_action setup..
-		cc_aha_print_environmental_scan( $metro_id );
-	} else if( bp_action_variable( 2 ) == 'revenue' ) { //TODO - ask Davefor recs on this inelegance, since he's more familiar with the bp_action setup..
-		cc_aha_print_revenue_section_report( $metro_id, bp_action_variable( 3 ) );
-	} else {
-		cc_aha_print_impact_area_report( $metro_id, bp_action_variable( 2 ), bp_action_variable( 3 ) );
-	}
+	$major_section = bp_action_variable( 2 );
+	if ( $major_section == cc_aha_get_analysis_health_slug() ){
+		if ( ! bp_action_variable( 3 ) ) {
+			cc_aha_print_single_report_card_health( $metro_id );
+		} else if ( bp_action_variable( 3 ) == 'environmental-scan' ) {
+			cc_aha_print_environmental_scan( $metro_id );
+		} else {
+			cc_aha_print_impact_area_report( $metro_id, bp_action_variable( 3 ), bp_action_variable( 4 ) );
+		}
+	}  else if ( $major_section == cc_aha_get_analysis_revenue_slug() ) {
+		if ( ! bp_action_variable( 3 ) ) {
+			cc_aha_print_single_report_card_revenue( $metro_id );
+		} else { 
+			cc_aha_print_revenue_section_report( $metro_id, bp_action_variable( 3 ) );
+		}
+	} 
 	?>
 	
 	<script type="text/javascript">
@@ -80,7 +89,7 @@ function cc_aha_render_summary_page(){
 	<?php
 }
 // Major template pieces
-function cc_aha_print_single_report_card( $metro_id = 0 ) {
+function cc_aha_print_single_report_card_health( $metro_id = 0 ) {
 	$data = cc_aha_get_form_data( $metro_id ); 
 	?>
 
@@ -140,23 +149,6 @@ function cc_aha_print_single_report_card( $metro_id = 0 ) {
 		</table>
 
 	</section>
-
-	<?php if ( cc_aha_user_can_do_assessment() ) : ?>
-	<section id="revenue-analysis-nvaigation" class="clear">
-		<h3>Revenue Assessment Analysis</h3>
-		<ul>
-		<?php 
-		$revenue_sections = cc_aha_get_summary_revenue_sections();
-		foreach ( $revenue_sections as $revenue_name => $revenue_section ) {
-			?>
-			<li><a href="<?php echo cc_aha_get_analysis_permalink() . 'revenue/' . $revenue_section['slug'];?>"><?php  echo $revenue_section['label']; ?></a></li>
-			<?php
-		}
-
-		?>
-		</ul>
-	</section>
-	<?php endif; ?>
 	<?php 
 }
 
@@ -263,6 +255,7 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 <?php
 	}
 	?>
+    <input type="hidden" name="analysis-section" value="<?php echo bp_action_variable( 2 ); ?>">
 	<input type="hidden" name="metro_id" value="<?php echo $metro_id; ?>">
 	<input type="hidden" name="section-impact-area" value="<?php echo $section . '-' . $impact_area; ?>">
 	<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
