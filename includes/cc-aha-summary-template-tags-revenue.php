@@ -12,7 +12,7 @@
 function cc_aha_print_single_report_card_revenue( $metro_id = 0 ){
 	if ( cc_aha_user_can_do_assessment() ) : 
 		?>
-	<section id="revenue-analysis-nvaigation" class="clear">
+	<section id="revenue-analysis-navigation" class="clear">
 		<h3>Revenue Assessment Analysis</h3>
 		<ul>
 		<?php 
