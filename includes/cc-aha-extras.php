@@ -542,8 +542,9 @@ class CC_AHA_Extras {
 			$page = isset( $_POST['section-impact-area'] ) ? $_POST['section-impact-area'] : null;
 			$summary_section = isset( $_POST['analysis-section'] ) ? $_POST['analysis-section'] : null;
 			
-			//if no summary section, check for revenue section instead
+			//if no summary section, check for revenue section 
 			if ( $summary_section == null ) {
+				//$summary_section = isset( $_POST['revenue-section'] ) ? $_POST['revenue-section'] : null;
 				$summary_section = isset( $_POST['revenue-section'] ) ? 'revenue' : null;
 			}
 			
