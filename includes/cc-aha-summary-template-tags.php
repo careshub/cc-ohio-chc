@@ -477,6 +477,7 @@ function cc_aha_print_criterion_community_phys_1( $metro_id ) {
 			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
 		} else if ( $data['2.3.3']  == 'state and local' ) {
 			echo 'Given the current political/policy environment, we envision complete streets policy will most likely occur at the state and local level. We expect to see state level policy potentially in ' . $data['2.3.1.2'] . ' and local level policy in ' . $data['2.3.1.3'];
+			echo '.';
 		} else {
 			echo 'Given the current political/policy environment, we envision complete streets policy will most likely occur at the ' . $data['2.3.3'] . ' level potentially in ';
 			echo  ( $data['2.3.1.2'] == 'state') ? $data['2.3.1.2'] : $data['2.3.1.3'] ;
@@ -738,7 +739,7 @@ function cc_aha_print_criterion_school_phys_1( $metro_id ) {
 			if ( ! $data[ $level['likelihood'] ] || $data[ $level['likelihood'] ]  == 'neither' ) {
 				echo 'Preliminary analyses indicate that this is not a viable issue at this time';
 			} else if ( $data[ $level['likelihood'] ]  == 'state and local' ) {
-				echo 'Given the current political/policy environment, we envision PE in ' . $level['name'] . ' schools policy will most likely occur at the state and local level. We expect to see state level policy potentially in ' . $data[ $level['state_time'] ] . ' and local level policy in ' . $data[ $level['state_time'] ];
+				echo 'Given the current political/policy environment, we envision PE in ' . $level['name'] . ' schools policy will most likely occur at the state and local level. We expect to see state level policy potentially in ' . $data[ $level['state_time'] ] . ' and local level policy in ' . $data[ $level['local_time'] ];
 			} else {
 				echo 'Given the current political/policy environment, we envision PE in ' . $level['name'] . ' schools policy will most likely occur at the ' . $data[ $level['likelihood'] ] . ' level potentially in ';
 				echo ( $data[ $level['likelihood'] ] == 'state') ? $data[ $level['state_time'] ] : $data[ $level['local_time'] ] ;
