@@ -11,20 +11,38 @@
 
 function cc_aha_print_single_report_card_revenue( $metro_id = 0 ){
 	if ( cc_aha_user_can_do_assessment() ) : 
+		$data = cc_aha_get_form_data( $metro_id );
 		?>
 	<section id="revenue-analysis-navigation" class="clear">
 		<h3>Revenue Assessment Analysis</h3>
-		<ul>
 		<?php 
-		$revenue_sections = cc_aha_get_summary_revenue_sections();
-		foreach ( $revenue_sections as $revenue_name => $revenue_section ) {
-			?>
-			<li><a href="<?php echo cc_aha_get_analysis_permalink( 'revenue' ) . $revenue_section['slug'];?>"><?php  echo $revenue_section['label']; ?></a></li>
-			<?php
-		}
-
-		?>
-		</ul>
+		$revenue_sections = cc_aha_get_summary_revenue_sections(); ?>
+		
+		<h3>Community Health Assessment Analysis</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>Impact Area</th>
+					<th>Top 3 Priority</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php 
+				foreach ( $revenue_sections as $revenue_name => $revenue_section ) { ?>
+					<tr>
+						<td>
+							<a href="<?php echo cc_aha_get_analysis_permalink( 'revenue' ) . $revenue_section['slug'];?>">
+							<?php echo $revenue_section['label']; ?>
+							</a>
+						</td>
+						<td>
+							<?php //echo $data[$revenue_name . '-top-3'];
+							echo $data[$revenue_name . '-top-3'] ? 'Yes' : 'No'; ?>
+						</td>
+					</tr>
+				<?php } ?>
+			</tbody>
+		</table>
 	</section>
 	<?php 
 	endif;
