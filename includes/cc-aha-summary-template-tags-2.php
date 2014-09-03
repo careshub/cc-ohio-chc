@@ -79,7 +79,8 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 					} ?>
 					</td>
 					<td><?php if ( isset ( $school['3.1.3.1.4']) && $school['3.1.3.1.4'] != '' ) {
-						echo $school['3.1.3.1.4'] ? 'Yes' : 'No'; 
+						$url_text = '<a href="' . $school['3.1.3.1.4'] . '" target="_blank">View Policy</a>';
+						echo $school['3.1.3.1.4'] ? $url_text : 'No'; 
 					} else {
 						echo 'Don\'t Know';
 					} ?>
