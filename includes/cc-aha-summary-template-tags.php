@@ -165,40 +165,12 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 		
 		<h2 class="screamer"><?php echo cc_aha_get_summary_impact_area_title( $section, $impact_area ); ?></h2>
 
-		<?php 
-		$dial_ids = cc_aha_get_summary_impact_area_widgets( $section, $impact_area );
-		$fips = cc_aha_get_fips();
-
-		// Show the top section if there's something to show.
-		if ( $dial_ids && $fips ) :
-			// TODO: Real title needed
-		?>
-		<h3>Health Needs Indicators</h3>
-		<div class="content-row">
-			<?php 
-			$dial_ids = cc_aha_get_summary_impact_area_widgets( $section, $impact_area );
-			$fips = cc_aha_get_fips();
-			foreach ( $dial_ids as $dial_id) {
-				//TODO: Could there be more than two widgets? YES! like 6!
-				?>
-				<div class="half-block">
-					<script src='http://maps.communitycommons.org/jscripts/dialWidget.js?geoid=<?php echo $fips; ?>&id=<?php echo $dial_id; ?>'></script>
-				</div>
-				<?php
-			}
-			?>
-		</div>
-	<?php endif; // if ( $dial_ids && $fips ) : 
-
-	?>
-
 	<?php
 	// Next, we loop through our criteria
 	$criteria = cc_aha_get_impact_area_criteria( $section, $impact_area );
 	foreach ( $criteria as $crit_key => $criterion ) {
 		?>
-		<h3><?php echo $criterion['label']; ?> </h3>
-		<div class="content-row">
+		<div class="content-row clear">
 			<div class="third-block clear">
 				<?php // Get a big dial
 					cc_aha_print_dial( cc_aha_section_get_score( $section, $impact_area, $crit_key ) );
@@ -206,6 +178,8 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 			</div>
 
 			<div class="third-block spans-2">
+				<h3><?php echo $criterion['label']; ?> </h3>
+
 				<?php if( cc_aha_get_summary_introductory_text( $section, $impact_area, $crit_key ) != '' ) { 
 					//since at least one of our sections - care_acute_1 is a dial only.. 
 					?>
@@ -268,6 +242,30 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 					<?php } ?>
 				</fieldset>
 			</div>
+
+		<?php 
+		// This adds the dials under the criterion dial
+
+		$dial_ids = cc_aha_get_summary_criterion_widgets( $section, $impact_area, $crit_key );
+		$fips = cc_aha_get_fips();
+
+		// Show the top section if there's something to show.
+		if ( $dial_ids && $fips ) :
+				// TODO: Real title needed
+			?>
+			<div class="health-needs-container">
+				<span class="aligncenter"><em>Health Needs Indicators</em></span>
+				<?php 
+				foreach ( $dial_ids as $dial_id) {
+					?>
+					<div class="dial-container">
+						<script src='http://maps.communitycommons.org/jscripts/dialWidget.js?geoid=<?php echo $fips; ?>&id=<?php echo $dial_id; ?>'></script>
+					</div>
+					<?php
+				}
+				?>
+			</div>
+		<?php endif; // if ( $dial_ids && $fips ) : ?>
 		</div>
 
 <?php
@@ -869,7 +867,7 @@ function cc_aha_print_dial( $status ){
 	?>
 	<div class="progress-dial">
 		<span class="dial-label"><?php cc_aha_print_dial_label( $status ); ?></span>
-		<input type="text" value="<?php cc_aha_print_dial_value( $status ); ?>" class="dial" autocomplete="off" data-width="200" data-fgColor="<?php cc_aha_print_dial_fill_color( $status ); ?>" data-angleOffset=-125 data-angleArc=250 data-displayInput=false data-displayprevious=true data-readOnly=true>
+		<input type="text" value="<?php cc_aha_print_dial_value( $status ); ?>" class="dial" autocomplete="off" data-width="180" data-fgColor="<?php cc_aha_print_dial_fill_color( $status ); ?>" data-angleOffset=-125 data-angleArc=250 data-displayInput=false data-displayprevious=true data-readOnly=true>
 	</div>
 	<?php
 }
@@ -955,12 +953,14 @@ function cc_aha_get_summary_sections() {
 							'background' => 'Advocating for comprehensive smoke free air laws at the state and local level is a pillar of the AHA&rsquo;s tobacco control advocacy efforts. Second hand smoke causes heart disease, cancer, lung disease and other illnesses in non-smokers. Research shows smoke-free laws lead to drastic reductions in cardiovascular incidents. These laws should be in compliance with the Fundamentals of Smoke-free Workplace Laws guidelines which guide and maximize the impact of smoke free policy efforts and increase the number of workers and residents who are protected from second hand smoke.
 
 								<a href="http://www.heart.org/idc/groups/heart-public/@wcm/@adv/documents/downloadable/ucm_463595.pdf" target="_blank">Learn more</a>',
+							'dial_ids' => array( 305, 354 ),
 							'group' => 'community_tobacco_1' ),
 						2 => array(
 							'label' => 'Tobacco Excise Taxes',
 							'background' => 'To help save these lives, the AHA advocates for significant increases in tobacco excise taxes at the state, county or municipal levels that cover all tobacco products. These taxes are a health win that reduces tobacco use, saves lives, raises revenue for cash-strapped states, and lowers health care costs.
 
 								<a href="http://www.heart.org/idc/groups/heart-public/@wcm/@adv/documents/downloadable/ucm_461792.pdf" target="_blank">Learn more</a>',
+							'dial_ids' => array( 305, 354 ),
 							'group' => 'community_tobacco_2' ),
 					),
 				),
@@ -971,7 +971,9 @@ function cc_aha_get_summary_sections() {
 						1 => array(
 							'label' => 'Complete Streets',
 							'background' => 'Complete Streets policies consider the needs of all users in all transportation projects incorporating walking, bicycling, public transportation, and driving.',
-							'group' => 'community_phys_1' ),
+							'group' => 'community_phys_1',
+							'dial_ids' => array( 306, 307),
+						),
 					),
 				),
 				'diet' => array(
@@ -981,7 +983,8 @@ function cc_aha_get_summary_sections() {
 						1 => array(
 							'label' => 'Local Government Procurement',
 							'background' => 'Procurement by definition is the basic term utilized by state and local government entities that provide all food services for government facilities.  Procurement is the way they contract with external parties to provide foods and beverages in vending machines and prepared foods/beverages on government property.  The AHA advocates for nutrition criteria to be included in these contracts to better provide government employees healthier options for food and beverage in their worksites and to members of the public who visit government buildings.',
-							'group' => 'community_diet_1' ),
+							'group' => 'community_diet_1' 
+							),
 						2 => array(
 							'label' => 'Sugar-sweetened Beverage Tax',
 							'background' => 'Reducing the consumption of excess sugars from sugary beverages is an important way to improve the health of Americans. The American Heart Association advocates for impact assessments of beverage sales taxes or excise taxes on consumption rates and shifts in consumer choice with special attention on vulnerable populations by supporting tax initiatives in some states and localities.
@@ -995,11 +998,14 @@ function cc_aha_get_summary_sections() {
 								<li>there is no sunset.</li>
 								</ol>
 								<a href="http://www.heart.org/HEARTORG/Advocate/Voices-for-Healthy-Kids---Healthy-Drinks_UCM_460610_SubHomePage.jsp" target="_blank">Learn more</a>',
-							'group' => 'community_diet_2' ),
+							'group' => 'community_diet_2',
+							'dial_ids' => array( 303, 603 ), 
+							),
 						3 => array(
 							'label' => 'Healthy Food Financing',
 							'background' => 'A food desert is an area where residents lack affordable access to foods that would allow them to have a healthy diet, such as fruits, vegetables, low-fat milk and whole grains. Existing in urban, suburban and rural communities, they are places where the nearest supermarket is too far away for residents to shop. Healthy Food Financing is a viable, effective, and economically sustainable solution to the problem of limited access to healthy foods. Healthy Food Financing Initiatives attract investment in underserved communities by providing critical loan and grant financing. These one-time resources help fresh food retailers overcome the initial barriers to entry into underserved, low-income urban and rural communities, and support renovation and expansion of existing stores so they can provide the healthy foods that communities want and need. Identifying food deserts is not an exact science, but you can <a href="%food_desert_url%" target="_blank">look at an overview of your county&rsquo;s access to healthier food here.</a>',
-							'group' => 'community_diet_3' ),
+							'group' => 'community_diet_3' 
+							),
 					),
 				),
 			),
@@ -1014,11 +1020,15 @@ function cc_aha_get_summary_sections() {
 						1 => array(
 							'label' => 'PE in Schools',
 							'background' => 'The quality and quantity of physical education in the nation&rsquo;s schools is an important part of a student&rsquo;s comprehensive, well-rounded education program and a means of positively affecting life-long health and well-being. The AHA advocates for daily physical education for all students in all school levels.',
-							'group' => 'school_phys_1' ),
+							'group' => 'school_phys_1',
+							'dial_ids' => array( 307, 605 ),
+							),
 						2 => array(
 							'label' => 'Shared Use',
 							'background' => 'Shared Use Agreements allow schools to share their physical activity facilities (gyms, running/walking tracks, multi-purpose rooms) with the community for recreation and exercise opportunities. The AHA works to provide liability protection within state law so school districts will feel comfortable opening up school facilities both before and after school hours without the fear of lawsuits for injuries occurring on school property. Once the liability protection is enacted into state law the AHA works to provide incentives and monitoring of shared use agreements once they are put in place.',
-							'group' => 'school_phys_2' ),
+							'group' => 'school_phys_2',
+							'dial_ids' => array( 306 ),
+							),
 					),
 				),
 				'diet' => array(
@@ -1028,11 +1038,15 @@ function cc_aha_get_summary_sections() {
 						1 => array(
 							'label' => 'School Nutrition Policy',
 							'background' => ' The USDA Food and Nutrition Service interim final rule establishes nutrition standards for foods sold in schools other than those foods provided as part of the National School Lunch and School Breakfast Programs (NSLP/SBP).  These foods and beverages are called Competitive Foods because they “compete” with the traditional school lunch programs.  Examples are foods/beverages sold in the a la carte line, vending machines, school canteens, and onsite fundraisers.',
-							'group' => 'school_diet_1' ),
+							'group' => 'school_diet_1',
+							'dial_ids' => array( 605 ),
+							),
 						2 => array(
 							'label' => 'School Nutrition Implementation',
 							'background' => 'The Healthy, Hunger-Free Kids Act of 2010 instituted many changes to the National School Lunch Program (NSLP), and in concert with those changes, USDA issued new, more stringent school meal nutrition standards for the 2012-13 school year. All changes within school meals are expected to have occurred in advance of the beginning of the 2014-2015 school year to bring schools in compliance with federal law.',
-							'group' => 'school_diet_2' ),
+							'group' => 'school_diet_2',
+							'dial_ids' => array( 605 ),
+							),
 					),
 				),
 				'cpr' => array(
@@ -1043,7 +1057,9 @@ function cc_aha_get_summary_sections() {
 						1 => array(
 							'label' => 'CPR Grad Requirement',
 							'background' => 'Sudden Cardiac Arrest is a leading cause of death in the U.S.—but when ordinary people, not just doctors and EMTs, are equipped with the skills to perform CPR, the survival rate can double, or even triple.  Help us add thousands of lifesavers to our communities. Join us in supporting public policy that will ensure all students learn quality CPR before they graduate from high school. <a href="http://www.becprsmart.org" target="_blank">www.becprsmart.org</a>',
-							'group' => 'school_cpr_1' ),
+							'group' => 'school_cpr_1',
+							'dial_ids' => array( 640 ),
+							),
 					),
 				),
 			),
@@ -1058,7 +1074,9 @@ function cc_aha_get_summary_sections() {
 						1 => array(
 							'label' => 'Insurance Coverage',
 							'background' => 'The burden of heart disease and stroke can be especially challenging for those without health insurance or with inadequate coverage.  Uninsured Americans with CVD have higher mortality rates and a more difficult time controlling their blood pressure or accessing needed medications. The uninsured and underinsured also have a harder time accessing preventative care and needed medications.  The AHA advocates for states to accept federal funds to provide health insurance to low income adults and coverage of all cardiovascular-related preventative benefits with an A or B recommendation by the USPSTF for Medicaid enrollees, with no cost for patients. <a href="http://www.heartsforhealthcare.org" target="_blank">www.heartsforhealthcare.org</a>',
-							'group' => 'care_factors_1' ),
+							'group' => 'care_factors_1',
+							'dial_ids' => array( 504 ),
+							),
 					),
 				),
 				'acute' => array(
@@ -1069,11 +1087,15 @@ function cc_aha_get_summary_sections() {
 						1 => array(
 							'label' => 'CMS PENALTY: Total Discharges',
 							'background' => 'More hospitals are receiving penalties than bonuses in the second year of Medicare’s quality incentive program.  Government records show that the average penalty is steeper than it was last year. These penalties were based on two-dozen quality measurements, including surveys of patient satisfaction and—for the first time—death rates.  Hospitals are encouraged to find ways to improve their scores.  The AHA believes that GWTG can help to increase their quality by helping them to identify process improvements, monitoring compliance with the AHA guidelines for Stroke, HF, Resuscitation, ACTION Registry-GWTG and AFIB.',
-							'group' => 'care_acute_1' ),
+							'group' => 'care_acute_1',
+							'dial_ids' => array( 640, 625 ),
+							),
 						2 => array(
 							'label' => 'CMS PENALTY: Underserved Discharges',
 							'background' => '',
-							'group' => 'care_acute_2' ),
+							'group' => 'care_acute_2',
+							'dial_ids' => array( 640, 625 ),
+							),
 					),
 				),
 			),
@@ -1102,6 +1124,10 @@ function cc_aha_get_summary_introductory_text( $section, $impact_area, $crit_key
 function cc_aha_get_summary_impact_area_widgets( $section, $impact_area ) {
 	$section_data = cc_aha_get_summary_sections();
 	return $section_data[$section]['impact_areas'][$impact_area]['dial_ids'];
+}
+function cc_aha_get_summary_criterion_widgets( $section, $impact_area, $crit_key ){
+	$section_data = cc_aha_get_summary_sections();
+	return $section_data[$section]['impact_areas'][$impact_area]['criteria'][$crit_key]['dial_ids'];
 }
 function cc_aha_get_impact_area_criteria( $section, $impact_area ){
 	$section_data = cc_aha_get_summary_sections();

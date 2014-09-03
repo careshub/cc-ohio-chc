@@ -49,17 +49,42 @@
 
 /* Summary page styles */
 .progress-dial{
+	display: table;
+	margin: 0 auto;
 	position: relative;
-	float: left;
 }
 .progress-dial .dial-label {
 	position: absolute;
-	font-size: 1.4em;
+	font-size: 1.2em;
 	text-align: center;
-	bottom: 0;
+	bottom: 1.4em;
 	left: 0;
 	right: 0;
 }
+.assessment .third-block.spans-2 h3 {
+    margin-top: 0;
+}
+.assessment .third-block {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.health-needs-container {
+	float: left;
+	margin-top: 1em;
+	border-top: 1px solid #CCC;
+}
+.dial-container {
+	margin-top: 1em;
+}
+.assessment .content-row {
+	margin-top: 1.5em;
+	padding-top: 1.5em;
+	border-top: 1px solid #CCC;
+}
+.assessment .content-row:nth-of-type(1) {
+	border-top: none;
+} 
 .assessment tr.summary-table-section {
 	border-top: 2px solid #666;
 } 
@@ -81,4 +106,31 @@
 
 .assessment span.healthy {
 	color: green;
+}
+
+@media screen and (min-width:600px), print and (min-width:8in) {
+	.dial-container {
+		float: left;
+		width: 28.5%;
+		margin-left: 2%;
+		margin-right: 2%;
+	}
+}
+@media all and (min-width:800px), print and (min-width:8in) { 
+	.assessment .third-block.spans-2 {
+	    float: right;
+	}
+	.progress-dial .dial-label {
+		font-size: 1.3em;
+	}
+	.health-needs-container{
+		width: 25%;
+		padding: 0 2.5%;
+	}
+	.dial-container {
+		float: left;
+		width: 100%;
+		margin-left: 0;
+		margin-right: 0;
+	}
 }
