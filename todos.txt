@@ -27,6 +27,16 @@
 	revenue-13.1.6: TEXT
 	revenue-13.1.7: TEXT
 	revenue-13.1.8: TEXT
+
+- Add top 3 for all revenue questions
+	event_leadership-top-3
+	elt_leadership-top-3
+	top_25_companies-top-3
+	sponsorship-top-3
+	youth_market-top-3
+	individual_giving-top-3
+	donor_stewardship-top-3
+	pdw_legacy-top-3
 	
 	
 	

@@ -57,9 +57,9 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 
 	<section id="revenue-<?php echo $section_key; ?>" class="clear">
 	
-		<?php //to form or not to form?
+		<?php //to show discussion textfield ?
 		
-		if( $section_key == 'event_leadership' || $section_key == 'sponsorship' || $section_key == 'donor_stewardship' ) { ?>
+		//if( $section_key == 'event_leadership' || $section_key == 'sponsorship' || $section_key == 'donor_stewardship' ) { ?>
 		
 			<form id="aha_summary-revenue-<?php echo $section_key; ?>" class="standard-form aha-survey" method="post" action="<?php echo cc_aha_get_home_permalink() . 'update-summary/'; ?>">
 			
@@ -78,24 +78,22 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 					//echo "no function by the name: " . $function_name;
 				}
 			 ?>
-			 
-			<!--<fieldset>
-				
-				<textarea id="<?php echo $section_key . '-open-response'; ?>" name="board[<?php echo $section_key . '-open-response'; ?>]"><?php echo $data[$section_key . '-open-response']; ?></textarea>
-				
-			</fieldset>-->
-			
+			 			
 			<input type="hidden" name="metro_id" value="<?php echo $metro_id; ?>">
 			<input type="hidden" name="revenue-section" value="revenue-<?php echo $section; ?>">
 			<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
-				
+			
+			<label for="<?php echo $section_key . '-top-3'; ?>"><p>Based on your preliminary discussions, do you think this may be a top 3 revenue impact opportunity for your board?</p>
+			<label><input type="radio" value="1" name="board[<?php echo $section_key . '-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
+			<label><input type="radio" value="0" name="board[<?php echo $section_key . '-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
+					
 			<div class="form-navigation clear">
 				<div class="submit">
 					<input type="submit" name="submit-revenue-analysis-to-toc" value="Save, Return to Table of Contents" id="submit-revenue-analysis-to-toc">
 				</div>
 			</div>
 			</form>
-		<?php } else { ?>
+		<?php /*} else { ?>
 		
 			<h2 class="screamer"><?php echo $revenue_sections[$section_key]['label']; ?></h2>
 			
@@ -120,7 +118,7 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 				<a href="<?php echo cc_aha_get_analysis_permalink( 'revenue' ); ?>" class="button alignright">Return to Table of Contents</a>
 			</div>
 			
-		<?php } ?>
+		<?php } */ ?>
 		
 	<?php
 }
