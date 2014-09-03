@@ -37,8 +37,6 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
 
         if ( cc_aha_on_main_screen() ) {
 
-            cc_aha_print_metro_select_container_markup();
-
             cc_aha_print_introductory_text();
 
         } else if ( cc_aha_on_survey_screen() ) {
@@ -47,7 +45,7 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
                     echo '<p class="info">Sorry, you do not have permission to view this page.</p>';
                 } else {
                     // We'll store the "active" metro id in a cookie for persistence.
-                    cc_aha_metro_id_cookie_selector();
+                    cc_aha_print_metro_select_container_markup();                    
                     // Get the right page of the form to display. bp_action_variable(1) is the page number
                     cc_aha_render_form( bp_action_variable(1) );
                 }
@@ -55,7 +53,7 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
         } else if ( cc_aha_on_analysis_screen() ) {
 
             // We'll store the selected metro id in a cookie for persistence.
-            cc_aha_print_summary_metro_select_container_markup();
+            cc_aha_print_metro_select_container_markup();
             // Get the right summary page to display.
             cc_aha_render_summary_page();
             

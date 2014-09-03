@@ -13,6 +13,38 @@ jQuery(document).ready(function($){
 		return false;
 	});
 
+	// Nested version; only acts on immediate parent
+	$('.nested-toggle-link').click(function( e ){
+		e.preventDefault();
+		// Traverse for some items
+		var $toggleable = $( this ).parent( '.toggleable' );
+
+		if ( $toggleable.hasClass( 'toggle-open' ) ) {
+			$toggleable.removeClass( 'toggle-open' ).addClass( 'toggle-closed' );
+		} else {
+			$toggleable.removeClass( 'toggle-closed' ).addClass( 'toggle-open' );
+		}
+
+		return false;
+	});
+
+	// Nested form hides outer form submit button when displayed.
+	$('#change-board-affiliations-toggle-link').click(function( e ){
+		e.preventDefault();
+		// Traverse for some items
+		var $toggleable = $( this ).parent( '.toggleable' );
+
+		if ( $toggleable.hasClass( 'toggle-open' ) ) {
+			$('#submit-metro-id-cookie').prop('disabled', true);
+			$('#submit-metro-id-cookie').hide();
+		} else {
+			$('#submit-metro-id-cookie').prop('disabled', false);
+			$('#submit-metro-id-cookie').show();
+		}
+
+		return false;
+	});
+
 	// Generalized click relation
 	// Trigger input should have this markup: class="has-follow-up" and data-relatedQuestion="id_of_follow_up_q" (if a radio button, all items should have the class)
 	// Target question should be wrapped in a div with the class "follow-up-question" and  with the attribute: data-relatedTarget="2.2.2.2"

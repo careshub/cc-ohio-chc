@@ -246,7 +246,7 @@ function cc_aha_get_metro_nicename( $metro_id = null ) {
         $metro_id = $_COOKIE[ 'aha_active_metro_id' ];
 
     if ( ! $metro_id )
-        return "None selected";
+        return "none selected";
 
     $metro = cc_aha_get_single_metro_data( $metro_id );
 
