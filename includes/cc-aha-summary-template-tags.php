@@ -812,7 +812,7 @@ function cc_aha_print_criterion_school_phys_2( $metro_id ) {
 							echo $entry[ '2.2.5.1.2' ];
 						}
 					?></td>
-					<td><?php echo '<a href="' . $entry['2.2.5.1.3'] . '">' . $entry['2.2.5.1.3'] . '</a>'; ?></td>
+					<td><?php echo '<a href="' . $entry['2.2.5.1.3'] . '" target="_blank">' . $entry['2.2.5.1.3'] . '</a>'; ?></td>
 				</tr>
 				<?php
 			} ?>
