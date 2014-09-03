@@ -344,7 +344,7 @@ function cc_aha_print_criterion_community_tobacco_1( $metro_id ) {
 		</tbody>
 	</table>
 
-	<p><em>In order to earn a <span class='healthy'>“Healthy”</span> score in this category a community be 100% covered by clean indoor air legislation in all restaurants/bars/workplaces.</em></p>
+	<p><em>In order to earn a <span class='healthy'>“Healthy”</span> score in this category a community must be 100% covered by clean indoor air legislation in all restaurants/bars/workplaces.</em></p>
 	
 	<h5>Policy Landscape</h5>
 	<ul>
@@ -465,7 +465,7 @@ function cc_aha_print_criterion_community_phys_1( $metro_id ) {
 	<p><em>*Source: <a href="http://www.smartgrowthamerica.org/documents/best-complete-streets-policies-of-2013.pdf" target="_blank">http://www.smartgrowthamerica.org/documents/best-complete-streets-policies-of-2013.pdf</a>
 	<?php endif; // if ( ! empty( $complete_streets ) )  ?>
 
-	<h5>Policy Landscape</h5>
+	<h5><a href="http://www.smartgrowthamerica.org/documents/best-complete-streets-policies-of-2013.pdf" target="_blank">Policy Landscape</a></h5>
 	<ul>
 		<li>There <?php echo $data['2.3.2.1'] ? 'is' : 'is not'; ?> a state, regional or local complete streets policy under consideration.
 			<?php if ( $data['2.3.2.1'] ) : ?>
@@ -775,7 +775,7 @@ function cc_aha_print_criterion_school_phys_2( $metro_id ) {
 	<ul>
 		<li><?php echo cc_aha_top_5_school_percent_match_value( $metro_id, '2.2.5.1', 'broad' ); ?>% of the top 5 school districts in your community have a shared use policy to open up their facilities for broad community use.</li>
 		<li><?php 
-			if ( $data[ '2.2.1.1' ] == 'None of the above - we have already met this goal' ) {
+			if ( $data[ '2.2.1.1' ] == 'None of the above - we have already met this goal' || $data[ '2.2.1.1' ] == '' ) {
 				echo 'Your state has policies providing school districts liability protection from injury and property damage and clarifies that users are liable.';
 			} else {
 				echo 'Your state&rsquo;s shared use policy does not address ' . strtolower($data[ '2.2.1.1' ]);
@@ -1137,8 +1137,14 @@ function cc_aha_section_get_score( $section, $impact_area, $crit_key, $metro_id 
 			break;
 		case 'community_diet_1':
 			// Local gov't procurement
-			$tiers = cc_aha_get_options_for_question( '3.3.1.1' );
-			$score = cc_aha_calc_three_text_tiers( $metro_id, '3.3.1.1', $tiers );
+			$tiers = cc_aha_get_options_for_question( '3.3.3.1' );
+			
+			//loop through to get option values
+			$values = array();
+			foreach( $tiers as $key => $value ){
+				$values[] = $value["value"];
+			}
+			$score = cc_aha_calc_three_text_tiers( $metro_id, '3.3.3.1', $values );
 			break;
 		case 'community_diet_2':
 			// Sugar-sweetened beverage tax
@@ -1165,7 +1171,7 @@ function cc_aha_section_get_score( $section, $impact_area, $crit_key, $metro_id 
 			//$score = cc_aha_calc_three_tiers( $metro_id, '3.1.3.6' );
 			$qids = array( '3.1.3.1.0', '3.1.3.1.1', '3.1.3.1.2', '3.1.3.1.3' );
 			$school_data = cc_aha_get_school_data( $metro_id );
-			$score = cc_aha_calc_n_question_district_yes_tiers( $school_data, $qids );
+			$score = cc_aha_calc_n_question_district_all_yes_tiers( $school_data, $qids );
 			//$score = cc_aha_calc_three_tiers( $metro_id, '3.1.3.6' );
 			break;
 		case 'school_diet_2':
@@ -1231,6 +1237,9 @@ function cc_aha_calc_hffi( $metro_id ){
 	$data = cc_aha_get_form_data( $metro_id );
 
 	$pop = $data[ '3.5.1' ];
+	//if no data, default to 'poor'
+	if( $pop == null ) return 'poor';
+	
 	if ( $pop < 46 ) {
 		return 'healthy';
 	} else if ( $pop < 53 ) {
@@ -1245,7 +1254,8 @@ function cc_aha_calc_three_text_tiers( $metro_id, $qid, $tiers ){
 		$metro_id = $_COOKIE['aha_summary_metro_id'];
 
 	$data = cc_aha_get_form_data( $metro_id );
-
+	//echo $tiers[0];
+	
 	if ( $data[ $qid ] == $tiers[0] ) {
 		return 'healthy';
 	} else if ( $data[ $qid ] == $tiers[1] ) {
@@ -1313,6 +1323,57 @@ function cc_aha_calc_n_question_district_yes_tiers( $school_data, $qids = array(
 	if ( ( $num_yes == $total_questions ) ) {  // all are yes
 		return 'healthy';
 	} else if ( ( $num_yes / $total_questions ) >= 0.5 ) { 
+		// Returns stop the function, so this continues only if the first 'if' didn't fire.
+		return 'intermediate';
+	} else {
+		return 'poor';
+	}
+}
+
+/* Generalized to take N yes/no questions for a board,
+ *	get all data for districts w/in board,
+ *	calculate % yes if ALL questions for a school are 'yes' 
+ *	
+ *	3.1, 3.2, 5.1 use this
+ */
+function cc_aha_calc_n_question_district_all_yes_tiers( $school_data, $qids = array() ) { //Gold star for BEST NAME EVER
+
+	$num_yes = 0;
+	$total_questions = 0;
+	$all_district_question_is_yes = 0; //var for final 'are they all yeses?'
+	$num_districts = 0;
+	
+	//loop through each school
+	foreach ( $school_data as $school ){
+		$num_districts++;
+		
+		//loop through each question for this school
+		foreach( $qids as $qid ){
+		
+			//if data is not defined, either no column or cell data, don't assume 'No'.
+			if( isset( $school[ $qid ] ) ) {
+				//depending on where the data comes from, it could be 'Yes' or '1'
+				if ( ( $school[ $qid ] == 'Yes' ) || ( $school[ $qid ] == '1' ) ) {
+					$num_yes++;
+				} 
+				$total_questions++; //hmm
+			}
+		}
+		
+		if ( $num_yes == $total_questions ){
+			$all_district_question_is_yes++;
+		} 
+		$total_questions = 0;
+		$num_yes = 0;
+	}
+	
+	// If no total questions, bail rather than divide by zero.
+	if ( ! $num_districts )
+		return 'poor';
+
+	if ( $all_district_question_is_yes == $num_districts ) {  // all are yes
+		return 'healthy';
+	} else if ( ( $all_district_question_is_yes / $num_districts ) >= 0.5 ) { 
 		// Returns stop the function, so this continues only if the first 'if' didn't fire.
 		return 'intermediate';
 	} else {
