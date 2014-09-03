@@ -83,6 +83,7 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 			<input type="hidden" name="revenue-section" value="revenue-<?php echo $section; ?>">
 			<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
 			
+			<?php $radio_checked = $data[$section_key . '-top-3']; ?>
 			<label for="<?php echo $section_key . '-top-3'; ?>"><p>Based on your preliminary discussions, do you think this may be a top 3 revenue impact opportunity for your board?</p>
 			<label><input type="radio" value="1" name="board[<?php echo $section_key . '-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
 			<label><input type="radio" value="0" name="board[<?php echo $section_key . '-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
