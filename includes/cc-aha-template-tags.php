@@ -27,57 +27,43 @@ function cc_aha_print_introductory_text(){
  * @return  HTML
  */
 function cc_aha_print_metro_select_container_markup() {
-    if ( cc_aha_user_can_do_assessment() ): 
-        // Get the user's Metro ID
-        if ( cc_aha_get_array_user_metro_ids() ) {
-            $summary_message = 'Your board affiliations: ' . cc_aha_get_metro_id_list();
-            $link_text = 'Change';
-        } else {
-            $summary_message = 'Please select your AHA board affiliation.';
-            $link_text = 'Select your board';
-        }
+    ?>
+    <form id="aha_metro_id_select" class="" method="post" action="<?php echo cc_aha_get_home_permalink() . 'save-board-ids/'; ?>">
+    <?php
 
+    // If user hasn't selected board affiliations, start there.
+    if ( ! cc_aha_get_array_user_metro_ids() ) {
         ?>
-        <div class="toggleable toggle-closed message info">
+        <div class="toggleable toggle-open message info">
             <p class="toggle-switch first" id="update-metro-id-toggle">
-                <?php echo $summary_message; ?>&emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#"><span class="show-pane plus-or-minus"></span><?php echo $link_text; ?></a>
+                Please select your AHA board affiliation.&emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#"><span class="show-pane plus-or-minus"></span>Select your board</a>
             </p>
 
             <div class="toggle-content">
                 <?php cc_aha_metro_select_markup(); ?>
             </div>
         </div>
-<?php
-    endif;
-}
-
-/**
- * Creating container for form to set metro ids when viewing summary
- *
- * @since   1.0.0
- * @return  HTML
- */
-function cc_aha_print_summary_metro_select_container_markup() {
-    // Get the user's selection, if set
-    if ( $metro_id = cc_aha_resolve_summary_metro_id() ) { 
-        $summary_message = 'You are currently viewing the summary for ' . cc_aha_get_metro_nicename( $metro_id );
-        $link_text = 'Change'; 
+        <?php
     } else {
-        $summary_message = 'Please choose an AHA board to view.';
-        $link_text = 'Select a board';
-    }
 
+        // If the user has selected affiliations, handle survey and analysis cases
+        if ( cc_aha_on_survey_screen() ) {
+            cc_aha_metro_id_cookie_selector( 'survey' );
+        }
+
+        if ( cc_aha_on_analysis_screen() ) {
+            cc_aha_metro_id_cookie_selector( 'analysis' );
+        ?>
+            <input type="hidden" name="analysis-section" value="<?php echo bp_action_variable( 2 ); ?>">
+        <?php
+        }
+
+    } // end if cc_aha_get_array_user_metro_ids()
     ?>
-    <div class="toggleable toggle-closed message info">
-        <p class="toggle-switch first" id="update-metro-id-toggle">
-            <?php echo $summary_message; ?>&emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#"><span class="show-pane plus-or-minus"></span><?php echo $link_text; ?></a>
-        </p>
 
-        <div class="toggle-content">
-            <?php cc_aha_metro_select_markup( 'summary' ); ?>
-        </div>
-    </div>
-<?php
+    <?php wp_nonce_field( 'cc-aha-save-board-id', 'save-aha-boards' ); ?>
+    </form>
+    <?php
 }
 
 /**
@@ -93,13 +79,7 @@ function cc_aha_metro_select_markup( $style = 'assessment' ){
 
     // Using checkboxes since a user could choose one or several
     ?>
-    <form id="aha_metro_id_select" class="" method="post" action=<?php 
-    if ( $style == 'summary' ) {
-        echo '"' . cc_aha_get_home_permalink() . 'set-metro-id-cookie/"';
-    } else {
-        echo '"' . cc_aha_get_home_permalink() . 'save-metro-id/"';
-    }
-    ?>>
+
     <?php 
         if ( $style == 'assessment' ) {
             echo '<p class="info"><em>If you are responsible for multiple boards please select all the boards that apply.</em></p>';
@@ -129,49 +109,64 @@ function cc_aha_metro_select_markup( $style = 'assessment' ){
             $last_affiliate = $metro[ 'Affiliate' ];
         }
         ?></ul>
-        <?php 
-            if ( $style == 'summary' ) {
-                wp_nonce_field( 'cc-aha-set-metro-id-cookie', 'set-metro-cookie-nonce' );
-                ?>
-                <input type="hidden" name="analysis-section" value="<?php echo bp_action_variable( 2 ); ?>">
-                <?php
-            } else {
-                wp_nonce_field( 'cc-aha-set-metro-id', 'set-metro-nonce' );
-            }
-            ?>
 
         <div class="submit">
-            <input id="submit-metro-ids" type="submit" value="Save" name="submit-metro-ids">
+            <input id="submit-metro-ids" type="submit" value="Save" name="submit_save_usermeta_aha_board">
         </div>
-    </form>
 <?php
 }
 
 /**
- * Builds a comma-separated list of metro ids and descriptions
- * Probably of the form: Adams (PA) - GRA01
+ * Stores the selected metro ID as a cookie value for persistence
  *
  * @since   1.0.0
  * @return  HTML
  */
-function cc_aha_print_metro_id_list(){
-    echo cc_aha_get_metro_id_list();
-}
-function cc_aha_get_metro_id_list(){
-    $user_metros = cc_aha_get_array_user_metro_ids();
-    $retval = '';
-    $count = 1;
-    foreach ($user_metros as $metro_id) {
+function cc_aha_metro_id_cookie_selector( $context ){
 
-        if ( $count != 1 ){ 
-            $retval .= ', ';
-        }
-        $retval .= cc_aha_get_metro_nicename( $metro_id );
-        $count++;
+    if ( $context == 'survey' ) {
+        $cookie_name = 'aha_active_metro_id';
+    } else if ( $context == 'analysis' ) {
+        $cookie_name = 'aha_summary_metro_id';
+    } else {
+        // Not a match; don't continue.
+        return;
     }
-    return $retval;
 
+    // We need to know the user's affiliations
+    $selected_metro_ids = cc_aha_get_array_user_metro_ids();
+    $toggled = isset( $_COOKIE[$cookie_name] ) ? 'toggle-closed' : 'toggle-open';
+    ?>
+    <div class="toggleable <?php echo $toggled; ?> message info">
+        <?php if ( $_COOKIE[$cookie_name] ) : ?>
+            <span class="toggle-switch first" id="update-metro-id-toggle">You are currently viewing information for <?php echo cc_aha_get_metro_nicename( $_COOKIE[$cookie_name] ); ?>. &emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#">Change</a>
+            </span>
+        <?php endif; ?>
+
+        <div class="toggleable toggle-closed toggle-content">
+            <label>Choose a board to view.
+                <select name="cookie_<?php echo $cookie_name; ?>">
+                <?php foreach ($selected_metro_ids as $metro_id) {
+                    ?>
+                    <option value="<?php echo $metro_id; ?>"><?php echo cc_aha_get_metro_nicename( $metro_id ); ?></option>
+                    <?php
+                } 
+                ?>
+                </select>
+            </label>&emsp;<a class="nested-toggle-link" id="change-board-affiliations-toggle-link" href="#">Change or add board affiliations</a>
+
+                <div class="toggle-content">
+                    <?php cc_aha_metro_select_markup(); ?>
+                </div>
+
+            <div class="submit">
+                <input id="submit-metro-id-cookie" type="submit" value="Save" name="submit_cookie_<?php echo $cookie_name; ?>">
+            </div>
+        </div>
+    </div>
+    <?php
 }
+
 /**
  * Builds the subnav of the AHA group tab
  *
@@ -179,8 +174,6 @@ function cc_aha_get_metro_id_list(){
  * @return  HTML
  */
 function cc_aha_render_tab_subnav(){
-
-
         ?>
         <div id="subnav" class="item-list-tabs no-ajax">
             <ul class="nav-tabs">
@@ -208,77 +201,28 @@ function cc_aha_render_tab_subnav(){
         </div>
         <?php
 }
+
 /**
- * Stores the selected metro ID as a cookie value for persistence
+ * Builds a comma-separated list of metro ids and descriptions
+ * Probably of the form: Adams (PA) - GRA01
  *
  * @since   1.0.0
  * @return  HTML
  */
-function cc_aha_metro_id_cookie_selector(){
+function cc_aha_print_metro_id_list(){
+    echo cc_aha_get_metro_id_list();
+}
+    function cc_aha_get_metro_id_list(){
+        $user_metros = cc_aha_get_array_user_metro_ids();
+        $retval = '';
+        $count = 1;
+        foreach ($user_metros as $metro_id) {
 
-    $cookie_name = 'aha_active_metro_id';
-    // We need to know the user's affiliations
-    $selected_metro_ids = cc_aha_get_array_user_metro_ids();
-
-    // If cookie doesn't exist, we may need to show the user a form.
-    if ( empty( $_COOKIE[ $cookie_name ] ) ) {
-            // User hasn't selected an "active" metro ID yet, display form
-            if ( empty( $selected_metro_ids ) ){
-                 cc_aha_print_metro_select_container_markup();
-            } else if ( count( $selected_metro_ids ) > 1 ) {
-                 cc_aha_metro_id_cookie_select_form();
+            if ( $count != 1 ){ 
+                $retval .= ', ';
             }
-
-    } else {
-
-        // If the user has more than one affiliation, give chance to change
-        if ( count( $selected_metro_ids ) > 1 ) {
-            ?>
-            <div class="toggleable toggle-closed message info">
-                <span class="toggle-switch first" id="update-metro-id-toggle">You are currently viewing information for <?php echo cc_aha_get_metro_nicename( $_COOKIE[$cookie_name] ); ?>. &emsp;<a class="toggle-link" id="update-metro-id-toggle-link" href="#">Change</a>
-                </span>
-
-                <div class="toggle-content">
-                    <?php cc_aha_metro_id_cookie_select_dropdown(); ?>
-                </div>
-            </div>
-        <?php
-        } else { 
-            ?>
-            <div class="message info">
-                <span class="first">You are currently viewing information for <?php echo cc_aha_get_metro_nicename( $_COOKIE[$cookie_name] ); ?></span>
-            </div>
-        <?php
+            $retval .= cc_aha_get_metro_nicename( $metro_id );
+            $count++;
         }
+        return $retval;
     }
-}
-
-function cc_aha_metro_id_cookie_select_form(){
-    ?>
-    <div class="message info">
-        <?php cc_aha_metro_id_cookie_select_dropdown(); ?>
-    </div>
-    <?php
-}
-
-function cc_aha_metro_id_cookie_select_dropdown(){
-    $selected_metro_ids = cc_aha_get_array_user_metro_ids();
-    ?>
-        <form id="aha_metro_id_cookie_select" class="" method="post" action="<?php echo cc_aha_get_home_permalink(); ?>set-metro-id-cookie/">
-            <label>Choose a board to view.
-                <select name="aha_metro_id_cookie">
-                <?php foreach ($selected_metro_ids as $metro_id) {
-                    ?>
-                    <option value="<?php echo $metro_id; ?>"><?php echo cc_aha_get_metro_nicename( $metro_id ); ?></option>
-                    <?php
-                } 
-                ?>
-                </select>
-            </label>
-            <?php wp_nonce_field( 'cc-aha-set-metro-id-cookie', 'set-metro-cookie-nonce' ); ?>
-            <div class="submit">
-                <input id="submit-metro-ids" type="submit" value="Save" name="submit-metro-ids">
-            </div>
-        </form>
-    <?php
-}

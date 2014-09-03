@@ -461,50 +461,41 @@ class CC_AHA_Extras {
 	 */
 	public function save_form_submission() {
 		// Fires on bp_init action, so this is a catch-action type of filter.
-		// Bail out if this isn't the narrative component.
+		// Bail out if this isn't the AHA assessment component.
 		if ( ! cc_aha_is_component() )
 			return false;
 
-		//Handle saving metro ID from AHA tab form
-		if ( bp_is_action_variable( 'save-metro-id', 0 ) ) {
+		// Catch-all, handles updating board id user meta or setting the various cookies as needed
+		if ( bp_is_action_variable( 'save-board-ids', 0 ) ) {
 
 			// Is the nonce good?
-			if ( ! wp_verify_nonce( $_REQUEST['set-metro-nonce'], 'cc-aha-set-metro-id' ) )
+			if ( ! wp_verify_nonce( $_REQUEST['save-aha-boards'], 'cc-aha-save-board-id' ) )
 				return false;
 
-			// Try to save the ID
-		    if ( $this->save_metro_ids() ) {
-   				bp_core_add_message( __( 'Your board affiliation has been updated.', $this->plugin_slug ) );
-		    } else {
-				bp_core_add_message( __( 'Your board affiliation could not be updated.', $this->plugin_slug ), 'error' );
-		    }
-
-			// Redirect and exit
-			bp_core_redirect( wp_get_referer() );
-
-			return false;
-		}
-
-		//Handle saving metro ID and summary ID to cookie for viewing persistence
-		if ( bp_is_action_variable( 'set-metro-id-cookie', 0 ) ) {
-
-			// Is the nonce good?
-			if ( ! wp_verify_nonce( $_REQUEST['set-metro-cookie-nonce'], 'cc-aha-set-metro-id-cookie' ) )
-				return false;
-
-			// Create the cookie
-			if ( isset( $_POST['aha_metro_id_cookie'] ) ) {
-				setcookie( 'aha_active_metro_id', $_POST['aha_metro_id_cookie'], 0, '/' );
+			// Filter based on which submit button was used
+			// User is trying to save board affiliations
+			if ( $_POST['submit_save_usermeta_aha_board'] ){
+			    if ( $this->save_metro_ids() ) {
+	   				bp_core_add_message( __( 'Your board affiliation has been updated.', $this->plugin_slug ) );
+			    } else {
+					bp_core_add_message( __( 'Your board affiliation could not be updated.', $this->plugin_slug ), 'error' );
+			    }
 				$url = wp_get_referer();
-			}
 
-			// TODO: this isn't redirecting to the right location.
-			if ( isset( $_POST['aha_summary_metro_id'] ) ) {
-				setcookie( 'aha_summary_metro_id', $_POST['aha_summary_metro_id'], 0, '/' );
-				$section = isset( $_POST['analysis-section'] ) ? $_POST['analysis-section'] : null ;
-				// $url = cc_aha_get_analysis_permalink(); // Can't access the cookie data
-				// $url = cc_aha_get_home_permalink( $group_id ) . cc_aha_get_analysis_slug( $section ) . '/' . $_POST['aha_summary_metro_id'];
-				$url = cc_aha_get_analysis_permalink( $section, $_POST['aha_summary_metro_id'] );
+			} else if ( $_POST['submit_cookie_aha_active_metro_id'] ){
+				// User is setting preference for survey section
+				if ( isset( $_POST['cookie_aha_active_metro_id'] ) ) {
+					setcookie( 'aha_active_metro_id', $_POST['cookie_aha_active_metro_id'], 0, '/' );
+					$url = wp_get_referer();
+				}
+
+			} else if ( $_POST['submit_cookie_aha_summary_metro_id'] ) {
+				// User is setting preference for survey section
+				if ( isset( $_POST['cookie_aha_summary_metro_id'] ) ) {
+					setcookie( 'aha_summary_metro_id', $_POST['cookie_aha_summary_metro_id'], 0, '/' );
+					$section = isset( $_POST['analysis-section'] ) ? $_POST['analysis-section'] : null ;
+					$url = cc_aha_get_analysis_permalink( $section, $_POST['cookie_aha_summary_metro_id'] );
+				}
 			}
 
 			// Redirect and exit
