@@ -19,7 +19,7 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 	$group = 'school_diet_2';
 	
 	$qids = array( '3.1.3.1.0', '3.1.3.1.1', '3.1.3.1.2', '3.1.3.1.3' );
-	$policy_percent = cc_aha_calc_n_question_district_yes_percent( $school_data, $qids );
+	$policy_percent = cc_aha_calc_n_question_district_all_yes_percent( $school_data, $qids );
 	?>
 	
 	<h5>Current State</h5>
@@ -494,7 +494,10 @@ function cc_aha_calc_three_tiers_50( $metro_id, $qid ) {
 	}
 }
 
-
+/*
+ * Iterates through school questions for a board and calculates percent 'yes' answers of total
+ *
+ */
 function cc_aha_calc_n_question_district_yes_percent( $school_data, $qids = array() ) {
 	$num_yes = 0;
 	$total_questions = 0;
@@ -518,6 +521,49 @@ function cc_aha_calc_n_question_district_yes_percent( $school_data, $qids = arra
 	
 	if ( $total_questions > 0 ){
 		return ( $num_yes / $total_questions ) * 100;
+	} else {
+		return false;
+	}
+}
+
+/*
+ * Iterates through school questions for a board and calculates number of districts
+ * 	that have TOTAL 'yes'es for series of questions
+ * 
+ * (used for logic in school_diet_1)
+ */
+function cc_aha_calc_n_question_district_all_yes_percent( $school_data, $qids = array() ) {
+	$num_yes = 0;
+	$total_questions = 0;
+	$all_district_question_is_yes = 0; //var for final 'are they all yeses?'
+	$num_districts = 0;
+	
+	//loop through each school
+	foreach ( $school_data as $school ){
+		$num_districts++;
+		
+		//loop through each question for this school
+		foreach( $qids as $qid ){
+		
+			//if data is not defined, either no column or cell data, don't assume 'No'.
+			if( isset( $school[ $qid ] ) ) {
+				//depending on where the data comes from, it could be 'Yes' or '1'
+				if ( ( $school[ $qid ] == 'Yes' ) || ( $school[ $qid ] == '1' ) ) {
+					$num_yes++;
+				} 
+				$total_questions++; //hmm
+			}
+		}
+		
+		if ( $num_yes == $total_questions ){
+			$all_district_question_is_yes++;
+		} 
+		$total_questions = 0;
+		$num_yes = 0;
+	}
+	
+	if ( $num_districts > 0 ){
+		return ( $all_district_question_is_yes / $num_districts ) * 100;
 	} else {
 		return false;
 	}
