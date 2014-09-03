@@ -462,7 +462,7 @@ function cc_aha_print_criterion_community_phys_1( $metro_id ) {
 			} ?>
 		</tbody>
 	</table>
-	<p><em>*Source: <a href="http://www.smartgrowthamerica.org/documents/best-complete-streets-policies-of-2013.pdf" target="_blank">http://www.smartgrowthamerica.org/documents/best-complete-streets-policies-of-2013.pdf</a>
+	<p><em>*Source: <a href="http://www.smartgrowthamerica.org/documents/best-complete-streets-policies-of-2013.pdf" target="_blank">http://www.smartgrowthamerica.org/documents/best-complete-streets-policies-of-2013.pdf</a></em></p>
 	<?php endif; // if ( ! empty( $complete_streets ) )  ?>
 
 	<h5><a href="http://www.smartgrowthamerica.org/documents/best-complete-streets-policies-of-2013.pdf" target="_blank">Policy Landscape</a></h5>
