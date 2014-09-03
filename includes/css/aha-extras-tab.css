@@ -5,6 +5,12 @@
 .message.toggle-open .first {
 	margin-bottom: 1.8em;
 }
+.toggle-content {
+	margin-top: 1em;
+}
+.toggle-content .submit {
+	margin-top: 1em;
+}
 .aha-survey.standard-form label {
 	margin-top: 8px;
 }
