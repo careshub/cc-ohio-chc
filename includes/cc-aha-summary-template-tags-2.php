@@ -97,7 +97,7 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 	
 	<ul>
 		<li><?php 
-		if ( ( $data['3.1.4'] == 'No – none of the above' ) || ( $data['3.1.4'] == 'no' ) ) {
+		if ( ( $data['3.1.4'] == 'No – none of the above' ) || ( $data['3.1.4'] == 'no' ) || ( $data['3.1.4'] == '' ) ) {
 			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
 		} else {
 			echo 'Possible opportunities to drive impact include: ' . $data['3.1.4'];
@@ -203,7 +203,7 @@ function cc_aha_print_criterion_care_factors_1( $metro_id ) {
 	<h5>Policy Landscape</h5>
 	<ul>
 		<li><?php 
-		if ( ( $data['4.1.4'] == 'Not a viable issue at any level at this time' ) || ( $data['4.1.4'] == 'no' ) ) {
+		if ( ( $data['4.1.4'] == 'Not a viable issue at any level at this time' ) || ( $data['4.1.4'] == 'no' ) || ( $data['4.1.4'] == '' ) ) {
 			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
 		} else if ( ( $data['4.1.4'] == 'Yes – Medicaid expansion at the state level' ) || ( $data['4.1.4'] == 'yes - Medicaid expansion' ) ) {
 			echo 'Given the current political/policy environment, we envision “Medicaid expansion at the state level”'; 
@@ -248,8 +248,9 @@ function cc_aha_print_criterion_care_acute_2( $metro_id ) {
 	<p><?php echo $data['6.1.1']; ?>% of TOTAL CVD discharges and <?php echo $data['6.1.2']; ?>% of "UNDERSERVED" CVD discharges are from hospitals with a CMS bonus penalty above -0.4%.</p>
 	<p><em>For a community to earn a <span class="healthy">“Healthy”</span> score, >90% of total CVD discharges and “underserved” patient CVD discharges in the community must be from hospitals with a CMS bonus/penalty above -0.4%.</em></p>
 	
-	<p><em>*Underserved – Racially / diverse patients and/or Medicaid patients. </em></p>
+	<p><em>*Underserved – Racially/ethnically diverse patients and/or Medicaid patients. </em></p>
 	
+	<?php if ( $hospitals ) : ?>
 	<table>
 		<thead>
 			<tr>
@@ -279,6 +280,7 @@ function cc_aha_print_criterion_care_acute_2( $metro_id ) {
 			} ?>
 		</tbody>
 	</table>
+	<?php endif; ?>
 	
 	<h5>Discussion Questions</h5>
 	<ul>
@@ -300,7 +302,7 @@ function cc_aha_print_criterion_school_cpr_1( $metro_id ) {
 	$group = 'school_cpr_1';
 	
 	$qids = array( '5.1.4.1' );
-	$cpr_percent = cc_aha_calc_n_question_district_yes_percent( $school_data, $qids );
+	$cpr_percent = cc_aha_calc_cpr_percent( $metro_id );
 	
 	?>
 	<h5>Current State</h5>

@@ -633,7 +633,7 @@ function cc_aha_print_criterion_community_diet_3( $metro_id ) {
 	?>
 	<h5>Current Status</h5>
 	<ul>
-		<li><?php echo $data['3.5.1'] ?>% of the population in your community has low or no access to healthy food outlets based on the CDC’s Modified Retail Food Environmental Index (mRFEI).</li>
+		<li><?php echo $data['3.5.1']; ?>% of the population in your community has low or no access to healthy food outlets based on the CDC’s Modified Retail Food Environmental Index (mRFEI).</li>
 	</ul>
 	<p><em>For a community to earn a <span class='healthy'>“Healthy”</span> score, less than 46% of the population in your community must live in tracts with a low mRFEI score.</em></p>
 	
@@ -1183,9 +1183,7 @@ function cc_aha_section_get_score( $section, $impact_area, $crit_key, $metro_id 
 			break;
 		case 'school_cpr_1':
 			// CPR grad requirement
-			$qids = array( '5.1.4.1' );
-			$school_data = cc_aha_get_school_data( $metro_id );
-			$score = cc_aha_calc_n_question_district_yes_tiers( $school_data, $qids );
+			$score = cc_aha_calc_cpr_score( $metro_id );
 			break;
 		case 'care_factors_1':
 			// Insurance coverage
@@ -1248,6 +1246,24 @@ function cc_aha_calc_hffi( $metro_id ){
 		return 'poor';
 	}
 }
+function cc_aha_calc_cpr_score( $metro_id ){ 
+	$percent = cc_aha_calc_cpr_percent( $metro_id );
+	return cc_aha_convert_percent_to_three_tiers( $percent );
+}
+	function cc_aha_calc_cpr_percent( $metro_id ){ 
+		$data = cc_aha_get_form_data( $metro_id );
+
+		// If state has policy, we check first.
+		if ( $data[ '5.1.1' ] ) {
+			$percent = 100;
+		} else {
+			// No state policy, how do the districts stack up?
+			$qids = array( '5.1.4.1' );
+			$school_data = cc_aha_get_school_data( $metro_id );
+			$percent = cc_aha_calc_n_question_district_yes_percent( $school_data, $qids );
+		}
+		return $percent;
+	}
 function cc_aha_calc_three_text_tiers( $metro_id, $qid, $tiers ){
 	// This takes an array for the third arg: the first value is the "healthy" value, the second is the "intermediate" value.
 	if ( ! $metro_id )
