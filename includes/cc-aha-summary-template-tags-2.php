@@ -95,18 +95,18 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 		</tbody>
 	</table>
 	
-	<ul>
+	<!--<ul>
 		<li><?php 
-		if ( ( $data['3.1.4'] == 'No – none of the above' ) || ( $data['3.1.4'] == 'no' ) || ( $data['3.1.4'] == '' ) ) {
+		/*if ( ( $data['3.1.4'] == 'No – none of the above' ) || ( $data['3.1.4'] == 'no' ) || ( $data['3.1.4'] == '' ) ) {
 			echo 'Preliminary analyses indicate that this is not a viable issue at this time.';
 		} else {
 			echo 'Possible opportunities to drive impact include: ' . $data['3.1.4'];
 			
 			//TODO: Mel, figure this out based on data we're no longer collecting
 			//echo ' potentially in ' . $data['3.1.4'];
-		} 
+		} */
 		?></li>
-	</ul>
+	</ul>-->
 		
 	<h5>Discussion Questions</h5>
 	
@@ -119,6 +119,15 @@ function cc_aha_print_criterion_school_diet_1( $metro_id ) {
 		<li>What is the current level of grassroots activity in the community supporting this effort?</li>
 		<li>Do the board members and other AHA volunteers have the capacity to lead and fully engage in this campaign?</li>
 		<li>Is there any external funding available to do the work?  (ex. Community Transformation Grants, etc.)</li>
+		<li>What are the biggest needs for impacting school nutrition policies in your community?
+			<ul>
+				<li>Publish / strengthen the district wellness policy </li>
+				<li>Open a door for the Alliance for a Healthier Generation</li>
+				<li>Strengthen competitive foods policy by applying nutrition standards to after school activities</li>
+				<li>Strengthen competitive foods policy by addressing celebrations and fundraisers</li>
+				<li>Other?</li>
+			</ul>
+		</li>
 	</ul>
 
 <?php

@@ -66,6 +66,8 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 			<h2 class="screamer"><?php echo $revenue_sections[$section_key]['label']; ?></h2>
 			
 			<p><strong>Background: </strong><?php echo cc_aha_get_summary_introductory_text_revenue( $section_key ); ?></p>
+			
+			<p><strong>Outcome: </strong><?php echo cc_aha_get_summary_outcome_text_revenue( $section_key ); ?></p>
 			<?php 
 				
 				$function_name = 'cc_aha_print_revenue_summary_' . $section_key;
@@ -96,6 +98,10 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 		<?php } else { ?>
 		
 			<h2 class="screamer"><?php echo $revenue_sections[$section_key]['label']; ?></h2>
+			
+			<p><strong>Background: </strong><?php echo cc_aha_get_summary_introductory_text_revenue( $section_key ); ?></p>
+			
+			<p><strong>Outcome: </strong><?php echo cc_aha_get_summary_outcome_text_revenue( $section_key ); ?></p>
 			<?php 
 				
 				$function_name = 'cc_aha_print_revenue_summary_' . $section_key;
@@ -408,6 +414,7 @@ function cc_aha_get_summary_revenue_sections() {
 			'label' => 'Recruit Event Leadership',
 			'slug' 	=> 'event-leadership',
 			'background' => 'The Best Practice for recruitment of Event Chair leadership is a critical element in the successful execution of fundraising events which both raise the greatest potential revenue and reach our targeted audiences for community outreach.  Individuals that are selected to be chair are ideally leaders/top managers in the community that have the ability to recruit and lead others, give corporately at the prescribed top 2 levels for that MSA, and give personally of their time and financial commitment.  Chairs should be recruited, at a minimum, 12-18 months prior to the event, with a focus on the depth of recruitment being multiple (3) years in order to allow sufficient time for future chairs to observe, train, network, and become active in AHA/ASA’s mission.',
+			'outcome' => 'Ensure event revenue increases by recruiting the needed event chairs.',
 			'outcome-stats' => array(
 				1 	=> 'Recruit event chairs who are community and corporate leaders, decision makers, and have the ability to give at the top two levels of sponsorship for the market size.',
 				2	=> 'Recruit 3 years of event chairs who are community and corporate leaders, decision makers, and have the ability to give at the top two levels of sponsorship for the market size.'
@@ -417,6 +424,7 @@ function cc_aha_get_summary_revenue_sections() {
 			'label' => 'Secure Top ELT Leadership',
 			'slug' 	=> 'elt-leadership',
 			'background' => 'The Best Practice for recruitment of the Executive Leadership Team (ELT)  is a critical element in the execution of successful fundraising events.  Ideally, these committees will be made up of at least fifteen members who can give corporately at one of the prescribed top levels of sponsorship, give a generous personal gift, and dedicate sufficient time to complete their responsibilities as a member of ELT.  These individuals should be recruited by the event Chair, in partnership with staff.  They are responsible for helping raise new and renewed corporate and individual revenue.',
+			'outcome' => 'Grow event revenue through recruitment of ELT members.',
 			'outcome-stats' => array(
 				1	=> 'Recruit 15 or more ELT members for all three core events that are giving at the top four levels of sponsorship for the size market and securing other companies giving at the same level.'
 				)
@@ -425,6 +433,7 @@ function cc_aha_get_summary_revenue_sections() {
 			'label' => 'Grow Top 25 Company Engagement',
 			'slug' 	=> 'top-25-companies',
 			'background' => 'Involvement from the top 25 corporations in markets is critical for the current and future success of fundraising events and for helping us “meet people where they are” with healthy living strategies.  Because of the larger number of employees involved, there is greater likelihood for employee involvement in different AHA events, and the greatest financial potential for corporate giving.  This corporate segment gives a pipeline for recruitment and source for new company development as well as provides depth with current partners due to size and scope.',
+			'outcome' => 'Board demonstrates meaningful contributions from top 25 employers through leadership/CSuite involvement, fundraising, and health-related activities.',
 			'outcome-stats' => array(
 				1	=> 'Increase companies that raise over 100K to X.',
 				2	=> 'Increase top 25 employers featuring AHA in their employee giving program from X to Y.'
@@ -434,6 +443,7 @@ function cc_aha_get_summary_revenue_sections() {
 			'label' => 'Secure Platform/ Signature Sponsorship',
 			'slug' 	=> 'sponsorship',
 			'background' => 'The recruitment of renewed and additional top level partners each year for events are critical to the fundraising success of corporate events.  These partners bring year-round opportunities for partnering with AHA/ASA in our mission activation and helping people in our communities become healthier.',
+			'outcome' => 'Increase annual revenue through Platform/Signature sponsors in market (sponsorship levels at bottom of document).',
 			'outcome-stats' => array(
 				1	=> 'Increase Platform/Signature sponsors in market to X'
 				)
@@ -442,6 +452,7 @@ function cc_aha_get_summary_revenue_sections() {
 			'label' => 'Expand Youth Market Efforts',
 			'slug' 	=> 'youth-market',
 			'background' => 'Increasing the number of donors who have the capacity to make a $100,000+ gift, as well as increasing the acquisition and retention of Cor Vitae Society Members ($5,000+ annually) will help further the mission of AHA/ASA.  These measurements are consistent with our commitment to our Guiding Values and directly correlate with “Making an Extraordinary Impact” and “Inspiring Passionate Commitment”.  By increasing revenue from Cor Vitae Society Members, as well as those already giving at high levels, local board members will also be impacting other Guiding Values such as “Bringing Science to Life”, “Improving and Extending People’s Lives”, and “Ensuring Equitable Health for All”.',
+			'outcome' => 'Increase the number of schools participating in AHA health and revenue activities.',
 			'outcome-stats' => array(
 				1	=> 'Recruit Superintendent who sets a district wide goal and actively engages all the schools in the district with students, faculty & all district wide employees.'
 				)
@@ -450,6 +461,7 @@ function cc_aha_get_summary_revenue_sections() {
 			'label' => 'Increase Individual Giving',
 			'slug' 	=> 'individual-giving',
 			'background' => 'Increasing the number of donors who have the capacity to make a $100,000+ gift, as well as increasing the acquisition and retention of Cor Vitae Society Members ($5,000+ annually) will help further the mission of AHA/ASA.  These measurements are consistent with our commitment to our Guiding Values and directly correlate with “Making an Extraordinary Impact” and “Inspiring Passionate Commitment”.  By increasing revenue from Cor Vitae Society Members, as well as those already giving at high levels, local board members will also be impacting other Guiding Values such as “Bringing Science to Life”, “Improving and Extending People’s Lives”, and “Ensuring Equitable Health for All”.',
+			'outcome' => 'Increase pipeline of potential individual donors that have the ability to give $100,000+ gifts.',
 			'outcome-stats' => array(
 				1	=> 'Increase prospects that have the ability of giving a gift of $100,000 or more from X to Y.',
 				2	=> 'Retain at least X Cor Vitae members.'
@@ -459,6 +471,7 @@ function cc_aha_get_summary_revenue_sections() {
 			'label' => 'Enhance Donor Stewardship',
 			'slug' 	=> 'donor-stewardship',
 			'background' => 'A consistent, strategic Stewardship plan is the cornerstone for building engagement with any mission-centered organization.  In order to help meet the AHA’s 2020 Impact Goal, organization-wide standards and practices are being implemented to provide consistent, meaningful stewardship and engagement opportunities for donors and volunteers.  National and Affiliate staff and volunteers will partner to implement a comprehensive Stewardship plan in order to: <ul><li>Advance our strategic priorities</li><li>Support annual and long-range fundraising goals</li><li>Increase donor retention</li><li>Create inspiring opportunities to engage our donors and volunteers for the long-term</li>',
+			'outcome' => 'Retain donors through robust engagement and stewardship activities.',
 			'outcome-stats' => array(
 				1	=> 'Increase stewardship activities (thank you calls, personal notes, invitations to lunches, dinners, events) in order to foster ongoing interest and engagement in AHA’s mission.'
 				)
@@ -467,6 +480,7 @@ function cc_aha_get_summary_revenue_sections() {
 			'label' => 'Membership in the Paul Dudley White Legacy Society',
 			'slug' 	=> 'pdw-legacy',
 			'background' => 'Paul Dudley White was President Eisenhower’s personal physician. He guided the president’s recovery from heart attack in 1955. But this forward-thinking physician was also a founder of the American Heart Association and served as its president from 1940-41. In honor of his vision in building an organization that would lead in heart research and education and to honor those who share that vision, the Paul Dudley White Legacy Society was organized. In joining the Paul Dudley White Legacy Society you are securing the immortality of your generosity through the lives that will be touched by the research and education made possible through your gifts.',
+			'outcome' => 'Increase understanding of AHA’s personal legacy and estate planning programs.',
 			'outcome-stats' => array(
 				1	=> 'Increase understanding of AHA’s personal legacy and estate planning programs.'
 				)
@@ -477,6 +491,13 @@ function cc_aha_get_summary_revenue_sections() {
 function cc_aha_get_summary_introductory_text_revenue( $section_key ) {
 	$section_data = cc_aha_get_summary_revenue_sections();
 	$text = $section_data[$section_key]['background'];
+
+	return $text;
+}
+
+function cc_aha_get_summary_outcome_text_revenue( $section_key ) {
+	$section_data = cc_aha_get_summary_revenue_sections();
+	$text = $section_data[$section_key]['outcome'];
 
 	return $text;
 }
