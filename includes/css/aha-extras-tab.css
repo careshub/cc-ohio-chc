@@ -80,6 +80,20 @@
 .dial-container {
 	margin-top: 1em;
 }
+.dial-container .map-widget-data {
+	float: none;
+	position: relative;
+	margin-left: 0;
+}
+.dial-container .map-widget-data p {
+	margin-top: .6em;
+	font-size: 86%;
+	color:#555;
+	/*font-style: italic;*/
+}
+.dial-container .map-widget-data .map-widget-icons {
+	display: none;
+}
 .assessment .content-row {
 	margin-top: 1.5em;
 	padding-top: 1.5em;

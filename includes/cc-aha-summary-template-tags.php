@@ -251,21 +251,33 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 		// This adds the dials under the criterion dial
 
 		$dial_ids = cc_aha_get_summary_criterion_widgets( $section, $impact_area, $crit_key );
+		$map_ids = cc_aha_get_summary_criterion_mapids( $section, $impact_area, $crit_key );
 		$fips = cc_aha_get_fips();
 
 		// Show the top section if there's something to show.
-		if ( $dial_ids && $fips ) :
+		if ( ( $dial_ids || $map_ids ) && $fips ) :
 				// TODO: Real title needed
 			?>
 			<div class="health-needs-container">
 				<span class="aligncenter"><em>Health Needs Indicators</em></span>
 				<?php 
-				foreach ( $dial_ids as $dial_id) {
-					?>
-					<div class="dial-container">
-						<script src='http://maps.communitycommons.org/jscripts/dialWidget.js?geoid=<?php echo $fips; ?>&id=<?php echo $dial_id; ?>'></script>
-					</div>
-					<?php
+				if ( $dial_ids ) {
+					foreach ( $dial_ids as $dial_id) {
+						?>
+						<div class="dial-container">
+							<script src='http://maps.communitycommons.org/jscripts/dialWidget.js?geoid=<?php echo $fips; ?>&id=<?php echo $dial_id; ?>'></script>
+						</div>
+						<?php
+					}
+				}
+				if ( $map_ids ) {
+					foreach ( $map_ids as $map_id) {
+						?>
+						<div class="dial-container">
+							<script src='http://maps.communitycommons.org/jscripts/mapWidget.js?geoid=<?php echo $fips; ?>&mapid=<?php echo $map_id; ?>'></script>
+						</div>
+						<?php
+					}
 				}
 				?>
 			</div>
@@ -975,7 +987,7 @@ function cc_aha_get_summary_sections() {
 							'background' => 'To help save these lives, the AHA advocates for significant increases in tobacco excise taxes at the state, county or municipal levels that cover all tobacco products. These taxes are a health win that reduces tobacco use, saves lives, raises revenue for cash-strapped states, and lowers health care costs.
 
 								<a href="http://www.heart.org/idc/groups/heart-public/@wcm/@adv/documents/downloadable/ucm_461792.pdf" target="_blank">Learn more</a>',
-							'dial_ids' => array( 305, 354 ),
+							'map_ids' => array( 2403 ),
 							'group' => 'community_tobacco_2' ),
 					),
 				),
@@ -988,6 +1000,7 @@ function cc_aha_get_summary_sections() {
 							'background' => 'Complete Streets policies consider the needs of all users in all transportation projects incorporating walking, bicycling, public transportation, and driving.',
 							'group' => 'community_phys_1',
 							'dial_ids' => array( 306, 307),
+							'map_ids' => array( 2400, 2401 ),
 						),
 					),
 				),
@@ -1015,13 +1028,15 @@ function cc_aha_get_summary_sections() {
 								</ol>
 								<a href="http://www.heart.org/HEARTORG/Advocate/Voices-for-Healthy-Kids---Healthy-Drinks_UCM_460610_SubHomePage.jsp" target="_blank">Learn more</a>',
 							'group' => 'community_diet_2',
-							'dial_ids' => array( 303, 603 ), 
+							'dial_ids' => array( 303, 603 ),
+							'map_ids' => array( 2405 ),
 							),
 						3 => array(
 							'label' => 'Healthy Food Financing',
 							'background' => 'A food desert is an area where residents lack affordable access to foods that would allow them to have a healthy diet, such as fruits, vegetables, low-fat milk and whole grains. Existing in urban, suburban and rural communities, they are places where the nearest supermarket is too far away for residents to shop. Healthy Food Financing is a viable, effective, and economically sustainable solution to the problem of limited access to healthy foods. Healthy Food Financing Initiatives attract investment in underserved communities by providing critical loan and grant financing. These one-time resources help fresh food retailers overcome the initial barriers to entry into underserved, low-income urban and rural communities, and support renovation and expansion of existing stores so they can provide the healthy foods that communities want and need. Identifying food deserts is not an exact science, but you can <a href="%food_desert_url%" target="_blank">look at an overview of your county&rsquo;s access to healthier food here.</a>',
 							'group' => 'community_diet_3',
-							'dial_ids' => array( 301, 302 ),
+							'dial_ids' => array( 301 ),
+							'map_ids' => array( 2397 ),
 							),
 					),
 				),
@@ -1045,6 +1060,7 @@ function cc_aha_get_summary_sections() {
 							'background' => 'Shared Use Agreements allow schools to share their physical activity facilities (gyms, running/walking tracks, multi-purpose rooms) with the community for recreation and exercise opportunities. The AHA works to provide liability protection within state law so school districts will feel comfortable opening up school facilities both before and after school hours without the fear of lawsuits for injuries occurring on school property. Once the liability protection is enacted into state law the AHA works to provide incentives and monitoring of shared use agreements once they are put in place.',
 							'group' => 'school_phys_2',
 							'dial_ids' => array( 306 ),
+							'map_ids' => array( 2400, 2401 ),
 							),
 					),
 				),
@@ -1056,13 +1072,13 @@ function cc_aha_get_summary_sections() {
 							'label' => 'School Nutrition Policy',
 							'background' => ' The USDA Food and Nutrition Service interim final rule establishes nutrition standards for foods sold in schools other than those foods provided as part of the National School Lunch and School Breakfast Programs (NSLP/SBP).  These foods and beverages are called Competitive Foods because they “compete” with the traditional school lunch programs.  Examples are foods/beverages sold in the a la carte line, vending machines, school canteens, and onsite fundraisers.',
 							'group' => 'school_diet_1',
-							'dial_ids' => array( 302, 605 ),
+							'dial_ids' => array( 358, 605 ),
 							),
 						2 => array(
 							'label' => 'School Nutrition Implementation',
 							'background' => 'The Healthy, Hunger-Free Kids Act of 2010 instituted many changes to the National School Lunch Program (NSLP), and in concert with those changes, USDA issued new, more stringent school meal nutrition standards for the 2012-13 school year. All changes within school meals are expected to have occurred in advance of the beginning of the 2014-2015 school year to bring schools in compliance with federal law.',
 							'group' => 'school_diet_2',
-							'dial_ids' => array( 302, 605 ),
+							'map_ids' => array( 2402 ),
 							),
 					),
 				),
@@ -1093,6 +1109,7 @@ function cc_aha_get_summary_sections() {
 							'background' => 'The burden of heart disease and stroke can be especially challenging for those without health insurance or with inadequate coverage.  Uninsured Americans with CVD have higher mortality rates and a more difficult time controlling their blood pressure or accessing needed medications. The uninsured and underinsured also have a harder time accessing preventative care and needed medications.  The AHA advocates for states to accept federal funds to provide health insurance to low income adults and coverage of all cardiovascular-related preventative benefits with an A or B recommendation by the USPSTF for Medicaid enrollees, with no cost for patients. <a href="http://www.heartsforhealthcare.org" target="_blank">www.heartsforhealthcare.org</a>',
 							'group' => 'care_factors_1',
 							'dial_ids' => array( 771, 504 ),
+							'map_ids' => array( 2399 ),
 							),
 					),
 				),
@@ -1111,7 +1128,8 @@ function cc_aha_get_summary_sections() {
 							'label' => 'CMS PENALTY: Underserved Discharges',
 							'background' => '',
 							'group' => 'care_acute_2',
-							'dial_ids' => array( 640, 625 ),
+							'dial_ids' => array( 640 ), //array( 640, 625 ),
+							'map_ids' => array( 2421 ),
 							),
 					),
 				),
@@ -1145,6 +1163,10 @@ function cc_aha_get_summary_impact_area_widgets( $section, $impact_area ) {
 function cc_aha_get_summary_criterion_widgets( $section, $impact_area, $crit_key ){
 	$section_data = cc_aha_get_summary_sections();
 	return $section_data[$section]['impact_areas'][$impact_area]['criteria'][$crit_key]['dial_ids'];
+}
+function cc_aha_get_summary_criterion_mapids( $section, $impact_area, $crit_key ){
+	$section_data = cc_aha_get_summary_sections();
+	return $section_data[$section]['impact_areas'][$impact_area]['criteria'][$crit_key]['map_ids'];
 }
 function cc_aha_get_impact_area_criteria( $section, $impact_area ){
 	$section_data = cc_aha_get_summary_sections();

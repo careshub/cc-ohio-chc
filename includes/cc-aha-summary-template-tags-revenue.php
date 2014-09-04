@@ -359,12 +359,18 @@ function cc_aha_print_revenue_summary_individual_giving( $metro_id ){
 	<?php //TODO: get this link; also, Mel coded a '0' below, hope that's great.  ?>
 	<p>You have <?php echo $data['12.1.2'] ? $data['12.1.2'] : '0'; ?> $100k donors in the pipeline.</p>
 	
-	
-	
 	<h3>Cor Vitae Recruitment</h3>
 	
 	<h5>Current State</h5>
 	
+	<?php if ( $fips = cc_aha_get_fips( $metro_id ) ) : ?>
+	<div class="health-needs-container alignright">
+		<div class="dial-container">
+			<script src='http://maps.communitycommons.org/jscripts/mapWidget.js?geoid=<?php echo $fips; ?>&mapid=2406'></script>
+		</div>
+	</div>
+	<?php endif; ?>
+
 	<p><?php echo $data['12.2.1'] ? $data['12.2.1'] : '0'; ?>% of your board members are Cor Vitae Members</p>
 	<p><?php echo $data['12.2.2'] ? $data['12.2.2'] : '0'; ?> Cor Vitae members are in your market.</p>
 	<p>You stated that you are retaining your Cor Vitae members in the following way: <?php echo $data['12.2.3']; ?></p>
