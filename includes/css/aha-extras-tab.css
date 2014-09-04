@@ -111,7 +111,7 @@
 	color: green;
 }
 
-@media screen and (min-width:600px), print and (min-width:6in) {
+@media screen and (min-width:600px), print {
 	.dial-container {
 		float: left;
 		width: 28.5%;
@@ -119,7 +119,7 @@
 		margin-right: 2%;
 	}
 }
-@media all and (min-width:800px), print and (min-width:6in) { 
+@media all and (min-width:800px), print { 
 	.assessment .third-block.spans-2 {
 	    float: right;
 	}
@@ -137,13 +137,37 @@
 		margin-right: 0;
 	}
 }
+/* Simplify the page for IE8 and earlier, since they don't do canvas or the dial widgets */
+
+.ie .health-needs-container, .ie .progress-dial {
+	display: none;
+}
+.ie .assessment .third-block.spans-2 {
+    width: 100%;
+}
+
 @media print {
-	/*Hide many page elements that aren't needed here*/
+	/* Hide many page elements that aren't needed here */
 	.assessment .primary-navigation,
 	.assessment #item-header,
 	.assessment #secondary,
 	.assessment .summary-navigation-container,
 	.assessment .single-group-footer {
 	 	display: none;
+	}
+
+
+	/* Adding line breaks for print only- isn't that cool? */
+	.assessment .content-row {
+	   page-break-before: always;
+	}
+	.assessment .content-row:first-of-type {
+	   page-break-before: avoid;
+	}
+	ul, img {
+	   page-break-inside: avoid;
+	}
+	h2, h3, h4 {
+	   page-break-after: avoid;
 	}
 }

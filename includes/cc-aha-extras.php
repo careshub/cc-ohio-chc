@@ -682,35 +682,30 @@ class CC_AHA_Extras {
 		if ( ! cc_aha_is_component() )
 			return;
 
-		$cookie_name = 'aha_active_metro_id';
+		$survey_cookie_name = 'aha_active_metro_id';
 	    // We need to know the user's affiliations
 	    $selected_metro_ids = cc_aha_get_array_user_metro_ids();
 	    $redirect = false;
 
-        // Cookie is set, we check that it's a valid value, if not, unset it.
+        // Cookie is set, we check that it's a valid value FOR THE SURVEY ONLY, if not, unset it.
         // Most common case for this is user changes affiliations, so "active" metro ID is no longer applicable
-	    if ( ! empty( $_COOKIE[ $cookie_name ] ) && ! in_array( $_COOKIE[ $cookie_name ], $selected_metro_ids ) ) {
+	    if ( ! empty( $_COOKIE[ $survey_cookie_name ] ) && ! in_array( $_COOKIE[ $survey_cookie_name ], $selected_metro_ids ) ) {
         	// Cookie path must match the cookie we're trying to unset
-            setcookie( $cookie_name, '', time()-3600, '/' );
+            setcookie( $survey_cookie_name, '', time()-3600, '/' );
             // Remove it from the $_COOKIE array, too, so the following action will fire.
-            unset( $_COOKIE[ $cookie_name ] );
-			$towrite = PHP_EOL . 'set cookie is firing: ';
-			$fp = fopen('aha_summary_setup.txt', 'a');
-			fwrite($fp, $towrite);
-			fclose($fp);
+            unset( $_COOKIE[ $survey_cookie_name ] );
 			$redirect = true;	           
 	    }
 
-	    // If cookie doesn't exist (or we just deleted it above), we try to set it.
-	    // If user has only one affiliation, we can set the cookie
-	    if ( empty( $_COOKIE[ $cookie_name ] ) && count( $selected_metro_ids ) == 1  ){
-            setcookie( $cookie_name, reset( $selected_metro_ids ), 0, '/' );
-			$redirect = true;
-			$towrite = PHP_EOL . 'empty cookie is firing: ';
-			$fp = fopen('aha_summary_setup.txt', 'a');
-			fwrite($fp, $towrite);
-			fclose($fp);
-        }
+		$cookies = array( 'aha_active_metro_id', 'aha_summary_metro_id' );
+	    foreach ( $cookies as $cookie_name ) {
+		    // If cookie doesn't exist (or we just deleted it above), we try to set it.
+		    // If user has only one affiliation, we can set the cookie
+		    if ( empty( $_COOKIE[ $cookie_name ] ) && count( $selected_metro_ids ) == 1  ){
+	            setcookie( $cookie_name, reset( $selected_metro_ids ), 0, '/' );
+				$redirect = true;
+	        }
+	    }
 
         if ( $redirect ) {
         	wp_redirect( wp_get_referer() );
