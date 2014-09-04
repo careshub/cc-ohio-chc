@@ -998,7 +998,8 @@ function cc_aha_get_summary_sections() {
 						1 => array(
 							'label' => 'Local Government Procurement',
 							'background' => 'Procurement by definition is the basic term utilized by state and local government entities that provide all food services for government facilities.  Procurement is the way they contract with external parties to provide foods and beverages in vending machines and prepared foods/beverages on government property.  The AHA advocates for nutrition criteria to be included in these contracts to better provide government employees healthier options for food and beverage in their worksites and to members of the public who visit government buildings.',
-							'group' => 'community_diet_1' 
+							'group' => 'community_diet_1',
+							'dial_ids' => array( 303, 603 ),
 							),
 						2 => array(
 							'label' => 'Sugar-sweetened Beverage Tax',
@@ -1019,7 +1020,8 @@ function cc_aha_get_summary_sections() {
 						3 => array(
 							'label' => 'Healthy Food Financing',
 							'background' => 'A food desert is an area where residents lack affordable access to foods that would allow them to have a healthy diet, such as fruits, vegetables, low-fat milk and whole grains. Existing in urban, suburban and rural communities, they are places where the nearest supermarket is too far away for residents to shop. Healthy Food Financing is a viable, effective, and economically sustainable solution to the problem of limited access to healthy foods. Healthy Food Financing Initiatives attract investment in underserved communities by providing critical loan and grant financing. These one-time resources help fresh food retailers overcome the initial barriers to entry into underserved, low-income urban and rural communities, and support renovation and expansion of existing stores so they can provide the healthy foods that communities want and need. Identifying food deserts is not an exact science, but you can <a href="%food_desert_url%" target="_blank">look at an overview of your county&rsquo;s access to healthier food here.</a>',
-							'group' => 'community_diet_3' 
+							'group' => 'community_diet_3',
+							'dial_ids' => array( 303, 603 ),
 							),
 					),
 				),
@@ -1103,7 +1105,7 @@ function cc_aha_get_summary_sections() {
 							'label' => 'CMS PENALTY: Total Discharges',
 							'background' => 'More hospitals are receiving penalties than bonuses in the second year of Medicare’s quality incentive program.  Government records show that the average penalty is steeper than it was last year. These penalties were based on two-dozen quality measurements, including surveys of patient satisfaction and—for the first time—death rates.  Hospitals are encouraged to find ways to improve their scores.  The AHA believes that GWTG can help to increase their quality by helping them to identify process improvements, monitoring compliance with the AHA guidelines for Stroke, HF, Resuscitation, ACTION Registry-GWTG and AFIB.',
 							'group' => 'care_acute_1',
-							'dial_ids' => array( 640, 625 ),
+							// 'dial_ids' => array( 640, 625 ),
 							),
 						2 => array(
 							'label' => 'CMS PENALTY: Underserved Discharges',
