@@ -48,6 +48,9 @@
 }
 
 /* Summary page styles */
+.summary-navigation-container ul.horizontal {
+	margin-bottom: 0;
+}
 .progress-dial{
 	display: table;
 	margin: 0 auto;

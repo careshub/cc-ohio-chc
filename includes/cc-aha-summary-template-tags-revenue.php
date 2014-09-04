@@ -14,11 +14,11 @@ function cc_aha_print_single_report_card_revenue( $metro_id = 0 ){
 		$data = cc_aha_get_form_data( $metro_id );
 		?>
 	<section id="revenue-analysis-navigation" class="clear">
-		<h3>Revenue Assessment Analysis</h3>
+		<h3 class="screamer">Revenue Assessment Analysis</h3>
 		<?php 
 		$revenue_sections = cc_aha_get_summary_revenue_sections(); ?>
 		
-		<h3>Community Health Assessment Analysis</h3>
+		<!-- <h3>Community Health Assessment Analysis</h3> -->
 		<table>
 			<thead>
 				<tr>

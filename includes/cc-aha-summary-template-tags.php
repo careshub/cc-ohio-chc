@@ -39,7 +39,7 @@ function cc_aha_render_summary_page(){
 	$cleanedfips = cc_aha_get_fips( true );	
 	
 	?>
-	<div id="summary-navigation">
+	<div id="summary-navigation" class="summary-navigation-container">
 		<ul class="horizontal no-bullets">
 			<!-- <li><a href="#tobacco" class="tab-select">Tobacco</a></li>
 			<li><a href="#physical-activity" class="tab-select">Physical Activity</a></li>
@@ -61,8 +61,9 @@ function cc_aha_render_summary_page(){
 	<?php
 	// bp action variables tell us where we are.
 	// [1] is the metro_id
-	// [2] is section (health or revenue)
-	// [3] is the impact area
+	// [2] is major section (health or revenue)
+	// [3] is the section
+	// [4] is the impact area if health
 	$major_section = bp_action_variable( 2 );
 	if ( $major_section == cc_aha_get_analysis_health_slug() ){
 		if ( ! bp_action_variable( 3 ) ) {
@@ -93,14 +94,14 @@ function cc_aha_print_single_report_card_health( $metro_id = 0 ) {
 	$data = cc_aha_get_form_data( $metro_id ); 
 	?>
 
-	<h2 class="screamer">HEALTH ANALYSIS REPORT</h2>
-	<h3><?php cc_aha_print_environmental_scan_link( $metro_id ); ?></h3>
+	<h3 class="screamer">Health Analysis Report</h3>
+	<h4><?php cc_aha_print_environmental_scan_link( $metro_id ); ?></h4>
 
 	<section id="single-report-card-health" class="clear">
 		<?php // Building out a table of responses for one metro
 		$sections = cc_aha_get_summary_sections( $metro_id );
 		?>
-		<h3>Community Health Assessment Analysis</h3>
+		<h4>Community Health Assessment Analysis</h4>
 		<table>
 			<thead>
 				<tr>
