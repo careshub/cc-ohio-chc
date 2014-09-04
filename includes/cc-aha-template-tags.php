@@ -180,22 +180,18 @@ function cc_aha_render_tab_subnav(){
                 <li <?php if ( cc_aha_on_main_screen() ) { echo 'class="current"'; } ?>>
                     <a href="<?php echo cc_aha_get_home_permalink(); ?>">Introduction</a>
                 </li>
-                <?php
-                if ( cc_aha_user_can_do_assessment() ) :
-                    ?>
+                <?php if ( cc_aha_user_can_do_assessment() ) : ?>
                     <li <?php if ( cc_aha_on_survey_screen() ) { echo 'class="current"'; } ?>>
                         <a href="<?php echo cc_aha_get_survey_permalink(); ?>">Assessment</a>
                     </li>
                 <?php endif; ?>
-                <?php if ( cc_aha_user_has_super_secret_clearance() ) : ?>
                 <li <?php if ( cc_aha_on_analysis_screen( 'health' ) ) { echo 'class="current"'; } ?>>
                     <a href="<?php echo cc_aha_get_analysis_permalink(); ?>">Health Analysis Report</a>
                 </li>
-                <?php endif; ?>
-                <?php if ( cc_aha_user_has_super_secret_clearance() ) : ?>
-                <li <?php if ( cc_aha_on_analysis_screen( 'revenue' ) ) { echo 'class="current"'; } ?>>
-                    <a href="<?php echo cc_aha_get_analysis_permalink( 'revenue' ); ?>">Revenue Analysis Report</a>
-                </li>
+                <?php if ( cc_aha_user_can_do_assessment() || cc_aha_user_has_super_secret_clearance() ) : ?>
+                    <li <?php if ( cc_aha_on_analysis_screen( 'revenue' ) ) { echo 'class="current"'; } ?>>
+                        <a href="<?php echo cc_aha_get_analysis_permalink( 'revenue' ); ?>">Revenue Analysis Report</a>
+                    </li>
                 <?php endif; ?>
             </ul>
         </div>

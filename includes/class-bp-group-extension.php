@@ -42,7 +42,7 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
         } else if ( cc_aha_on_survey_screen() ) {
 
                 if ( ! cc_aha_user_can_do_assessment() ) {
-                    echo '<p class="info">Sorry, you do not have permission to view this page.</p>';
+                    echo '<div class="message info">Sorry, you do not have permission to view this page.</div>';
                 } else {
                     // We'll store the "active" metro id in a cookie for persistence.
                     cc_aha_print_metro_select_container_markup();                    
@@ -51,11 +51,15 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
                 }
 
         } else if ( cc_aha_on_analysis_screen() ) {
-
-            // We'll store the selected metro id in a cookie for persistence.
-            cc_aha_print_metro_select_container_markup();
-            // Get the right summary page to display.
-            cc_aha_render_summary_page();
+            // The revenue section is only available to users who can do the assessment or have been added to the secret access list.
+            if ( cc_aha_on_analysis_screen( 'revenue' ) && ! ( cc_aha_user_can_do_assessment() || cc_aha_user_has_super_secret_clearance() ) ) {
+                echo '<div class="message info">Sorry, you do not have permission to view this page.</div>';
+            } else {
+                // We'll store the selected metro id in a cookie for persistence.
+                cc_aha_print_metro_select_container_markup();
+                // Get the right summary page to display.
+                cc_aha_render_summary_page();
+            }
             
         } else if ( cc_aha_on_survey_quick_summary_screen() ) {
             cc_aha_render_all_questions_and_answers();

@@ -20,10 +20,10 @@ function cc_aha_render_summary_page(){
 		return false;
 
 	// TODO: This must be removed before the summaries are made public.
-	if ( ! cc_aha_user_can_do_assessment() && ! cc_aha_user_has_super_secret_clearance() ) {
-		echo '<p class="info">Sorry, you do not have permission to view this page.</p>';
-		return;
-	}
+	// if ( ! cc_aha_user_can_do_assessment() && ! cc_aha_user_has_super_secret_clearance() ) {
+	// 	echo '<p class="info">Sorry, you do not have permission to view this page.</p>';
+	// 	return;
+	// }
 
 	// Get the data for this metro ID
 	$data = cc_aha_get_form_data( $metro_id );
@@ -162,7 +162,9 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 	?>
 
 	<section id="<?php echo $impact_area; ?>" class="clear">
+		<?php if ( cc_aha_user_can_do_assessment() ) : ?>
 		<form id="aha_summary-<?php echo $section . '-' . $impact_area; ?>" class="standard-form aha-survey" method="post" action="<?php echo cc_aha_get_home_permalink() . 'update-summary/'; ?>">
+		<?php endif; ?>
 		
 		<h2 class="screamer"><?php echo cc_aha_get_summary_impact_area_title( $section, $impact_area ); ?></h2>
 
@@ -213,35 +215,36 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 				}
 
 				 ?>
-
-		 		<fieldset>
-		 			<?php 
-		 			$input_prefix = $section . '-' . $impact_area . '-' . $crit_key;
-		 			
-					if( $input_prefix != 'care-acute-1' ) { //because this one has no discussion questions.. ?>
-						<textarea id="<?php echo $input_prefix . '-open-response'; ?>" name="board[<?php echo $input_prefix . '-open-response'; ?>]"><?php echo $data[$input_prefix . '-open-response']; ?></textarea>
-					<?php } ?>
-					
-					<?php if ( ( $input_prefix != 'care-acute-1' ) && ( $input_prefix != 'care-acute-2' ) ) { ?>
-						<?php $radio_checked = $data[$section . '-' . $impact_area . '-' . $crit_key . '-top-3']; ?>
-						<label for="<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>"><p>Based on your preliminary discussions, do you think this may be a top 3 health impact opportunity for your board?</p>
-						<label><input type="radio" value="1" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
-						<label><input type="radio" value="0" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
-					
-					<?php } else if ( $input_prefix == 'care-acute-2' ) { 
-						//display Top 3 radios for BOTH carse_acute_1 and cares_acute 2 in cares_acute 2 section ?>
-						<?php $radio_checked = $data['care-acute-1-top-3']; ?>
-						<label for="<?php echo 'care-acute-1-top-3'; ?>"><p>Based on your preliminary discussions, do you think addressing TOTAL CVD DISCHARGES from CMS penalty hospitals may be a top 3 health impact opportunity for your board?</p></label>
-						<label><input type="radio" value="1" name="board[<?php echo 'care-acute-1-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
-						<label><input type="radio" value="0" name="board[<?php echo 'care-acute-1-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
-					
-						<?php $radio_checked = $data['care-acute-2-top-3']; ?>
-						<label for="<?php echo 'care-acute-2-top-3'; ?>"><p>Based on your preliminary discussions, do you think addressing UNDERSERVED CVD DISCHARGES from CMS penalty hospitals may be a top 3 health impact opportunity for your board?</p></label>
-						<label><input type="radio" value="1" name="board[<?php echo 'care-acute-2-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
-						<label><input type="radio" value="0" name="board[<?php echo 'care-acute-2-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
-					
-					<?php } ?>
-				</fieldset>
+				<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+			 		<fieldset>
+			 			<?php 
+			 			$input_prefix = $section . '-' . $impact_area . '-' . $crit_key;
+			 			
+						if( $input_prefix != 'care-acute-1' ) { //because this one has no discussion questions.. ?>
+							<textarea id="<?php echo $input_prefix . '-open-response'; ?>" name="board[<?php echo $input_prefix . '-open-response'; ?>]"><?php echo $data[$input_prefix . '-open-response']; ?></textarea>
+						<?php } ?>
+						
+						<?php if ( ( $input_prefix != 'care-acute-1' ) && ( $input_prefix != 'care-acute-2' ) ) { ?>
+							<?php $radio_checked = $data[$section . '-' . $impact_area . '-' . $crit_key . '-top-3']; ?>
+							<label for="<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>"><p>Based on your preliminary discussions, do you think this may be a top 3 health impact opportunity for your board?</p>
+							<label><input type="radio" value="1" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
+							<label><input type="radio" value="0" name="board[<?php echo $section . '-' . $impact_area . '-' . $crit_key . '-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
+						
+						<?php } else if ( $input_prefix == 'care-acute-2' ) { 
+							//display Top 3 radios for BOTH carse_acute_1 and cares_acute 2 in cares_acute 2 section ?>
+							<?php $radio_checked = $data['care-acute-1-top-3']; ?>
+							<label for="<?php echo 'care-acute-1-top-3'; ?>"><p>Based on your preliminary discussions, do you think addressing TOTAL CVD DISCHARGES from CMS penalty hospitals may be a top 3 health impact opportunity for your board?</p></label>
+							<label><input type="radio" value="1" name="board[<?php echo 'care-acute-1-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
+							<label><input type="radio" value="0" name="board[<?php echo 'care-acute-1-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
+						
+							<?php $radio_checked = $data['care-acute-2-top-3']; ?>
+							<label for="<?php echo 'care-acute-2-top-3'; ?>"><p>Based on your preliminary discussions, do you think addressing UNDERSERVED CVD DISCHARGES from CMS penalty hospitals may be a top 3 health impact opportunity for your board?</p></label>
+							<label><input type="radio" value="1" name="board[<?php echo 'care-acute-2-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
+							<label><input type="radio" value="0" name="board[<?php echo 'care-acute-2-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
+						
+						<?php } ?>
+					</fieldset>
+				<?php endif; ?>
 			</div>
 
 		<?php 
@@ -272,19 +275,30 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 <?php
 	}
 	?>
-    <input type="hidden" name="analysis-section" value="<?php echo bp_action_variable( 2 ); ?>">
-	<input type="hidden" name="metro_id" value="<?php echo $metro_id; ?>">
-	<input type="hidden" name="section-impact-area" value="<?php echo $section . '-' . $impact_area; ?>">
-	<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
-		
-	<div class="form-navigation clear">
-		<div class="submit">
-	        <input type="submit" name="submit-survey-to-toc" value="Save, Return to Table of Contents" id="submit-survey-to-toc">
-	    </div>
-		<!-- <div class="submit">
-	        <input type="submit" name="submit-survey-next-page" value="Save Responses and Continue" id="submit-survey-next-page">
-	    </div> -->
-	</div>
+	<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+	    <input type="hidden" name="analysis-section" value="<?php echo bp_action_variable( 2 ); ?>">
+		<input type="hidden" name="metro_id" value="<?php echo $metro_id; ?>">
+		<input type="hidden" name="section-impact-area" value="<?php echo $section . '-' . $impact_area; ?>">
+		<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
+			
+		<div class="form-navigation clear">
+			<div class="submit">
+		        <input type="submit" name="submit-survey-to-toc" value="Save, Return to Table of Contents" id="submit-survey-to-toc">
+		    </div>
+			<!-- <div class="submit">
+		        <input type="submit" name="submit-survey-next-page" value="Save Responses and Continue" id="submit-survey-next-page">
+		    </div> -->
+		</div>
+	<?php else: ?>
+		<?php if ( bp_action_variable( 3 ) ) : ?>
+			<div class="form-navigation clear">
+				<a href="<?php echo cc_aha_get_analysis_permalink( bp_action_variable( 2 ) ); ?>" class="button">Return to <?php echo ucwords( bp_action_variable( 2 ) ); ?> Analysis Summary</a>
+				<!-- <div class="submit">
+			        <input type="submit" name="submit-survey-next-page" value="Save Responses and Continue" id="submit-survey-next-page">
+			    </div> -->
+			</div>
+		<?php endif; ?>
+	<?php endif; ?>
 	</form>
 	<?php
 }

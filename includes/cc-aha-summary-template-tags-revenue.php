@@ -10,9 +10,8 @@
 
 
 function cc_aha_print_single_report_card_revenue( $metro_id = 0 ){
-	if ( cc_aha_user_can_do_assessment() ) : 
-		$data = cc_aha_get_form_data( $metro_id );
-		?>
+	$data = cc_aha_get_form_data( $metro_id );
+	?>
 	<section id="revenue-analysis-navigation" class="clear">
 		<h3 class="screamer">Revenue Assessment Analysis</h3>
 		<?php 
@@ -36,8 +35,7 @@ function cc_aha_print_single_report_card_revenue( $metro_id = 0 ){
 							</a>
 						</td>
 						<td>
-							<?php //echo $data[$revenue_name . '-top-3'];
-							echo $data[$revenue_name . '-top-3'] ? 'Yes' : 'No'; ?>
+							<?php echo $data[$revenue_name . '-top-3'] ? 'Yes' : 'No'; ?>
 						</td>
 					</tr>
 				<?php } ?>
@@ -45,7 +43,6 @@ function cc_aha_print_single_report_card_revenue( $metro_id = 0 ){
 		</table>
 	</section>
 	<?php 
-	endif;
 }
 
 /**
@@ -55,12 +52,6 @@ function cc_aha_print_single_report_card_revenue( $metro_id = 0 ){
  * @return  html - generated code
  */
 function cc_aha_print_revenue_section_report( $metro_id, $slug ){
-	// These are only available to users who can do the assessment.
-	if ( ! cc_aha_user_can_do_assessment() && ! cc_aha_user_has_super_secret_clearance() ) {
-		echo '<p class="info">Sorry, you do not have permission to view this page.</p>';
-		return;
-	}
-
 	//to populate response fields if filled out already
 	$data = cc_aha_get_form_data( $metro_id );
 	$revenue_sections = cc_aha_get_summary_revenue_sections();
@@ -78,39 +69,47 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 		<?php //to show discussion textfield ?
 		
 		//if( $section_key == 'event_leadership' || $section_key == 'sponsorship' || $section_key == 'donor_stewardship' ) { ?>
-		
+		<?php if ( cc_aha_user_can_do_assessment() ) : ?>
 			<form id="aha_summary-revenue-<?php echo $section_key; ?>" class="standard-form aha-survey" method="post" action="<?php echo cc_aha_get_home_permalink() . 'update-summary/'; ?>">
+		<?php endif; ?>
 			
-			<h2 class="screamer"><?php echo $revenue_sections[$section_key]['label']; ?></h2>
-			
-			<p><strong>Background: </strong><?php echo cc_aha_get_summary_introductory_text_revenue( $section_key ); ?></p>
-			
-			<p><strong>Outcome: </strong><?php echo cc_aha_get_summary_outcome_text_revenue( $section_key ); ?></p>
-			<?php 
+				<h2 class="screamer"><?php echo $revenue_sections[$section_key]['label']; ?></h2>
 				
-				$function_name = 'cc_aha_print_revenue_summary_' . $section_key;
-				if ( function_exists( $function_name ) ) {
-					$function_name( $metro_id );
-				} else {
-					// TODO: Remove this debugging code.
-					//echo "no function by the name: " . $function_name;
-				}
-			 ?>
-			 			
-			<input type="hidden" name="metro_id" value="<?php echo $metro_id; ?>">
-			<input type="hidden" name="revenue-section" value="revenue-<?php echo $section; ?>">
-			<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
-			
-			<?php $radio_checked = $data[$section_key . '-top-3']; ?>
-			<label for="<?php echo $section_key . '-top-3'; ?>"><p>Based on your preliminary discussions, do you think this may be a top 3 revenue impact opportunity for your board?</p>
-			<label><input type="radio" value="1" name="board[<?php echo $section_key . '-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
-			<label><input type="radio" value="0" name="board[<?php echo $section_key . '-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
+				<p><strong>Background: </strong><?php echo cc_aha_get_summary_introductory_text_revenue( $section_key ); ?></p>
+				
+				<p><strong>Outcome: </strong><?php echo cc_aha_get_summary_outcome_text_revenue( $section_key ); ?></p>
+				<?php 
 					
-			<div class="form-navigation clear">
-				<div class="submit">
-					<input type="submit" name="submit-revenue-analysis-to-toc" value="Save, Return to Table of Contents" id="submit-revenue-analysis-to-toc">
-				</div>
-			</div>
+					$function_name = 'cc_aha_print_revenue_summary_' . $section_key;
+					if ( function_exists( $function_name ) ) {
+						$function_name( $metro_id );
+					} else {
+						// TODO: Remove this debugging code.
+						//echo "no function by the name: " . $function_name;
+					}
+				 ?>
+		 		<?php if ( cc_aha_user_can_do_assessment() ) : ?>		
+					<input type="hidden" name="metro_id" value="<?php echo $metro_id; ?>">
+					<input type="hidden" name="revenue-section" value="revenue-<?php echo $section; ?>">
+					<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
+					
+					<?php $radio_checked = $data[$section_key . '-top-3']; ?>
+					<label for="<?php echo $section_key . '-top-3'; ?>"><p>Based on your preliminary discussions, do you think this may be a top 3 revenue impact opportunity for your board?</p>
+					<label><input type="radio" value="1" name="board[<?php echo $section_key . '-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
+					<label><input type="radio" value="0" name="board[<?php echo $section_key . '-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
+						
+					<div class="form-navigation clear">
+						<div class="submit">
+							<input type="submit" name="submit-revenue-analysis-to-toc" value="Save, Return to Table of Contents" id="submit-revenue-analysis-to-toc">
+						</div>
+					</div>
+				<?php else: ?>
+					<?php if ( bp_action_variable( 3 ) ) : ?>
+						<div class="form-navigation clear">
+							<a href="<?php echo cc_aha_get_analysis_permalink( bp_action_variable( 2 ) ); ?>" class="button">Return to <?php echo ucwords( bp_action_variable( 2 ) ); ?> Analysis Summary</a>
+						</div>
+					<?php endif; ?>
+				<?php endif; ?>
 			</form>
 		<?php /*} else { ?>
 		
@@ -179,18 +178,24 @@ function cc_aha_print_revenue_summary_event_leadership( $metro_id ){
 	<ul>
 		
 		<fieldset>
-			<label for="revenue-7.1-1"><h4>What companies are in your pipeline for recruitment (for next year and next 3 years)?</h4>
-			<textarea id="revenue-7.1-1" name="board[revenue-7.1-1]"><?php echo $data['revenue-7.1-1']; ?></textarea>
+			<label for="revenue-7.1-1">What companies are in your pipeline for recruitment (for next year and next 3 years)?
+			<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+				<textarea id="revenue-7.1-1" name="board[revenue-7.1-1]"><?php echo $data['revenue-7.1-1']; ?></textarea>
+			<?php endif; ?>
 		</fieldset>
 		
 		<fieldset>
-			<label for="revenue-7.1-2"><h4>Who are the top 5 executives that are in your pipeline for Event Chair for the next year?</h4>			
-			<textarea id="revenue-7.1-2" name="board[revenue-7.1-2]"><?php echo $data['revenue-7.1-2']; ?></textarea>
+			<label for="revenue-7.1-2">Who are the top 5 executives that are in your pipeline for Event Chair for the next year?
+			<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+				<textarea id="revenue-7.1-2" name="board[revenue-7.1-2]"><?php echo $data['revenue-7.1-2']; ?></textarea>
+			<?php endif; ?>
 		</fieldset>
 		
 		<fieldset>
-			<label for="revenue-7.1-3"><h4>Who are the top 10 executives that are in your pipeline for Event Chair for the next three years?</h4>
-			<textarea id="revenue-7.1-3" name="board[revenue-7.1-3]"><?php echo $data['revenue-7.1-3']; ?></textarea>
+			<label for="revenue-7.1-3">Who are the top 10 executives that are in your pipeline for Event Chair for the next three years?
+			<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+				<textarea id="revenue-7.1-3" name="board[revenue-7.1-3]"><?php echo $data['revenue-7.1-3']; ?></textarea>
+			<?php endif; ?>
 		</fieldset>
 		
 	</ul>
@@ -207,7 +212,7 @@ function cc_aha_print_revenue_summary_elt_leadership( $metro_id ){
 	<p>A report has been prepared for you showing ELT giving overall and by event and how you compare to markets of like size. 
 	Click <a href='http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Forms/AllItems.aspx?RootFolder=%2Fnat%2FVolunteerism%2FCommunity%20Planning%202014%2D2017%2FCPP2%20Revenue%20Assessment%20Analysis&FolderCTID=0x012000CFD890B30E39714BB20EE7AD8D89525D&View={035A3458-0EA6-40A9-9276-2F7B89EA536B}' target='_blank'>here</a> to download the report to share with your board.</p>
 	
-	<p><em>Please Note: This link will open in Sharepoint where you will see a list of affiliate folders. Choose the one you belong to and find your offices analysis. There you will find summaries of many of the criteria in the revenue section. Keep this report and note the tabs summarizing different aspects of this assessment.</em></p>
+	<p><em>Please Note: This link will open in SharePoint where you will see a list of affiliate folders. Choose the one you belong to and find your offices analysis. There you will find summaries of many of the criteria in the revenue section. Keep this report and note the tabs summarizing different aspects of this assessment.</em></p>
 	
 	<p><?php echo $data['8.1.2'] ? 'Your ELT leadership has all industries for your area represented.' : 'Your ELT leadership does not have all industries for your area represented.'; ?>
 	</p>
@@ -222,7 +227,7 @@ function cc_aha_print_revenue_summary_top_25_companies( $metro_id ){
 	<h5>Current State</h5>
 	<p>Find a link to your Top 25 report with summary <a href='http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Forms/AllItems.aspx?RootFolder=%2Fnat%2FVolunteerism%2FCommunity%20Planning%202014%2D2017%2FCPP2%20Revenue%20Assessment%20Analysis&FolderCTID=0x012000CFD890B30E39714BB20EE7AD8D89525D&View={035A3458-0EA6-40A9-9276-2F7B89EA536B}' target='_blank'>here</a>.</p>
 	
-	<p><em>Please Note: This link will open in Sharepoint where you will see a list of affiliate folders. Choose the one you belong to and find your offices analysis. There you will find summaries of many of the criteria in the revenue section. Keep this report and note the tabs summarizing different aspects of this assessment. </em></p>
+	<p><em>Please Note: This link will open in SharePoint where you will see a list of affiliate folders. Choose the one you belong to and find your offices analysis. There you will find summaries of many of the criteria in the revenue section. Keep this report and note the tabs summarizing different aspects of this assessment. </em></p>
 	
 	<p>Locate your affiliate and find your office from the list there.</p>
 	
@@ -238,32 +243,38 @@ function cc_aha_print_revenue_summary_sponsorship( $metro_id ){
 
 	<p>Find a report on your Platform and Signature sponsorships for the market’s events <a href='http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Forms/AllItems.aspx?RootFolder=%2Fnat%2FVolunteerism%2FCommunity%20Planning%202014%2D2017%2FCPP2%20Revenue%20Assessment%20Analysis&FolderCTID=0x012000CFD890B30E39714BB20EE7AD8D89525D&View={035A3458-0EA6-40A9-9276-2F7B89EA536B}' target='_blank'>here</a>.</p>
 
-	<p><em>Please Note: This link will open in Sharepoint where you will see a list of affiliate folders. Choose the one you belong to and find your offices analysis. There you will find summaries of many of the criteria in the revenue section. Keep this report and note the tabs summarizing different aspects of this assessment. </em></p>
+	<p><em>Please Note: This link will open in SharePoint where you will see a list of affiliate folders. Choose the one you belong to and find your offices analysis. There you will find summaries of many of the criteria in the revenue section. Keep this report and note the tabs summarizing different aspects of this assessment. </em></p>
 	
 	<p>You listed the following companies as ones who place a focus on corporate social responsibility: <?php echo $data['9.1.4'] ? $data['9.1.4'] : '<em>none</em>'; ?></p>
 
 	<h5>Discussion Questions</h5>
 	<ul>
 		<fieldset>
-			<label for="revenue-10.1"><h4>Is the board involved in developing a pipeline for Platform and Signature sponsorship?</h4>
-			<textarea id="revenue-10.1" name="board[revenue-10.1]"><?php echo $data['revenue-10.1']; ?></textarea>
-			<!--<input type="text" name="board[revenue-10.1]" value="<?php echo $data['revenue-10.1']; ?>" autocomplete="off" />-->
+			<label for="revenue-10.1">Is the board involved in developing a pipeline for Platform and Signature sponsorship?
+			<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+				<textarea id="revenue-10.1" name="board[revenue-10.1]"><?php echo $data['revenue-10.1']; ?></textarea>
+			<?php endif; ?>
 		</fieldset>
 		
 		<fieldset>
-			<label for="revenue-10.3"><h4>What other companies could be top prospects to join your existing Platform/Signature sponsors?</h4>
-			<textarea id="revenue-10.3" name="board[revenue-10.3]"><?php echo $data['revenue-10.3']; ?></textarea>
-			<!--<input type="text" name="10.3" value="<?php echo $data['revenue-10.3']; ?>" autocomplete="off" />-->
+			<label for="revenue-10.3">What other companies could be top prospects to join your existing Platform/Signature sponsors?
+			<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+				<textarea id="revenue-10.3" name="board[revenue-10.3]"><?php echo $data['revenue-10.3']; ?></textarea>
+			<?php endif; ?>
 		</fieldset>
 		
 		<fieldset>
-			<label for="revenue-10.6"><h4>What can be done to bring those current sponsors up to the recommended level?</h4>			
-			<textarea id="revenue-10.6" name="board[revenue-10.6]"><?php echo $data['revenue-10.6']; ?></textarea>
+			<label for="revenue-10.6">What can be done to bring those current sponsors up to the recommended level?
+			<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+				<textarea id="revenue-10.6" name="board[revenue-10.6]"><?php echo $data['revenue-10.6']; ?></textarea>
+			<?php endif; ?>
 		</fieldset>
 		
 		<fieldset>
-			<label for="revenue-10.7"><h4>How is the metro market team working together to implement account management of Platform sponsors or potential Platform sponsors?</h4>
-			<textarea id="revenue-10.7" name="board[revenue-10.7]"><?php echo $data['revenue-10.7']; ?></textarea>
+			<label for="revenue-10.7">How is the metro market team working together to implement account management of Platform sponsors or potential Platform sponsors?
+			<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+				<textarea id="revenue-10.7" name="board[revenue-10.7]"><?php echo $data['revenue-10.7']; ?></textarea>
+			<?php endif; ?>
 		</fieldset>
 		
 	</ul>
@@ -382,24 +393,32 @@ function cc_aha_print_revenue_summary_donor_stewardship( $metro_id ){
 	<ul>
 		<?php if ( $data['13.1.6'] == 0 ) { ?> 
 			<fieldset>
-				<label for="revenue-13.1.6"><h4>Will you be developing a cultivation plan this year?</h4>
-				<!--<input type="text" name="board[revenue-13.1.6]" value="<?php echo $data['revenue-13.1.6']; ?>" autocomplete="off" />-->
-				<textarea id="revenue-13.1.6" name="board[revenue-13.1.6]"><?php echo $data['revenue-13.1.6']; ?></textarea></fieldset>
+				<label for="revenue-13.1.6">Will you be developing a cultivation plan this year?
+				<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+					<textarea id="revenue-13.1.6" name="board[revenue-13.1.6]"><?php echo $data['revenue-13.1.6']; ?></textarea>
+				<?php endif; ?>
+			</fieldset>
 		<?php } ?>
 		
 		<fieldset>
-			<label for="revenue-13.1.5"><h4>Are you inviting top donors to all events in market?</h4>
-			<textarea id="revenue-13.1.5" name="board[revenue-13.1.5]"><?php echo $data['revenue-13.1.5']; ?></textarea>
+			<label for="revenue-13.1.5">Are you inviting top donors to all events in market?
+			<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+				<textarea id="revenue-13.1.5" name="board[revenue-13.1.5]"><?php echo $data['revenue-13.1.5']; ?></textarea>
+			<?php endif; ?>
 		</fieldset>
 		
 		<fieldset>
-			<label for="revenue-13.1.7"><h4>Do you know who your top donors are?</h4>			
-			<textarea id="revenue-13.1.7" name="board[revenue-13.1.7]"><?php echo $data['revenue-13.1.7']; ?></textarea>
+			<label for="revenue-13.1.7">Do you know who your top donors are?
+			<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+				<textarea id="revenue-13.1.7" name="board[revenue-13.1.7]"><?php echo $data['revenue-13.1.7']; ?></textarea>
+			<?php endif; ?>
 		</fieldset>
 		
 		<fieldset>
-			<label for="revenue-13.1.8"><h4>Is there a way board members could engage top donors?</h4>
-			<textarea id="revenue-13.1.8" name="board[revenue-13.1.8]"><?php echo $data['revenue-13.1.8']; ?></textarea>
+			<label for="revenue-13.1.8">Is there a way board members could engage top donors?
+			<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+				<textarea id="revenue-13.1.8" name="board[revenue-13.1.8]"><?php echo $data['revenue-13.1.8']; ?></textarea>
+			<?php endif; ?>
 		</fieldset>
 		
 	</ul>
@@ -457,7 +476,7 @@ function cc_aha_get_summary_revenue_sections() {
 				)
 			),
 		'sponsorship' => array(
-			'label' => 'Secure Platform/ Signature Sponsorship',
+			'label' => 'Secure Platform/Signature Sponsorship',
 			'slug' 	=> 'sponsorship',
 			'background' => 'The recruitment of renewed and additional top level partners each year for events are critical to the fundraising success of corporate events.  These partners bring year-round opportunities for partnering with AHA/ASA in our mission activation and helping people in our communities become healthier.',
 			'outcome' => 'Increase annual revenue through Platform/Signature sponsors in market (sponsorship levels at bottom of document).',

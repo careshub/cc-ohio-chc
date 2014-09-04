@@ -14,7 +14,7 @@
 .aha-survey.standard-form label {
 	margin-top: 8px;
 }
-.aha-survey .form-navigation {
+.assessment .form-navigation {
 	margin-top: 2em;
 }
 .aha-survey.standard-form .submit {
@@ -51,7 +51,7 @@
 .summary-navigation-container ul.horizontal {
 	margin-bottom: 0;
 }
-.progress-dial{
+.progress-dial {
 	display: table;
 	margin: 0 auto;
 	position: relative;
