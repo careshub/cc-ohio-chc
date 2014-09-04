@@ -386,7 +386,9 @@ function cc_aha_print_environmental_scan( $metro_id = 0 ) {
 	
 ?>
 	<section id="environmental-scan" class="clear">
-		<form id="aha_summary-<?php echo $section . '-' . $impact_area; ?>" class="standard-form aha-survey" method="post" action="<?php echo cc_aha_get_home_permalink() . 'update-summary/'; ?>">
+		<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+			<form id="aha_summary-<?php echo $section . '-' . $impact_area; ?>" class="standard-form aha-survey" method="post" action="<?php echo cc_aha_get_home_permalink() . 'update-summary/'; ?>">
+		<?php endif; ?>
 		
 		<h2 class="screamer">Environmental Scan</h2>
 		<div class="content-row">
@@ -400,7 +402,9 @@ function cc_aha_print_environmental_scan( $metro_id = 0 ) {
 				
 					<fieldset>
 						<label for="<?php echo $title; ?>"><h6><?php echo ucfirst( $question['name'] ) . ' - ' . $question['label']; ?></h6>
-						<textarea id="<?php echo $title; ?>" name="board[<?php echo $title; ?>]"><?php echo $data[$title]; ?></textarea>
+						<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+							<textarea id="<?php echo $title; ?>" name="board[<?php echo $title; ?>]"><?php echo $data[$title]; ?></textarea>
+						<?php endif; ?>
 
 					</fieldset>
 					
@@ -408,17 +412,23 @@ function cc_aha_print_environmental_scan( $metro_id = 0 ) {
 				
 			</ul>
 		</div>
-		
-		<input type="hidden" name="metro_id" value="<?php echo $metro_id; ?>">
-		
-		<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
+
+		<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+			<input type="hidden" name="metro_id" value="<?php echo $metro_id; ?>">
 			
-		<div class="form-navigation clear">
-			<div class="submit">
-				<input type="submit" name="submit-survey-to-toc" value="Save, Return to Table of Contents" id="submit-survey-to-toc">
+			<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
+				
+			<div class="form-navigation clear">
+				<div class="submit">
+					<input type="submit" name="submit-survey-to-toc" value="Save, Return to Table of Contents" id="submit-survey-to-toc">
+				</div>
 			</div>
-		</div>
 		</form>
+		<?php else: ?>
+			<div class="form-navigation clear">
+				<a href="<?php echo cc_aha_get_analysis_permalink( bp_action_variable( 2 ) ); ?>" class="button">Return to <?php echo ucwords( bp_action_variable( 2 ) ); ?> Analysis Summary</a>
+			</div>
+		<?php endif; ?>
 
 <?php
 }

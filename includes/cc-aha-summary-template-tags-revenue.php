@@ -103,6 +103,7 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 							<input type="submit" name="submit-revenue-analysis-to-toc" value="Save, Return to Table of Contents" id="submit-revenue-analysis-to-toc">
 						</div>
 					</div>
+				</form>
 				<?php else: ?>
 					<?php if ( bp_action_variable( 3 ) ) : ?>
 						<div class="form-navigation clear">
@@ -110,7 +111,6 @@ function cc_aha_print_revenue_section_report( $metro_id, $slug ){
 						</div>
 					<?php endif; ?>
 				<?php endif; ?>
-			</form>
 		<?php /*} else { ?>
 		
 			<h2 class="screamer"><?php echo $revenue_sections[$section_key]['label']; ?></h2>

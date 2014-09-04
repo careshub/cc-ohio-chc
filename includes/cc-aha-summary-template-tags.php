@@ -289,6 +289,7 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 		        <input type="submit" name="submit-survey-next-page" value="Save Responses and Continue" id="submit-survey-next-page">
 		    </div> -->
 		</div>
+	</form>
 	<?php else: ?>
 		<?php if ( bp_action_variable( 3 ) ) : ?>
 			<div class="form-navigation clear">
@@ -299,7 +300,6 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 			</div>
 		<?php endif; ?>
 	<?php endif; ?>
-	</form>
 	<?php
 }
 
