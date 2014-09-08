@@ -42,7 +42,7 @@ function cc_aha_print_single_report_card_revenue( $metro_id = 0 ){
 			</tbody>
 		</table>
 
-		<a href="<?php echo cc_aha_get_analysis_permalink( 'revenue' ); ?>/all" class="button">View Full Revenue Analysis Report</a>
+		<a href="<?php echo cc_aha_get_analysis_permalink( 'revenue' ); ?>all/" class="button">View Full Revenue Analysis Report</a>
 	</section>
 	<?php 
 }

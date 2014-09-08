@@ -172,7 +172,7 @@ function cc_aha_print_single_report_card_health( $metro_id = 0 ) {
 
 	<p><a href="http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Healthy%20Comm.%20Criteria%208-29-14%20Color.docx" target="_blank">Learn more about the scoring methodology</a></p>
 
-	<a href="<?php echo cc_aha_get_analysis_permalink( 'health' ); ?>/all" class="button">View Full Health Analysis Report</a>
+	<a href="<?php echo cc_aha_get_analysis_permalink( 'health' ); ?>all/" class="button">View Full Health Analysis Report</a>
 	</section>
 	<?php 
 }
