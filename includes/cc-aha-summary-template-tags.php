@@ -76,7 +76,9 @@ function cc_aha_render_summary_page(){
 		} else if ( bp_action_variable( 3 ) == 'all' ) {
 			echo '<h2 class="screamer">Full Health Analysis Report</h2>';
 			// First, print the report card
+			echo '<section>';
 			cc_aha_print_health_report_card_table( $metro_id );
+			echo '</section>';
 			// Then, print the environmental scan.
 			cc_aha_print_environmental_scan( $metro_id );
 			// Next, loop through all the sections and impact areas
@@ -96,8 +98,11 @@ function cc_aha_render_summary_page(){
 		} else if ( bp_action_variable( 3 ) == 'all' ) {
 			echo '<h2 class="screamer">Full Revenue Analysis Report</h2>';
 			// Print the table
+			echo '<section>';
 			cc_aha_print_revenue_report_card_table( $metro_id );
 			// Loop through all the sections
+			echo '</section>';
+
 			$revenue_sections = cc_aha_get_summary_revenue_sections();
 			foreach ( $revenue_sections as $revenue_name => $revenue_section ) {
 				cc_aha_print_revenue_section_report( $metro_id, $revenue_section['slug'] );
