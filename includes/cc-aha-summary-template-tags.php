@@ -74,7 +74,10 @@ function cc_aha_render_summary_page(){
 		} else if ( bp_action_variable( 3 ) == 'environmental-scan' ) {
 			cc_aha_print_environmental_scan( $metro_id );
 		} else if ( bp_action_variable( 3 ) == 'all' ) {
-			// First, print the environmental scan.
+			echo '<h2 class="screamer">Full Health Analysis Report</h2>';
+			// First, print the report card
+			cc_aha_print_health_report_card_table( $metro_id );
+			// Then, print the environmental scan.
 			cc_aha_print_environmental_scan( $metro_id );
 			// Next, loop through all the sections and impact areas
 			$sections = cc_aha_get_summary_sections( $metro_id );
@@ -91,6 +94,9 @@ function cc_aha_render_summary_page(){
 		if ( ! bp_action_variable( 3 ) ) {
 			cc_aha_print_single_report_card_revenue( $metro_id );
 		} else if ( bp_action_variable( 3 ) == 'all' ) {
+			echo '<h2 class="screamer">Full Revenue Analysis Report</h2>';
+			// Print the table
+			cc_aha_print_revenue_report_card_table( $metro_id );
 			// Loop through all the sections
 			$revenue_sections = cc_aha_get_summary_revenue_sections();
 			foreach ( $revenue_sections as $revenue_name => $revenue_section ) {
@@ -119,56 +125,9 @@ function cc_aha_print_single_report_card_health( $metro_id = 0 ) {
 
 	<section id="single-report-card-health" class="clear">
 		<?php // Building out a table of responses for one metro
-		$sections = cc_aha_get_summary_sections( $metro_id );
 		?>
 		<h4>Community Health Assessment Analysis</h4>
-		<table>
-			<thead>
-				<tr>
-					<th>Impact Area</th>
-					<th>Healthy Community Criteria</th>
-					<!-- <th>Health Need</th> -->
-					<th><a href="http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Healthy%20Comm.%20Criteria%208-29-14%20Color.docx" target="_blank">Score</th>
-					<th>Top 3 Priority</th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php 
-					foreach ($sections as $section_name => $section_data) { 
-						echo '<tr class="summary-table-section"><td colspan=5>' . $section_data['label'] . '</td></tr>';
-						
-						foreach ( $section_data['impact_areas'] as $impact_area_name => $impact_area_data ) {
-							foreach ( $impact_area_data['criteria'] as $crit_key => $criteria_data ) {
-							?>
-							<tr>
-								<?php if ( $crit_key == 1 ) : ?>
-								<td rowspan=<?php echo count( $impact_area_data['criteria'] ); ?>>
-									<a href="<?php echo cc_aha_get_analysis_permalink() . $section_name . '/' . $impact_area_name; ?>">
-									<?php echo $impact_area_data['label']; ?>
-									</a>
-								</td>
-							<?php endif; ?>
-								<td>
-									<?php echo $criteria_data['label']; ?>
-								</td>
-								<!-- <td>
-									Maybe a gauge goes here.
-								</td> -->
-								<td class="<?php echo cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key ); ?>">
-									<?php cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key ) ); ?>
-								</td>
-								<td>
-									<?php echo $data[$section_name . '-' . $impact_area_name . '-' . $crit_key . '-top-3'] ? 'Yes' : 'No'; ?>
-								</td>
-							</tr>
-
-							<?php
-							}
-						}
-					}
-				?>
-			</tbody>
-		</table>
+		<?php cc_aha_print_health_report_card_table( $metro_id, $data ); ?>
 
 	<p><a href="http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Healthy%20Comm.%20Criteria%208-29-14%20Color.docx" target="_blank">Learn more about the scoring methodology</a></p>
 
@@ -183,7 +142,7 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 	$data = cc_aha_get_form_data( $metro_id );
 	?>
 
-	<section id="<?php echo $impact_area; ?>" class="clear">
+	<section id="<?php echo $section . '-' . $impact_area; ?>" class="clear">
 		<?php if ( cc_aha_user_can_do_assessment() && ! cc_aha_on_analysis_complete_report_screen() ) : ?>
 		<form id="aha_summary-<?php echo $section . '-' . $impact_area; ?>" class="standard-form aha-survey" method="post" action="<?php echo cc_aha_get_home_permalink() . 'update-summary/'; ?>">
 		<?php endif; ?>
@@ -358,6 +317,66 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 	<?php endif; ?>
 	</section> <!-- #impact_area -->
 	<?php
+}
+
+function cc_aha_print_health_report_card_table( $metro_id, $data ) {
+	$sections = cc_aha_get_summary_sections( $metro_id );
+
+	?>
+	<table>
+			<thead>
+				<tr>
+					<th>Impact Area</th>
+					<th>Healthy Community Criteria</th>
+					<!-- <th>Health Need</th> -->
+					<th><a href="http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Healthy%20Comm.%20Criteria%208-29-14%20Color.docx" target="_blank">Score</th>
+					<th>Top 3 Priority</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php 
+					foreach ($sections as $section_name => $section_data) { 
+						echo '<tr class="summary-table-section"><td colspan=5>' . $section_data['label'] . '</td></tr>';
+						
+						foreach ( $section_data['impact_areas'] as $impact_area_name => $impact_area_data ) {
+							foreach ( $impact_area_data['criteria'] as $crit_key => $criteria_data ) {
+							?>
+							<tr>
+								<?php if ( $crit_key == 1 ) : ?>
+								<td rowspan=<?php echo count( $impact_area_data['criteria'] ); ?>>
+									<a href="<?php 
+									if ( cc_aha_on_analysis_complete_report_screen() ) {
+										// Output a local link if on the complete report
+										echo '#' . $section_name . '-' . $impact_area_name;
+									} else { 
+										echo cc_aha_get_analysis_permalink() . $section_name . '/' . $impact_area_name;
+									} ?>">
+									<?php echo $impact_area_data['label']; ?>
+									</a>
+								</td>
+							<?php endif; ?>
+								<td>
+									<?php echo $criteria_data['label']; ?>
+								</td>
+								<!-- <td>
+									Maybe a gauge goes here.
+								</td> -->
+								<td class="<?php echo cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key ); ?>">
+									<?php cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key ) ); ?>
+								</td>
+								<td>
+									<?php echo $data[$section_name . '-' . $impact_area_name . '-' . $crit_key . '-top-3'] ? 'Yes' : 'No'; ?>
+								</td>
+							</tr>
+
+							<?php
+							}
+						}
+					}
+				?>
+			</tbody>
+		</table>
+	<?php 
 }
 
 /**
@@ -1184,7 +1203,7 @@ function cc_aha_get_summary_sections() {
 }
 function cc_aha_get_summary_impact_area_title( $section, $impact_area ) {
 	$section_data = cc_aha_get_summary_sections();
-	return $section_data[$section]['impact_areas'][$impact_area]['label'];
+	return $section_data[$section]['label'] . ': ' . $section_data[$section]['impact_areas'][$impact_area]['label'];
 }
 
 function cc_aha_get_summary_introductory_text( $section, $impact_area, $crit_key ) {

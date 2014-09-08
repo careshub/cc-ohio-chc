@@ -10,41 +10,53 @@
 
 
 function cc_aha_print_single_report_card_revenue( $metro_id = 0 ){
-	$data = cc_aha_get_form_data( $metro_id );
 	?>
 	<section id="revenue-analysis-navigation" class="clear">
 		<h3 class="screamer">Revenue Assessment Analysis</h3>
-		<?php 
-		$revenue_sections = cc_aha_get_summary_revenue_sections(); ?>
 		
 		<!-- <h3>Community Health Assessment Analysis</h3> -->
-		<table>
-			<thead>
-				<tr>
-					<th>Impact Area</th>
-					<th>Top 3 Priority</th>
-				</tr>
-			</thead>
-			<tbody>
-			<?php 
-				foreach ( $revenue_sections as $revenue_name => $revenue_section ) { ?>
-					<tr>
-						<td>
-							<a href="<?php echo cc_aha_get_analysis_permalink( 'revenue' ) . $revenue_section['slug'];?>">
-							<?php echo $revenue_section['label']; ?>
-							</a>
-						</td>
-						<td>
-							<?php echo $data[$revenue_name . '-top-3'] ? 'Yes' : 'No'; ?>
-						</td>
-					</tr>
-				<?php } ?>
-			</tbody>
-		</table>
+		<?php cc_aha_print_revenue_report_card_table( $metro_id ); ?>
 
 		<a href="<?php echo cc_aha_get_analysis_permalink( 'revenue' ); ?>all/" class="button">View Full Revenue Analysis Report</a>
 	</section>
 	<?php 
+}
+
+function cc_aha_print_revenue_report_card_table( $metro_id ){
+	$revenue_sections = cc_aha_get_summary_revenue_sections();
+	$data = cc_aha_get_form_data( $metro_id );
+?>
+	<table>
+		<thead>
+			<tr>
+				<th>Impact Area</th>
+				<th>Top 3 Priority</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php 
+			foreach ( $revenue_sections as $revenue_name => $revenue_section ) { ?>
+				<tr>
+					<td>
+						<a href="<?php 
+							if ( cc_aha_on_analysis_complete_report_screen() ) {
+								// Output a local link if on the complete report
+								echo '#revenue' . '-' . $revenue_name;
+							} else { 
+								echo cc_aha_get_analysis_permalink( 'revenue' ) . $revenue_section['slug'];
+							} ?>">
+						<?php echo $revenue_section['label']; ?>
+						</a>
+					</td>
+					<td>
+						<?php echo $data[$revenue_name . '-top-3'] ? 'Yes' : 'No'; ?>
+					</td>
+				</tr>
+			<?php } ?>
+		</tbody>
+	</table>
+
+<?php
 }
 
 /**
