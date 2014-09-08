@@ -300,7 +300,7 @@ class CC_AHA_Extras {
 	 */
 	public function enqueue_styles() {
 		if ( cc_aha_is_component() )
-			wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'css/aha-extras-tab.css', __FILE__ ), array(), self::VERSION );
+			wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'css/aha-extras-tab.css', __FILE__ ), array(), '1.1' );
 	}
 
 	public function enqueue_registration_styles() {

@@ -391,12 +391,12 @@ function cc_aha_print_environmental_scan( $metro_id = 0 ) {
 	
 ?>
 	<section id="environmental-scan" class="clear">
-		<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+		<?php if ( cc_aha_user_can_do_assessment() && ! cc_aha_on_analysis_complete_report_screen() ) : ?>
 			<form id="aha_summary-<?php echo $section . '-' . $impact_area; ?>" class="standard-form aha-survey" method="post" action="<?php echo cc_aha_get_home_permalink() . 'update-summary/'; ?>">
 		<?php endif; ?>
 		
 		<h2 class="screamer">Environmental Scan</h2>
-		<div class="content-row">
+		<div class="content-container">
 		
 			<strong>For the following section please consult your Community Health Needs Assessment as well as discuss these questions strategically with staff and volunteers.</strong>
 			
@@ -407,8 +407,10 @@ function cc_aha_print_environmental_scan( $metro_id = 0 ) {
 				
 					<fieldset>
 						<label for="<?php echo $title; ?>"><h6><?php echo ucfirst( $question['name'] ) . ' - ' . $question['label']; ?></h6>
-						<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+						<?php if ( cc_aha_user_can_do_assessment() && ! cc_aha_on_analysis_complete_report_screen() ) : ?>
 							<textarea id="<?php echo $title; ?>" name="board[<?php echo $title; ?>]"><?php echo $data[$title]; ?></textarea>
+						<?php elseif ( cc_aha_user_can_do_assessment() && cc_aha_on_analysis_complete_report_screen() ) : ?>
+							<p><em>Response:</em> <?php echo $data[$title]; ?></p>
 						<?php endif; ?>
 
 					</fieldset>
@@ -418,7 +420,7 @@ function cc_aha_print_environmental_scan( $metro_id = 0 ) {
 			</ul>
 		</div>
 
-		<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+		<?php if ( cc_aha_user_can_do_assessment() && ! cc_aha_on_analysis_complete_report_screen() ) : ?>
 			<input type="hidden" name="metro_id" value="<?php echo $metro_id; ?>">
 			
 			<?php wp_nonce_field( 'cc-aha-assessment', 'set-aha-assessment-nonce' ) ?>
@@ -429,11 +431,12 @@ function cc_aha_print_environmental_scan( $metro_id = 0 ) {
 				</div>
 			</div>
 		</form>
-		<?php else: ?>
+		<?php elseif ( ! cc_aha_on_analysis_complete_report_screen() ) : ?>
 			<div class="form-navigation clear">
 				<a href="<?php echo cc_aha_get_analysis_permalink( bp_action_variable( 2 ) ); ?>" class="button">Return to <?php echo ucwords( bp_action_variable( 2 ) ); ?> Analysis Summary</a>
 			</div>
 		<?php endif; ?>
+	</section>  <!-- #environmental-scan -->
 
 <?php
 }

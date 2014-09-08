@@ -172,16 +172,20 @@
 
 
 	/* Adding line breaks for print only- isn't that cool? */
-	.assessment .content-row {
+	.assessment .content-row, .assessment section {
 	   page-break-before: always;
 	}
-	.assessment .content-row:first-of-type {
+	.assessment .content-row:first-of-type, .assessment section:first-of-type {
 	   page-break-before: avoid;
 	}
-	ul, img {
+	img, .dial-container {
 	   page-break-inside: avoid;
 	}
 	h2, h3, h4 {
 	   page-break-after: avoid;
+	}
+	.map-widget-image {
+		width: 100% !important;
+		min-height:100px !important;
 	}
 }

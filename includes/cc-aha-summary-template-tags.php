@@ -73,12 +73,29 @@ function cc_aha_render_summary_page(){
 			cc_aha_print_single_report_card_health( $metro_id );
 		} else if ( bp_action_variable( 3 ) == 'environmental-scan' ) {
 			cc_aha_print_environmental_scan( $metro_id );
+		} else if ( bp_action_variable( 3 ) == 'all' ) {
+			// First, print the environmental scan.
+			cc_aha_print_environmental_scan( $metro_id );
+			// Next, loop through all the sections and impact areas
+			$sections = cc_aha_get_summary_sections( $metro_id );
+			// print_r($sections);
+			foreach ( $sections as $section_name => $section_data ) { 
+				foreach ( $section_data['impact_areas'] as $impact_area_name => $impact_area_data ) {
+					cc_aha_print_impact_area_report( $metro_id, $section_name, $impact_area_name );
+				}
+			}
 		} else {
 			cc_aha_print_impact_area_report( $metro_id, bp_action_variable( 3 ), bp_action_variable( 4 ) );
 		}
 	}  else if ( $major_section == cc_aha_get_analysis_revenue_slug() ) {
 		if ( ! bp_action_variable( 3 ) ) {
 			cc_aha_print_single_report_card_revenue( $metro_id );
+		} else if ( bp_action_variable( 3 ) == 'all' ) {
+			// Loop through all the sections
+			$revenue_sections = cc_aha_get_summary_revenue_sections();
+			foreach ( $revenue_sections as $revenue_name => $revenue_section ) {
+				cc_aha_print_revenue_section_report( $metro_id, $revenue_section['slug'] );
+			}
 		} else { 
 			cc_aha_print_revenue_section_report( $metro_id, bp_action_variable( 3 ) );
 		}
@@ -154,6 +171,8 @@ function cc_aha_print_single_report_card_health( $metro_id = 0 ) {
 		</table>
 
 	<p><a href="http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Healthy%20Comm.%20Criteria%208-29-14%20Color.docx" target="_blank">Learn more about the scoring methodology</a></p>
+
+	<a href="<?php echo cc_aha_get_analysis_permalink( 'health' ); ?>/all" class="button">View Full Health Analysis Report</a>
 	</section>
 	<?php 
 }
@@ -165,7 +184,7 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 	?>
 
 	<section id="<?php echo $impact_area; ?>" class="clear">
-		<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+		<?php if ( cc_aha_user_can_do_assessment() && ! cc_aha_on_analysis_complete_report_screen() ) : ?>
 		<form id="aha_summary-<?php echo $section . '-' . $impact_area; ?>" class="standard-form aha-survey" method="post" action="<?php echo cc_aha_get_home_permalink() . 'update-summary/'; ?>">
 		<?php endif; ?>
 		
@@ -213,12 +232,13 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 						$function_name( $metro_id );
 					} else {
 						// TODO: Remove this debugging code.
-						echo "no function by the name: " . $function_name;
+						// echo "no function by the name: " . $function_name;
 					}
 				}
 
 				 ?>
-				<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+
+				<?php if ( cc_aha_user_can_do_assessment() && ! cc_aha_on_analysis_complete_report_screen() ) : ?>
 			 		<fieldset>
 			 			<?php 
 			 			$input_prefix = $section . '-' . $impact_area . '-' . $crit_key;
@@ -245,6 +265,27 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 							<label><input type="radio" value="1" name="board[<?php echo 'care-acute-2-top-3'; ?>]" <?php checked( $radio_checked, 1 ) ; ?>> Yes</label>
 							<label><input type="radio" value="0" name="board[<?php echo 'care-acute-2-top-3'; ?>]" <?php checked( $radio_checked, 0 ); ?>> No</label>
 						
+						<?php } ?>
+					</fieldset>
+				<?php // This version is used on the "all" view. (Not a form)
+				elseif ( cc_aha_user_can_do_assessment() && cc_aha_on_analysis_complete_report_screen() ) : ?>
+					<fieldset>
+			 			<?php 
+			 			$input_prefix = $section . '-' . $impact_area . '-' . $crit_key;
+			 			
+						if( $input_prefix != 'care-acute-1' ) { //because this one has no discussion questions.. ?>
+							<p><em>Response</em>: <?php echo $data[$input_prefix . '-open-response']; ?></p>
+						<?php } ?>
+						
+						<?php if ( ( $input_prefix != 'care-acute-1' ) && ( $input_prefix != 'care-acute-2' ) ) { ?>
+							<p>Based on your preliminary discussions, do you think this may be a top 3 health impact opportunity for your board? <em><?php echo $data[$section . '-' . $impact_area . '-' . $crit_key . '-top-3'] ? 'Yes' : 'No'; ?></em></p>
+						
+						<?php } else if ( $input_prefix == 'care-acute-2' ) { 
+							//display Top 3 radios for BOTH carse_acute_1 and cares_acute 2 in cares_acute 2 section ?>
+							<p>Based on your preliminary discussions, do you think addressing TOTAL CVD DISCHARGES from CMS penalty hospitals may be a top 3 health impact opportunity for your board? <em><?php echo $data['care-acute-1-top-3'] ? 'Yes' : 'No'; ?></em></p>
+							
+							<p>Based on your preliminary discussions, do you think addressing UNDERSERVED CVD DISCHARGES from CMS penalty hospitals may be a top 3 health impact opportunity for your board? <em><?php echo $data['care-acute-2-top-3'] ? 'Yes' : 'No'; ?></em></p>
+					
 						<?php } ?>
 					</fieldset>
 				<?php endif; ?>
@@ -290,7 +331,7 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 <?php
 	}
 	?>
-	<?php if ( cc_aha_user_can_do_assessment() ) : ?>
+	<?php if ( cc_aha_user_can_do_assessment() && ! cc_aha_on_analysis_complete_report_screen() ) : ?>
 	    <input type="hidden" name="analysis-section" value="<?php echo bp_action_variable( 2 ); ?>">
 		<input type="hidden" name="metro_id" value="<?php echo $metro_id; ?>">
 		<input type="hidden" name="section-impact-area" value="<?php echo $section . '-' . $impact_area; ?>">
@@ -305,7 +346,7 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 		    </div> -->
 		</div>
 	</form>
-	<?php else: ?>
+	<?php elseif ( ! cc_aha_on_analysis_complete_report_screen() ) : ?>
 		<?php if ( bp_action_variable( 3 ) ) : ?>
 			<div class="form-navigation clear">
 				<a href="<?php echo cc_aha_get_analysis_permalink( bp_action_variable( 2 ) ); ?>" class="button">Return to <?php echo ucwords( bp_action_variable( 2 ) ); ?> Analysis Summary</a>
@@ -315,6 +356,7 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 			</div>
 		<?php endif; ?>
 	<?php endif; ?>
+	</section> <!-- #impact_area -->
 	<?php
 }
 

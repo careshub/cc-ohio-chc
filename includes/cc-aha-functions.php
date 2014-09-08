@@ -220,6 +220,13 @@ function cc_aha_on_survey_quick_summary_screen(){
         return false;
     }
 }
+function cc_aha_on_analysis_complete_report_screen(){
+   if ( cc_aha_is_component() && bp_is_action_variable( 'all', 3 ) ){
+        return true;
+    } else {
+        return false;
+    }
+}
 
 /**
  * Retrieve a user's metro affiliation
