@@ -334,7 +334,12 @@ function cc_aha_print_criterion_school_cpr_1( $metro_id ) {
 				?>
 				<tr>
 					<td><?php echo $school['DIST_NAME']; ?></td>
-					<td><?php if ( isset ( $school['5.1.4.1']) && $school['5.1.4.1'] != '' ) {
+					<td><?php 
+					if ( $data[ '5.1.1' ] ) {
+						// Set the district's CPR status to true, so the next if will work.
+						$school['5.1.4.1'] = 1;
+					}
+					if ( isset ( $school['5.1.4.1']) && $school['5.1.4.1'] != '' ) {
 						echo $school['5.1.4.1'] ? 'Yes' : 'No'; 
 					} else {
 						echo 'Don\'t Know';

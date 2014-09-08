@@ -49,12 +49,15 @@ function cc_aha_render_summary_page(){
 				<li><a href="<?php echo cc_aha_get_analysis_permalink( bp_action_variable( 2 ) ); ?>" class="button">Return to <?php echo ucwords( bp_action_variable( 2 ) ); ?> Analysis Summary</a></li>
 			<?php endif; ?>
 			<li class="alignright">
-			<?php if ( ! empty( $cleanedfips ) ) { ?>
-				<a href="http://assessment.communitycommons.org/CHNA/OpenReport.aspx?reporttype=AHA&areatype=county&areaid=<?php echo $cleanedfips; ?>" target="_blank" class="button">View Data Report</a>
-			<?php } else { ?>	
-				<a href="http://assessment.communitycommons.org/CHNA/selectarea.aspx?reporttype=AHA " target="_blank" class="button">View Data Report</a>				
-			<?php } ?>	
-				&emsp;</li>
+				<?php if ( ! empty( $cleanedfips ) ) { ?>
+					<a href="http://assessment.communitycommons.org/CHNA/OpenReport.aspx?reporttype=AHA&areatype=county&areaid=<?php echo $cleanedfips; ?>" target="_blank" class="button">View Data Report</a>
+				<?php } else { ?>	
+					<a href="http://assessment.communitycommons.org/CHNA/selectarea.aspx?reporttype=AHA " target="_blank" class="button">View Data Report</a>				
+				<?php } ?>	
+			</li>
+			<li class="alignright">
+				<a href="javascript:window.print()" class="button">Print Page</a>
+			</li>
 		</ul>
 		<!-- <input type="button" class="button" value="Print Summary" /> -->
 	</div>
@@ -837,7 +840,7 @@ function cc_aha_print_criterion_school_phys_2( $metro_id ) {
 							echo $entry[ '2.2.5.1.2' ];
 						}
 					?></td>
-					<td><?php echo '<a href="' . $entry['2.2.5.1.3'] . '" target="_blank">' . $entry['2.2.5.1.3'] . '</a>'; ?></td>
+					<td><?php echo '<a href="' . $entry['2.2.5.1.3'] . '" target="_blank">Visit URL</a>'; ?></td>
 				</tr>
 				<?php
 			} ?>
@@ -1000,7 +1003,7 @@ function cc_aha_get_summary_sections() {
 							'background' => 'Complete Streets policies consider the needs of all users in all transportation projects incorporating walking, bicycling, public transportation, and driving.',
 							'group' => 'community_phys_1',
 							'dial_ids' => array( 306, 307),
-							'map_ids' => array( 2400, 2401 ),
+							'map_ids' => array( 2404 ),
 						),
 					),
 				),

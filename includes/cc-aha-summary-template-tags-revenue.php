@@ -474,7 +474,7 @@ function cc_aha_get_summary_revenue_sections() {
 		'top_25_companies' => array(
 			'label' => 'Grow Top 25 Company Engagement',
 			'slug' 	=> 'top-25-companies',
-			'background' => 'Involvement from the top 25 corporations in markets is critical for the current and future success of fundraising events and for helping us “meet people where they are” with healthy living strategies.  Because of the larger number of employees involved, there is greater likelihood for employee involvement in different AHA events, and the greatest financial potential for corporate giving.  This corporate segment gives a pipeline for recruitment and source for new company development as well as provides depth with current partners due to size and scope.',
+			'background' => 'Involvement from the top 25 corporations in markets is critical for the current and future success of fundraising events and for helping us &ldquo;meet people where they are&rdquo; with healthy living strategies.  Because of the larger number of employees involved, there is greater likelihood for employee involvement in different AHA events, and the greatest financial potential for corporate giving.  This corporate segment gives a pipeline for recruitment and source for new company development as well as provides depth with current partners due to size and scope.',
 			'outcome' => 'Board demonstrates meaningful contributions from top 25 employers through leadership/CSuite involvement, fundraising, and health-related activities.',
 			'outcome-stats' => array(
 				1	=> 'Increase companies that raise over 100K to X.',
@@ -493,7 +493,7 @@ function cc_aha_get_summary_revenue_sections() {
 		'youth_market' => array(
 			'label' => 'Expand Youth Market Efforts',
 			'slug' 	=> 'youth-market',
-			'background' => 'Increasing the number of donors who have the capacity to make a $100,000+ gift, as well as increasing the acquisition and retention of Cor Vitae Society Members ($5,000+ annually) will help further the mission of AHA/ASA.  These measurements are consistent with our commitment to our Guiding Values and directly correlate with “Making an Extraordinary Impact” and “Inspiring Passionate Commitment”.  By increasing revenue from Cor Vitae Society Members, as well as those already giving at high levels, local board members will also be impacting other Guiding Values such as “Bringing Science to Life”, “Improving and Extending People’s Lives”, and “Ensuring Equitable Health for All”.',
+			'background' => 'The renewal and recruitment of new schools is critical to implementing the strategies of the Youth Market program.  Recruiting the superintendent gives top-level collaboration to influence and recruit throughout the system,  including district employees and school leadership.  This partnership results in more individuals: employees as well as students, fundraising for the AHA and being touched by critical messaging for heart health.',
 			'outcome' => 'Increase the number of schools participating in AHA health and revenue activities.',
 			'outcome-stats' => array(
 				1	=> 'Recruit Superintendent who sets a district wide goal and actively engages all the schools in the district with students, faculty & all district wide employees.'
@@ -502,7 +502,7 @@ function cc_aha_get_summary_revenue_sections() {
 		'individual_giving' => array(
 			'label' => 'Increase Individual Giving',
 			'slug' 	=> 'individual-giving',
-			'background' => 'Increasing the number of donors who have the capacity to make a $100,000+ gift, as well as increasing the acquisition and retention of Cor Vitae Society Members ($5,000+ annually) will help further the mission of AHA/ASA.  These measurements are consistent with our commitment to our Guiding Values and directly correlate with “Making an Extraordinary Impact” and “Inspiring Passionate Commitment”.  By increasing revenue from Cor Vitae Society Members, as well as those already giving at high levels, local board members will also be impacting other Guiding Values such as “Bringing Science to Life”, “Improving and Extending People’s Lives”, and “Ensuring Equitable Health for All”.',
+			'background' => 'Increasing the number of donors who have the capacity to make a $100,000+ gift, as well as increasing the acquisition and retention of Cor Vitae Society Members ($5,000+ annually) will help further the mission of AHA/ASA.  These measurements are consistent with our commitment to our Guiding Values and directly correlate with &ldquo;Making an Extraordinary Impact&rdquo; and &ldquo;Inspiring Passionate Commitment&rdquo;.  By increasing revenue from Cor Vitae Society Members, as well as those already giving at high levels, local board members will also be impacting other Guiding Values such as &ldquo;Bringing Science to Life&rdquo;, &ldquo;Improving and Extending People’s Lives&rdquo;, and &ldquo;Ensuring Equitable Health for All&rdquo;.',
 			'outcome' => 'Increase pipeline of potential individual donors that have the ability to give $100,000+ gifts.',
 			'outcome-stats' => array(
 				1	=> 'Increase prospects that have the ability of giving a gift of $100,000 or more from X to Y.',
