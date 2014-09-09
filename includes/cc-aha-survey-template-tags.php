@@ -22,21 +22,19 @@ function cc_aha_form_page_list(){
 	3 => 'Local Government Procurement Policy (Vending & Service Contracts)',
 	4 => 'Healthy Food Financing',
 	5 => 'Health Factors - Insurance Coverage',
-	// 6 => 'Quality Physical Education in Schools',
-	// 7 => 'Shared Use Policies',
-	// 6 => 'Shared Use Policies',
-	// 9  => 'School Nutrition Policies',
-	// 10  => 'School Nutrition Policies, continued',
-	6 => 'Chain of Survival - CPR Graduation Requirements',
-	7 => 'Recruit Event Leadership',
-	8 => 'Secure Top ELT Leadership',
-	9 => 'Top 25 Companies',
-	10 => 'Secure Platform/Signature Sponsorship',
-	11 => 'Expand Youth Market Efforts - Participating Schools',
-	12 => 'Increase Individual Giving - Individual Giving Prospects',
-	13 => 'Increase Individual Giving - Cor Vitae Recruitment',
-	14 => 'Enhance Donor Stewardship - Donor Retention',
-	15 => 'Membership in the Paul Dudley White Legacy Society (individuals who have named AHA as a beneficiary of their estate plans) - Donor Retention'
+	6 => 'Quality Physical Education in Schools',
+	7 => 'Shared Use Policies',
+	8  => 'School Nutrition Policies',
+	9 => 'Chain of Survival - CPR Graduation Requirements',
+	10 => 'Recruit Event Leadership',
+	11 => 'Secure Top ELT Leadership',
+	12 => 'Top 25 Companies',
+	13 => 'Secure Platform/Signature Sponsorship',
+	14 => 'Expand Youth Market Efforts - Participating Schools',
+	15 => 'Increase Individual Giving - Individual Giving Prospects',
+	16 => 'Increase Individual Giving - Cor Vitae Recruitment',
+	17 => 'Enhance Donor Stewardship - Donor Retention',
+	18 => 'Membership in the Paul Dudley White Legacy Society (individuals who have named AHA as a beneficiary of their estate plans) - Donor Retention'
 	);
 }
 
@@ -64,7 +62,7 @@ function cc_aha_render_form( $page = null ){
 		<?php
 
 			// Some pages can be auto-built. Others we're going to hand-code.
-			$hand_built = array( 1, 6, 9 );
+			$hand_built = array( 1, 6, 7, 8, 9, 12 );
 			if ( in_array( $page, $hand_built ) ) {
 				$aha_form_function_name = 'cc_aha_handcoded_questions_' . $page;
 				$aha_form_function_name();
@@ -136,7 +134,7 @@ function cc_aha_handcoded_questions_1(){
 				 	case 6:
 				 		echo '<h5>Health Assessment: Top 5 School District Policies</h5>';
 				 		break;
-				 	case 7:
+				 	case 10:
 				 		echo '<h5>Revenue Assessment</h5><p><em>Section Three:</em> This section of the assessment should be led by the Executive Director along with the participation of the following staff: Heart Ball Director, Heart Walk Director, Go Red Director as well as other staff serving in the capacity of Donor Stewardship, Sponsorship Management, Workplace Giving and Cor Vitae</p>';
 				 		break;
 				 	
@@ -154,7 +152,8 @@ function cc_aha_handcoded_questions_1(){
 	<?php
 }
 
-function cc_aha_handcoded_questions_6_old(){
+function cc_aha_handcoded_questions_6(){
+	// PE Requirements
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 2 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
@@ -190,7 +189,7 @@ function cc_aha_handcoded_questions_6_old(){
 	}
 }
 
-function cc_aha_handcoded_questions_7_old(){
+function cc_aha_handcoded_questions_7(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 9 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
@@ -203,7 +202,7 @@ function cc_aha_handcoded_questions_7_old(){
 			<legend><h4><?php cc_aha_print_school_question_text( '2.2.5.1', $district ); ?></h4></legend>
 			<?php aha_render_school_radio_group( '2.2.5.1', $district ); ?>
 		</fieldset>
-
+		<?php /* ?>
 			<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID']; ?>-2.2.5.1.1">
 				<fieldset>
 					<legend><?php cc_aha_print_school_question_text( '2.2.5.1.1', $district ); ?> </legend>
@@ -219,6 +218,7 @@ function cc_aha_handcoded_questions_7_old(){
 					aha_render_school_textarea_input( '2.2.5.1.1.1', $district );
 					?></label>
 			</div>
+		<?php */ ?>
 
 			<div class="follow-up-question" data-relatedTarget="<?php echo $district['DIST_ID']; ?>-2.2.5.1.3">
 				<label><?php
@@ -231,12 +231,12 @@ function cc_aha_handcoded_questions_7_old(){
 	}
 }
 
-function cc_aha_handcoded_questions_9_old(){
+function cc_aha_handcoded_questions_8(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 10 );
 	$school_districts = cc_aha_get_school_data( $_COOKIE['aha_active_metro_id'] );
 	?>
 
-	<h2><?php cc_aha_print_form_page_header( 9 ); ?></h2>
+	<h2><?php cc_aha_print_form_page_header( 8 ); ?></h2>
 	<?php
 	foreach ( $school_districts as $district ) {
 			// School district stuff will require a different save routine, since they're keyed by district ID.
@@ -271,12 +271,12 @@ function cc_aha_handcoded_questions_9_old(){
 	//aha_render_checkbox_input( '3.1.4', $data);
 }
 
-function cc_aha_handcoded_questions_6(){
+function cc_aha_handcoded_questions_9(){
 	$data = cc_aha_get_form_data( $_COOKIE['aha_active_metro_id'], 2 );
-	$questions = cc_aha_get_form_questions( 6 );
+	$questions = cc_aha_get_form_questions( 9 );
 	?>
 
-	<h2><?php cc_aha_print_form_page_header( 6 ); ?></h2>
+	<h2><?php cc_aha_print_form_page_header( 9 ); ?></h2>
 	<?php 
 	if ( $data['5.1.1'] ) {
 		echo "Your state has CPR graduation requirements in place.";
@@ -289,10 +289,10 @@ function cc_aha_handcoded_questions_6(){
 	}
 }
 
-function cc_aha_handcoded_questions_9(){
+function cc_aha_handcoded_questions_12(){
 	?>
 
-	<h2><?php cc_aha_print_form_page_header( 9 ); ?></h2>
+	<h2><?php cc_aha_print_form_page_header( 12 ); ?></h2>
 
 	<ol>
 		<li><a href="http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Forms/AllItems.aspx?RootFolder=%2Fnat%2FVolunteerism%2FCommunity%20Planning%202014%2D2017%2FCPP2%20Top%2025%20Companies&FolderCTID=0x012000CFD890B30E39714BB20EE7AD8D89525D&View=%7b035A3458-0EA6-40A9-9276-2F7B89EA536B%7d
@@ -409,8 +409,8 @@ function cc_aha_render_school_question( $question, $data ){
 function aha_render_boolean_radios( $qid, $data, $follow_up_id = null, $follow_up_on_value = 1 ) {
 	?>
 	
-	<label><input type="radio" name="<?php echo 'board[' . $qid . ']'; ?>" value="1" <?php if ( $data[ $qid ] ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 1 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> Yes</label>
-	<label><input type="radio" name="<?php echo 'board[' . $qid . ']'; ?>" value="0" <?php if ( ! $data[ $qid ] ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 0 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> No</label>
+	<label><input type="radio" name="<?php echo 'board[' . $qid . ']'; ?>" value="1" <?php if ( $data[ $qid ] == 1 ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 1 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> Yes</label>
+	<label><input type="radio" name="<?php echo 'board[' . $qid . ']'; ?>" value="0" <?php if ( $data[ $qid ] != '' && $data[ $qid ] == 0 ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 0 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> No</label>
 	<?php 
 }
 
@@ -443,7 +443,7 @@ function aha_render_radio_group( $qid, $data, $options = array() ){
 
 function aha_render_text_input( $qid, $data ){
 	?>
-	<input type="text" name="<?php echo 'board[' . $qid . ']'; ?>" id="<?php echo $qid; ?>" value="<?php echo $data[ $qid ]; ?>" />
+	<input type="text" name="<?php echo 'board[' . $qid . ']'; ?>" id="<?php echo $qid; ?>" value="<?php echo $data[ $qid ]; ?>" size="80" />
 	<?php
 }
 
@@ -494,8 +494,8 @@ function cc_aha_render_checkboxes( $qid, $data, $options = array() ){
 function aha_render_school_boolean_radios( $qid, $district, $follow_up_id = null, $follow_up_on_value = 1  ) {
 	$qname = 'school[' . $district['DIST_ID'] . '][' . $qid . ']'; 
 	?>
-	<label><input type="radio" name="<?php echo $qname; ?>" value="1" <?php if ( $district[ $qid ] ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 1 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> Yes</label>
-	<label><input type="radio" name="<?php echo $qname;  ?>" value="0" <?php if ( ! $district[ $qid ] ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 0 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> No</label>
+	<label><input type="radio" name="<?php echo $qname; ?>" value="1" <?php if ( $district[ $qid ] == 1 ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 1 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> Yes</label>
+	<label><input type="radio" name="<?php echo $qname;  ?>" value="0" <?php if ( $district[ $qid ] != '' && $district[ $qid ] == 0 ) echo 'checked="checked"'; ?> <?php if ( $follow_up_id ) echo 'class="has-follow-up"'; ?> <?php if ( $follow_up_id && $follow_up_on_value == 0 ) echo 'data-relatedQuestion="' . $follow_up_id .'"'; ?>> No</label>
 	<?php 
 }
 
@@ -528,7 +528,7 @@ function aha_render_school_radio_group( $qid, $district, $options = array() ){
 function aha_render_school_text_input( $qid, $district ){
 	$qname = 'school[' . $district['DIST_ID'] . '][' . $qid . ']'; 
 	?>
-	<input type="text" name="<?php echo $qname; ?>" id="<?php echo $qname; ?>" value="<?php echo $district[ $qid ]; ?>" />
+	<input type="text" name="<?php echo $qname; ?>" id="<?php echo $qname; ?>" value="<?php echo $district[ $qid ]; ?>" size="80" />
 	<?php
 }
 
