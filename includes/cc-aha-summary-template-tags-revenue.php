@@ -394,7 +394,7 @@ function cc_aha_print_revenue_summary_individual_giving( $metro_id ){
 	
 	<h5>Current State</h5>
 	
-	<?php if ( $fips = cc_aha_get_fips( $metro_id ) ) : ?>
+	<?php if ( $fips = cc_aha_get_fips( $metro_id ) && false ) : ?>
 	<div class="health-needs-container alignright">
 		<div class="dial-container">
 			<script src='http://maps.communitycommons.org/jscripts/mapWidget.js?geoid=<?php echo $fips; ?>&mapid=2406'></script>
