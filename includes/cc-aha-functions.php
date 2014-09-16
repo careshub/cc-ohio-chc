@@ -42,6 +42,9 @@ function cc_aha_get_group_id(){
         case 'http://commonsdev.local':
             $group_id = 55;
             break;
+		case 'http://localhost/cc_local':
+            $group_id = 592;
+            break;
         case 'http://dev.communitycommons.org':
             $group_id = 592;
             break;
@@ -77,6 +80,9 @@ function cc_aha_get_analysis_health_slug(){
 function cc_aha_get_analysis_revenue_slug(){
     return 'revenue';
 }
+function cc_aha_get_report_card_slug(){
+    return 'report-card';
+}
 /**
  * Get URIs for the various pieces of this tab
  * 
@@ -106,6 +112,12 @@ function cc_aha_get_analysis_permalink( $section = false, $metro_id = false ) {
 
     $permalink = cc_aha_get_home_permalink() . cc_aha_get_analysis_slug() . '/' . $metro_id_string . $section_string;
     return apply_filters( "cc_aha_analysis_permalink", $permalink, $section, $metro_id);
+}
+
+function cc_aha_get_report_card_permalink( $group_id = false ) {
+
+    $permalink = cc_aha_get_home_permalink( $group_id ) . cc_aha_get_report_card_slug();
+	return apply_filters( "cc_aha_report_card_permalink", $permalink, $group_id);
 }
 
 /**
