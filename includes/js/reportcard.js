@@ -12,8 +12,7 @@ function showCommunityTrigger(){
 	jQuery('.community-hide-trigger').on("click", hideCommunityTrigger );
 }
 
-function hideCommunityTrigger(){
-
+function hideCommunityTrigger(e){
 	jQuery('.community-hide-trigger').html("SHOW COMMUNITY");
 	jQuery('.community-hide-trigger').removeClass('community-hide-trigger').addClass('community-show-trigger');
 	jQuery('.community-show').fadeOut();
@@ -22,7 +21,7 @@ function hideCommunityTrigger(){
 	jQuery('.community-show-trigger').on("click", showCommunityTrigger);
 }
 
-function hideSchoolTrigger(){
+function hideSchoolTrigger(e){
 
 	jQuery('.school-hide-trigger').html("SHOW SCHOOL");
 	jQuery('.school-hide-trigger').removeClass('school-hide-trigger').addClass('school-show-trigger');
@@ -58,6 +57,25 @@ function hideCareTrigger(){
 	jQuery('.care-show-trigger').on("click", showCareTrigger);
 }
 
+function showAllTrigger(){
+	jQuery('.community-show-trigger').html("HIDE CARE");
+	jQuery('.community-show-trigger').removeClass('care-show-trigger').addClass('care-hide-trigger');
+	
+	jQuery('.school-show-trigger').html("HIDE CARE");
+	jQuery('.school-show-trigger').removeClass('care-show-trigger').addClass('care-hide-trigger');
+	
+	jQuery('.care-show-trigger').html("HIDE CARE");
+	jQuery('.care-show-trigger').removeClass('care-show-trigger').addClass('care-hide-trigger');
+	
+	jQuery('.community-show').fadeIn();
+	jQuery('.school-show').fadeIn();
+	jQuery('.care-show').fadeIn();
+	
+	//add click handlers back in
+	jQuery('.community-hide-trigger').on("click", hideCommunityTrigger );
+	jQuery('.school-hide-trigger').on("click", hideSchoolTrigger );
+	jQuery('.care-hide-trigger').on("click", hideCareTrigger );
+}
 
 
 
@@ -82,6 +100,7 @@ jQuery(document).ready(function($){
 	jQuery('.care-hide-trigger').on("click", hideCareTrigger );
 	jQuery('.care-show-trigger').on("click", showCareTrigger);
 	
+	jQuery('.all-show-trigger').on("click", showAllTrigger);
 	
 },(jQuery));
 

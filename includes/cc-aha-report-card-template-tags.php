@@ -29,12 +29,12 @@ function cc_aha_print_all_report_card_health( ) {
 		
 		<ul class="horizontal no-bullets">
 			
-			<li><div class="button community-show-trigger">SHOW COMMUNITY</div></li>
-			<li><div class="button school-show-trigger">SHOW SCHOOL</div></li>
-			<li><div class="button care-show-trigger">SHOW CARE</div></li>
+			<li><a class="button community-hide-trigger">HIDE COMMUNITY</a></li>
+			<li><a class="button school-hide-trigger">HIDE SCHOOL</a></li>
+			<li><a class="button care-hide-trigger">HIDE CARE</a></li>
 			
 			<li class="alignright">
-				<li><div class="button all-show-trigger">SHOW ALL</div></li>
+				<li><a class="button all-show-trigger">SHOW ALL</a></li>
 			</li>
 		</ul>
 		<?php cc_aha_print_report_card_table( $all_data ); ?>
@@ -71,7 +71,7 @@ function cc_aha_print_report_card_table( $all_data ) {
 				
 				<th class="{sorter: false} white-border school-show" colspan="5">Healthy Schools<br></th>
 				
-				<th class="{sorter: false} white-border care-trigger" colspan="3">Healthcare Quality and Access<br></th>
+				<th class="{sorter: false} white-border care-show" colspan="3">Healthcare Quality and Access<br></th>
 				<th class="">Total Score</th>
 			</tr>
 			
@@ -87,7 +87,7 @@ function cc_aha_print_report_card_table( $all_data ) {
 				<th class="{sorter: false} white-border school-show" colspan="2">Healthy Diet<br></th>
 				<th class="{sorter: false} white-border school-show" colspan="1">Chain of Survival<br></th>
 				
-				<th class="{sorter: false} white-border care-trigger" colspan="3">Healthy Outcomes<br></th>
+				<th class="{sorter: false} white-border care-show" colspan="3">Healthy Outcomes<br></th>
 				<th class="{sorter: false}"></th>
 			</tr>
 		

@@ -229,3 +229,7 @@ table#report-card-table  .poor{
 table#report-card-table tr{
 	height:60px;
 }
+
+a.button {
+	cursor:pointer;
+}
