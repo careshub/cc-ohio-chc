@@ -193,6 +193,9 @@ function cc_aha_render_tab_subnav(){
                         <a href="<?php echo cc_aha_get_analysis_permalink( 'revenue' ); ?>">Revenue Analysis Report</a>
                     </li>
                 <?php endif; ?>
+				<li <?php if ( cc_aha_on_report_card_screen( ) ) { echo 'class="current"'; } ?>>
+                    <a href="<?php echo cc_aha_get_report_card_permalink(); ?>">Summary Dashboard (All Boards)</a>
+                </li>
             </ul>
         </div>
         <?php

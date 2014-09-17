@@ -85,6 +85,31 @@ function cc_aha_get_school_data( $metro_id ){
 }
 
 /**
+ * Returns array of all saved board data. 
+ *
+ * @since    1.0.0
+ * @return 	array
+ */
+function cc_aha_get_all_board_data( ){
+
+	global $wpdb;
+	 
+	//get board data from database
+	//$table_name = "wp_aha_assessment_board";
+	$form_rows = $wpdb->get_results( 
+		$wpdb->prepare( 
+		"
+		SELECT * 
+		FROM $wpdb->aha_assessment_board
+		",
+		$metro_id )
+		, ARRAY_A
+	);
+
+	return $form_rows;
+}
+
+/**
  * Returns array of school district data by qid and metro id. - is this too specific?
  *
  * @since   1.0.0

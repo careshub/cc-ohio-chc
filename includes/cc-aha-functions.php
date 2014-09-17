@@ -239,6 +239,13 @@ function cc_aha_on_analysis_complete_report_screen(){
         return false;
     }
 }
+function cc_aha_on_report_card_screen(){
+	if ( cc_aha_is_component() && bp_is_action_variable( cc_aha_get_report_card_slug(), 0 ) ){
+        return true;
+    } else {
+        return false;
+    }
+}
 
 /**
  * Retrieve a user's metro affiliation

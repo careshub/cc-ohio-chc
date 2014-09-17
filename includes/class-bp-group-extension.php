@@ -63,7 +63,9 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
             
         } else if ( cc_aha_on_survey_quick_summary_screen() ) {
             cc_aha_render_all_questions_and_answers();
-        }
+        } else if ( cc_aha_on_report_card_screen() ) {
+			cc_aha_render_report_card();
+		}
     }
 
     public function aha_tab_is_enabled(){

@@ -189,3 +189,43 @@
 		min-height:100px !important;
 	}
 }
+
+table#report-card-table .overall-header{
+	background-color:#008eaa;
+    font-weight: bold;
+    line-height: 2.18182;
+    text-transform: none;
+}
+table#report-card-table .overall-header th{
+	color:#ffffff;
+    font-size: 1rem;
+	
+}
+table#report-card-table .overall-header th.white-border{
+	border-left:1px solid #ffffff;
+	border-right:1px solid #ffffff;
+	text-align:center;
+}
+table#report-card-table .hidden{
+	display:none;
+}
+table#report-card-table  .healthy{
+	background-image: url('../im/healthy_40.png');
+	background-repeat:no-repeat;
+	background-position:center center;
+}
+
+table#report-card-table  .intermediate{
+	background-image: url('../im/intermediate_40.png');
+	background-repeat:no-repeat;
+	background-position:center center
+}
+
+table#report-card-table  .poor{
+	background-image: url('../im/poor_40.png');
+	background-repeat:no-repeat;
+	background-position:center center
+}
+table#report-card-table tr{
+	height:60px;
+}
