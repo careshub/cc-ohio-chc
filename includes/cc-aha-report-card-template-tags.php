@@ -29,17 +29,12 @@ function cc_aha_print_all_report_card_health( ) {
 		
 		<ul class="horizontal no-bullets">
 			
-			<li><a href="<?php echo cc_aha_get_analysis_permalink( bp_action_variable( 2 ) ); ?>" class="button"></a></li>
+			<li><div class="button community-show-trigger">SHOW COMMUNITY</div></li>
+			<li><div class="button school-show-trigger">SHOW SCHOOL</div></li>
+			<li><div class="button care-show-trigger">SHOW CARE</div></li>
 			
 			<li class="alignright">
-				<?php if ( ! empty( $cleanedfips ) ) { ?>
-					<a href="http://assessment.communitycommons.org/CHNA/OpenReport.aspx?reporttype=AHA&areatype=county&areaid=<?php echo $cleanedfips; ?>" target="_blank" class="button">View Data Report</a>
-				<?php } else { ?>	
-					<a href="http://assessment.communitycommons.org/CHNA/selectarea.aspx?reporttype=AHA " target="_blank" class="button">View Data Report</a>				
-				<?php } ?>	
-			</li>
-			<li class="alignright">
-				<a href="javascript:window.print()" class="button">Print Page</a>
+				<li><div class="button all-show-trigger">SHOW ALL</div></li>
 			</li>
 		</ul>
 		<?php cc_aha_print_report_card_table( $all_data ); ?>
@@ -72,9 +67,11 @@ function cc_aha_print_report_card_table( $all_data ) {
 				<th class="{sorter: false}"></th>
 				<th class="{sorter: false}"></th>
 				<th class="{sorter: false}"></th>
-				<th class="{sorter: false} white-border" colspan="6">Community Policies<br></th>
-				<th class="{sorter: false} white-border" colspan="5">Healthy Schools<br></th>
-				<th class="{sorter: false} white-border" colspan="3">Healthcare Quality and Access<br></th>
+				<th class="{sorter: false} white-border community-show" colspan="6">Community Policies<br></th>
+				
+				<th class="{sorter: false} white-border school-show" colspan="5">Healthy Schools<br></th>
+				
+				<th class="{sorter: false} white-border care-trigger" colspan="3">Healthcare Quality and Access<br></th>
 				<th class="">Total Score</th>
 			</tr>
 			
@@ -82,13 +79,15 @@ function cc_aha_print_report_card_table( $all_data ) {
 				<th class="{sorter: false}"></th>
 				<th class="{sorter: false}"></th>
 				<th class="{sorter: false}"></th>
-				<th class="{sorter: false} white-border" colspan="2">Tobacco<br></th>
-				<th class="{sorter: false} white-border" colspan="1">Physical Activity<br></th>
-				<th class="{sorter: false} white-border" colspan="3">Healthy Diet<br></th>
-				<th class="{sorter: false} white-border" colspan="2">Physical Activity<br></th>
-				<th class="{sorter: false} white-border" colspan="2">Healthy Diet<br></th>
-				<th class="{sorter: false} white-border" colspan="1">Chain of Survival<br></th>
-				<th class="{sorter: false} white-border" colspan="3">Healthy Outcomes<br></th>
+				<th class="{sorter: false} white-border community-show" colspan="2">Tobacco<br></th>
+				<th class="{sorter: false} white-border community-show" colspan="1">Physical Activity<br></th>
+				<th class="{sorter: false} white-border community-show" colspan="3">Healthy Diet<br></th>
+				
+				<th class="{sorter: false} white-border school-show" colspan="2">Physical Activity<br></th>
+				<th class="{sorter: false} white-border school-show" colspan="2">Healthy Diet<br></th>
+				<th class="{sorter: false} white-border school-show" colspan="1">Chain of Survival<br></th>
+				
+				<th class="{sorter: false} white-border care-trigger" colspan="3">Healthy Outcomes<br></th>
 				<th class="{sorter: false}"></th>
 			</tr>
 		
@@ -101,21 +100,13 @@ function cc_aha_print_report_card_table( $all_data ) {
 		foreach ($sections as $section_name => $section_data) { 	
 			//and again for the criterion
 			// these need to be th so they are sortable (per jquery.tablesort.js)
+			$hiding_class = $section_name . '-show';
 			foreach ( $section_data['impact_areas'] as $impact_area_name => $impact_area_data ) {
 				foreach ( $impact_area_data['criteria'] as $crit_key => $criteria_data ) {
 				?>
-					<th>
+					<th class="<?php echo $hiding_class; ?>">
 						<?php echo $criteria_data['label']; ?>
 					</th>
-					<!-- <td>
-						Maybe a gauge goes here.
-					</td> 
-					<td class="<?php //echo cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key ); ?>">
-						<?php// cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key ) ); ?>
-					</td>
-					<td>
-						<?php echo $data[$section_name . '-' . $impact_area_name . '-' . $crit_key . '-top-3'] ? 'Yes' : 'No'; ?>
-					</td>-->
 				
 
 				<?php
@@ -131,8 +122,10 @@ function cc_aha_print_report_card_table( $all_data ) {
 			echo '<td class="">' . $data['Board_Name'] . '</td>';
 			echo '<td class="">' . $data['State'] . '</td>';
 			echo '<td class="">' . $data['Affiliate'] . '</td>';
-				foreach ($sections as $section_name => $section_data) { 	
-					//and again for the creiterion
+				foreach ($sections as $section_name => $section_data) {
+				
+					$hiding_class = $section_name . '-show';
+					//and again for the criterion
 					foreach ( $section_data['impact_areas'] as $impact_area_name => $impact_area_data ) {
 						foreach ( $impact_area_data['criteria'] as $crit_key => $criteria_data ) {
 						
@@ -150,7 +143,7 @@ function cc_aha_print_report_card_table( $all_data ) {
 							}
 							
 						?>
-							<td class="<?php echo $health_level; ?>" title="<?php cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key, $metro_id ) ); ?>">
+							<td class="<?php echo $health_level . ' ' . $hiding_class?>" title="<?php cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key, $metro_id ) ); ?>">
 								<div class="hidden">
 									<?php cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key, $metro_id ) ); ?>
 								</div>
@@ -161,7 +154,7 @@ function cc_aha_print_report_card_table( $all_data ) {
 					}
 				}
 			
-			//TODO: insert total score here
+			//Insert total score based on calculations above
 			$total_percent = intval( $total_score / 28 * 100 );
 			echo '<td>' . $total_percent . '%<br />[=' . $total_score . '/28] </td>';
 			
