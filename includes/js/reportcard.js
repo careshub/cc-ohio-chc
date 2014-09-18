@@ -1,7 +1,32 @@
 
 
 
+function clickListen(){
 
+	//TODO: put delays on the subsequent handlers since OMG data
+	jQuery('.community-show-trigger').on("click", showCommunityTrigger);
+	jQuery('.community-hide-trigger').on("click", hideCommunityTrigger );
+	
+	jQuery('.school-show-trigger').on("click", showSchoolTrigger);
+	jQuery('.school-hide-trigger').on("click", hideSchoolTrigger );
+	
+	jQuery('.care-hide-trigger').on("click", hideCareTrigger );
+	jQuery('.care-show-trigger').on("click", showCareTrigger);
+	
+	jQuery('.all-show-trigger').on("click", showAllTrigger);
+
+	//what state is selected in the drop down?
+	jQuery('#state-dropdown').on("change", function(){
+		var thisState = jQuery( "select#state-dropdown option:selected").val();
+		filterByState( thisState);
+	});
+
+	//is an affiliate selected?
+	jQuery('#affiliate-dropdown').on("change", function(){
+		var thisAffiliate = jQuery( "select#affiliate-dropdown option:selected").val();
+		filterByAffiliate( thisAffiliate);
+	});
+}
 
 function showCommunityTrigger(){
 	jQuery('.community-show-trigger').html("HIDE COMMUNITY");
@@ -77,8 +102,38 @@ function showAllTrigger(){
 	jQuery('.care-hide-trigger').on("click", hideCareTrigger );
 }
 
+function filterByState( state ){
+	//console.log( state ); //works!
+	
+	if ( !( jQuery("tr.board-data." + state + "" ).is(":visible") ) && ( state != "-1") ) {
+		jQuery("tr.board-data." + state + "" ).fadeIn();
+	}
+	if ( state != "-1" ) {
+		jQuery("tr.board-data:not(." + state + " )").fadeOut();
+	} else {
+		jQuery("tr.board-data").fadeIn();
+	}
+	
+	//change the affiliate drop down to -1
+	jQuery('#affiliate-dropdown').val("-1");
+}
 
-
+function filterByAffiliate( affiliate ){
+	//console.log( affiliate ); //works!
+	
+	if ( !( jQuery("tr.board-data." + affiliate + "" ).is(":visible") ) && ( affiliate != "-1") ) {
+		jQuery("tr.board-data." + affiliate + "" ).fadeIn();
+	}
+	if ( affiliate != "-1" ) {
+		jQuery("tr.board-data:not(." + affiliate + " )").fadeOut();
+	} else {
+		jQuery("tr.board-data").fadeIn();
+	}
+	
+	//change the state drop down to -1
+	jQuery('#state-dropdown').val("-1");
+	
+}
 
 
 
@@ -90,17 +145,10 @@ jQuery(document).ready(function($){
 	//let tablesorter know we want to sort this guy
 	$("#report-card-table").tablesorter(); 
 
-	//TODO: put delays on the subsequent handlers since OMG data
-	jQuery('.community-show-trigger').on("click", showCommunityTrigger);
-	jQuery('.community-hide-trigger').on("click", hideCommunityTrigger );
+	clickListen();
+
 	
-	jQuery('.school-show-trigger').on("click", showSchoolTrigger);
-	jQuery('.school-hide-trigger').on("click", hideSchoolTrigger );
 	
-	jQuery('.care-hide-trigger').on("click", hideCareTrigger );
-	jQuery('.care-show-trigger').on("click", showCareTrigger);
-	
-	jQuery('.all-show-trigger').on("click", showAllTrigger);
 	
 },(jQuery));
 

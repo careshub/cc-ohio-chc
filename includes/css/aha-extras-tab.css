@@ -233,3 +233,44 @@ table#report-card-table tr{
 a.button {
 	cursor:pointer;
 }
+
+table#report-card-table td.state-select{
+	max-width:60px;
+}
+table#report-card-table td.state-select select,
+table#report-card-table th.state-select select,
+table#report-card-table th.state-select{
+	max-width:52px;
+	padding-left:0;
+	padding-right:0;
+}
+table#report-card-table td.affiliate-select,
+table#report-card-table th.affiliate-select{
+	max-width:60px;
+}
+
+section#summary-report-card select{
+	margin-right:2em;
+}
+
+
+@media print {
+	table#report-card-table  .healthy{
+		background-image: url('../im/healthy_40.png');
+		background-repeat:no-repeat;
+		background-position:center center;
+	}
+
+	table#report-card-table  .intermediate{
+		background-image: url('../im/intermediate_40.png');
+		background-repeat:no-repeat;
+		background-position:center center
+	}
+
+	table#report-card-table  .poor{
+		background-image: url('../im/poor_40.png');
+		background-repeat:no-repeat;
+		background-position:center center
+	}
+
+}

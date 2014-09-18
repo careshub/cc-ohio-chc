@@ -110,6 +110,54 @@ function cc_aha_get_all_board_data( ){
 }
 
 /**
+ * Returns array of all states in board table. 
+ *
+ * @since    1.0.0
+ * @return 	array
+ */
+function cc_aha_get_unique_board_states( ){
+
+	global $wpdb;
+	
+	$form_col = $wpdb->get_col( 
+		$wpdb->prepare( 
+		"
+		SELECT State
+		FROM $wpdb->aha_assessment_board
+		",
+		$metro_id )
+	);
+
+	$form_col = array_unique( $form_col );
+	sort( $form_col );
+	return $form_col;
+}
+
+/**
+ * Returns array of all affiliates in board table. 
+ *
+ * @since    1.0.0
+ * @return 	array
+ */
+function cc_aha_get_unique_board_affiliates( ){
+
+	global $wpdb;
+	
+	$form_col = $wpdb->get_col( 
+		$wpdb->prepare( 
+		"
+		SELECT Affiliate
+		FROM $wpdb->aha_assessment_board
+		",
+		$metro_id )
+	);
+
+	$form_col = array_unique( $form_col );
+	sort( $form_col );
+	return $form_col;
+}
+
+/**
  * Returns array of school district data by qid and metro id. - is this too specific?
  *
  * @since   1.0.0
