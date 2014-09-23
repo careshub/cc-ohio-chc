@@ -268,7 +268,7 @@ function cc_aha_print_revenue_summary_sponsorship( $metro_id ){
 
 	<p><em>Please Note: This link will open in SharePoint where you will see a list of affiliate folders. Choose the one you belong to and find your offices analysis. There you will find summaries of many of the criteria in the revenue section. Keep this report and note the tabs summarizing different aspects of this assessment. </em></p>
 	
-	<p>You listed the following companies as ones who place a focus on corporate social responsibility: <?php echo $data['9.1.4'] ? $data['9.1.4'] : '<em>none</em>'; ?></p>
+	<p>You listed the following companies as ones who place a focus on corporate social responsibility: <?php echo $data['9.4'] ? $data['9.4'] : '<em>none</em>'; ?></p>
 
 	<h5>Discussion Questions</h5>
 	<ul>
