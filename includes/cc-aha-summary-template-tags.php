@@ -1081,7 +1081,7 @@ function cc_aha_get_summary_sections() {
 							'label' => 'Local Government Procurement',
 							'background' => 'Procurement by definition is the basic term utilized by state and local government entities that provide all food services for government facilities.  Procurement is the way they contract with external parties to provide foods and beverages in vending machines and prepared foods/beverages on government property.  The AHA advocates for nutrition criteria to be included in these contracts to better provide government employees healthier options for food and beverage in their worksites and to members of the public who visit government buildings.',
 							'group' => 'community_diet_1',
-							'dial_ids' => array( 306, 307 ),
+							'dial_ids' => array( 301 ),
 							),
 						2 => array(
 							'label' => 'Sugar-sweetened Beverage Tax',
@@ -1198,7 +1198,7 @@ function cc_aha_get_summary_sections() {
 							'background' => '',
 							'group' => 'care_acute_2',
 							'dial_ids' => array( 640 ), //array( 640, 625 ),
-							'map_ids' => array( 2421 ),
+							'map_ids' => array( 2600 ),//array( 2421 ),
 							),
 					),
 				),
