@@ -252,7 +252,15 @@ table#report-card-table th.affiliate-select{
 section#summary-report-card select{
 	margin-right:2em;
 }
+section#summary-report-card tr.top-3-row th.selected-top-3 a.button{
+	background-image:none;
+	background-color:#008eaa;
+	color:#ffffff;
+}
 
+section#summary-report-card .min60{
+	min-width:60px;
+}
 
 @media print {
 	table#report-card-table  .healthy{

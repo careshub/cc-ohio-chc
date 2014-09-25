@@ -76,6 +76,46 @@ function cc_aha_print_all_report_card_health( ) {
 	<?php 
 } 
 
+/* returns criteria labels
+ *
+ */
+function cc_aha_get_all_criteria_labels(){
+
+	$summary_data = cc_aha_get_summary_sections();
+	$criteria_labels = array();
+	//doing this cheaply.
+	foreach ( $summary_data as $summary ){
+		$impact_areas = $summary['impact_areas'];
+		foreach ($impact_areas as $impact){
+			$criteria = $impact['criteria'];
+			foreach ( $criteria as $cr ){
+				$criteria_labels[] = $cr['label'];
+			}
+		}
+	}
+	return $criteria_labels;
+}
+
+/* returns criteria groups
+ *
+ */
+function cc_aha_get_all_criteria_groups(){
+
+	$summary_data = cc_aha_get_summary_sections();
+	$criteria_groups = array();
+	//doing this cheaply.
+	foreach ( $summary_data as $summary ){
+		$impact_areas = $summary['impact_areas'];
+		foreach ($impact_areas as $impact){
+			$criteria = $impact['criteria'];
+			foreach ( $criteria as $cr ){
+				$criteria_groups[] = $cr['group'];
+			}
+		}
+	}
+	return $criteria_groups;
+}
+
 function cc_aha_print_report_card_table( $all_data ) {
 
 	//get titles and subtitles of sections
@@ -83,7 +123,11 @@ function cc_aha_print_report_card_table( $all_data ) {
 	//TODO, remove these if we're going w version above
 	$state_array = cc_aha_get_unique_board_states();
 	$affiliate_array = cc_aha_get_unique_board_affiliates();
-	//var_dump( $affiliate_array );
+	
+	$criteria_labels = cc_aha_get_all_criteria_labels();
+	$criteria_groups = cc_aha_get_all_criteria_groups();
+	
+	//var_dump( $criteria_groups );
 	
 	//just testing a few.. TODO: remove this
 	$data3 = array_slice ( $all_data , 0, 3);
@@ -129,7 +173,7 @@ function cc_aha_print_report_card_table( $all_data ) {
 			</tr>
 		
 			<tr>
-				<th class="">Board</th>
+				<th class="min60">Board</th>
 				<th class="">State</th>
 				<th class="">Affiliate</th>
 		
@@ -154,9 +198,33 @@ function cc_aha_print_report_card_table( $all_data ) {
 		//one more to account for total score
 		echo '<th></th></tr>';
 		
-		//echo '</thead>';
+		//3rd row for Top 3 buttons - cheap implementaton, I know
+		?>
+			<tr class="top-3-row">
+				<th class="{sorter: false}"></th>
+				<th class="{sorter: false}"></th>
+				<th class="{sorter: false}"></th>
+				<th class="{sorter: false} white-border community-show community_tobacco_1-top-3 button" data-top3group="<?php echo $criteria_groups[0] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border community-show <?php echo $criteria_groups[1] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[1] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border community-show <?php echo $criteria_groups[2] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[2] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border community-show <?php echo $criteria_groups[3] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[3] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border community-show <?php echo $criteria_groups[4] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[4] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border community-show <?php echo $criteria_groups[5] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[5] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				
+				<th class="{sorter: false} white-border school-show <?php echo $criteria_groups[6] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[6] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border school-show <?php echo $criteria_groups[7] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[7] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border school-show <?php echo $criteria_groups[8] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[8] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border school-show <?php echo $criteria_groups[9] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[9] . '-top-3'; ?>"><a class="button" >Top 3</a><br></th>
+				<th class="{sorter: false} white-border school-show <?php echo $criteria_groups[10] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[10] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				
+				<th class="{sorter: false} white-border care-show <?php echo $criteria_groups[11] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[11] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border care-show <?php echo $criteria_groups[12] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[12] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border care-show <?php echo $criteria_groups[13] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[13] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false}"></th>
+			</tr>
+		
+		<?php
 		//4th row for state/affiliate sorting, as well as Top 3 selection
-		//can't use th here, tablesorter is not letting dropdowns...dropdown
 		echo '<tr class="overall-header { sorter: false }"><td></td>';
 		?>
 			<th class="state-select { sorter: false }"><select name="state-select" id="state-dropdown">
@@ -187,22 +255,38 @@ function cc_aha_print_report_card_table( $all_data ) {
 					
 				} ?>
 				
-			</select></td>
+			</select></th>
 			
-			<th class="{ sorter: false }"></th>
-			<th class="{ sorter: false }"></th>
-			<th class="{ sorter: false }"></th>
-			<th class="{ sorter: false }"></th>
-			<th class="{ sorter: false }"></th>
-			<th class="{ sorter: false }"></th>
-			<th class="{ sorter: false }"></th>
-			<th class="{ sorter: false }"></th>
-			<th class="{ sorter: false }"></th>
-			<th class="{ sorter: false }"></th>
-			<th class="{ sorter: false }"></th>
-			<th class="{ sorter: false }"></th>
-			<th class="{ sorter: false }"></th>
-			<th class="{ sorter: false }"></th>
+			<!--<th class="{ sorter: false }"><select name="affiliate-select" id="affiliate-dropdown">
+				<option value="-1">See all Affiliates</option>
+			<?php
+				foreach ( $criteria_labels as $criteria ){ 
+					$criteria_nospace = str_replace(' ', '', $criteria);
+					$option_output = '<option value="';
+					$option_output .= $criteria_nospace;
+					$option_output .= '">';
+					$option_output .= $criteria;
+					$option_output .= '</option>';
+					print $option_output;
+					
+				}
+			?>
+			</select>
+			</th>-->
+			<th class="{ sorter: false } community-show"></th>
+			<th class="{ sorter: false } community-show"></th>
+			<th class="{ sorter: false } community-show"></th>
+			<th class="{ sorter: false } community-show"></th>
+			<th class="{ sorter: false } community-show"></th>
+			<th class="{ sorter: false } community-show"></th>
+			<th class="{ sorter: false } school-show"></th>
+			<th class="{ sorter: false } school-show"></th>
+			<th class="{ sorter: false } school-show"></th>
+			<th class="{ sorter: false } school-show"></th>
+			<th class="{ sorter: false } school-show"></th>
+			<th class="{ sorter: false } care-show"></th>
+			<th class="{ sorter: false } care-show"></th>
+			<th class="{ sorter: false } care-show"></th>
 			<th class="{ sorter: false }"></th>
 		
 		<?php
@@ -247,7 +331,7 @@ function cc_aha_print_report_card_table( $all_data ) {
 									break;							
 							}
 						?>
-							<td class="<?php echo $health_level . ' ' . $hiding_class . ' ' . $top3Yes; ?>" title="<?php cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key, $metro_id ) ); ?>">
+							<td class="<?php echo $health_level . ' ' . $hiding_class . ' ' . $top3Yes; ?>" title="<?php cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key, $metro_id ) ); ?>" data-top3group="<?php echo $top3Yes; ?>">
 								<div class="hidden">
 									<?php cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key, $metro_id ) ); ?>
 								</div>

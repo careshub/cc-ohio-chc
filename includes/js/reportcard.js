@@ -1,7 +1,7 @@
 
 
 
-function clickListen(){
+function reportCardClickListen(){
 
 	//TODO: put delays on the subsequent handlers since OMG data
 	jQuery('.community-show-trigger').on("click", showCommunityTrigger);
@@ -25,6 +25,31 @@ function clickListen(){
 	jQuery('#affiliate-dropdown').on("change", function(){
 		var thisAffiliate = jQuery( "select#affiliate-dropdown option:selected").val();
 		filterByAffiliate( thisAffiliate);
+	});
+	
+	//is top 4 selected?
+	jQuery('tr.top-3-row th').click(function(){
+		var whichTop3Yes = jQuery(this).data("top3group");
+		
+		//we are deselecting and showing all
+		if ( jQuery(this).hasClass('selected-top-3') ){
+			jQuery(this).removeClass('selected-top-3');
+			
+			jQuery("tr.board-data").fadeIn();
+			//jQuery("tr.board-data:has(." + whichTop3Yes + " )").fadeIn();
+		} else { //we are selecting and hiding rows
+			allTop3Buttons = jQuery('tr.top-3-row th');
+			allTop3Buttons.removeClass('selected-top-3');
+			jQuery(this).addClass('selected-top-3');
+			
+			jQuery("tr.board-data").fadeIn();
+			jQuery("tr.board-data:not(:has(." + whichTop3Yes + " ))").fadeOut();
+		}
+		
+		//console.log(whichTop3Yes);
+		jQuery('#affiliate-dropdown').val("-1");
+		jQuery('#state-dropdown').val("-1");
+				
 	});
 }
 
@@ -83,11 +108,11 @@ function hideCareTrigger(){
 }
 
 function showAllTrigger(){
-	jQuery('.community-show-trigger').html("HIDE CARE");
-	jQuery('.community-show-trigger').removeClass('care-show-trigger').addClass('care-hide-trigger');
+	jQuery('.community-show-trigger').html("HIDE COMMUNITY");
+	jQuery('.community-show-trigger').removeClass('community-show-trigger').addClass('community-hide-trigger');
 	
-	jQuery('.school-show-trigger').html("HIDE CARE");
-	jQuery('.school-show-trigger').removeClass('care-show-trigger').addClass('care-hide-trigger');
+	jQuery('.school-show-trigger').html("HIDE SCHOOL");
+	jQuery('.school-show-trigger').removeClass('school-show-trigger').addClass('school-hide-trigger');
 	
 	jQuery('.care-show-trigger').html("HIDE CARE");
 	jQuery('.care-show-trigger').removeClass('care-show-trigger').addClass('care-hide-trigger');
@@ -116,6 +141,10 @@ function filterByState( state ){
 	
 	//change the affiliate drop down to -1
 	jQuery('#affiliate-dropdown').val("-1");
+	
+	//remove visual filtering from top3
+	allTop3Buttons = jQuery('tr.top-3-row th');
+	allTop3Buttons.removeClass('selected-top-3');
 }
 
 function filterByAffiliate( affiliate ){
@@ -133,6 +162,9 @@ function filterByAffiliate( affiliate ){
 	//change the state drop down to -1
 	jQuery('#state-dropdown').val("-1");
 	
+	//remove visual filtering from top3
+	allTop3Buttons = jQuery('tr.top-3-row th');
+	allTop3Buttons.removeClass('selected-top-3');
 }
 
 
@@ -145,7 +177,7 @@ jQuery(document).ready(function($){
 	//let tablesorter know we want to sort this guy
 	$("#report-card-table").tablesorter(); 
 
-	clickListen();
+	reportCardClickListen();
 
 	
 	

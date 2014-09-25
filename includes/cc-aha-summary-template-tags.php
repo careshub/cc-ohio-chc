@@ -1242,6 +1242,7 @@ function cc_aha_get_impact_area_criteria( $section, $impact_area ){
 	return $section_data[$section]['impact_areas'][$impact_area]['criteria'];
 }
 
+
 /**
  * Analysis-related calculations.
  * Catch-all switch for health-related scoring: this takes the section name and returns the score string
