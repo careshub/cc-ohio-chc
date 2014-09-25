@@ -272,6 +272,7 @@ section#summary-report-card tr.top-3-row th.selected-top-3 a.button{
 	background-image:none;
 	background-color:#008eaa;
 	color:#ffffff;
+	filter:none;
 } 
 
 section#summary-report-card .min60{
