@@ -190,6 +190,9 @@
 	}
 }
 
+table#report-card-table th{
+	text-align:center;
+}
 table#report-card-table .overall-header{
 	background-color:#008eaa;
     font-weight: bold;
@@ -199,7 +202,7 @@ table#report-card-table .overall-header{
 table#report-card-table .overall-header th{
 	color:#ffffff;
     font-size: 1rem;
-	
+	border-bottom: 1px solid white;
 }
 table#report-card-table .overall-header th.white-border{
 	border-left:1px solid #ffffff;
@@ -240,7 +243,7 @@ table#report-card-table td.state-select{
 table#report-card-table td.state-select select,
 table#report-card-table th.state-select select,
 table#report-card-table th.state-select{
-	max-width:52px;
+	max-width:46px;
 	padding-left:0;
 	padding-right:0;
 }
@@ -261,8 +264,78 @@ section#summary-report-card tr.top-3-row th.selected-top-3 a.button{
 section#summary-report-card .min60{
 	min-width:60px;
 }
+tr.impact-row {
+	border-bottom:1px solid white;
+}
+tr.criteria-row{
+	border-bottom:1px solid white;
+}
+.impact-row th.community-show, .impact-row th.school-show, .impact-row th.care-show{
+	border:1px solid white;
+}
+.report-card-top3 {
+	margin-top:0px;
+}
+.top-3-row{
+	margin-top:0px;
+}
+
+tr.criteria-row th {
+	max-width:45px;
+	font-size:10px
+}
+
+/*tr.criteria-row, tr.criteria-row th {
+	vertical-align:bottom;
+} 
+.report-card-rotate {
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	-ms-transform: rotate(-90deg);
+	-o-transform: rotate(-90deg);
+	transform: rotate(-90deg);
+
+	-webkit-transform-origin: 30% 89%;
+	-moz-transform-origin: 30% 89%;
+	-ms-transform-origin: 30% 89%;
+	-o-transform-origin: 30% 89%;
+	transform-origin: 30% 89%;
+
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+.skinny-column_old{
+	max-width: 40px;
+	height:230px;
+	white-space:nowrap;
+}*/
 
 @media print {
+
+	/*body:before {
+        content: url(background.jpg);
+    }*/
+	
+	table#report-card-table  .healthy:before{
+		background-image: url('../im/healthy_40.png');
+		background-repeat:no-repeat;
+		background-position:center center;
+		content: url('../im/healthy_40.png');
+	}
+
+	table#report-card-table  .intermediate:before{
+		background-image: url('../im/intermediate_40.png');
+		background-repeat:no-repeat;
+		background-position:center center;
+		content: url('../im/intermediate_40.png');
+	}
+
+	table#report-card-table  .poor:before{
+		background-image: url('../im/poor_40.png');
+		background-repeat:no-repeat;
+		background-position:center center;
+		content: url('../im/poor_40.png');
+	}
+	/*
 	table#report-card-table  .healthy{
 		background-image: url('../im/healthy_40.png');
 		background-repeat:no-repeat;
@@ -280,5 +353,6 @@ section#summary-report-card .min60{
 		background-repeat:no-repeat;
 		background-position:center center
 	}
-
+	
+	*/
 }

@@ -153,10 +153,10 @@ function cc_aha_print_report_card_table( $all_data ) {
 				<th class="{sorter: false} white-border school-show" colspan="5">Healthy Schools<br></th>
 				
 				<th class="{sorter: false} white-border care-show" colspan="3">Healthcare Quality and Access<br></th>
-				<th class="">Total Score</th>
+				<!--<th class="">Total Score</th>-->
 			</tr>
 			
-			<tr>
+			<tr class="impact-row">
 				<th class="{sorter: false}"></th>
 				<th class="{sorter: false}"></th>
 				<th class="{sorter: false}"></th>
@@ -169,10 +169,10 @@ function cc_aha_print_report_card_table( $all_data ) {
 				<th class="{sorter: false} white-border school-show" colspan="1">Chain of Survival<br></th>
 				
 				<th class="{sorter: false} white-border care-show" colspan="3">Healthy Outcomes<br></th>
-				<th class="{sorter: false}"></th>
+				<!--<th class="{sorter: false}"></th>-->
 			</tr>
 		
-			<tr>
+			<tr class="criteria-row">
 				<th class="min60">Board</th>
 				<th class="">State</th>
 				<th class="">Affiliate</th>
@@ -182,10 +182,12 @@ function cc_aha_print_report_card_table( $all_data ) {
 			//and again for the criterion
 			// these need to be th so they are sortable (per jquery.tablesort.js)
 			$hiding_class = $section_name . '-show';
+			$rotate_class = ' report-card-rotate';
+			$skinny_column_class = ' skinny-column';
 			foreach ( $section_data['impact_areas'] as $impact_area_name => $impact_area_data ) {
 				foreach ( $impact_area_data['criteria'] as $crit_key => $criteria_data ) {
 				?>
-					<th class="<?php echo $hiding_class; ?>">
+					<th class="<?php echo $hiding_class . $rotate_class . $skinny_column_class; ?>">
 						<?php echo $criteria_data['label']; ?>
 					</th>
 				
@@ -196,7 +198,8 @@ function cc_aha_print_report_card_table( $all_data ) {
 		}
 		
 		//one more to account for total score
-		echo '<th></th></tr>';
+		//echo '<th></th></tr>'; //no more 'Total' column
+		echo '</tr>';
 		
 		//3rd row for Top 3 buttons - cheap implementaton, I know
 		?>
@@ -204,23 +207,23 @@ function cc_aha_print_report_card_table( $all_data ) {
 				<th class="{sorter: false}"></th>
 				<th class="{sorter: false}"></th>
 				<th class="{sorter: false}"></th>
-				<th class="{sorter: false} white-border community-show community_tobacco_1-top-3 button" data-top3group="<?php echo $criteria_groups[0] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
-				<th class="{sorter: false} white-border community-show <?php echo $criteria_groups[1] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[1] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
-				<th class="{sorter: false} white-border community-show <?php echo $criteria_groups[2] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[2] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
-				<th class="{sorter: false} white-border community-show <?php echo $criteria_groups[3] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[3] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
-				<th class="{sorter: false} white-border community-show <?php echo $criteria_groups[4] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[4] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
-				<th class="{sorter: false} white-border community-show <?php echo $criteria_groups[5] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[5] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border community-show report-card-top3 community_tobacco_1-top-3" data-top3group="<?php echo $criteria_groups[0] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border community-show report-card-top3 <?php echo $criteria_groups[1] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[1] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border community-show report-card-top3 <?php echo $criteria_groups[2] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[2] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border community-show report-card-top3 <?php echo $criteria_groups[3] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[3] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border community-show report-card-top3 <?php echo $criteria_groups[4] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[4] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border community-show report-card-top3 <?php echo $criteria_groups[5] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[5] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
 				
-				<th class="{sorter: false} white-border school-show <?php echo $criteria_groups[6] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[6] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
-				<th class="{sorter: false} white-border school-show <?php echo $criteria_groups[7] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[7] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
-				<th class="{sorter: false} white-border school-show <?php echo $criteria_groups[8] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[8] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
-				<th class="{sorter: false} white-border school-show <?php echo $criteria_groups[9] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[9] . '-top-3'; ?>"><a class="button" >Top 3</a><br></th>
-				<th class="{sorter: false} white-border school-show <?php echo $criteria_groups[10] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[10] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border school-show report-card-top3 <?php echo $criteria_groups[6] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[6] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border school-show report-card-top3 <?php echo $criteria_groups[7] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[7] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border school-show report-card-top3 <?php echo $criteria_groups[8] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[8] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border school-show report-card-top3 <?php echo $criteria_groups[9] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[9] . '-top-3'; ?>"><a class="button" >Top 3</a><br></th>
+				<th class="{sorter: false} white-border school-show report-card-top3 <?php echo $criteria_groups[10] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[10] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
 				
-				<th class="{sorter: false} white-border care-show <?php echo $criteria_groups[11] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[11] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
-				<th class="{sorter: false} white-border care-show <?php echo $criteria_groups[12] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[12] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
-				<th class="{sorter: false} white-border care-show <?php echo $criteria_groups[13] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[13] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
-				<th class="{sorter: false}"></th>
+				<th class="{sorter: false} white-border care-show report-card-top3 <?php echo $criteria_groups[11] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[11] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border care-show report-card-top3 <?php echo $criteria_groups[12] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[12] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<th class="{sorter: false} white-border care-show report-card-top3 <?php echo $criteria_groups[13] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[13] . '-top-3'; ?>"><a class="button">Top 3</a><br></th>
+				<!--<th class="{sorter: false}"></th>-->
 			</tr>
 		
 		<?php
@@ -287,7 +290,7 @@ function cc_aha_print_report_card_table( $all_data ) {
 			<th class="{ sorter: false } care-show"></th>
 			<th class="{ sorter: false } care-show"></th>
 			<th class="{ sorter: false } care-show"></th>
-			<th class="{ sorter: false }"></th>
+			<!--<th class="{ sorter: false }"></th>-->
 		
 		<?php
 		echo '</tr>';
@@ -343,8 +346,8 @@ function cc_aha_print_report_card_table( $all_data ) {
 				}
 			
 			//Insert total score based on calculations above
-			$total_percent = intval( $total_score / 28 * 100 );
-			echo '<td>' . $total_percent . '%<br />[=' . $total_score . '/28] </td>';
+			//$total_percent = intval( $total_score / 28 * 100 );
+			//echo '<td>' . $total_percent . '%<br />[=' . $total_score . '/28] </td>';
 			
 			echo '</tr>';
 			//echo($data);
