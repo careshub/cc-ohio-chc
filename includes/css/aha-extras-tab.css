@@ -267,9 +267,19 @@ section#summary-report-card .min60{
 tr.impact-row {
 	border-bottom:1px solid white;
 }
-tr.criteria-row{
-	border-bottom:1px solid white;
+tr.criteria-row th{
+	cursor:pointer;
 }
+tr.criteria-row th.tablesorter-headerAsc,
+tr.criteria-row th.tablesorter-headerDesc{
+	background-color: #008eaa;
+    color: white;
+}
+tr.criteria-row th .sort-arrow{
+	color:#c6c6c6;
+	font-size:1.5em;
+}
+
 .impact-row th.community-show, .impact-row th.school-show, .impact-row th.care-show{
 	border:1px solid white;
 }

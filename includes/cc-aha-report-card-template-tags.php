@@ -173,9 +173,9 @@ function cc_aha_print_report_card_table( $all_data ) {
 			</tr>
 		
 			<tr class="criteria-row">
-				<th class="min60">Board</th>
-				<th class="">State</th>
-				<th class="">Affiliate</th>
+				<th class="min60">Board<div class='sort-arrow'>&#x25BC;</div></th>
+				<th class="">State<div class='sort-arrow'>&#x25BC;</div></th>
+				<th class="">Affiliate<div class='sort-arrow'>&#x25BC;</div></th>
 		
 		<?php
 		foreach ($sections as $section_name => $section_data) { 	
@@ -188,7 +188,7 @@ function cc_aha_print_report_card_table( $all_data ) {
 				foreach ( $impact_area_data['criteria'] as $crit_key => $criteria_data ) {
 				?>
 					<th class="<?php echo $hiding_class . $rotate_class . $skinny_column_class; ?>">
-						<?php echo $criteria_data['label']; ?>
+						<?php echo $criteria_data['label'] . "<div class='sort-arrow'>&#x25BC;</div>"; ?>
 					</th>
 				
 

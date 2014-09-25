@@ -51,8 +51,28 @@ function reportCardClickListen(){
 		jQuery('#state-dropdown').val("-1");
 				
 	});
+	
+	//take care of our sort arrows
+	jQuery('tr.criteria-row th').on("click", function(){
+		
+		//all arrows desc until further notice
+		resetCriteriaArrows();
+		
+		//are we in asc or desc order?
+		if ( jQuery(this).hasClass('tablesorter-headerAsc') ) {
+			jQuery(this).find('.sort-arrow').html('&#x25B2;');
+		} else {
+			jQuery(this).find('.sort-arrow').html('&#x25BC;');
+		}
+		
+	
+	});
 }
 
+function resetCriteriaArrows(){
+	jQuery('.sort-arrow').html('&#x25BC;');
+
+}
 function showCommunityTrigger(){
 	jQuery('.community-show-trigger').html("HIDE COMMUNITY");
 	jQuery('.community-show-trigger').removeClass('community-show-trigger').addClass('community-hide-trigger');
