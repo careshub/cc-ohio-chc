@@ -190,9 +190,14 @@
 	}
 }
 
+/**** SUMMARY REPORT CARD STYLES  ****/
+#summary-report-card ul.horizontal li.filter-type{
+	font-size:1.2em;
+}
 table#report-card-table th{
 	text-align:center;
 }
+
 table#report-card-table .overall-header{
 	background-color:#008eaa;
     font-weight: bold;
@@ -208,6 +213,14 @@ table#report-card-table .overall-header th.white-border{
 	border-left:1px solid #ffffff;
 	border-right:1px solid #ffffff;
 	text-align:center;
+}
+
+table#report-card-table .overall-header td.filter-type{
+	color: white;
+    font-size: 1.1em;
+    font-weight: 700;
+    padding-left: 0.5%;
+	min-width:82px;
 }
 table#report-card-table .hidden{
 	display:none;
@@ -259,7 +272,7 @@ section#summary-report-card tr.top-3-row th.selected-top-3 a.button{
 	background-image:none;
 	background-color:#008eaa;
 	color:#ffffff;
-}
+} 
 
 section#summary-report-card .min60{
 	min-width:60px;
@@ -288,6 +301,20 @@ tr.criteria-row th .sort-arrow{
 }
 .top-3-row{
 	margin-top:0px;
+}
+.top-3-row th a.button{
+	padding:0.2em 0.3em;
+}
+section#summary-report-card tr.top-3-row .top-3-star{
+	background-image:url(../im/starswhite_29.png);
+	background-repeat:no-repeat;
+	background-position:0 0px;
+	height: 30px;
+    margin-left: 0px;
+    width: 30px;
+}
+section#summary-report-card tr.top-3-row th.selected-top-3 .top-3-star{
+	background-position:0 -58px;
 }
 
 tr.criteria-row th {
@@ -326,24 +353,18 @@ tr.criteria-row th {
     }*/
 	
 	table#report-card-table  .healthy:before{
-		background-image: url('../im/healthy_40.png');
-		background-repeat:no-repeat;
-		background-position:center center;
 		content: url('../im/healthy_40.png');
+		background-image:none !important;
 	}
 
 	table#report-card-table  .intermediate:before{
-		background-image: url('../im/intermediate_40.png');
-		background-repeat:no-repeat;
-		background-position:center center;
 		content: url('../im/intermediate_40.png');
+		background-image:none !important;
 	}
 
 	table#report-card-table  .poor:before{
-		background-image: url('../im/poor_40.png');
-		background-repeat:no-repeat;
-		background-position:center center;
 		content: url('../im/poor_40.png');
+		background-image:none !important;
 	}
 	/*
 	table#report-card-table  .healthy{
