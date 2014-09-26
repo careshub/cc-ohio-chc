@@ -481,9 +481,43 @@ tr.criteria-row th {
 		content: url('../im/healthy_40.png');
 		background-image:none !important;
 	}
+	table#report-card-table .healthy.community_tobacco_1-top-3:before,
+	table#report-card-table .healthy.community_tobacco_2-top-3:before,
+	table#report-card-table .healthy.community_phys_1-top-3:before,
+	table#report-card-table .healthy.community_diet_1-top-3:before,
+	table#report-card-table .healthy.community_diet_2-top-3:before,
+	table#report-card-table .healthy.community_diet_3-top-3:before,
+	table#report-card-table .healthy.school_phys_1-top-3:before,
+	table#report-card-table .healthy.school_phys_2-top-3:before,
+	table#report-card-table .healthy.school_diet_1-top-3:before,
+	table#report-card-table .healthy.school_diet_2-top-3:before,
+	table#report-card-table .healthy.school_cpr_1-top-3:before,
+	table#report-card-table .healthy.care_factors_1-top-3:before,
+	table#report-card-table .healthy.care_acute_1-top-3:before,
+	table#report-card-table .healthy.care_acute_2-top-3:before {
+		content: url('../im/healthy_40_star.png');
+		background-image:none !important;
+	}
 
 	table#report-card-table  .intermediate:before{
 		content: url('../im/intermediate_40.png');
+		background-image:none !important;
+	}
+	table#report-card-table .intermediate.community_tobacco_1-top-3:before,
+	table#report-card-table .intermediate.community_tobacco_2-top-3:before,
+	table#report-card-table .intermediate.community_phys_1-top-3:before,
+	table#report-card-table .intermediate.community_diet_1-top-3:before,
+	table#report-card-table .intermediate.community_diet_2-top-3:before,
+	table#report-card-table .intermediate.community_diet_3-top-3:before,
+	table#report-card-table .intermediate.school_phys_1-top-3:before,
+	table#report-card-table .intermediate.school_phys_2-top-3:before,
+	table#report-card-table .intermediate.school_diet_1-top-3:before,
+	table#report-card-table .intermediate.school_diet_2-top-3:before,
+	table#report-card-table .intermediate.school_cpr_1-top-3:before,
+	table#report-card-table .intermediate.care_factors_1-top-3:before,
+	table#report-card-table .intermediate.care_acute_1-top-3:before,
+	table#report-card-table .intermediate.care_acute_2-top-3:before {
+		content: url('../im/intermediate_40_star.png');
 		background-image:none !important;
 	}
 
@@ -491,6 +525,24 @@ tr.criteria-row th {
 		content: url('../im/poor_40.png');
 		background-image:none !important;
 	}
+	table#report-card-table .poor.community_tobacco_1-top-3:before,
+	table#report-card-table .poor.community_tobacco_2-top-3:before,
+	table#report-card-table .poor.community_phys_1-top-3:before,
+	table#report-card-table .poor.community_diet_1-top-3:before,
+	table#report-card-table .poor.community_diet_2-top-3:before,
+	table#report-card-table .poor.community_diet_3-top-3:before,
+	table#report-card-table .poor.school_phys_1-top-3:before,
+	table#report-card-table .poor.school_phys_2-top-3:before,
+	table#report-card-table .poor.school_diet_1-top-3:before,
+	table#report-card-table .poor.school_diet_2-top-3:before,
+	table#report-card-table .poor.school_cpr_1-top-3:before,
+	table#report-card-table .poor.care_factors_1-top-3:before,
+	table#report-card-table .poor.care_acute_1-top-3:before,
+	table#report-card-table .poor.care_acute_2-top-3 :before{
+		content: url('../im/poor_40_star.png');
+		background-image:none !important;
+	}
+	
 	table#report-card-table thead{
 		display:table-header-group;
 	}
