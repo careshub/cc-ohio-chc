@@ -199,59 +199,75 @@
 #summary-report-card ul#top3 {
 	margin-bottom:0em;
 }
-table#report-card-table th{
+table#report-card-table th,
+table#report-card-table-sticky th{
 	text-align:center;
 }
 
-table#report-card-table .overall-header{
+table#report-card-table .overall-header,
+table#report-card-table-sticky .overall-header{
 	background-color:#008eaa;
     font-weight: bold;
     line-height: 2.18182;
     text-transform: none;
 }
-table#report-card-table .overall-header th{
+table#report-card-table .overall-header th,
+table#report-card-table-sticky .overall-header th{
 	color:#ffffff;
     font-size: 1rem;
 	border-bottom: 1px solid white;
 }
-table#report-card-table .overall-header th.white-border{
+table#report-card-table .overall-header th.white-border,
+table#report-card-table-sticky .overall-header th.white-border{
 	border-left:1px solid #ffffff;
 	border-right:1px solid #ffffff;
 	text-align:center;
 }
 
-table#report-card-table .overall-header td.filter-type{
+table#report-card-table .overall-header td.filter-type,
+table#report-card-table-sticky .overall-header td.filter-type{
 	color: white;
     font-size: 1.1em;
     font-weight: 700;
     padding-left: 0.5%;
 	min-width:82px;
 }
-table#report-card-table .overall-header.summary-section{
+table#report-card-table .overall-header.summary-section,
+table#report-card-table-sticky .overall-header.summary-section{
 
 }
 table#report-card-table .overall-header.geography{
 }
-table#report-card-table .hidden{
+
+table#report-card-table-sticky .top-3-row,
+table#report-card-table-sticky .overall-header.geography{
 	display:none;
 }
-table#report-card-table  .healthy{
+table#report-card-table .hidden,
+table#report-card-table-sticky .hidden{
+	display:none;
+}
+table#report-card-table .healthy,
+table#report-card-table-sticky .healthy{
 	background-image: url('../im/healthy_40.png');
 	background-repeat:no-repeat;
 	background-position:center center;
 }
 
-table#report-card-table  .intermediate{
+table#report-card-table .intermediate,
+table#report-card-table-sticky .intermediate{
 	background-image: url('../im/intermediate_40.png');
 	background-repeat:no-repeat;
 	background-position:center center
 }
 
-table#report-card-table  .poor{
+table#report-card-table .poor,
+table#report-card-table-sticky .poor{
 	background-image: url('../im/poor_40.png');
 	background-repeat:no-repeat;
 	background-position:center center
 }
+table#report-card-table-sticky tr,
 table#report-card-table tr{
 	height:60px;
 }
@@ -260,24 +276,32 @@ a.button {
 	cursor:pointer;
 }
 
-table#report-card-table td.state-select{
+table#report-card-table td.state-select,
+table#report-card-table-sticky td.state-select{
 	max-width:60px;
 }
 table#report-card-table td.state-select select,
+table#report-card-table-sticky td.state-select select,
 table#report-card-table th.state-select select,
-table#report-card-table th.state-select{
+table#report-card-table-sticky th.state-select select,
+table#report-card-table th.state-select,
+table#report-card-table-sticky th.state-select{
 	max-width:46px;
 	padding-left:0;
 	padding-right:0;
 }
 table#report-card-table td.affiliate-select,
-table#report-card-table th.affiliate-select{
+table#report-card-table-sticky td.affiliate-select,
+table#report-card-table th.affiliate-select,
+table#report-card-table-sticky th.affiliate-select{
 	max-width:60px;
 }
-table#report-card-table thead{
+table#report-card-table thead,
+table#report-card-table-sticky thead{
 	display:table-header-group;
 }
-table#report-card-table tbody {
+table#report-card-table tbody,
+table#report-card-table-sticky tbody {
     display:table-row-group;
 }
 section#summary-report-card select{
@@ -372,7 +396,9 @@ tr.criteria-row th {
 	/*body:before {
         content: url(background.jpg);
     }*/
-	
+	table#report-card-table-sticky{
+		display:none;
+	}
 	table#report-card-table  .healthy:before{
 		content: url('../im/healthy_40.png');
 		background-image:none !important;

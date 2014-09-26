@@ -208,9 +208,18 @@ function filterByAffiliate( affiliate ){
 
 
 jQuery(document).ready(function($){
-	
+	var options = {
+		widgets: [ 'stickyHeaders' ],
+		widgetOptions: {
+
+		  // extra class name added to the sticky header row
+		  stickyHeaders : 'tablesorter-stickyHeader',
+		
+		  
+		}
+  };
 	//let tablesorter know we want to sort this guy
-	$("#report-card-table").tablesorter(); 
+	$("#report-card-table").tablesorter(options); 
 
 	reportCardClickListen();
 
