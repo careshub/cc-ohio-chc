@@ -35,7 +35,7 @@ function reportCardClickListen(){
 		if ( jQuery(this).hasClass('selected-top-3') ){
 			jQuery(this).removeClass('selected-top-3');
 			
-			jQuery("tr.board-data").fadeIn();
+			jQuery("tr.board-data").show();
 			//jQuery("tr.board-data:has(." + whichTop3Yes + " )").fadeIn();
 		} else { //we are selecting and hiding rows
 			allTop3Buttons = jQuery('tr.top-3-row th');
@@ -49,6 +49,8 @@ function reportCardClickListen(){
 		//console.log(whichTop3Yes);
 		jQuery('#affiliate-dropdown').val("-1");
 		jQuery('#state-dropdown').val("-1");
+		jQuery('ul#geography .affiliate').html('All');
+		jQuery('ul#geography .state').html('All');
 				
 	});
 	
@@ -155,8 +157,12 @@ function filterByState( state ){
 	}
 	if ( state != "-1" ) {
 		jQuery("tr.board-data:not(." + state + " )").fadeOut();
+		jQuery('ul#geography .state').html( state );
+		jQuery('ul#geography .affiliate').html('All');
 	} else {
 		jQuery("tr.board-data").fadeIn();
+		//change the print-only input to show all states
+		jQuery('ul#geography .state').html('All');
 	}
 	
 	//change the affiliate drop down to -1
@@ -175,8 +181,12 @@ function filterByAffiliate( affiliate ){
 	}
 	if ( affiliate != "-1" ) {
 		jQuery("tr.board-data:not(." + affiliate + " )").fadeOut();
+		jQuery('ul#geography .affiliate').html( affiliate );
+		jQuery('ul#geography .state').html('All');
 	} else {
 		jQuery("tr.board-data").fadeIn();
+		//change the print-only input to show all affiliates
+		jQuery('ul#geography .affiliate').html('All');
 	}
 	
 	//change the state drop down to -1
@@ -186,9 +196,6 @@ function filterByAffiliate( affiliate ){
 	allTop3Buttons = jQuery('tr.top-3-row th');
 	allTop3Buttons.removeClass('selected-top-3');
 }
-
-
-
 
 
 

@@ -38,6 +38,15 @@ function cc_aha_print_all_report_card_health( ) {
 			<li class="alignright"><a class="button" onClick="window.print()">PRINT</a></li>
 				<li><a class="button all-show-trigger">SHOW ALL</a></li>
 		</ul>
+		
+		<span class="print-only">
+			<ul id="geography" class="horizontal no-bullets">
+				<li class="filter-type">Filter by Geography:</li>
+				<li>State: <span class="state">All</span></li>
+				<li>Affiliate: <span class="affiliate">All</span></li>
+				
+			</ul>
+		</span>
 		<!--<span>
 			Filter by State: <select name="state-select" id="state-dropdown-top">
 				<option value="-1">All States</option>

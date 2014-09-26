@@ -264,7 +264,12 @@ table#report-card-table td.affiliate-select,
 table#report-card-table th.affiliate-select{
 	max-width:60px;
 }
-
+table#report-card-table thead{
+	display:table-header-group;
+}
+table#report-card-table tbody {
+    display:table-row-group;
+}
 section#summary-report-card select{
 	margin-right:2em;
 }
@@ -319,8 +324,8 @@ section#summary-report-card tr.top-3-row th.selected-top-3 .top-3-star{
 }
 
 tr.criteria-row th {
-	max-width:45px;
-	font-size:10px
+	padding:6px 2px 4px;
+	font-size:10px;
 }
 
 /*tr.criteria-row, tr.criteria-row th {
@@ -347,6 +352,11 @@ tr.criteria-row th {
 	white-space:nowrap;
 }*/
 
+
+.print-only{
+	display:none;
+}
+
 @media print {
 
 	/*body:before {
@@ -366,6 +376,18 @@ tr.criteria-row th {
 	table#report-card-table  .poor:before{
 		content: url('../im/poor_40.png');
 		background-image:none !important;
+	}
+	table#report-card-table thead{
+	display:table-header-group;
+	}
+	table#report-card-table tbody {
+		display:table-row-group;
+	}
+	table#report-card-table .overall-header{
+		display:none;
+	}
+	.print-only{
+		display:block;
 	}
 	/*
 	table#report-card-table  .healthy{
