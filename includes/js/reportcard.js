@@ -242,7 +242,7 @@ jQuery(document).ready(function($){
 
 	reportCardClickListen();
 
-	top3stars();
+	//top3stars();
 	
 	
 },(jQuery));

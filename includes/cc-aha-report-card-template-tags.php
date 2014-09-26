@@ -149,7 +149,7 @@ function cc_aha_print_report_card_table( $all_data ) {
 	
 	<table id="report-card-table" class="tablesorter">
 		
-		<div class="hidden"><img class="star-image" src="../im/starswhite_29.png"></div>
+		<!--<div class="hidden"><img class="star-image" src="../im/starswhite_29.png"></div>-->
 		
 	<?php 
 
