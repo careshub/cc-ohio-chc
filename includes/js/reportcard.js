@@ -52,6 +52,7 @@ function reportCardClickListen(){
 			
 			//replace the 'Board Priority' print text with the data-top3name
 			jQuery("ul#top3 .board-priority").html( whichTop3Name );
+			
 		}
 		
 		//console.log(whichTop3Yes);
@@ -205,7 +206,25 @@ function filterByAffiliate( affiliate ){
 	allTop3Buttons.removeClass('selected-top-3');
 }
 
+//add stars or border to all top-3 tbody tds
+function top3stars(){
 
+	//get top 3 tbody tds
+	var top3boxes = jQuery('tr.board-data').children('[class*=top-3]');
+	var innerbox;
+	//var starImage = jQuery("img.star-image").attr("src");
+	//var starImage = jQuery("img.star-image").data("lazy-src");
+	top3boxes.each( function() {
+		//if ( jQuery(this).is(":visible") ) {
+		
+			innerbox = jQuery(this).find(".top-3-image");
+			
+			//innerbox.html("<img src='" + starImage + "'>");
+			innerbox.removeClass('hidden');
+		//}
+
+	});
+}
 
 jQuery(document).ready(function($){
 	var options = {
@@ -223,7 +242,7 @@ jQuery(document).ready(function($){
 
 	reportCardClickListen();
 
-	
+	top3stars();
 	
 	
 },(jQuery));

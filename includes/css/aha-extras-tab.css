@@ -342,6 +342,33 @@ tr.criteria-row th .sort-arrow{
 .top-3-row{
 	margin-top:0px;
 }
+.top-3-image{
+	background-image: url("../im/starsblack_20.png");
+    background-size: 21px auto;
+    height: 21px;
+    margin-left: 36%;
+    width: 21px;
+}
+td.community_tobacco_1-top-3,
+td.community_tobacco_2-top-3,
+td.community_phys_1-top-3,
+td.community_diet_1-top-3,
+td.community_diet_2-top-3,
+td.community_diet_3-top-3,
+td.school_phys_1-top-3,
+td.school_phys_2-top-3,
+td.school_diet_1-top-3,
+td.school_diet_2-top-3,
+td.school_cpr_1-top-3,
+td.care_factors_1-top-3,
+td.care_acute_1-top-3,
+td.care_acute_2-top-3 {
+	
+}
+
+
+
+
 .top-3-row th a.button{
 	padding:0.2em 0.3em;
 }

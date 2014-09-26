@@ -52,6 +52,7 @@ function cc_aha_print_all_report_card_health( ) {
 				<li><span class="board-priority">None Selected</span></li>
 			</ul>
 		</span>
+		
 		<!--<span>
 			Filter by State: <select name="state-select" id="state-dropdown-top">
 				<option value="-1">All States</option>
@@ -148,6 +149,7 @@ function cc_aha_print_report_card_table( $all_data ) {
 	
 	<table id="report-card-table" class="tablesorter">
 		
+		<div class="hidden"><img class="star-image" src="../im/starswhite_29.png"></div>
 		
 	<?php 
 
@@ -331,8 +333,10 @@ function cc_aha_print_report_card_table( $all_data ) {
 						?>
 							<td class="<?php echo $health_level . ' ' . $hiding_class . ' ' . $top3Yes; ?>" title="<?php cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key, $metro_id ) ); ?>" data-top3group="<?php echo $top3Yes; ?>">
 								<div class="hidden">
-									<?php cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key, $metro_id ) ); ?>
+									<?php //show our alt data
+									cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key, $metro_id ) ); ?>
 								</div>
+								<div class="top-3-image hidden"></div>
 							</td>					
 
 						<?php
