@@ -227,6 +227,11 @@ table#report-card-table .overall-header td.filter-type{
     padding-left: 0.5%;
 	min-width:82px;
 }
+table#report-card-table .overall-header.summary-section{
+
+}
+table#report-card-table .overall-header.geography{
+}
 table#report-card-table .hidden{
 	display:none;
 }
@@ -388,13 +393,56 @@ tr.criteria-row th {
 	table#report-card-table tbody {
 		display:table-row-group;
 	}
-	table#report-card-table .overall-header{
+	table#report-card-table .overall-header.geography{
 		display:none;
 	}
-	.top-3-row{
+	table#report-card-table tr.overall-header.summary-section {
+		border:1px solid black;
+	}
+	table#report-card-table .overall-header.summary-section th{
+		height:30px;
+		border-bottom: 1px solid black;
+		border-left: 1px solid black;
+		border-top: 1px solid black;
+		background-color:#00cef7;
+		color:black !important;
+		-webkit-print-color-adjust: exact;
+	}
+	table#report-card-table .overall-header.summary-section th.no-side-border{
+		border-left:none;
+		border-top:none;
+	}
+	table#report-card-table .overall-header th.white-border {
+		border-left: 1px solid black;
+		border-right: 1px solid black;
+	}
+	table#report-card-table .overall-header.summary-section th{
+		line-height:1em;
+		font-size:0.8rem;
+	}
+	table#report-card-table .top-3-row{
 		display:none;
 	}
-		
+	.impact-row th.community-show, .impact-row th.school-show, .impact-row th.care-show {
+		border: 1px solid black;
+	}
+	table#report-card-table .impact-row, table#report-card-table .criteria-row {
+		background: none repeat scroll 0 0 #eaeaea;
+		-webkit-print-color-adjust: exact;
+		border-left:1px solid black;
+	}
+	table#report-card-table .impact-row th{
+		line-height:1.5em;
+	}
+	table#report-card-table tbody td{
+		border-left: none !important;
+		border-right:none !important;
+	}
+	table#report-card-table .criteria-row th{
+		border:1px solid black;
+		padding:1px 2px;
+		line-height:1.5em;
+	}
 	.print-only{
 		display:block;
 	}

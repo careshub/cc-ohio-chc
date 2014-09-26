@@ -157,10 +157,10 @@ function cc_aha_print_report_card_table( $all_data ) {
 		//because of tablesort's thead needs
 		?>
 		<thead>
-			<tr class="overall-header">
-				<th class="{sorter: false}"></th>
-				<th class="{sorter: false}"></th>
-				<th class="{sorter: false}"></th>
+			<tr class="overall-header summary-section">
+				<th class="{sorter: false} no-side-border"></th>
+				<th class="{sorter: false} no-side-border"></th>
+				<th class="{sorter: false} no-side-border"></th>
 				<th class="{sorter: false} white-border community-show" colspan="6">Community Policies<br></th>
 				
 				<th class="{sorter: false} white-border school-show" colspan="5">Healthy Schools<br></th>
@@ -223,7 +223,7 @@ function cc_aha_print_report_card_table( $all_data ) {
 		
 		<?php
 		//4th row for state/affiliate sorting, as well as Top 3 selection
-		echo '<tr class="overall-header { sorter: false }"><td class="filter-type">Geography:</td>';
+		echo '<tr class="overall-header { sorter: false } geography"><td class="filter-type">Geography:</td>';
 		?>
 			<th class="state-select { sorter: false }"><select name="state-select" id="state-dropdown">
 				<option value="-1">All</option>
