@@ -176,7 +176,7 @@ function cc_aha_print_report_card_table( $all_data ) {
 				<th class="{sorter: false}"></th>
 				<th class="{sorter: false}"></th>
 				<th class="{sorter: false} white-border community-show" colspan="2">Tobacco<br></th>
-				<th class="{sorter: false} white-border community-show" colspan="1">Physical Activity<br></th>
+				<th class="{sorter: false} white-border community-show" colspan="1">PA<br></th>
 				<th class="{sorter: false} white-border community-show" colspan="3">Healthy Diet<br></th>
 				
 				<th class="{sorter: false} white-border school-show" colspan="2">Physical Activity<br></th>
