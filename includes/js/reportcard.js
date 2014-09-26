@@ -27,23 +27,31 @@ function reportCardClickListen(){
 		filterByAffiliate( thisAffiliate);
 	});
 	
-	//is top 4 selected?
+	//is top 3 selected?
 	jQuery('tr.top-3-row th').click(function(){
 		var whichTop3Yes = jQuery(this).data("top3group");
+		var whichTop3Name = jQuery(this).data("top3name");
 		
-		//we are deselecting and showing all
+		//we are deselecting ANY top 3 and showing all boards
 		if ( jQuery(this).hasClass('selected-top-3') ){
 			jQuery(this).removeClass('selected-top-3');
 			
+			//show all boards (fadeIn having rendering issues, sadly)
 			jQuery("tr.board-data").show();
-			//jQuery("tr.board-data:has(." + whichTop3Yes + " )").fadeIn();
-		} else { //we are selecting and hiding rows
+			
+			//replace the 'Board Priority' print text with 'None'
+			jQuery("ul#top3 .board-priority").html('None Selected');
+			
+		} else { //we are selecting a top 3 and hiding other board rows
 			allTop3Buttons = jQuery('tr.top-3-row th');
 			allTop3Buttons.removeClass('selected-top-3');
 			jQuery(this).addClass('selected-top-3');
 			
 			jQuery("tr.board-data").fadeIn();
 			jQuery("tr.board-data:not(:has(." + whichTop3Yes + " ))").fadeOut();
+			
+			//replace the 'Board Priority' print text with the data-top3name
+			jQuery("ul#top3 .board-priority").html( whichTop3Name );
 		}
 		
 		//console.log(whichTop3Yes);
