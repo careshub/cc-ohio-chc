@@ -248,11 +248,12 @@ table#report-card-table-sticky .hidden{
 	display:none;
 }
 table#report-card-table .healthy,
-table#report-card-table-sticky .healthy{
+table#report-card-table-sticky .healthy {
 	background-image: url('../im/healthy_40.png');
 	background-repeat:no-repeat;
 	background-position:center center;
 }
+
 table#report-card-table .healthy.community_tobacco_1-top-3,
 table#report-card-table .healthy.community_tobacco_2-top-3,
 table#report-card-table .healthy.community_phys_1-top-3,
@@ -439,6 +440,46 @@ tr.criteria-row th {
 	padding:6px 2px 4px;
 	font-size:10px;
 }
+
+/** LEGEND FOR REPORT CARD TABLE **/
+table#report-card-table th.legend,
+table#report-card-table-sticky th.legend {
+	background-color: white;
+	
+
+}
+section#summary-report-card .legend{
+	background: none repeat scroll 0 0 #eaeaea;
+}
+section#summary-report-card .legend ul{
+	padding-top:10px;
+}
+section#summary-report-card .legend .indicator {
+	padding:10px 20px;
+}
+section#summary-report-card .legend .indicator.healthy {
+	background-image: url('../im/healthy_32.png');
+	background-repeat:no-repeat;
+	background-position:center center;
+}
+section#summary-report-card .legend .indicator.intermediate {
+	background-image: url('../im/intermediate_32.png');
+	background-repeat:no-repeat;
+	background-position:center center;
+}
+section#summary-report-card .legend .indicator.poor {
+	background-image: url('../im/poor_32.png');
+	background-repeat:no-repeat;
+	background-position:center center;
+}
+section#summary-report-card .legend .indicator.star {
+	background-image: url('../im/starsblack_20.png');
+	background-repeat:no-repeat;
+	background-position:center center;
+}
+
+
+
 
 /*tr.criteria-row, tr.criteria-row th {
 	vertical-align:bottom;

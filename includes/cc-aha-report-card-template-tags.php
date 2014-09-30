@@ -27,7 +27,17 @@ function cc_aha_print_all_report_card_health( ) {
 	<section id="summary-report-card" class="clear">
 		<?php // Building out a table of responses for one metro
 		?>
-		<h4>Community Health Assessment Analysis</h4>
+		<h4 class="">Community Health Assessment Analysis</h4>
+		<div class="legend">
+			<ul class="horizontal no-bullets">
+				<li class=""><span class="indicator healthy"></span> = Healthy</li>
+				<li><span class="indicator intermediate"></span> = Intermediate</li>
+				<li><span class="indicator poor"></span> = Needs Improvement</li>
+				<li><span class="indicator star"></span>= Board is considering as a possible priority</li>
+			
+			
+			</ul>
+		</div>
 		
 		<ul class="horizontal no-bullets">
 			<li class="filter-type">Filter by Category:</li>
@@ -160,9 +170,13 @@ function cc_aha_print_report_card_table( $all_data ) {
 		?>
 		<thead>
 			<tr class="overall-header summary-section">
-				<th class="{sorter: false} no-side-border"></th>
-				<th class="{sorter: false} no-side-border"></th>
-				<th class="{sorter: false} no-side-border"></th>
+				<th class="{sorter: false} no-side-border" colspan="3">
+					<!--<ul class="no-bullets">
+						<li>One thing</li>
+						<li>Two things</li>
+					</ul>-->
+				
+				</th>
 				<th class="{sorter: false} white-border community-show" colspan="6">Community Policies<br></th>
 				
 				<th class="{sorter: false} white-border school-show" colspan="5">Healthy Schools<br></th>
@@ -172,9 +186,7 @@ function cc_aha_print_report_card_table( $all_data ) {
 			</tr>
 			
 			<tr class="impact-row">
-				<th class="{sorter: false}"></th>
-				<th class="{sorter: false}"></th>
-				<th class="{sorter: false}"></th>
+				<th class="{sorter: false}" colspan="3"></th>
 				<th class="{sorter: false} white-border community-show" colspan="2">Tobacco<br></th>
 				<th class="{sorter: false} white-border community-show" colspan="1">PA<br></th>
 				<th class="{sorter: false} white-border community-show" colspan="3">Healthy Diet<br></th>
