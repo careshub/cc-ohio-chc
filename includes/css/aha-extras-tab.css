@@ -458,17 +458,17 @@ section#summary-report-card .legend .indicator {
 	padding:10px 20px;
 }
 section#summary-report-card .legend .indicator.healthy {
-	background-image: url('../im/healthy_32.png');
+	background-image: url('../im/healthy_31.png');
 	background-repeat:no-repeat;
 	background-position:center center;
 }
 section#summary-report-card .legend .indicator.intermediate {
-	background-image: url('../im/intermediate_32.png');
+	background-image: url('../im/intermediate_31.png');
 	background-repeat:no-repeat;
 	background-position:center center;
 }
 section#summary-report-card .legend .indicator.poor {
-	background-image: url('../im/poor_32.png');
+	background-image: url('../im/poor_31.png');
 	background-repeat:no-repeat;
 	background-position:center center;
 }
