@@ -30,10 +30,10 @@ function cc_aha_print_all_report_card_health( ) {
 		<h4 class="">Community Health Assessment Analysis</h4>
 		<div class="legend">
 			<ul class="horizontal no-bullets">
-				<li class=""><span class="indicator healthy"></span> = Healthy</li>
-				<li><span class="indicator intermediate"></span> = Intermediate</li>
-				<li><span class="indicator poor"></span> = Needs Improvement</li>
-				<li><span class="indicator star"></span>= Board is considering as a possible priority</li>
+				<li class=""><span class="indicator healthy"></span><span class="legend-text"> = Healthy</span></li>
+				<li><span class="indicator intermediate"></span><span class="legend-text"> = Intermediate</span></li>
+				<li><span class="indicator poor"></span><span class="legend-text"> = Needs Improvement</span></li>
+				<li class="star-li"><span class="indicator star"></span><span class="legend-text">= Board is considering as a possible priority</span></li>
 			
 			
 			</ul>
@@ -216,22 +216,22 @@ function cc_aha_print_report_card_table( $all_data ) {
 		?>
 			<tr class="top-3-row">
 				<th class="{sorter: false}" colspan="3"><h4>Filter by Board Priority:</h4></th>
-				<th class="{sorter: false} white-border community-show report-card-top3 community_tobacco_1-top-3" data-top3group="<?php echo $criteria_groups[0] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[0]; ?>"><a class="button"><div class="top-3-star"></div></a><br></th>
-				<th class="{sorter: false} white-border community-show report-card-top3 <?php echo $criteria_groups[1] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[1] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[1]; ?>"><a class="button"><div class="top-3-star"></div></a><br></th>
-				<th class="{sorter: false} white-border community-show report-card-top3 <?php echo $criteria_groups[2] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[2] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[2]; ?>"><a class="button"><div class="top-3-star"></div></a><br></th>
-				<th class="{sorter: false} white-border community-show report-card-top3 <?php echo $criteria_groups[3] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[3] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[3]; ?>"><a class="button"><div class="top-3-star"></div></a><br></th>
-				<th class="{sorter: false} white-border community-show report-card-top3 <?php echo $criteria_groups[4] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[4] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[4]; ?>"><a class="button"><div class="top-3-star"></div></a><br></th>
-				<th class="{sorter: false} white-border community-show report-card-top3 <?php echo $criteria_groups[5] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[5] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[5]; ?>"><a class="button"><div class="top-3-star"></div></a><br></th>
+				<th class="{sorter: false} white-border community-show report-card-top3 community_tobacco_1-top-3" data-top3group="<?php echo $criteria_groups[0] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[0]; ?>"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>
+				<th class="{sorter: false} white-border community-show report-card-top3 <?php echo $criteria_groups[1] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[1] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[1]; ?>"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>
+				<th class="{sorter: false} white-border community-show report-card-top3 <?php echo $criteria_groups[2] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[2] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[2]; ?>"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>
+				<th class="{sorter: false} white-border community-show report-card-top3 <?php echo $criteria_groups[3] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[3] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[3]; ?>"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>
+				<th class="{sorter: false} white-border community-show report-card-top3 <?php echo $criteria_groups[4] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[4] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[4]; ?>"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>
+				<th class="{sorter: false} white-border community-show report-card-top3 <?php echo $criteria_groups[5] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[5] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[5]; ?>"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>
 				
-				<th class="{sorter: false} white-border school-show report-card-top3 <?php echo $criteria_groups[6] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[6] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[6]; ?>"><a class="button"><div class="top-3-star"></div></a><br></th>
-				<th class="{sorter: false} white-border school-show report-card-top3 <?php echo $criteria_groups[7] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[7] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[7]; ?>"><a class="button"><div class="top-3-star"></div></a><br></th>
-				<th class="{sorter: false} white-border school-show report-card-top3 <?php echo $criteria_groups[8] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[8] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[8]; ?>"><a class="button"><div class="top-3-star"></div></a><br></th>
-				<th class="{sorter: false} white-border school-show report-card-top3 <?php echo $criteria_groups[9] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[9] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[9]; ?>"><a class="button"><div class="top-3-star"></div></a><br></th>
-				<th class="{sorter: false} white-border school-show report-card-top3 <?php echo $criteria_groups[10] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[10] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[10]; ?>"><a class="button"><div class="top-3-star"></div></a><br></th>
+				<th class="{sorter: false} white-border school-show report-card-top3 <?php echo $criteria_groups[6] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[6] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[6]; ?>"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>
+				<th class="{sorter: false} white-border school-show report-card-top3 <?php echo $criteria_groups[7] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[7] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[7]; ?>"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>
+				<th class="{sorter: false} white-border school-show report-card-top3 <?php echo $criteria_groups[8] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[8] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[8]; ?>"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>
+				<th class="{sorter: false} white-border school-show report-card-top3 <?php echo $criteria_groups[9] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[9] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[9]; ?>"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>
+				<th class="{sorter: false} white-border school-show report-card-top3 <?php echo $criteria_groups[10] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[10] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[10]; ?>"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>
 				
-				<th class="{sorter: false} white-border care-show report-card-top3 <?php echo $criteria_groups[11] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[11] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[11]; ?>"><a class="button"><div class="top-3-star"></div></a><br></th>
-				<th class="{sorter: false} white-border care-show report-card-top3 <?php echo $criteria_groups[12] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[12] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[12]; ?>"><a class="button"><div class="top-3-star"></div></a><br></th>
-				<th class="{sorter: false} white-border care-show report-card-top3 <?php echo $criteria_groups[13] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[13] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[13]; ?>"><a class="button"><div class="top-3-star"></div></a><br></th>
+				<th class="{sorter: false} white-border care-show report-card-top3 <?php echo $criteria_groups[11] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[11] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[11]; ?>"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>
+				<th class="{sorter: false} white-border care-show report-card-top3 <?php echo $criteria_groups[12] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[12] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[12]; ?>"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>
+				<th class="{sorter: false} white-border care-show report-card-top3 <?php echo $criteria_groups[13] . '-top-3'; ?>" data-top3group="<?php echo $criteria_groups[13] . '-top-3'; ?>" data-top3name="<?php echo $criteria_labels[13]; ?>"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>
 				<!--<th class="{sorter: false}"></th>-->
 			</tr>
 		

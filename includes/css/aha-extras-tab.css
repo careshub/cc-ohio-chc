@@ -432,6 +432,12 @@ section#summary-report-card tr.top-3-row .top-3-star{
     margin-left: 0px;
     width: 30px;
 }
+section#summary-report-card tr.top-3-row .top-3-count{
+	color:white;
+	margin-top: -25px;
+    position: absolute;
+    width: 28px;
+}
 section#summary-report-card tr.top-3-row th.selected-top-3 .top-3-star{
 	background-position:0 -58px;
 }
@@ -509,6 +515,11 @@ section#summary-report-card .legend .indicator.star {
 .print-only{
 	display:none;
 }
+.print-only ul#geography li span.state,
+.print-only ul#geography li span.affiliate,
+.print-only ul#geography li span.board-priority {
+	font-weight:700;
+}
 
 @media print {
 
@@ -583,6 +594,53 @@ section#summary-report-card .legend .indicator.star {
 		content: url('../im/poor_40_star.png');
 		background-image:none !important;
 	}
+	
+	section#summary-report-card .legend ul{
+		height:50px;
+		padding-top:0px;
+	}
+	section#summary-report-card .legend ul li.star-li{
+		margin-top:9px;
+	}	
+	
+	section#summary-report-card .legend .indicator.healthy:before {
+		content: url('../im/healthy_31.png');
+		background-image: none !important;
+	}
+	section#summary-report-card .legend .indicator.healthy{
+		vertical-align:middle;
+		padding:0;
+	}
+	section#summary-report-card .legend .indicator.intermediate:before {
+		content: url('../im/intermediate_31.png');
+		background-image: none !important;
+	}
+	section#summary-report-card .legend .indicator.intermediate {
+		vertical-align:middle;
+		padding:0;
+	}
+	section#summary-report-card .legend .indicator.poor:before {
+		content: url('../im/poor_31.png');
+		background-image: none !important;
+	}
+	section#summary-report-card .legend .indicator.poor{
+		vertical-align:middle;
+		padding:0;
+	}
+	section#summary-report-card .legend .indicator.star:before {
+		content: url('../im/starsblack_20.png');
+		background-image: none !important;
+	}
+	section#summary-report-card .legend .indicator.star{
+		vertical-align:middle;
+		padding:0;
+		height:29px;
+	}
+	section#summary-report-card .legend .legend-text{
+		font-size:0.8em
+	}
+	
+	
 	
 	table#report-card-table thead{
 		display:table-header-group;
