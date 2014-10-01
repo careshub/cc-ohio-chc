@@ -441,7 +441,9 @@ section#summary-report-card tr.top-3-row .top-3-count{
 section#summary-report-card tr.top-3-row th.selected-top-3 .top-3-star{
 	background-position:0 -58px;
 }
-
+section#summary-report-card tr.top-3-row th.selected-top-3 .top-3-count{
+	color:#222222;
+}
 tr.criteria-row th {
 	padding:6px 2px 4px;
 	font-size:10px;
