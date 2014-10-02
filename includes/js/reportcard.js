@@ -36,7 +36,6 @@ function reportCardClickListen(){
 		filterByTop3( jQuery(this), whichTop3Yes, whichTop3Name );
 		
 	});
-		
 	
 	//take care of our sort arrows
 	jQuery('tr.criteria-row th').on("click", function(){
@@ -51,7 +50,6 @@ function reportCardClickListen(){
 			jQuery(this).find('.sort-arrow').html('&#x25BC;');
 		}
 		
-	
 	});
 }
 
@@ -70,6 +68,9 @@ function showCommunityTrigger(){
 	jQuery('.community-hide-trigger').on("click", hideCommunityTrigger );
 	jQuery('.community-show-trigger').off("click", showCommunityTrigger);
 	jQuery('.community-show-trigger').on("click", showCommunityTrigger);
+	
+	//recalculate the number of top 3 visible
+	countTop3();
 }
 function hideCommunityTrigger(e){
 	//make changes to the SHOW/HIDE button
@@ -100,8 +101,6 @@ function hideCommunityTrigger(e){
 	jQuery('.community-show-trigger').on("click", showCommunityTrigger);
 	jQuery('.community-hide-trigger').off("click", hideCommunityTrigger );
 	jQuery('.community-hide-trigger').on("click", hideCommunityTrigger );
-	
-	
 	
 }
 
@@ -142,6 +141,9 @@ function showSchoolTrigger(){
 	jQuery('.school-hide-trigger').on("click", hideSchoolTrigger );
 	jQuery('.school-show-trigger').off("click", showSchoolTrigger);
 	jQuery('.school-show-trigger').on("click", showSchoolTrigger);
+	
+	//recalculate the number of top 3 visible
+	countTop3();
 }
 
 function showCareTrigger(){
@@ -154,6 +156,9 @@ function showCareTrigger(){
 	jQuery('.care-hide-trigger').on("click", hideCareTrigger );
 	jQuery('.care-show-trigger').off("click", showCareTrigger);
 	jQuery('.care-show-trigger').on("click", showCareTrigger);
+	
+	//recalculate the number of top 3 visible
+	countTop3();
 }
 function hideCareTrigger(){
 	//make visual changes to SHOW/HIDE button
@@ -201,26 +206,10 @@ function showAllTrigger(){
 	jQuery('.community-hide-trigger').on("click", hideCommunityTrigger );
 	jQuery('.school-hide-trigger').on("click", hideSchoolTrigger );
 	jQuery('.care-hide-trigger').on("click", hideCareTrigger );
+	
+	//recalculate the number of top 3 visible
+	countTop3();
 }
-
-function filterAny(){
-
-	//get table filters for State, Affiliate and Top 3
-	//if an affiliate is selected
-	var affiliateName = jQuery('#affiliate-dropdown').val();
-	//if a state is selected
-	var stateName = jQuery('#state-dropdown').val();
-	//if a top 3 is selected
-	var top3selected = jQuery('tr.top-3-row').find('.selected-top-3');
-
-	//if the just-selected affiliate rows aren't visible, show them
-	if ( !( jQuery("tr.board-data." + affiliate + "" ).is(":visible") ) && ( affiliate != "-1") ) {
-		//jQuery("tr.board-data." + affiliate + "" ).fadeIn();
-		jQuery("tr.board-data." + affiliate + "" ).show();
-	}
-
-}
-
 
 function filterByState( state, fromTop3 ){
 	//set default value for fromTop3, if not passed in
@@ -233,25 +222,25 @@ function filterByState( state, fromTop3 ){
 	var top3selected = jQuery('tr.top-3-row').find('.selected-top-3');
 	
 	if ( !( jQuery("tr.board-data." + state + "" ).is(":visible") ) && ( state != "-1") ) {
-		jQuery("tr.board-data." + state + "" ).fadeIn();
+		jQuery("tr.board-data." + state + "" ).show();
 	}
 	if ( state != "-1" ) {
-		jQuery("tr.board-data:not(." + state + " )").fadeOut();
+		jQuery("tr.board-data:not(." + state + " )").hide();
 		jQuery('ul#geography .state').html( state );
 		//jQuery('ul#geography .affiliate').html('All');
 		
 		//if an affiliate is also selected, hide other rows
 		if ( affiliateName != "-1" ) {
-			jQuery("tr.board-data:not(." + affiliateName + " )").fadeOut();
+			jQuery("tr.board-data:not(." + affiliateName + " )").hide();
 		}
 	} else {  //show all
-		jQuery("tr.board-data").fadeIn();
+		jQuery("tr.board-data").show();
 		//change the print-only input to show all states
 		jQuery('ul#geography .state').html('All');
 		
 		//if an affiliate is also selected, hide other rows
 		if ( affiliateName != "-1" ) {
-			jQuery("tr.board-data:not(." + affiliateName + " )").fadeOut();
+			jQuery("tr.board-data:not(." + affiliateName + " )").hide();
 		}
 	}
 	
@@ -262,14 +251,18 @@ function filterByState( state, fromTop3 ){
 		var whichTop3 = top3selected.data("top3group");
 		
 		if( whichTop3 != undefined ) {
-			jQuery("tr.board-data:not(:has(." + whichTop3 + " ))").fadeOut();
+			jQuery("tr.board-data:not(:has(." + whichTop3 + " ))").hide();
 		}
 			
 		//replace the 'Board Priority' print text with the data-top3name
 		//jQuery("ul#top3 .board-priority").html( whichTop3Name );
 		//TODO: check print filter name things
+		
+		//recalculate the number of top 3 visible
+		countTop3();
 	}
 	
+
 }
 
 function filterByAffiliate( affiliate, fromTop3 ){
@@ -295,7 +288,7 @@ function filterByAffiliate( affiliate, fromTop3 ){
 		
 		//if a state is also selected, hide other rows
 		if ( stateName != "-1" ) {
-			jQuery("tr.board-data:not(." + stateName + " )").fadeOut();
+			jQuery("tr.board-data:not(." + stateName + " )").hide();
 		}
 		
 		//jQuery('ul#geography .state').html('All');
@@ -307,7 +300,7 @@ function filterByAffiliate( affiliate, fromTop3 ){
 		
 		//if a state is also selected, hide other rows
 		if ( stateName != "-1" ) {
-			jQuery("tr.board-data:not(." + stateName + " )").fadeOut();
+			jQuery("tr.board-data:not(." + stateName + " )").hide();
 		}
 	}
 	
@@ -318,13 +311,17 @@ function filterByAffiliate( affiliate, fromTop3 ){
 		var whichTop3 = top3selected.data("top3group");
 		
 		if( whichTop3 != undefined ) {
-			jQuery("tr.board-data:not(:has(." + whichTop3 + " ))").fadeOut();
+			jQuery("tr.board-data:not(:has(." + whichTop3 + " ))").hide();
 		}
 			
 		//replace the 'Board Priority' print text with the data-top3name
 		//do we need to do this here?  TODO: check print filter info
 		//jQuery("ul#top3 .board-priority").html( whichTop3Name );
+		
+		//recalculate the number of top 3 visible
+		countTop3();
 	}
+	
 	
 }
 
@@ -348,17 +345,23 @@ function filterByTop3( thisObj, whichTop3Yes, whichTop3Name ) {
 		//replace the 'Board Priority' print text with 'None'
 		jQuery("ul#top3 .board-priority").html('None Selected');
 		
+		//recalculate the number of top 3 visible
+		//countTop3();
+		
 	} else { //we are selecting a top 3 and hiding other board rows
 		allTop3Buttons = jQuery('tr.top-3-row th');
 		allTop3Buttons.removeClass('selected-top-3');
 		thisObj.addClass('selected-top-3');
 	
 		//hide the rows that do not have the top 3 class
-		jQuery("tr.board-data:not(:has(." + whichTop3Yes + " ))").fadeOut();
+		jQuery("tr.board-data:not(:has(." + whichTop3Yes + " ))").hide();
 		
 		//replace the 'Board Priority' print text with the data-top3name
 		jQuery("ul#top3 .board-priority").html( whichTop3Name );
 		
+		//console.log('top 3 count');
+		//recalculate the number of top 3 visible
+		//countTop3();
 	}
 
 }
@@ -375,7 +378,7 @@ function countTop3(){
 		top3group = jQuery(this).data("top3group");
 		
 		//get number of tds with this top 3 group
-		top3grouptd = jQuery('#report-card-table td.' + top3group);
+		top3grouptd = jQuery('#report-card-table td.' + top3group + ':visible')
 		
 		//how many in table
 		top3groupsize = top3grouptd.size();

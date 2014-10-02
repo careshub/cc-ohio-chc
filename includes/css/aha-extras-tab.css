@@ -519,7 +519,7 @@ section#summary-report-card .legend .indicator.star {
 }
 .print-only ul#geography li span.state,
 .print-only ul#geography li span.affiliate,
-.print-only ul#geography li span.board-priority {
+.print-only ul#top3 li span.board-priority {
 	font-weight:700;
 }
 
