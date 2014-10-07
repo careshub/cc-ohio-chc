@@ -217,31 +217,38 @@ function filterByState( state, fromTop3 ){
 	
 	//get other filters
 	//if a state is selected, we will need to filter for it
-	var affiliateName = jQuery('#affiliate-dropdown').val();
+	//Nope - Affiliate/State filters cancel each other out as of 7 Oct 2014
+	//var affiliateName = jQuery('#affiliate-dropdown').val();
+	
 	//if a top 3 is selected, we will need to filter for it
 	var top3selected = jQuery('tr.top-3-row').find('.selected-top-3');
 	
 	if ( !( jQuery("tr.board-data." + state + "" ).is(":visible") ) && ( state != "-1") ) {
 		jQuery("tr.board-data." + state + "" ).show();
 	}
+	
 	if ( state != "-1" ) {
 		jQuery("tr.board-data:not(." + state + " )").hide();
+		
+		//change print text to reflect state and ALL affiliates
 		jQuery('ul#geography .state').html( state );
-		//jQuery('ul#geography .affiliate').html('All');
+		jQuery('ul#geography .affiliate').html('All');
 		
 		//if an affiliate is also selected, hide other rows
-		if ( affiliateName != "-1" ) {
+		//Nope - Affiliate/State filters cancel each other out as of 7 Oct 2014
+		/*if ( affiliateName != "-1" ) {
 			jQuery("tr.board-data:not(." + affiliateName + " )").hide();
-		}
+		}*/
 	} else {  //show all
 		jQuery("tr.board-data").show();
 		//change the print-only input to show all states
 		jQuery('ul#geography .state').html('All');
 		
 		//if an affiliate is also selected, hide other rows
-		if ( affiliateName != "-1" ) {
+		//Nope - Affiliate/State filters cancel each other out as of 7 Oct 2014
+		/*if ( affiliateName != "-1" ) {
 			jQuery("tr.board-data:not(." + affiliateName + " )").hide();
-		}
+		}*/
 	}
 	
 	//if we're not coming from top 3, run that filter, too
@@ -260,9 +267,14 @@ function filterByState( state, fromTop3 ){
 		
 		//recalculate the number of top 3 visible
 		countTop3();
+		
+		//Affiliate/State filters cancel each other out (again) as of 7 Oct 2014
+		//change the affiliate drop down to -1
+		jQuery('#affiliate-dropdown').val("-1");
 	}
 	
-
+	
+	
 }
 
 function filterByAffiliate( affiliate, fromTop3 ){
@@ -271,39 +283,50 @@ function filterByAffiliate( affiliate, fromTop3 ){
 	
 	//get other filters
 	//if a state is selected, we will need to filter for it
-	var stateName = jQuery('#state-dropdown').val();
+	//Nope - Affiliate/State filters cancel each other out as of 7 Oct 2014
+	//var stateName = jQuery('#state-dropdown').val();
+	
 	//if a top 3 is selected, we will need to filter for it
 	var top3selected = jQuery('tr.top-3-row').find('.selected-top-3');
 	
 	//if the just-selected affiliate rows aren't visible, show them
-	if ( !( jQuery("tr.board-data." + affiliate + "" ).is(":visible") ) && ( affiliate != "-1") ) {
+	/*if ( !( jQuery("tr.board-data." + affiliate + "" ).is(":visible") ) && ( affiliate != "-1") ) {
 		//jQuery("tr.board-data." + affiliate + "" ).fadeIn();
 		jQuery("tr.board-data." + affiliate + "" ).show();
-	}
+	}*/
 	if ( affiliate != "-1" ) {
+		//show all required affiliate rows
+		jQuery("tr.board-data." + affiliate ).show();
+		
 		//if an affiliate is selected, hide others
 		//jQuery("tr.board-data:not(." + affiliate + " )").fadeOut();
 		jQuery("tr.board-data:not(." + affiliate + " )").hide();
-		jQuery('ul#geography .affiliate').html( affiliate ); //update the print filter text
+		
+		//update the print filter text
+		jQuery('ul#geography .affiliate').html( affiliate );
+		jQuery('ul#geography .state').html('All');
 		
 		//if a state is also selected, hide other rows
-		if ( stateName != "-1" ) {
+		//Nope - Affiliate/State filters cancel each other out as of 7 Oct 2014
+		/*if ( stateName != "-1" ) {
 			jQuery("tr.board-data:not(." + stateName + " )").hide();
-		}
+		}*/
 		
-		//jQuery('ul#geography .state').html('All');
 	} else {
 		//jQuery("tr.board-data").fadeIn();
 		jQuery("tr.board-data").show();
+		
 		//change the print-only input to show all affiliates
 		jQuery('ul#geography .affiliate').html('All');
 		
 		//if a state is also selected, hide other rows
-		if ( stateName != "-1" ) {
+		//Affiliate/State filters cancel each other out as of 7 Oct 2014
+		/*if ( stateName != "-1" ) {
 			jQuery("tr.board-data:not(." + stateName + " )").hide();
-		}
+		}*/
 	}
 	
+
 	//if we're not coming from top3, run that filter, too
 	if ( fromTop3 == false ){
 		//now filter the results for top 3
@@ -320,23 +343,32 @@ function filterByAffiliate( affiliate, fromTop3 ){
 		
 		//recalculate the number of top 3 visible
 		countTop3();
-	}
+	
+	
+	}	
+	
+	//Affiliate/State filters cancel each other out (again) as of 7 Oct 2014
+	//change the affiliate drop down to -1
+	jQuery('#state-dropdown').val("-1");
 	
 	
 }
 
 function filterByTop3( thisObj, whichTop3Yes, whichTop3Name ) {
 
-	var affiliateName = jQuery('#affiliate-dropdown').val();
-	var stateName = jQuery('#state-dropdown').val();
-	
 	//show all boards (fadeIn having rendering issues with background images not showing in FF)
 	jQuery("tr.board-data").show();
 	
-	//filter by state/affiliate, if necessary
-	filterByAffiliate( affiliateName, true );
-	filterByState( stateName, true );
+	//filter by state OR affliate (7 Oct AHA chagne..)
+	var stateName = jQuery('#state-dropdown').val();
+	if ( stateName == '-1') {
+		var affiliateName = jQuery('#affiliate-dropdown').val();
+		//filter by state/affiliate, if necessary
+		filterByAffiliate( affiliateName, true );
+	} else {
 	
+		filterByState( stateName, true );
+	}
 	
 	//we are deselecting ANY top 3 and showing all boards, minus geography filters (state, afflilate)
 	if ( thisObj.hasClass('selected-top-3') ){
