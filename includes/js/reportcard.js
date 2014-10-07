@@ -382,7 +382,7 @@ function filterByTop3( thisObj, whichTop3Yes, whichTop3Name ) {
 		jQuery("ul#top3 .board-priority").html('None Selected');
 		
 		//recalculate the number of top 3 visible
-		//countTop3();
+		countTop3();
 		
 	} else { //we are selecting a top 3 and hiding other board rows
 		allTop3Buttons = jQuery('tr.top-3-row th');
