@@ -281,6 +281,7 @@ function filterByAffiliate( affiliate, fromTop3 ){
 	//set default value for fromTop3, if not passed in
 	fromTop3 = fromTop3 || false;
 	
+	var affilateName;
 	//get other filters
 	//if a state is selected, we will need to filter for it
 	//Nope - Affiliate/State filters cancel each other out as of 7 Oct 2014
@@ -303,7 +304,10 @@ function filterByAffiliate( affiliate, fromTop3 ){
 		jQuery("tr.board-data:not(." + affiliate + " )").hide();
 		
 		//update the print filter text
-		jQuery('ul#geography .affiliate').html( affiliate );
+		//jQuery('ul#geography .affiliate').html( affiliate ); //this is value, not name
+		affilateName = jQuery('th.affiliate-select select option:selected').text();
+		affilateName = affilateName.replace('See all Affiliates','');
+		jQuery('ul#geography .affiliate').html( affilateName );
 		jQuery('ul#geography .state').html('All');
 		
 		//if a state is also selected, hide other rows
