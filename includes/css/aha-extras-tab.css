@@ -19,10 +19,20 @@
 }
 .aha-survey.standard-form .submit {
 	clear: right;
+	float: right;
 	padding-top: 0;
+	width: 40%;
 }
 .aha-survey.standard-form .submit input {
 	margin-right: 0;
+	float: right;
+}
+.aha-survey.standard-form .submit.alignleft {
+	float: left;
+}
+.aha-survey.standard-form .submit.alignleft input {
+	margin-right: 0;
+	float: left;
 }
 .aha-survey.standard-form .submit.toc {
 	clear: left;
