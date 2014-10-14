@@ -405,7 +405,7 @@ function filterByTop3( thisObj, whichTop3Yes, whichTop3Name ) {
 function countTop3(){
 
 	//get all th in top-3-row with class ending in -top-3 (report-card-table only, NOT report-card-table sticky
-	var allTop3th = jQuery('#report-card-table tr.top-3-row th[class*=-top-3]')
+	var allTop3th = jQuery('#report-card-table tr.top-3-row th[class*=-top-3]');
 	var top3group;
 	var top3grouptd;
 	var top3groupsize;

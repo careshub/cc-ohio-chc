@@ -34,8 +34,9 @@ function cc_aha_extras_class_init(){
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-summary-template-tags.php' );
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-summary-template-tags-2.php' );
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-summary-template-tags-revenue.php' );
-	//Template functions for the Summary Report Card
+	//Template functions for the Summary Report Card, Revenue Report Card
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-report-card-template-tags.php' );
+	require_once( dirname( __FILE__ ) . '/includes/cc-aha-all-revenue-report-card-template-tags.php' );
 
 	// Database helper functions
 	require_once( dirname( __FILE__ ) . '/includes/cc-aha-database-bridge.php' );

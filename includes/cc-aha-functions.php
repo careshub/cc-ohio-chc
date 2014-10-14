@@ -83,6 +83,9 @@ function cc_aha_get_analysis_revenue_slug(){
 function cc_aha_get_report_card_slug(){
     return 'report-card';
 }
+function cc_aha_get_revenue_report_card_slug(){
+    return 'revenue-report-card';
+}
 /**
  * Get URIs for the various pieces of this tab
  * 
@@ -118,6 +121,12 @@ function cc_aha_get_report_card_permalink( $group_id = false ) {
 
     $permalink = cc_aha_get_home_permalink( $group_id ) . cc_aha_get_report_card_slug();
 	return apply_filters( "cc_aha_report_card_permalink", $permalink, $group_id);
+}
+
+function cc_aha_get_revenue_report_card_permalink( $group_id = false ) {
+
+    $permalink = cc_aha_get_home_permalink( $group_id ) . cc_aha_get_revenue_report_card_slug();
+	return apply_filters( "cc_aha_revenue_report_card_permalink", $permalink, $group_id);
 }
 
 /**
@@ -241,6 +250,13 @@ function cc_aha_on_analysis_complete_report_screen(){
 }
 function cc_aha_on_report_card_screen(){
 	if ( cc_aha_is_component() && bp_is_action_variable( cc_aha_get_report_card_slug(), 0 ) ){
+        return true;
+    } else {
+        return false;
+    }
+}
+function cc_aha_on_revenue_report_card_screen(){
+	if ( cc_aha_is_component() && bp_is_action_variable( cc_aha_get_revenue_report_card_slug(), 0 ) ){
         return true;
     } else {
         return false;

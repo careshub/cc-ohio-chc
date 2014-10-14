@@ -493,6 +493,7 @@ function cc_aha_get_summary_revenue_sections() {
 	return array( 
 		'event_leadership' => array(
 			'label' => 'Recruit Event Leadership',
+			'short_label' => 'Event Leadership',
 			'slug' 	=> 'event-leadership',
 			'background' => 'The Best Practice for recruitment of Event Chair leadership is a critical element in the successful execution of fundraising events which both raise the greatest potential revenue and reach our targeted audiences for community outreach.  Individuals that are selected to be chair are ideally leaders/top managers in the community that have the ability to recruit and lead others, give corporately at the prescribed top 2 levels for that MSA, and give personally of their time and financial commitment.  Chairs should be recruited, at a minimum, 12-18 months prior to the event, with a focus on the depth of recruitment being multiple (3) years in order to allow sufficient time for future chairs to observe, train, network, and become active in AHA/ASA’s mission.',
 			'outcome' => 'Ensure event revenue increases by recruiting the needed event chairs.',
@@ -503,6 +504,7 @@ function cc_aha_get_summary_revenue_sections() {
 			),
 		'elt_leadership' => array(
 			'label' => 'Secure Top ELT Leadership',
+			'short_label' => 'ELT Leadership',
 			'slug' 	=> 'elt-leadership',
 			'background' => 'The Best Practice for recruitment of the Executive Leadership Team (ELT)  is a critical element in the execution of successful fundraising events.  Ideally, these committees will be made up of at least fifteen members who can give corporately at one of the prescribed top levels of sponsorship, give a generous personal gift, and dedicate sufficient time to complete their responsibilities as a member of ELT.  These individuals should be recruited by the event Chair, in partnership with staff.  They are responsible for helping raise new and renewed corporate and individual revenue.',
 			'outcome' => 'Grow event revenue through recruitment of ELT members.',
@@ -512,6 +514,7 @@ function cc_aha_get_summary_revenue_sections() {
 			),
 		'top_25_companies' => array(
 			'label' => 'Grow Top 25 Company Engagement',
+			'short_label' => 'Top 25 Company',
 			'slug' 	=> 'top-25-companies',
 			'background' => 'Involvement from the top 25 corporations in markets is critical for the current and future success of fundraising events and for helping us &ldquo;meet people where they are&rdquo; with healthy living strategies.  Because of the larger number of employees involved, there is greater likelihood for employee involvement in different AHA events, and the greatest financial potential for corporate giving.  This corporate segment gives a pipeline for recruitment and source for new company development as well as provides depth with current partners due to size and scope.',
 			'outcome' => 'Board demonstrates meaningful contributions from top 25 employers through leadership/CSuite involvement, fundraising, and health-related activities.',
@@ -522,6 +525,7 @@ function cc_aha_get_summary_revenue_sections() {
 			),
 		'sponsorship' => array(
 			'label' => 'Secure Platform/Signature Sponsorship',
+			'short_label' => 'Platform / Signature Sponsorship',
 			'slug' 	=> 'sponsorship',
 			'background' => 'The recruitment of renewed and additional top level partners each year for events are critical to the fundraising success of corporate events.  These partners bring year-round opportunities for partnering with AHA/ASA in our mission activation and helping people in our communities become healthier.',
 			'outcome' => 'Increase annual revenue through Platform/Signature sponsors in market (sponsorship levels at bottom of document).',
@@ -531,6 +535,7 @@ function cc_aha_get_summary_revenue_sections() {
 			),
 		'youth_market' => array(
 			'label' => 'Expand Youth Market Efforts',
+			'short_label' => 'Youth Market',
 			'slug' 	=> 'youth-market',
 			'background' => 'The renewal and recruitment of new schools is critical to implementing the strategies of the Youth Market program.  Recruiting the superintendent gives top-level collaboration to influence and recruit throughout the system,  including district employees and school leadership.  This partnership results in more individuals: employees as well as students, fundraising for the AHA and being touched by critical messaging for heart health.',
 			'outcome' => 'Increase the number of schools participating in AHA health and revenue activities.',
@@ -540,6 +545,7 @@ function cc_aha_get_summary_revenue_sections() {
 			),
 		'individual_giving' => array(
 			'label' => 'Increase Individual Giving',
+			'short_label' => 'Individual Giving',
 			'slug' 	=> 'individual-giving',
 			'background' => 'Increasing the number of donors who have the capacity to make a $100,000+ gift, as well as increasing the acquisition and retention of Cor Vitae Society Members ($5,000+ annually) will help further the mission of AHA/ASA.  These measurements are consistent with our commitment to our Guiding Values and directly correlate with &ldquo;Making an Extraordinary Impact&rdquo; and &ldquo;Inspiring Passionate Commitment&rdquo;.  By increasing revenue from Cor Vitae Society Members, as well as those already giving at high levels, local board members will also be impacting other Guiding Values such as &ldquo;Bringing Science to Life&rdquo;, &ldquo;Improving and Extending People’s Lives&rdquo;, and &ldquo;Ensuring Equitable Health for All&rdquo;.',
 			'outcome' => 'Increase pipeline of potential individual donors that have the ability to give $100,000+ gifts.',
@@ -550,6 +556,7 @@ function cc_aha_get_summary_revenue_sections() {
 			),
 		'donor_stewardship' => array(
 			'label' => 'Enhance Donor Stewardship',
+			'short_label' => 'Donor Stewardship',
 			'slug' 	=> 'donor-stewardship',
 			'background' => 'A consistent, strategic Stewardship plan is the cornerstone for building engagement with any mission-centered organization.  In order to help meet the AHA’s 2020 Impact Goal, organization-wide standards and practices are being implemented to provide consistent, meaningful stewardship and engagement opportunities for donors and volunteers.  National and Affiliate staff and volunteers will partner to implement a comprehensive Stewardship plan in order to: <ul><li>Advance our strategic priorities</li><li>Support annual and long-range fundraising goals</li><li>Increase donor retention</li><li>Create inspiring opportunities to engage our donors and volunteers for the long-term</li>',
 			'outcome' => 'Retain donors through robust engagement and stewardship activities.',
@@ -559,6 +566,7 @@ function cc_aha_get_summary_revenue_sections() {
 			),
 		'pdw_legacy' => array(
 			'label' => 'Membership in the Paul Dudley White Legacy Society',
+			'short_label' => 'Paul Dudley Legacy Society',
 			'slug' 	=> 'pdw-legacy',
 			'background' => 'Paul Dudley White was President Eisenhower’s personal physician. He guided the president’s recovery from heart attack in 1955. But this forward-thinking physician was also a founder of the American Heart Association and served as its president from 1940-41. In honor of his vision in building an organization that would lead in heart research and education and to honor those who share that vision, the Paul Dudley White Legacy Society was organized. In joining the Paul Dudley White Legacy Society you are securing the immortality of your generosity through the lives that will be touched by the research and education made possible through your gifts.',
 			'outcome' => 'Increase understanding of AHA’s personal legacy and estate planning programs.',

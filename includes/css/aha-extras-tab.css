@@ -201,41 +201,56 @@
 }
 
 /**** SUMMARY REPORT CARD STYLES  ****/
-#summary-report-card ul.horizontal li.filter-type{
+#summary-report-card ul.horizontal li.filter-type,
+#revenue-report-card ul.horizontal li.filter-type{
 	font-size:1.2em;
 	line-height:1.2em;
 }
 #summary-report-card ul#geography, 
-#summary-report-card ul#top3 {
+#summary-report-card ul#top3,
+#revenue-report-card ul#geography, 
+#revenue-report-card ul#top3 {
 	margin-bottom:0em;
 }
 table#report-card-table th,
 table#report-card-table-sticky th{
 	text-align:center;
 }
+table#revenue-report-card-table th,
+table#revenue-report-card-table-sticky th{
+	text-align:center;
+}
 
 table#report-card-table .overall-header,
-table#report-card-table-sticky .overall-header{
+table#report-card-table-sticky .overall-header,
+table#revenue-report-card-table .overall-header,
+table#revenue-report-card-table-sticky .overall-header{
 	background-color:#008eaa;
     font-weight: bold;
     line-height: 2.18182;
     text-transform: none;
 }
 table#report-card-table .overall-header th,
-table#report-card-table-sticky .overall-header th{
+table#report-card-table-sticky .overall-header th,
+table#revenue-report-card-table .overall-header th,
+table#revenue-report-card-table-sticky .overall-header th{
 	color:#ffffff;
     font-size: 1rem;
 	border-bottom: 1px solid white;
 }
 table#report-card-table .overall-header th.white-border,
-table#report-card-table-sticky .overall-header th.white-border{
+table#report-card-table-sticky .overall-header th.white-border,
+table#revenue-report-card-table .overall-header th.white-border,
+table#revenue-report-card-table-sticky .overall-header th.white-border{
 	border-left:1px solid #ffffff;
 	border-right:1px solid #ffffff;
 	text-align:center;
 }
 
 table#report-card-table .overall-header td.filter-type,
-table#report-card-table-sticky .overall-header td.filter-type{
+table#report-card-table-sticky .overall-header td.filter-type,
+table#revenue-report-card-table .overall-header td.filter-type,
+table#revenue-report-card-table-sticky .overall-header td.filter-type{
 	color: white;
     font-size: 1.1em;
     font-weight: 700;
@@ -243,18 +258,24 @@ table#report-card-table-sticky .overall-header td.filter-type{
 	min-width:82px;
 }
 table#report-card-table .overall-header.summary-section,
-table#report-card-table-sticky .overall-header.summary-section{
+table#report-card-table-sticky .overall-header.summary-section,
+table#revenue-report-card-table .overall-header.summary-section,
+table#revenue-report-card-table-sticky .overall-header.summary-section{
 
 }
 table#report-card-table .overall-header.geography{
 }
 
 table#report-card-table-sticky .top-3-row,
-table#report-card-table-sticky .overall-header.geography{
+table#report-card-table-sticky .overall-header.geography,
+table#revenue-report-card-table-sticky .top-3-row,
+table#revenue-report-card-table-sticky .overall-header.geography{
 	display:none;
 }
 table#report-card-table .hidden,
-table#report-card-table-sticky .hidden{
+table#report-card-table-sticky .hidden,
+table#revenue-report-card-table .hidden,
+table#revenue-report-card-table-sticky .hidden{
 	display:none;
 }
 table#report-card-table .healthy,
@@ -330,7 +351,9 @@ table#report-card-table .poor.care_acute_2-top-3 {
 
 
 table#report-card-table-sticky tr,
-table#report-card-table tr{
+table#report-card-table tr,
+table#revenue-report-card-table-sticky tr,
+table#revenue-report-card-table tr {
 	height:60px;
 }
 
@@ -339,7 +362,9 @@ a.button {
 }
 
 table#report-card-table td.state-select,
-table#report-card-table-sticky td.state-select{
+table#report-card-table-sticky td.state-select,
+table#revenue-report-card-table td.state-select,
+table#revenue-report-card-table-sticky td.state-select{
 	max-width:60px;
 }
 table#report-card-table td.state-select select,
@@ -347,7 +372,13 @@ table#report-card-table-sticky td.state-select select,
 table#report-card-table th.state-select select,
 table#report-card-table-sticky th.state-select select,
 table#report-card-table th.state-select,
-table#report-card-table-sticky th.state-select{
+table#report-card-table-sticky th.state-select,
+table#revenue-report-card-table td.state-select select,
+table#revenue-report-card-table-sticky td.state-select select,
+table#revenue-report-card-table th.state-select select,
+table#revenue-report-card-table-sticky th.state-select select,
+table#revenue-report-card-table th.state-select,
+table#revenue-report-card-table-sticky th.state-select{
 	max-width:46px;
 	padding-left:0;
 	padding-right:0;
@@ -355,21 +386,31 @@ table#report-card-table-sticky th.state-select{
 table#report-card-table td.affiliate-select,
 table#report-card-table-sticky td.affiliate-select,
 table#report-card-table th.affiliate-select,
-table#report-card-table-sticky th.affiliate-select{
+table#report-card-table-sticky th.affiliate-select,
+table#revenue-report-card-table td.affiliate-select,
+table#revenue-report-card-table-sticky td.affiliate-select,
+table#revenue-report-card-table th.affiliate-select,
+table#revenue-report-card-table-sticky th.affiliate-select{
 	max-width:60px;
 }
 table#report-card-table thead,
-table#report-card-table-sticky thead{
+table#report-card-table-sticky thead,
+table#revenue-report-card-table thead,
+table#revenue-report-card-table-sticky thead{
 	display:table-header-group;
 }
 table#report-card-table tbody,
-table#report-card-table-sticky tbody {
+table#report-card-table-sticky tbody,
+table#revenue-report-card-table tbody,
+table#revenue-report-card-table-sticky tbody {
     display:table-row-group;
 }
-section#summary-report-card select{
+section#summary-report-card select,
+section#revenue-report-card select{
 	margin-right:2em;
 }
-section#summary-report-card tr.top-3-row th.selected-top-3 a.button{
+section#summary-report-card tr.top-3-row th.selected-top-3 a.button,
+section#revenue-report-card tr.top-3-row th.selected-top-3 a.button{
 	background-image:none;
 	background-color:#008eaa;
 	color:#ffffff;
@@ -379,6 +420,15 @@ section#summary-report-card tr.top-3-row th.selected-top-3 a.button{
 section#summary-report-card .min60{
 	min-width:60px;
 }
+
+section#revenue-report-card .max3em{
+	max-width:25em;
+}
+section#revenue-report-card tr.board-data td {
+	min-width:60px;
+}
+
+
 tr.impact-row {
 	border-bottom:1px solid white;
 }
@@ -428,13 +478,11 @@ td.care_acute_2-top-3 {
 	
 }
 
-
-
-
 .top-3-row th a.button{
 	padding:0.2em 0.3em;
 }
-section#summary-report-card tr.top-3-row .top-3-star{
+section#summary-report-card tr.top-3-row .top-3-star,
+section#revenue-report-card tr.top-3-row .top-3-star{
 	background-image:url(../im/starswhite_29.png);
 	background-repeat:no-repeat;
 	background-position:0 0px;
@@ -442,16 +490,19 @@ section#summary-report-card tr.top-3-row .top-3-star{
     margin-left: 0px;
     width: 30px;
 }
-section#summary-report-card tr.top-3-row .top-3-count{
+section#summary-report-card tr.top-3-row .top-3-count,
+section#revenue-report-card tr.top-3-row .top-3-count{
 	color:white;
 	margin-top: -25px;
     position: absolute;
     width: 28px;
 }
-section#summary-report-card tr.top-3-row th.selected-top-3 .top-3-star{
+section#summary-report-card tr.top-3-row th.selected-top-3 .top-3-star,
+section#revenue-report-card tr.top-3-row th.selected-top-3 .top-3-star{
 	background-position:0 -58px;
 }
-section#summary-report-card tr.top-3-row th.selected-top-3 .top-3-count{
+section#summary-report-card tr.top-3-row th.selected-top-3 .top-3-count,
+section#revenue-report-card tr.top-3-row th.selected-top-3 .top-3-count{
 	color:#222222;
 }
 tr.criteria-row th {
@@ -459,20 +510,44 @@ tr.criteria-row th {
 	font-size:10px;
 }
 
+.top-3-answer-yes{
+	background-image: url("../im/star_32.png");
+    height: 21px;
+    margin-left: 36%;
+    width: 21px;
+	background-repeat:no-repeat;
+	background-position:center center;
+}
+.top-3-answer-no{
+	background-image: url("../im/staroutline_greyer_32.png");
+    height: 21px;
+    margin-left: 36%;
+    width: 21px;
+	background-repeat:no-repeat;
+	background-position:center center;
+}
+.sort-arrow{
+	cursor:pointer;
+}
+
+
 /** LEGEND FOR REPORT CARD TABLE **/
 table#report-card-table th.legend,
-table#report-card-table-sticky th.legend {
+table#report-card-table-sticky th.legend,
+table#revenue-report-card-table th.legend,
+table#revenue-report-card-table-sticky th.legend {
 	background-color: white;
-	
-
 }
-section#summary-report-card .legend{
+section#summary-report-card .legend,
+section#revenue-report-card .legend{
 	background: none repeat scroll 0 0 #eaeaea;
 }
-section#summary-report-card .legend ul{
+section#summary-report-card .legend ul,
+section#revenue-report-card .legend ul{
 	padding-top:10px;
 }
-section#summary-report-card .legend .indicator {
+section#summary-report-card .legend .indicator,
+section#revenue-report-card .legend .indicator {
 	padding:10px 20px;
 }
 section#summary-report-card .legend .indicator.healthy {
@@ -490,12 +565,12 @@ section#summary-report-card .legend .indicator.poor {
 	background-repeat:no-repeat;
 	background-position:center center;
 }
-section#summary-report-card .legend .indicator.star {
+section#summary-report-card .legend .indicator.star,
+section#revenue-report-card .legend .indicator.star {
 	background-image: url('../im/starsblack_20.png');
 	background-repeat:no-repeat;
 	background-position:center center;
 }
-
 
 
 
