@@ -66,15 +66,17 @@ class CC_AHA_Extras_Extension extends BP_Group_Extension {
         } else if ( cc_aha_on_report_card_screen() ) {
 			cc_aha_render_report_card();
 		} else if ( cc_aha_on_revenue_report_card_screen() ) {
-		
+			//echo 'test';
+			//cc_aha_render_all_revenue_report_card();
+			
 			//are they allowed to see the Revenue Report Card?
-			if ( cc_aha_on_revenue_report_card_screen() && ! ( cc_aha_user_can_do_assessment() || cc_aha_user_has_super_secret_clearance() ) ) {
-                echo '<div class="message info">Sorry, you do not have permission to view this page.</div>';
-            } else {
+			if ( cc_aha_user_can_do_assessment() || cc_aha_user_has_super_secret_clearance() ) {
                //they are allowed!  Show it!
                 cc_aha_render_all_revenue_report_card();
+            } else {
+                echo '<div class="message info">Sorry, you do not have permission to view this page.</div>';
             }
-			
+			  //TODO: this.
 		} 
     }
 

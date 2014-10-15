@@ -6,6 +6,7 @@
 
  //Overarching function to render report card
 function cc_aha_render_all_revenue_report_card(){
+
 	cc_aha_print_all_report_card_revenue();
 }
 
