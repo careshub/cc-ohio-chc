@@ -11,6 +11,10 @@
 .toggle-content .submit {
 	margin-top: 1em;
 }
+
+#subnav.item-list-tabs ul li.padding-li {
+	padding: 3px 3px 3px 8px;
+}
 .aha-survey.standard-form label {
 	margin-top: 8px;
 }
@@ -219,6 +223,7 @@ table#report-card-table-sticky th{
 table#revenue-report-card-table th,
 table#revenue-report-card-table-sticky th{
 	text-align:center;
+	min-width:62px;
 }
 
 table#report-card-table .overall-header,
@@ -409,6 +414,9 @@ section#summary-report-card select,
 section#revenue-report-card select{
 	margin-right:2em;
 }
+section#revenue-report-card select{
+	margin-left:-1em;
+}
 section#summary-report-card tr.top-3-row th.selected-top-3 a.button,
 section#revenue-report-card tr.top-3-row th.selected-top-3 a.button{
 	background-image:none;
@@ -421,13 +429,26 @@ section#summary-report-card .min60{
 	min-width:60px;
 }
 
-section#revenue-report-card .max3em{
-	max-width:25em;
+section#revenue-report-card .board-column{
+	max-width:24em;
+	min-width:18em;
 }
+section#revenue-report-card .state-column{
+	text-align:left;
+}
+section#revenue-report-card .state-column .sort-arrow{
+	padding-left:9px;
+}
+section#revenue-report-card .affiliate-column{
+	text-align:left;
+}
+section#revenue-report-card .affiliate-column .sort-arrow{
+	padding-left:15px;
+}
+
 section#revenue-report-card tr.board-data td {
 	min-width:60px;
 }
-
 
 tr.impact-row {
 	border-bottom:1px solid white;
@@ -454,6 +475,10 @@ tr.criteria-row th .sort-arrow{
 .top-3-row{
 	margin-top:0px;
 }
+section#revenue-report-card .top-3-row{
+	border-top:1px solid white;
+}
+
 .top-3-image{
 	background-image: url("../im/starsblack_20.png");
     background-size: 21px auto;
@@ -572,6 +597,13 @@ section#revenue-report-card .legend .indicator.star {
 	background-position:center center;
 }
 
+section#revenue-report-card .legend .indicator.staroutline {
+	background-image: url('../im/staroutline_black_20.png');
+	background-repeat:no-repeat;
+	background-position:center center;
+	background-size: 22px auto;
+}
+
 
 
 /*tr.criteria-row, tr.criteria-row th {
@@ -682,6 +714,16 @@ section#revenue-report-card .legend .indicator.star {
 		background-image:none !important;
 	}
 	
+	.top-3-answer-yes:before{
+		background-image:none !important;
+		content: url("../im/star_32.png");
+	}
+	.top-3-answer-no:before{
+		background-image:none !important;
+		content: url("../im/staroutline_greyer_32.png");
+	}
+
+	
 	section#summary-report-card .legend ul{
 		height:50px;
 		padding-top:0px;
@@ -714,34 +756,51 @@ section#revenue-report-card .legend .indicator.star {
 		vertical-align:middle;
 		padding:0;
 	}
-	section#summary-report-card .legend .indicator.star:before {
+	section#summary-report-card .legend .indicator.star:before,
+	section#revenue-report-card .legend .indicator.star:before {
 		content: url('../im/starsblack_20.png');
 		background-image: none !important;
 	}
-	section#summary-report-card .legend .indicator.star{
+	section#summary-report-card .legend .indicator.star,
+	section#revenue-report-card .legend .indicator.star{
 		vertical-align:middle;
 		padding:0;
 		height:29px;
 	}
+	section#revenue-report-card .legend .indicator.staroutline:before {
+		content: url('../im/staroutline_black_20.png');
+		background-image: none !important;
+	}
+	section#revenue-report-card .legend .indicator.staroutline{
+		vertical-align:middle;
+		padding:0;
+		height:29px;width:29px;
+	}
+
 	section#summary-report-card .legend .legend-text{
 		font-size:0.8em
 	}
 	
 	
 	
-	table#report-card-table thead{
+	table#report-card-table thead,
+	table#revenue-report-card-table thead{
 		display:table-header-group;
 	}
-	table#report-card-table tbody {
+	table#report-card-table tbody,
+	table#revenue-report-card-table tbody {
 		display:table-row-group;
 	}
-	table#report-card-table .overall-header.geography{
+	table#report-card-table .overall-header.geography,
+	table#revenue-report-card-table .overall-header.geography{
 		display:none;
 	}
-	table#report-card-table tr.overall-header.summary-section {
+	table#report-card-table tr.overall-header.summary-section,
+	table#revenue-report-card-table tr.overall-header.summary-section {
 		border:1px solid black;
 	}
-	table#report-card-table .overall-header.summary-section th{
+	table#report-card-table .overall-header.summary-section th,
+	table#revenue-report-card-table .overall-header.summary-section th{
 		height:30px;
 		border-bottom: 1px solid black;
 		border-left: 1px solid black;
@@ -750,19 +809,23 @@ section#revenue-report-card .legend .indicator.star {
 		color:black !important;
 		-webkit-print-color-adjust: exact;
 	}
-	table#report-card-table .overall-header.summary-section th.no-side-border{
+	table#report-card-table .overall-header.summary-section th.no-side-border,
+	table#revenue-report-card-table .overall-header.summary-section th.no-side-border{
 		border-left:none;
 		border-top:none;
 	}
-	table#report-card-table .overall-header th.white-border {
+	table#report-card-table .overall-header th.white-border,
+	table#revenue-report-card-table .overall-header th.white-border {
 		border-left: 1px solid black;
 		border-right: 1px solid black;
 	}
-	table#report-card-table .overall-header.summary-section th{
+	table#report-card-table .overall-header.summary-section th,
+	table#revenue-report-card-table .overall-header.summary-section th{
 		line-height:1em;
 		font-size:0.8rem;
 	}
-	table#report-card-table .top-3-row{
+	table#report-card-table .top-3-row,
+	table#revenue-report-card-table .top-3-row{
 		display:none;
 	}
 	.impact-row th.community-show, .impact-row th.school-show, .impact-row th.care-show {
@@ -787,6 +850,9 @@ section#revenue-report-card .legend .indicator.star {
 	}
 	.print-only{
 		display:block;
+	}
+	.no-print{
+		display:none;
 	}
 	/*
 	table#report-card-table  .healthy{

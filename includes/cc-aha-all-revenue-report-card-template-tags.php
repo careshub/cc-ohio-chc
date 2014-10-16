@@ -30,14 +30,18 @@ function cc_aha_print_all_report_card_revenue() {
 		<?php // Building out a table of responses for one metro
 		?>
 		<h4 class="">Revenue Analysis</h4>
+		
 		<div class="legend">
 			<ul class="horizontal no-bullets">
 				<li class="star-li"><span class="indicator star"></span><span class="legend-text">= Board is considering as a possible priority</span></li>
+				<li class="star-li"><span class="indicator staroutline"></span><span class="legend-text">= Board is not considering as a priority at this time</span></li>
 			
 			
 			</ul>
 		</div>
-				
+		<ul class="horizontal no-bullets no-print">
+			<li class="alignright"><a class="button" onClick="window.print()">PRINT</a></li>
+		</ul>
 		<span class="print-only">
 			<ul id="geography" class="horizontal no-bullets">
 				<li class="filter-type">Filter by Geography:</li>
@@ -117,9 +121,9 @@ function cc_aha_print_all_revenue_report_card_table( $all_data ) {
 		<thead>
 			
 			<tr class="revenue-labels">
-				<th class="max3em">Board<div class='sort-arrow'>&#x25BC;</div></th>
-				<th class="">State<div class='sort-arrow'>&#x25BC;</div></th>
-				<th class="">Affiliate<div class='sort-arrow'>&#x25BC;</div></th>
+				<th class="board-column">Board<div class='sort-arrow'>&#x25BC;</div></th>
+				<th class="state-column">State<div class='sort-arrow'>&#x25BC;</div></th>
+				<th class="affiliate-column">Affiliate<div class='sort-arrow'>&#x25BC;</div></th>
 		
 				<?php 
 				foreach ( $revenue_labels as $label ) {
@@ -151,7 +155,7 @@ function cc_aha_print_all_revenue_report_card_table( $all_data ) {
 		
 		<?php
 		//4th row for state/affiliate sorting, as well as Top 3 selection
-		echo '<tr class="overall-header { sorter: false } geography"><td class="filter-type">Geography:</td>';
+		echo '<tr class="overall-header board-column { sorter: false } geography"><td class="filter-type">Geography:</td>';
 		?>
 			<th class="state-select { sorter: false }"><select name="state-select" id="state-dropdown">
 				<option value="-1">All</option>

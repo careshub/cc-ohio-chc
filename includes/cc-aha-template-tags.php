@@ -193,12 +193,15 @@ function cc_aha_render_tab_subnav(){
                         <a href="<?php echo cc_aha_get_analysis_permalink( 'revenue' ); ?>">Revenue Analysis Report</a>
                     </li>
                 <?php endif; ?>
+				<li class="padding-li">
+					All Boards Summary:
+				</li>
 				<li <?php if ( cc_aha_on_report_card_screen( ) ) { echo 'class="current"'; } ?>>
-                    <a href="<?php echo cc_aha_get_report_card_permalink(); ?>">Summary Dashboard (All Boards)</a>
+                    <a href="<?php echo cc_aha_get_report_card_permalink(); ?>">Health</a>
                 </li>
 				 <?php if ( cc_aha_user_can_do_assessment() || cc_aha_user_has_super_secret_clearance() ) : ?>
 					<li <?php if ( cc_aha_on_revenue_report_card_screen( ) ) { echo 'class="current"'; } ?>>
-						<a href="<?php echo cc_aha_get_revenue_report_card_permalink(); ?>">Revenue Dashboard (All Boards)</a>
+						<a href="<?php echo cc_aha_get_revenue_report_card_permalink(); ?>">Revenue</a>
 					</li>
 				<?php endif; ?>
             </ul>

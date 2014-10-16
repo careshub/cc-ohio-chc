@@ -566,7 +566,7 @@ function cc_aha_get_summary_revenue_sections() {
 			),
 		'pdw_legacy' => array(
 			'label' => 'Membership in the Paul Dudley White Legacy Society',
-			'short_label' => 'Paul Dudley Legacy Society',
+			'short_label' => 'Paul Dudley Society',
 			'slug' 	=> 'pdw-legacy',
 			'background' => 'Paul Dudley White was President Eisenhower’s personal physician. He guided the president’s recovery from heart attack in 1955. But this forward-thinking physician was also a founder of the American Heart Association and served as its president from 1940-41. In honor of his vision in building an organization that would lead in heart research and education and to honor those who share that vision, the Paul Dudley White Legacy Society was organized. In joining the Paul Dudley White Legacy Society you are securing the immortality of your generosity through the lives that will be touched by the research and education made possible through your gifts.',
 			'outcome' => 'Increase understanding of AHA’s personal legacy and estate planning programs.',
