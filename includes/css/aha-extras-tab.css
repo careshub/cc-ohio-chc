@@ -770,11 +770,13 @@ section#revenue-report-card .legend .indicator.staroutline {
 	section#revenue-report-card .legend .indicator.staroutline:before {
 		content: url('../im/staroutline_black_20.png');
 		background-image: none !important;
+		background-position:center center;
 	}
 	section#revenue-report-card .legend .indicator.staroutline{
 		vertical-align:middle;
 		padding:0;
 		height:29px;width:29px;
+		background-image: none !important;
 	}
 
 	section#summary-report-card .legend .legend-text{
