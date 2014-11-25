@@ -784,7 +784,7 @@ section#revenue-report-card .legend .indicator.staroutline {
 	}
 	
 	
-	/*
+	
 	table#report-card-table thead,
 	table#revenue-report-card-table thead{
 		display:table-header-group;
@@ -793,7 +793,7 @@ section#revenue-report-card .legend .indicator.staroutline {
 	table#revenue-report-card-table tbody {
 		display:table-row-group;
 	}
-	*/
+	
 	table#report-card-table .overall-header.geography,
 	table#revenue-report-card-table .overall-header.geography{
 		display:none;
