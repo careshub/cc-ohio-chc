@@ -399,7 +399,9 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 									} 
 									?>
 									<input type="checkbox" data-criteria="<?php echo $priority_squished; ?>" data-criteriagroup="<?php echo $criteria_data['group']; ?>" data-metroid="<?php echo $metro_id; ?>" <?php if( $selected_priority > 0 ) echo 'checked'; ?> />
-									<?php //add link to modal box (Priority properties, incl: Staff lead, Volunteer champion
+									<?php 
+									//wp_nonce_field( 'cc-aha-remove-priority-' . $priority_squished, 'set-aha-remove-priority-nonce-' . $priority_squished );
+									//add link next to checkbox (Priority properties, incl: Staff lead, Volunteer champion
 									if ( $selected_priority > 0 ) {
 										$hidden = '';
 									} else {

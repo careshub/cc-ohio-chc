@@ -801,18 +801,20 @@ function cc_aha_get_priorities_by_board_date_criterion( $metro_id, $date, $crite
  *	makes sure that priority of same board and criteria and date doesn't already exist...somehow
  *
  * @since    1.0.0
- * @param 	array
+ * @param 	string, int, string
  * @return	
  */
-function cc_aha_update_priority( $priority_data ){
+function cc_aha_update_priority( $metro_id, $date, $criteria ){
 	
 	global $wpdb;
 	$current_user = wp_get_current_user();
 	
 	//Make sure requisite $_POST variables exist
+	/*
 	$metro_id = $priority_data['metro_id'];
 	$date = $priority_data['date'];
 	$criteria = $priority_data['criteria_name'];
+	*/
 	
 	//Check to see if priority (of this board, criterion and date) exists
 	$priorities = cc_aha_get_priorities_by_board_date_criterion( $metro_id, $date, $criteria );
@@ -876,11 +878,13 @@ function cc_aha_set_staff_for_priorities( $priority_id, $staff_lead, $volunteer 
 		return;
 	}
 	
+	//both return false if value is the same as in db...SUPER helpful
 	$staff_success = update_post_meta( $priority_id, "staff_lead", $staff_lead );
 	$volunteer_success = update_post_meta( $priority_id, "volunteer_champion", $volunteer );
 	
+	
 	if( $staff_success == false || $volunteer_success == false ){
-		echo 'error on saving staff';
+		echo 'error on saving staff'; //or...no change
 		die();
 	} else {
 	

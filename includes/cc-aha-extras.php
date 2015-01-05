@@ -599,7 +599,9 @@ class CC_AHA_Extras {
 				$this->plugin_slug . '-plugin-script', 
 				'aha_ajax',
 				array( 
-					'ajax_url' => admin_url( 'admin-ajax.php' ) ) 
+					'ajax_url' => admin_url( 'admin-ajax.php' ),
+					'ajax_nonce' => wp_create_nonce( 'cc_aha_ajax_nonce' )
+				)
 			);
 		}
 
@@ -1056,11 +1058,14 @@ class CC_AHA_Extras {
 	public function save_board_approved_priority(){
 	
 		// Is the nonce good?  TODO: this
-		//if ( ! wp_verify_nonce( $_REQUEST['set-aha-assessment-nonce'], 'cc-aha-assessment' ) )
-		//	return false;
+		//if ( ! wp_verify_nonce( $_REQUEST['set-aha-remove-priority-nonce'], 'set-aha-remove-priority-nonce-' . $criterion ) ){
+		if ( ! check_ajax_referer( 'cc_aha_ajax_nonce', 'aha_nonce' ) ){
+			return false;
+		}
 
 		//just for testing, TODO: remove this.
-		$criterion = isset( $_POST['data']['criteria_name'] ) ? $_POST['data']['criteria_name'] : null;
+		//$criterion = isset( $_POST['data']['criteria_name'] ) ? $_POST['data']['criteria_name'] : null;
+		$criterion = isset( $_POST['criteria_name'] ) ? $_POST['criteria_name'] : null;
 		
 		//if no criteria, return
 		if ( $criterion == null ) {
@@ -1068,10 +1073,20 @@ class CC_AHA_Extras {
 		}
 		
 		//add board data to $_POST array, from $_COOKIE
-		$priority_data = $_POST['data'];
-		$priority_data['metro_id'] = $_COOKIE['aha_summary_metro_id'];
+		//$priority_data = $_POST['data'];
+		//$priority_data['metro_id'] = $_COOKIE['aha_summary_metro_id'];
+		/*
+		$metro_id = $priority_data['metro_id'];
+		$date = $priority_data['date'];
+		$criteria = $priority_data['criteria_name'];
+		*/
+		$metro_id = $_COOKIE['aha_summary_metro_id'];
+		$date = $_POST['date'];
+		$criteria = $_POST['criteria_name'];
 		
-		$update_success = cc_aha_update_priority( $priority_data );
+		//$update_success = cc_aha_update_priority( $priority_data );
+		$update_success = cc_aha_update_priority( $metro_id, $date, $criteria );
+		
 		// Try to save the form data
 		if ( $update_success !== FALSE ) {
 			bp_core_add_message( __( 'Your responses have been recorded.', $this->plugin_slug ) );
@@ -1093,25 +1108,28 @@ class CC_AHA_Extras {
 	*/
 	public function remove_board_approved_priority(){
 	
-		// Is the nonce good?  TODO: this
-		//if ( ! wp_verify_nonce( $_REQUEST['set-aha-assessment-nonce'], 'cc-aha-assessment' ) )
-		//	return false;
-
-		//just for testing, TODO: remove this.
-		$criterion = isset( $_POST['data']['criteria_name'] ) ? $_POST['data']['criteria_name'] : null;
+		//
+		//$criterion = isset( $_POST['data']['criteria_name'] ) ? $_POST['data']['criteria_name'] : null;
+		$criterion = isset( $_POST['criteria_name'] ) ? $_POST['criteria_name'] : null;
 		
-		//$summary_section = isset( $_POST['analysis-section'] ) ? $_POST['analysis-section'] : null;
+		//add board data to $_POST array, from $_COOKIE
+		//$priority_data = $_POST['data'];
+		//$priority_data['metro_id'] = $_COOKIE['aha_summary_metro_id'];
+		$_POST['metro_id'] = $_COOKIE['aha_summary_metro_id'];
 		
 		//if no criteria, return
 		if ( $criterion == null ) {
 			return false;
 		}
 		
-		//add board data to $_POST array, from $_COOKIE
-		$priority_data = $_POST['data'];
-		$priority_data['metro_id'] = $_COOKIE['aha_summary_metro_id'];
+		// Is the nonce good?  TODO: this
+		//if ( ! wp_verify_nonce( $_REQUEST['set-aha-remove-priority-nonce'], 'set-aha-remove-priority-nonce-' . $criterion ) ){
+		if ( ! check_ajax_referer( 'cc_aha_ajax_nonce', 'aha_nonce' ) ){
+			return false;
+		}
 		
-		$priority_array = cc_aha_get_priorities_by_board_date_criterion( $priority_data['metro_id'], $priority_data['date'], $priority_data['criteria_name'] );
+		//$priority_array = cc_aha_get_priorities_by_board_date_criterion( $priority_data['metro_id'], $priority_data['date'], $priority_data['criteria_name'] );
+		$priority_array = cc_aha_get_priorities_by_board_date_criterion( $_POST['metro_id'], $_POST['date'], $_POST['criteria_name'] );
 		//var_dump ( $priority_data['metro_id'] );
 		//var_dump ( $priority_data['date']);
 		//var_dump ( $priority_data['criteria_name']);
@@ -1130,7 +1148,7 @@ class CC_AHA_Extras {
 		}
 	
 	
-		echo 'removed priority!';
+		echo 0;
 		die();
 	
 	}
@@ -1145,21 +1163,20 @@ class CC_AHA_Extras {
 	
 		// Is the nonce good?  TODO: this
 		//if ( ! wp_verify_nonce( $_REQUEST['set-aha-assessment-nonce'], 'cc-aha-assessment' ) )
-		//	return false;
-
-		//just for testing, TODO: remove this.
-		$priority_id = isset( $_POST['data']['priority_id'] ) ? $_POST['data']['priority_id'] : null;
+		if ( ! check_ajax_referer( 'cc_aha_ajax_nonce', 'aha_nonce' ) ) {
+			return false;
+		}
+		
+		//$priority_id = isset( $_POST['data']['priority_id'] ) ? $_POST['data']['priority_id'] : null;
+		$priority_id = isset( $_POST['priority_id'] ) ? $_POST['priority_id'] : null;
 		
 		//if no priority_id, return
 		if ( $priority_id == null ) {
 			return false;
 		}
 		
-		//add board data to $_POST array, from $_COOKIE
-		$priority_data = $_POST['data'];
-		//$priority_data['metro_id'] = $_COOKIE['aha_summary_metro_id'];
-		
-		$priority_array = cc_aha_set_staff_for_priorities( $priority_id, $priority_data['staff_lead'], $priority_data['volunteer_champion'] );
+		//$priority_array = cc_aha_set_staff_for_priorities( $priority_id, $priority_data['staff_lead'], $priority_data['volunteer_champion'] );
+		$priority_array = cc_aha_set_staff_for_priorities( $priority_id, $_POST['staff_lead'], $_POST['volunteer_champion'] );
 		//var_dump ( $priority_data['metro_id'] );
 		//var_dump ( $priority_data['date']);
 		//var_dump ( $priority_data['criteria_name']);
@@ -1179,6 +1196,7 @@ class CC_AHA_Extras {
 	
 	
 		echo 'saved staff...probably';
+		//echo check_ajax_referer( 'cc_aha_ajax_nonce', 'aha_nonce' );
 		die();
 	
 	}

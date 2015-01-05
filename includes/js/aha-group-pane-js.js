@@ -125,6 +125,8 @@ jQuery(document).ready(function($){
 		}
 		
 		var criteria_name = jQuery(this).data("criteria");
+		//var nonce = jQuery("#set-aha-remove-priority-nonce-" + criteria_name).val();
+		
 		//var date = jQuery(this).data("date");
 		//hmm, not sure where to set date.  Can we be certain it's every 3 years: 2017, 2020...etc?
 		// TODO: review this, does it make sense?  Will AHA be setting 2017 only in 2015 on, or also in 2014 (since FY in June)?
@@ -150,10 +152,15 @@ jQuery(document).ready(function($){
 		
 		var data = {
 			'action': action,
-			'data' : {
+			'criteria_name' : criteria_name,
+			'date' : benchmarkYear,
+			'aha_nonce' : aha_ajax.ajax_nonce
+			
+			/*'data' : {
 				'criteria_name' : criteria_name,
-				'date' : benchmarkYear
-			}
+				'date' : benchmarkYear,
+				'aha_nonce' : aha_ajax.ajax_nonce
+			}*/
 			//'metro_id': metro_id,
 		};
 
@@ -170,7 +177,9 @@ jQuery(document).ready(function($){
 							jQuery('.priority_staff_save[data-criteria="' + criteria_name + '"]').attr("data-priorityid", parseInt( response ));
 							//turn on 'Edit Staff Something'
 							thisCheckbox.siblings('a.priority_staff_link').show();
-						} else if ( action == "remove_board_approved_priority" ){
+						} 
+					} else if ( response == 0 ) {
+						if ( action == "remove_board_approved_priority" ){
 							//turn off 'staff save' button for tihs priority
 							jQuery('.priority_staff_save[data-criteria="' + criteria_name + '"]').attr("data-priorityid", 0);
 							//turn on 'Edit Staff Something'
@@ -228,11 +237,17 @@ jQuery(document).ready(function($){
 		var action = "save_board_approved_staff";
 		var data = {
 			'action': action,
-			'data' : {
+			'staff_lead' : staff_lead,
+			'volunteer_champion' : volunteer_lead,
+			'priority_id' : priority_id,
+			'aha_nonce' : aha_ajax.ajax_nonce
+			/*'data' : {
 				'staff_lead' : staff_lead,
 				'volunteer_champion' : volunteer_lead,
-				'priority_id' : priority_id
+				'priority_id' : priority_id,
+				'aha_nonce' : aha_ajax.ajax_nonce
 			}
+			*/
 		};
 		
 		jQuery.post(
