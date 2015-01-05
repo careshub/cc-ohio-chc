@@ -653,3 +653,240 @@ function cc_aha_get_questions_for_summary_criterion( $criterion = null ){
 	return $questions;
 }
 
+/*
+ * Get priorities based on metro id
+ *
+ * @param int
+ * @returns array
+ */
+function cc_aha_get_priorities_by_board( $metro_id ){
+	//TODO: consider extending this function to ask for return type
+	//search aha-priority cpt by aha-board taxonomy taxonomy
+	$args = array(
+		'post_type' => 'aha-priority',
+		'tax_query' => array(
+			'relation' => 'AND',
+			array(
+				'taxonomy' => 'aha-board-term',
+				'field'    => 'name',
+				'terms'    => $metro_id
+			)
+		),
+	);
+
+	//var_dump( $args);
+	$priority_query = new WP_Query( $args );
+	//array to hold ids of priorities
+	$priority_array = array();
+	
+	if ( $priority_query->have_posts() ) {
+	
+		while ( $priority_query->have_posts() ) {
+			$priority_query->the_post();
+			array_push( $priority_array, get_the_ID() );
+		}
+	} else {
+		// no posts found
+	}
+
+	return $priority_array;
+
+}
+
+/*
+ * Get priorities based on metro id, date and (opt)return data
+ *
+ * @param int, int, string
+ * @returns array
+ */
+function cc_aha_get_priorities_by_board_date( $metro_id, $date, $return_criteria = null ){
+	
+	//search aha-priority cpt by aha-board taxonomy taxonomy
+	$args = array(
+		'post_type' => 'aha-priority',
+		'tax_query' => array(
+			'relation' => 'AND',
+			array(
+				'taxonomy' => 'aha-board-term',
+				'field'    => 'name',
+				'terms'    => $metro_id
+			),
+			array(
+				'taxonomy' => 'aha-benchmark-date-term',
+				'field'    => 'name',
+				'terms'    => $date
+			),
+		),
+	);
+
+	//var_dump( $args);
+	$priority_query = new WP_Query( $args );
+	//array to hold ids of priorities
+	$priority_array = array();
+	
+	if ( $priority_query->have_posts() ) {
+	
+		while ( $priority_query->have_posts() ) {
+			$priority_query->the_post();
+			if ( $return_criteria != null ){
+				//associative array with ['criteria_name'] = ID
+				$criteria_name = wp_get_post_terms( get_the_ID(), 'aha-criteria-term' );
+				//var_dump( current( $criteria_name )->name );
+				$priority_array[ current( $criteria_name )->name ] = get_the_ID();
+			} else {
+				array_push( $priority_array, get_the_ID() );
+			}
+		}
+	} else {
+		// no posts found
+	}
+
+	return $priority_array;
+
+}
+
+/*
+ * Get priorities based on metro id, date, criterion
+ *
+ * @param int
+ * @returns array
+ */
+function cc_aha_get_priorities_by_board_date_criterion( $metro_id, $date, $criterion ){
+	//TODO: consider extending this function to ask for return type
+	//search aha-priority cpt by aha-board taxonomy taxonomy
+	$args = array(
+		'post_type' => 'aha-priority',
+		'tax_query' => array(
+			'relation' => 'AND',
+			array(
+				'taxonomy' => 'aha-board-term',
+				'field'    => 'name',
+				'terms'    => $metro_id
+			),
+			array(
+				'taxonomy' => 'aha-benchmark-date-term',
+				'field'    => 'name',
+				'terms'    => $date
+			),
+			array(
+				'taxonomy' => 'aha-criteria-term',
+				'field'    => 'name',
+				'terms'    => $criterion
+			)
+		),
+	);
+
+	//var_dump( $args);
+	$priority_query = new WP_Query( $args );
+	//array to hold ids of priorities
+	$priority_array = array();
+	
+	if ( $priority_query->have_posts() ) {
+	
+		while ( $priority_query->have_posts() ) {
+			$priority_query->the_post();
+			array_push( $priority_array, get_the_ID() );
+		}
+	} else {
+		// no posts found
+	}
+
+	return $priority_array;
+
+}
+/**
+ * Updates/Adds board priorities
+ *
+ * Takes $_POST array of priority-specific data from health/revenue summary,
+ *	makes sure that priority of same board and criteria and date doesn't already exist...somehow
+ *
+ * @since    1.0.0
+ * @param 	array
+ * @return	
+ */
+function cc_aha_update_priority( $priority_data ){
+	
+	global $wpdb;
+	$current_user = wp_get_current_user();
+	
+	//Make sure requisite $_POST variables exist
+	$metro_id = $priority_data['metro_id'];
+	$date = $priority_data['date'];
+	$criteria = $priority_data['criteria_name'];
+	
+	//Check to see if priority (of this board, criterion and date) exists
+	$priorities = cc_aha_get_priorities_by_board_date_criterion( $metro_id, $date, $criteria );
+	//var_dump( $metro_id );
+	//var_dump( $date );
+	//var_dump( $criteria );
+	
+	//if it returns more than 1 (it really shouldn't!), take current only
+	$priority_id = current( $priorities );
+	
+	//If exists, update data; if not, add
+	if ( empty( $priority_id ) ){
+	
+		//create new priority!
+		$post_args = array(
+			'post_title'    => $metro_id . '-' . $criteria . '-' . $date,
+			'post_status'   => 'publish',
+			'post_type'		=> 'aha-priority',
+			'post_author'   => $current_user->ID
+		);
+		$post_id = wp_insert_post( $post_args, $wp_error );
+		
+		if( $post_id > 0 ){  
+			//add taxonomy to new priority
+			$error = wp_set_object_terms( $post_id, $metro_id, 'aha-board-term' );
+			//var_dump( $error );
+			$error = wp_set_object_terms( $post_id, $date, 'aha-benchmark-date-term' );
+			//var_dump( $error );
+			$error = wp_set_object_terms( $post_id, $criteria, 'aha-criteria-term' );
+			//var_dump( $error );
+		
+			//TODO: set affiliate and state, based on 'board' table
+			
+			echo $post_id; //send new priority id back to server
+		} else {
+			echo '0';
+		}
+	} else {
+		//update priority of id
+		
+		//echo 'yes, priorities: ' . $priority_id;
+	}
+	//var_dump( $priorities );
+	//echo 'hello';
+	//die();
+	
+}
+
+/* Sets the staff lead and volunteer champion for a priority
+ *
+ * @params int PriorityID, string, string
+ * @returns
+ */
+function cc_aha_set_staff_for_priorities( $priority_id, $staff_lead, $volunteer ){
+	
+	global $wpdb;
+	//$current_user = wp_get_current_user();
+	
+	//Make sure requisite $_POST variables exist
+	if( $priority_id <= 0 || $priority_id == false ){
+		return;
+	}
+	
+	$staff_success = update_post_meta( $priority_id, "staff_lead", $staff_lead );
+	$volunteer_success = update_post_meta( $priority_id, "volunteer_champion", $volunteer );
+	
+	if( $staff_success == false || $volunteer_success == false ){
+		echo 'error on saving staff';
+		die();
+	} else {
+	
+		echo 'staff saving..';
+		die();
+	}
+
+
+}

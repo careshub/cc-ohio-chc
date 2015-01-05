@@ -108,5 +108,142 @@ jQuery(document).ready(function($){
 			}
 		};
 	});
+	
+	jQuery(".board-approved-priority-checkbox input").on("click", function(){
+	
+		var action;
+		var thisCheckbox = jQuery(this);
+		if ( jQuery(this).is(":checked") ) {
+			action = "save_board_approved_priority";
+		} else { //give em a chance to back out..
+			var confirmed = confirm( "Are you sure you want to remove this priority?" );
+			if ( confirmed == true ){
+				action = "remove_board_approved_priority";
+			} else {
+				action = "cancel";
+			}
+		}
+		
+		var criteria_name = jQuery(this).data("criteria");
+		//var date = jQuery(this).data("date");
+		//hmm, not sure where to set date.  Can we be certain it's every 3 years: 2017, 2020...etc?
+		// TODO: review this, does it make sense?  Will AHA be setting 2017 only in 2015 on, or also in 2014 (since FY in June)?
+		//		if FYE in June, could look whether current date in July and add one to remainder if remainder = 0...
+		var currentYear = (new Date).getFullYear();
+		
+		//vague math to help
+		var multiple; 
+		var remainder;
+		var startYear = 2014;
+		var benchmarkYear;  //2017, 2020
+		
+		multiple = parseInt( ( currentYear - startYear ) / 3 );
+		remainder = currentYear % startYear;
+		
+		if( remainder > 0 ){ //2015, 2016, 2018
+			benchmarkYear = ( startYear + ( multiple * 3 ) ) + 3; //if remainder, benchmark in future year
+		} else {
+			benchmarkYear = ( startYear + ( multiple * 3 ) );  //if we're in a benchmark year, that's the year
+		}
+		
+		//var metro_id = jQuery(this).data("metroid"); //better to get from here or $_COOKIE?
+		
+		var data = {
+			'action': action,
+			'data' : {
+				'criteria_name' : criteria_name,
+				'date' : benchmarkYear
+			}
+			//'metro_id': metro_id,
+		};
 
+		// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+		if ( action != "cancel" ){
+			jQuery.post(
+				aha_ajax.ajax_url, 
+				data, 
+				function(response) {
+					//response = new post id
+					if ( ( response > 0 ) && ( response.length > 0 ) ) {
+						if( action == "save_board_approved_priority" ){
+							//turn on 'staff save' button for tihs priority
+							jQuery('.priority_staff_save[data-criteria="' + criteria_name + '"]').attr("data-priorityid", parseInt( response ));
+							//turn on 'Edit Staff Something'
+							thisCheckbox.siblings('a.priority_staff_link').show();
+						} else if ( action == "remove_board_approved_priority" ){
+							//turn off 'staff save' button for tihs priority
+							jQuery('.priority_staff_save[data-criteria="' + criteria_name + '"]').attr("data-priorityid", 0);
+							//turn on 'Edit Staff Something'
+							thisCheckbox.siblings('a.priority_staff_link').hide();
+							jQuery('.priority_staff_select[data-criteria="' + criteria_name + '"]').hide();
+							jQuery('.priority_volunteer_select[data-criteria="' + criteria_name + '"]').hide();
+							jQuery('.priority_staff_save[data-criteria="' + criteria_name + '"]').hide();
+						}
+						//console.log( 'something from the server: ' + response);
+					}
+				}
+			);
+		}
+	
+	});
+
+	jQuery(".priority_staff_link").on("click", function(){
+		
+		//show staff edit row, if hidden, else hide
+		var staffSelect = jQuery(('.priority_staff_select[data-criteria="' + jQuery(this).data("criteria") + '"]'));
+		var volunteerSelect = jQuery(('.priority_volunteer_select[data-criteria="' + jQuery(this).data("criteria") + '"]'));
+		var staffSave = jQuery(('.priority_staff_save[data-criteria="' + jQuery(this).data("criteria") + '"]'));
+		
+		var impactArea = staffSelect.data("impact");
+		var impactTitle = jQuery('td.impact_title[data-impact="' + impactArea + '"]');
+		var parent = jQuery(this).parent('td.board-approved-priority-checkbox');
+		var rowspan;
+		
+		//rowspan of impact-title must be added to, or subtracted from
+		if ( staffSelect.is(":hidden") ) {
+			staffSelect.show();
+			volunteerSelect.show();
+			staffSave.show();
+			rowspan = impactTitle.attr("rowspan");
+			impactTitle.attr("rowspan", parseInt(rowspan) + 3);
+		} else {
+			staffSelect.hide();
+			volunteerSelect.hide();
+			staffSave.hide();
+			rowspan = impactTitle.attr("rowspan");
+			impactTitle.attr("rowspan", parseInt(rowspan) - 3);
+		} 
+		//console.log( jQuery(this).data("criteria") );
+	
+	});
+	
+	jQuery("a.submit_staff_leads").on("click", function() {
+		var criteria = jQuery(this).parents('tr.priority_staff_save').data("criteria");
+		var priority_id = jQuery(this).parents('tr.priority_staff_save').data("priorityid");
+		
+		var staff_lead = parseInt( jQuery(('.priority_staff_select[data-criteria="' + criteria + '"] select.staff_lead')).val() );
+		var volunteer_lead = parseInt( jQuery(('.priority_volunteer_select[data-criteria="' + criteria + '"] select.volunteer_champion')).val() );
+	
+		//prep ajax data
+		var action = "save_board_approved_staff";
+		var data = {
+			'action': action,
+			'data' : {
+				'staff_lead' : staff_lead,
+				'volunteer_champion' : volunteer_lead,
+				'priority_id' : priority_id
+			}
+		};
+		
+		jQuery.post(
+			aha_ajax.ajax_url, 
+			data,
+			function(response) {
+				console.log( 'something from the server: ' + response);
+			}
+		);
+		
+	
+	});
+	
 },(jQuery));

@@ -139,6 +139,20 @@
 	color: green;
 }
 
+.assessment .hidden {
+	display:none;
+}
+.assessment a.priority_staff_link {
+	cursor:pointer;
+}
+.assessment .shaded{
+	background-color: #e6e6e6;
+}
+.assessment .priority_staff_save td{
+	border-bottom:2px solid #222222;
+}
+
+
 @media screen and (min-width:600px), print {
 	.dial-container {
 		float: left;

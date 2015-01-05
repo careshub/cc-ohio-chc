@@ -326,6 +326,15 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 
 function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 	$sections = cc_aha_get_summary_sections( $metro_id );
+	
+	//get priorites of this board in current benchmark cycle (true?)
+	$date = get_current_benchmark_year();
+	$priorities = cc_aha_get_priorities_by_board_date( $metro_id, $date, "criteria" );  //returns ids of criteria
+	$selected_priority; //to hold selected priority for each criteria
+	$priority_squished; //holder for no-space name of criteria
+	
+	$group_members = cc_aha_get_member_array();
+	//var_dump( $group_members );
 
 	?>
 	<table>
@@ -335,7 +344,8 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 					<th>Healthy Community Criteria</th>
 					<!-- <th>Health Need</th> -->
 					<th><a href="http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Healthy%20Comm.%20Criteria%208-29-14%20Color.docx" target="_blank">Score</th>
-					<th>Top 3 Priority</th>
+					<th>Potential<br>Priority</th>
+					<th>Board-Approved<br>Priority</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -345,10 +355,13 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 						
 						foreach ( $section_data['impact_areas'] as $impact_area_name => $impact_area_data ) {
 							foreach ( $impact_area_data['criteria'] as $crit_key => $criteria_data ) {
+							$selected_priority = 0; //re-set for each criteria
+							$selected_staff_lead = 0;
+							$selected_volunteer_champion = 0;
 							?>
 							<tr>
 								<?php if ( $crit_key == 1 ) : ?>
-								<td rowspan=<?php echo count( $impact_area_data['criteria'] ); ?>>
+								<td rowspan=<?php echo count( $impact_area_data['criteria'] ); ?> class='impact_title' data-impact="<?php echo $section_name . $impact_area_name; ?>" >
 									<a href="<?php 
 									if ( cc_aha_on_analysis_complete_report_screen() ) {
 										// Output a local link if on the complete report
@@ -372,8 +385,85 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 								<td>
 									<?php echo $data[$section_name . '-' . $impact_area_name . '-' . $crit_key . '-top-3'] ? 'Yes' : 'No'; ?>
 								</td>
+								<td class="board-approved-priority-checkbox" >
+									<?php //cycle through 'priorities' and mark those already added to system
+									$priority_squished = str_replace(' ', '', $criteria_data['label']);
+									foreach( $priorities as $key => $value ){
+										if ( $key == $priority_squished ){
+											$selected_priority = $value;
+											if( $selected_priority > 0 ){
+												$selected_staff_lead = get_post_meta( $selected_priority, "staff_lead", true );
+												$selected_volunteer_champion = get_post_meta( $selected_priority, "volunteer_champion", true );
+											}
+										} 
+									} 
+									?>
+									<input type="checkbox" data-criteria="<?php echo $priority_squished; ?>" data-criteriagroup="<?php echo $criteria_data['group']; ?>" data-metroid="<?php echo $metro_id; ?>" <?php if( $selected_priority > 0 ) echo 'checked'; ?> />
+									<?php //add link to modal box (Priority properties, incl: Staff lead, Volunteer champion
+									if ( $selected_priority > 0 ) {
+										$hidden = '';
+									} else {
+										$hidden = 'hidden';
+									}
+									
+									echo "<a class='priority_staff_link " . $hidden . "' data-criteria='" . $priority_squished . "'>Edit Staff Something</a>";
+									
+									?>
+								</td>
 							</tr>
-
+							<?php //if ( $selected_priority > 0 ){ ?>
+							
+							<tr class="priority_staff_select hidden shaded" data-criteria="<?php echo $priority_squished; ?>" data-impact="<?php echo $section_name . $impact_area_name; ?>" >
+								<td colspan="2"></td>
+								<td>Select Staff Lead:</td>
+								<td><select class="staff_lead" name="staff_lead" data-criteria="<?php echo $priority_squished; ?>" >
+								<?php 
+									//echo $selected_staff_lead;
+									foreach ( $group_members as $key => $value ) {
+									if( $selected_staff_lead == (int)$key ) {
+										$selected = "selected"; 
+									} else {
+										$selected = "";
+									}
+									$option_output = '<option value="';
+									$option_output .= $key;
+									$option_output .= '"' . $selected . '>';
+									$option_output .= $value;
+									$option_output .= '</option>';
+									print $option_output;
+									
+								} ?>
+								</select></td>
+							</tr>
+							<tr class="priority_volunteer_select hidden shaded" data-criteria="<?php echo $priority_squished; ?>" data-impact="<?php echo $impact_area_name; ?>" >
+								<td colspan="2"></td>
+								<td>Select Volunteer Champion:</td>
+								<td><select class="volunteer_champion" name="staff_lead" data-criteria="<?php echo $priority_squished; ?>" data-impact="<?php echo $impact_area_name; ?>" >
+								<?php foreach ( $group_members as $key => $value ) {
+									if( $selected_volunteer_champion == (int)$key ) {
+										$selected = "selected"; 
+									} else {
+										$selected = "";
+									}
+									$option_output = '<option value="';
+									$option_output .= $key;
+									$option_output .= '"' . $selected . '>';
+									$option_output .= $value;
+									$option_output .= '</option>';
+									print $option_output;
+									
+								} ?>
+								</select></td>
+							</tr>
+							<tr class="priority_staff_save hidden shaded" data-criteria="<?php echo $priority_squished; ?>" data-priorityid="<?php echo $selected_priority; ?>" >
+								<td colspan="3"></td>
+								<td>
+									<a class="button submit_staff_leads">Save</a>
+								</td>
+							</tr>
+							
+							<?php //} ?>
+							
 							<?php
 							}
 						}
@@ -1530,4 +1620,31 @@ function cc_aha_calc_n_question_district_all_yes_tiers( $school_data, $qids = ar
 	} else {
 		return 'poor';
 	}
+}
+
+	
+/*
+ * Gives the year of the current benchmark, if we can logic this from current date
+ *
+ *
+ *
+ */
+function get_current_benchmark_year(){
+	// assuming benchmark years are SET every 3 years, starting at FY beginning?
+	// TODO: take into account FY beginning
+	$currentYear = date("Y");
+	$startYear = 2014;
+	
+	$multiple = (int)( ( $currentYear - $startYear ) / 3 );
+	
+	$remainder = $currentYear % $startYear;
+	
+	if( $remainder > 0 ){ //2015, 2016, 2018
+		$benchmarkYear = ( $startYear + ( $multiple * 3 ) ) + 3; //if remainder, benchmark in future year
+	} else {
+		$benchmarkYear = ( $startYear + ( $multiple * 3 ) );  //if we're in a benchmark year, that's the year
+	}
+
+	return $benchmarkYear;
+
 }

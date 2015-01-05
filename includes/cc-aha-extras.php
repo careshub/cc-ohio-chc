@@ -71,6 +71,18 @@ class CC_AHA_Extras {
 
 		// Activate plugin when new blog is added
 		// add_action( 'wpmu_new_blog', array( $this, 'activate_new_site' ) );
+		
+		
+		/* Create a custom post types for aha priorities and action steps. */
+		add_action( 'init', array( $this, 'register_aha_priorities' ) ); 
+		add_action( 'init', array( $this, 'register_aha_action_steps' ) );
+		
+		// Register taxonomies
+		add_action( 'init', array( $this,  'aha_board_taxonomy_register' ) );
+		add_action( 'init', array( $this,  'aha_affiliate_taxonomy_register' ) );
+		add_action( 'init', array( $this,  'aha_state_taxonomy_register' ) );  
+		add_action( 'init', array( $this,  'aha_criteria_taxonomy_register' ) ); 
+		add_action( 'init', array( $this,  'aha_benchmark_date_taxonomy_register' ) ); 
 
 		// Load public-facing style sheet and JavaScript.
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
@@ -112,6 +124,11 @@ class CC_AHA_Extras {
 		
 		// Checks requested analysis URL for specified metro_id. Sets cookie if not in agreement.
 		add_action( 'bp_init', array( $this, 'check_summary_metro_id_cookie_on_load'), 11 );
+
+		// Adds ajax function for board-approved checkbox on the Health Analysis Rreport page ("interim" piece)
+		add_action( 'wp_ajax_save_board_approved_priority' , array( $this, 'save_board_approved_priority' ) );
+		add_action( 'wp_ajax_remove_board_approved_priority' , array( $this, 'remove_board_approved_priority' ) );
+		add_action( 'wp_ajax_save_board_approved_staff' , array( $this, 'save_board_approved_staff' ) );
 
 	}
 
@@ -279,6 +296,268 @@ class CC_AHA_Extras {
 	}
 
 	/**
+	 * Generate AHA Priority custom post type
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_aha_priorities() {
+
+	    $labels = array(
+	        'name' => _x( 'AHA Priorities', 'aha-priority' ),
+	        'singular_name' => _x( 'AHA Priority', 'aha-priority' ),
+	        'add_new' => _x( 'Add New', 'aha-priority' ),
+	        'add_new_item' => _x( 'Add New AHA Priority', 'aha-priority' ),
+	        'edit_item' => _x( 'Edit AHA Priority', 'aha-priority' ),
+	        'new_item' => _x( 'New AHA Priority', 'aha-priority' ),
+	        'view_item' => _x( 'View AHA Priority', 'aha-priority' ),
+	        'search_items' => _x( 'Search AHA Priorities', 'aha-priority' ),
+	        'not_found' => _x( 'No AHA priorities found', 'aha-priority' ),
+	        'not_found_in_trash' => _x( 'No aha priorities found in Trash', 'aha-priority' ),
+	        'parent_item_colon' => _x( 'Parent AHA Priority:', 'aha-priority' ),
+	        'menu_name' => _x( 'AHA Priorities', 'aha-priority' ),
+	    );
+
+		//TODO: Make this hidden in wp-admin, once sure it works!
+	    $args = array(
+	        'labels' => $labels,
+	        'hierarchical' => false,
+	        'description' => 'This post type is created when AHA boards select priorities ...on..?.',
+	        'supports' => array( 'title', 'editor', 'custom-fields', 'page-attributes', 'author', 'excerpt' ),
+	        'public' => true,
+	        'show_ui' => true,
+	        'show_in_menu' => true,
+	        //'menu_icon' => '',
+	        'show_in_nav_menus' => false,
+	        'publicly_queryable' => true,
+	        'exclude_from_search' => true,
+	        'has_archive' => false,
+	        'query_var' => true,
+	        'can_export' => true,
+	        'rewrite' => false,
+			'taxonomies' => array( 'aha-boards' ),
+	        'capability_type' => 'post'//,
+	        //'map_meta_cap'    => true
+	    );
+
+	    register_post_type( 'aha-priority', $args );
+	}
+	
+	/**
+	 * Generate AHA Action Steps custom post type
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_aha_action_steps() {
+
+	    $labels = array(
+	        'name' => _x( 'AHA Action Steps', 'aha-action-step' ),
+	        'singular_name' => _x( 'AHA Action Step', 'aha-action-step' ),
+	        'add_new' => _x( 'Add New', 'aha-action-step' ),
+	        'add_new_item' => _x( 'Add New AHA Action Step', 'aha-action-step' ),
+	        'edit_item' => _x( 'Edit AHA Action Step', 'aha-action-step' ),
+	        'new_item' => _x( 'New AHA Action Step', 'aha-action-step' ),
+	        'view_item' => _x( 'View AHA Action Steps', 'aha-action-step' ),
+	        'search_items' => _x( 'Search AHA Action Steps', 'aha-action-step' ),
+	        'not_found' => _x( 'No AHA Action Steps found', 'aha-action-step' ),
+	        'not_found_in_trash' => _x( 'No AHA Action Steps found in Trash', 'aha-action-step' ),
+	        'parent_item_colon' => _x( 'Parent AHA Action Step:', 'aha-action-step' ),
+	        'menu_name' => _x( 'AHA Action Steps', 'aha-action-step' ),
+	    );
+
+		//TODO: Make this hidden in wp-admin, once sure it works!
+	    $args = array(
+	        'labels' => $labels,
+	        'hierarchical' => true,
+			'menu_order' => null,
+	        'description' => 'This post type is created when AHA boards select priorities ...on..?.',
+	        'supports' => array( 'title', 'editor', 'custom-fields', 'page-attributes', 'author', 'excerpt' ),
+	        'public' => true,
+	        'show_ui' => true,
+	        'show_in_menu' => true,
+	        //'menu_icon' => '',
+	        'show_in_nav_menus' => false,
+	        'publicly_queryable' => true,
+	        'exclude_from_search' => true,
+	        'has_archive' => false,
+	        'query_var' => true,
+	        'can_export' => true,
+	        'rewrite' => false,
+			'taxonomies' => array( 'aha-boards' ),
+	        'capability_type' => 'post'//,
+	        //'map_meta_cap'    => true
+	    );
+
+	    register_post_type( 'aha-action-step', $args );
+	}
+	
+		
+	/**
+	 * Generate AHA Boards, Affiliate, States, Criteria custom taxonomy
+	 *
+	 * @since    1.0.0
+	 */
+	public function aha_board_taxonomy_register() {
+		$labels = array(
+			'name'	=> _x( 'AHA Boards', 'taxonomy general name' ),
+			'singular_name'	=> _x( 'AHA Board', 'taxonomy singular name' ),
+			'search_items'	=> __( 'Search AHA Boards' ),
+			'popular_items'	=> __( 'Popular AHA Boards' ),
+			'all_items'	=> __( 'All AHA Boards' ),
+			'parent_item' => null,
+			'parent_item_colon'	=> null,
+			'edit_item' => __( 'Edit AHA Board' ), 
+			'update_item' => __( 'Update AHA Board' ),
+			'add_new_item' => __( 'Add AHA Board' ),
+			'new_item_name' => __( 'New AHA Board' ),
+			'separate_items_with_commas' => __( 'Separate AHA Boards with commas' ),
+			'add_or_remove_items' => __( 'Add or remove AHA Boards' ),
+			'choose_from_most_used' => __( 'Choose from the most used AHA Boards' ),
+			'not_found' => __( 'No AHA Boards found.' ),
+			'menu_name' => __( '-- Edit AHA Boards' )
+		);
+		
+		$args = array(
+			'hierarchical' => true,
+			'labels' => $labels,
+			'show_ui' => true,
+			'show_admin_column' => true,
+			'query_var' => true,
+			'rewrite' => array( 'slug' => 'aha-board-term' )
+		);
+		
+		register_taxonomy( 'aha-board-term', array( 'aha-action-step', 'aha-priority' ), $args );
+	}
+	
+	public function aha_affiliate_taxonomy_register() {
+		$labels = array(
+			'name'	=> _x( 'AHA Affiliates', 'taxonomy general name' ),
+			'singular_name'	=> _x( 'AHA Affiliate', 'taxonomy singular name' ),
+			'search_items'	=> __( 'Search AHA Affiliates' ),
+			'popular_items'	=> __( 'Popular AHA Affiliates' ),
+			'all_items'	=> __( 'All AHA Affiliates' ),
+			'parent_item' => null,
+			'parent_item_colon'	=> null,
+			'edit_item' => __( 'Edit AHA Affiliate' ), 
+			'update_item' => __( 'Update AHA Affiliate' ),
+			'add_new_item' => __( 'Add AHA Affiliate' ),
+			'new_item_name' => __( 'New AHA Affiliate' ),
+			'separate_items_with_commas' => __( 'Separate AHA Affiliates with commas' ),
+			'add_or_remove_items' => __( 'Add or remove AHA Affiliates' ),
+			'choose_from_most_used' => __( 'Choose from the most used AHA Affiliates' ),
+			'not_found' => __( 'No AHA Affiliates found.' ),
+			'menu_name' => __( '-- Edit AHA Affiliates' )
+		);
+		
+		$args = array(
+			'hierarchical' => true,
+			'labels' => $labels,
+			'show_ui' => true,
+			'show_admin_column' => true,
+			'query_var' => true,
+			'rewrite' => array( 'slug' => 'aha-affiliate-term' )
+		);
+		
+		register_taxonomy( 'aha-affiliate-term', array( 'aha-action-step', 'aha-priority' ), $args );
+	}
+	
+	public function aha_state_taxonomy_register() {
+		$labels = array(
+			'name'	=> _x( 'AHA States', 'taxonomy general name' ),
+			'singular_name'	=> _x( 'AHA State', 'taxonomy singular name' ),
+			'search_items'	=> __( 'Search AHA States' ),
+			'popular_items'	=> __( 'Popular AHA States' ),
+			'all_items'	=> __( 'All AHA States' ),
+			'parent_item' => null,
+			'parent_item_colon'	=> null,
+			'edit_item' => __( 'Edit AHA State' ), 
+			'update_item' => __( 'Update AHA State' ),
+			'add_new_item' => __( 'Add AHA State' ),
+			'new_item_name' => __( 'New AHA State' ),
+			'separate_items_with_commas' => __( 'Separate AHA States with commas' ),
+			'add_or_remove_items' => __( 'Add or remove AHA States' ),
+			'choose_from_most_used' => __( 'Choose from the most used AHA States' ),
+			'not_found' => __( 'No AHA States found.' ),
+			'menu_name' => __( '-- Edit AHA States' )
+		);
+		
+		$args = array(
+			'hierarchical' => true,
+			'labels' => $labels,
+			'show_ui' => true,
+			'show_admin_column' => true,
+			'query_var' => true,
+			'rewrite' => array( 'slug' => 'aha-state-term' )
+		);
+		
+		register_taxonomy( 'aha-state-term', array( 'aha-action-step', 'aha-priority' ), $args );
+	}
+	
+	public function aha_criteria_taxonomy_register() {
+		$labels = array(
+			'name'	=> _x( 'AHA Criteria', 'taxonomy general name' ),
+			'singular_name'	=> _x( 'AHA Criterion', 'taxonomy singular name' ),
+			'search_items'	=> __( 'Search AHA Criteria' ),
+			'popular_items'	=> __( 'Popular AHA Criteria' ),
+			'all_items'	=> __( 'All AHA Criteria' ),
+			'parent_item' => null,
+			'parent_item_colon'	=> null,
+			'edit_item' => __( 'Edit AHA Criterion' ), 
+			'update_item' => __( 'Update AHA Criterion' ),
+			'add_new_item' => __( 'Add AHA Criterion' ),
+			'new_item_name' => __( 'New AHA Criterion' ),
+			'separate_items_with_commas' => __( 'Separate AHA Criteria with commas' ),
+			'add_or_remove_items' => __( 'Add or remove AHA Criteria' ),
+			'choose_from_most_used' => __( 'Choose from the most used AHA Criteria' ),
+			'not_found' => __( 'No AHA Criteria found.' ),
+			'menu_name' => __( '-- Edit AHA Criteria' )
+		);
+		
+		$args = array(
+			'hierarchical' => true,
+			'labels' => $labels,
+			'show_ui' => true,
+			'show_admin_column' => true,
+			'query_var' => true,
+			'rewrite' => array( 'slug' => 'aha-criteria-term' )
+		);
+		
+		register_taxonomy( 'aha-criteria-term', array( 'aha-priority' ), $args );
+	}
+	
+	public function aha_benchmark_date_taxonomy_register() {
+		$labels = array(
+			'name'	=> _x( 'AHA Benchmark Date', 'taxonomy general name' ),
+			'singular_name'	=> _x( 'AHA Benchmark Date', 'taxonomy singular name' ),
+			'search_items'	=> __( 'Search AHA Benchmark Dates' ),
+			'popular_items'	=> __( 'Popular Benchmark Dates' ),
+			'all_items'	=> __( 'All Benchmark Dates' ),
+			'parent_item' => null,
+			'parent_item_colon'	=> null,
+			'edit_item' => __( 'Edit Benchmark Date' ), 
+			'update_item' => __( 'Update Benchmark Date' ),
+			'add_new_item' => __( 'Add Benchmark Date' ),
+			'new_item_name' => __( 'New Benchmark Date' ),
+			'separate_items_with_commas' => __( 'Separate Benchmark Dates with commas' ),
+			'add_or_remove_items' => __( 'Add or remove Benchmark Dates' ),
+			'choose_from_most_used' => __( 'Choose from the most used Benchmark Dates' ),
+			'not_found' => __( 'No Benchmark Dates found.' ),
+			'menu_name' => __( '-- Edit Benchmark Dates' )
+		);
+		
+		$args = array(
+			'hierarchical' => true,
+			'labels' => $labels,
+			'show_ui' => true,
+			'show_admin_column' => true,
+			'query_var' => true,
+			'rewrite' => array( 'slug' => 'aha-benchmark-date-term' )
+		);
+		
+		register_taxonomy( 'aha-benchmark-date-term', array( 'aha-action-step', 'aha-priority' ), $args );
+	}
+	
+	
+	/**
 	 * Load the plugin text domain for translation.
 	 *
 	 * @since    1.0.0
@@ -316,6 +595,12 @@ class CC_AHA_Extras {
 	public function enqueue_scripts() {
 		if ( cc_aha_is_component() ) {
 			wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'js/aha-group-pane-js.js', __FILE__ ), array( 'jquery' ), self::VERSION );
+			wp_localize_script( 
+				$this->plugin_slug . '-plugin-script', 
+				'aha_ajax',
+				array( 
+					'ajax_url' => admin_url( 'admin-ajax.php' ) ) 
+			);
 		}
 
 		if ( cc_aha_on_analysis_screen() ) {
@@ -761,4 +1046,141 @@ class CC_AHA_Extras {
             exit;
 		}
 	}
+	
+	/* Saves board-approved priorities via ajax
+	 *
+	 *
+	 *
+	 *
+	*/
+	public function save_board_approved_priority(){
+	
+		// Is the nonce good?  TODO: this
+		//if ( ! wp_verify_nonce( $_REQUEST['set-aha-assessment-nonce'], 'cc-aha-assessment' ) )
+		//	return false;
+
+		//just for testing, TODO: remove this.
+		$criterion = isset( $_POST['data']['criteria_name'] ) ? $_POST['data']['criteria_name'] : null;
+		
+		//if no criteria, return
+		if ( $criterion == null ) {
+			return false;
+		}
+		
+		//add board data to $_POST array, from $_COOKIE
+		$priority_data = $_POST['data'];
+		$priority_data['metro_id'] = $_COOKIE['aha_summary_metro_id'];
+		
+		$update_success = cc_aha_update_priority( $priority_data );
+		// Try to save the form data
+		if ( $update_success !== FALSE ) {
+			bp_core_add_message( __( 'Your responses have been recorded.', $this->plugin_slug ) );
+		} else {
+			bp_core_add_message( __( 'There was a problem saving your responses.', $this->plugin_slug ), 'error' );
+		}
+	
+	
+		//return $update_success;
+		die();
+	
+	}
+
+	/* Revmoes board-approved priorities via ajax
+	 *
+	 *
+	 *
+	 *
+	*/
+	public function remove_board_approved_priority(){
+	
+		// Is the nonce good?  TODO: this
+		//if ( ! wp_verify_nonce( $_REQUEST['set-aha-assessment-nonce'], 'cc-aha-assessment' ) )
+		//	return false;
+
+		//just for testing, TODO: remove this.
+		$criterion = isset( $_POST['data']['criteria_name'] ) ? $_POST['data']['criteria_name'] : null;
+		
+		//$summary_section = isset( $_POST['analysis-section'] ) ? $_POST['analysis-section'] : null;
+		
+		//if no criteria, return
+		if ( $criterion == null ) {
+			return false;
+		}
+		
+		//add board data to $_POST array, from $_COOKIE
+		$priority_data = $_POST['data'];
+		$priority_data['metro_id'] = $_COOKIE['aha_summary_metro_id'];
+		
+		$priority_array = cc_aha_get_priorities_by_board_date_criterion( $priority_data['metro_id'], $priority_data['date'], $priority_data['criteria_name'] );
+		//var_dump ( $priority_data['metro_id'] );
+		//var_dump ( $priority_data['date']);
+		//var_dump ( $priority_data['criteria_name']);
+		
+		$priority_id = current( $priority_array );
+		//var_dump ($priority_id );
+		if( $priority_id > 0 ){
+			$error = wp_delete_post( $priority_id );		
+		}
+		
+		// Try to save the form data
+		if ( $error !== FALSE ) {
+			bp_core_add_message( __( 'Your responses have been recorded.', $this->plugin_slug ) );
+		} else {
+			bp_core_add_message( __( 'There was a problem saving your responses.', $this->plugin_slug ), 'error' );
+		}
+	
+	
+		echo 'removed priority!';
+		die();
+	
+	}
+
+	/* Saves the selected staff for priorities on the assessment page (interim)
+	 *
+	 *
+	 *
+	 *
+	*/
+	public function save_board_approved_staff(){
+	
+		// Is the nonce good?  TODO: this
+		//if ( ! wp_verify_nonce( $_REQUEST['set-aha-assessment-nonce'], 'cc-aha-assessment' ) )
+		//	return false;
+
+		//just for testing, TODO: remove this.
+		$priority_id = isset( $_POST['data']['priority_id'] ) ? $_POST['data']['priority_id'] : null;
+		
+		//if no priority_id, return
+		if ( $priority_id == null ) {
+			return false;
+		}
+		
+		//add board data to $_POST array, from $_COOKIE
+		$priority_data = $_POST['data'];
+		//$priority_data['metro_id'] = $_COOKIE['aha_summary_metro_id'];
+		
+		$priority_array = cc_aha_set_staff_for_priorities( $priority_id, $priority_data['staff_lead'], $priority_data['volunteer_champion'] );
+		//var_dump ( $priority_data['metro_id'] );
+		//var_dump ( $priority_data['date']);
+		//var_dump ( $priority_data['criteria_name']);
+		
+		$priority_id = current( $priority_array );
+		//var_dump ($priority_id );
+		if( $priority_id > 0 ){
+			$error = wp_delete_post( $priority_id );		
+		}
+		
+		// Try to save the form data
+		if ( $error !== FALSE ) {
+			bp_core_add_message( __( 'Your responses have been recorded.', $this->plugin_slug ) );
+		} else {
+			bp_core_add_message( __( 'There was a problem saving your responses.', $this->plugin_slug ), 'error' );
+		}
+	
+	
+		echo 'saved staff...probably';
+		die();
+	
+	}
+	
 } // End class

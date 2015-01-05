@@ -459,3 +459,33 @@ function cc_aha_top_5_school_percent_match_value( $metro_id, $qid, $value ) {
     return ( $num_disticts ) ? round( $matches / $num_disticts * 100 ) : 0;
 
 }
+
+/*
+ * Returns array of members of AHA Group
+ *
+ * @params int Group_ID
+ * @return array Array of Member ID => name
+ */
+function cc_aha_get_member_array( ){
+
+	global $bp;
+	$group_id = cc_aha_get_group_id();
+	
+	$group = groups_get_group( array( 'group_id' => $group_id ) );
+	//var_dump($group);
+	
+	//set up group member array for drop downs
+	$group_members = array();
+	if ( bp_group_has_members( array( 'group_id' => $group_id ) ) ) {
+	
+		//iterate through group members, creating array for form list (drop down)
+		while ( bp_group_members() ) : bp_group_the_member(); 
+			$group_members[bp_get_group_member_id()] = bp_get_group_member_name();
+		endwhile; 
+		
+		//var_dump ($group_members);  //works!
+	}
+	
+	return $group_members;
+	
+}
