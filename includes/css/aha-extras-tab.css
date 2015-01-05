@@ -151,7 +151,27 @@
 .assessment .priority_staff_save td{
 	border-bottom:2px solid #222222;
 }
-
+.assessment .priority_staff_select td,
+.assessment .priority_volunteer_select td,
+.assessment .priority_staff_save td{
+	border-top:none;
+}
+.assessment .spinny{
+	background-image: url('../im/ajax-loader.gif');
+	background-repeat:no-repeat;
+	background-position:center center;
+	display: none;
+    height: 16px;
+    padding-left: 16px;
+    vertical-align: middle;
+    width: 16px;
+}
+.assessment .staff_save_message{
+    vertical-align: middle;
+	display: inline-block;
+	padding-left:8px;
+	font-style:italic;
+}
 
 @media screen and (min-width:600px), print {
 	.dial-container {

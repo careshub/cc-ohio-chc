@@ -373,7 +373,7 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 									</a>
 								</td>
 							<?php endif; ?>
-								<td>
+								<td class="criteria_title">
 									<?php echo $criteria_data['label']; ?>
 								</td>
 								<!-- <td>
@@ -461,7 +461,7 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 								<td colspan="1"></td>
 								<td colspan="2"><a href="" class="alignleft">View Resources for <?php echo $criteria_data['label']; ?></td>
 								<td>
-									<a class="button submit_staff_leads alignright">Save Staff</a>
+									<span><a class="button submit_staff_leads ">Save Staff</a><div class="spinny"></div><div class="staff_save_message"></span>
 								</td>
 							</tr>
 							

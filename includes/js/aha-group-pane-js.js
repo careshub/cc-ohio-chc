@@ -210,12 +210,14 @@ jQuery(document).ready(function($){
 		
 		//rowspan of impact-title must be added to, or subtracted from
 		if ( staffSelect.is(":hidden") ) {
+			jQuery(this).parent("td.board-approved-priority-checkbox").siblings("td.criteria_title").css("font-weight", "bold");
 			staffSelect.show();
 			volunteerSelect.show();
 			staffSave.show();
 			rowspan = impactTitle.attr("rowspan");
 			impactTitle.attr("rowspan", parseInt(rowspan) + 3);
 		} else {
+			jQuery(this).parent("td.board-approved-priority-checkbox").siblings("td.criteria_title").css("font-weight", "normal");
 			staffSelect.hide();
 			volunteerSelect.hide();
 			staffSave.hide();
@@ -227,6 +229,9 @@ jQuery(document).ready(function($){
 	});
 	
 	jQuery("a.submit_staff_leads").on("click", function() {
+	
+		var thisButton = jQuery(this);
+		
 		var criteria = jQuery(this).parents('tr.priority_staff_save').data("criteria");
 		var priority_id = jQuery(this).parents('tr.priority_staff_save').data("priorityid");
 		
@@ -250,10 +255,18 @@ jQuery(document).ready(function($){
 			*/
 		};
 		
+		thisButton.siblings(".spinny").css("display", "inline-block");
+		
 		jQuery.post(
 			aha_ajax.ajax_url, 
 			data,
 			function(response) {
+				thisButton.siblings(".spinny").css("display", "none");
+				thisButton.siblings(".staff_save_message").html("Staff saved.");
+				setTimeout( function(){ 
+					thisButton.siblings(".staff_save_message").html("");
+					}, 3000
+				);
 				console.log( 'something from the server: ' + response);
 			}
 		);
