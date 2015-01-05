@@ -408,7 +408,7 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 										$hidden = 'hidden';
 									}
 									
-									echo "<a class='priority_staff_link " . $hidden . "' data-criteria='" . $priority_squished . "'>Edit Staff Something</a>";
+									echo "<a class='priority_staff_link alignright " . $hidden . "' data-criteria='" . $priority_squished . "'>Edit Staff Assignments<br>& View Resources</a>";
 									
 									?>
 								</td>
@@ -458,9 +458,10 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 								</select></td>
 							</tr>
 							<tr class="priority_staff_save hidden shaded" data-criteria="<?php echo $priority_squished; ?>" data-priorityid="<?php echo $selected_priority; ?>" >
-								<td colspan="3"></td>
+								<td colspan="1"></td>
+								<td colspan="2"><a href="" class="alignleft">View Resources for <?php echo $criteria_data['label']; ?></td>
 								<td>
-									<a class="button submit_staff_leads">Save</a>
+									<a class="button submit_staff_leads alignright">Save Staff</a>
 								</td>
 							</tr>
 							
