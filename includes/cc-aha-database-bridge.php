@@ -837,6 +837,10 @@ function cc_aha_update_priority( $metro_id, $date, $criteria ){
 		);
 		$post_id = wp_insert_post( $post_args, $wp_error );
 		
+		$affiliate_state_array = current( cc_aha_get_affiliate_state_by_board( $metro_id ));
+		//var_dump ( current ( $affiliate_state_array['Affiliate'] ));
+	
+		
 		if( $post_id > 0 ){  
 			//add taxonomy to new priority
 			$error = wp_set_object_terms( $post_id, $metro_id, 'aha-board-term' );
@@ -844,6 +848,10 @@ function cc_aha_update_priority( $metro_id, $date, $criteria ){
 			$error = wp_set_object_terms( $post_id, $date, 'aha-benchmark-date-term' );
 			//var_dump( $error );
 			$error = wp_set_object_terms( $post_id, $criteria, 'aha-criteria-term' );
+			//var_dump( $error );
+			$error = wp_set_object_terms( $post_id, $affiliate_state_array["Affiliate"], 'aha-affiliate-term' );
+			//var_dump( $error );
+			$error = wp_set_object_terms( $post_id, $affiliate_state_array["State"], 'aha-state-term' );
 			//var_dump( $error );
 		
 			//TODO: set affiliate and state, based on 'board' table
@@ -894,3 +902,32 @@ function cc_aha_set_staff_for_priorities( $priority_id, $staff_lead, $volunteer 
 
 
 }
+
+/*
+ * Gets the affiliate and state of a particular board
+ *
+ * @param string $metro_id
+ * @return array
+ */
+ function cc_aha_get_affiliate_state_by_board( $metro_id ){
+	
+	global $wpdb;
+	 
+	//get board data from database
+	//$table_name = "wp_aha_assessment_board";
+	$affiliate_state_array = $wpdb->get_results( 
+		$wpdb->prepare( 
+		"
+		SELECT State, Affiliate
+		FROM $wpdb->aha_assessment_board
+		WHERE BOARD_ID = %s
+		",
+		$metro_id )
+		, ARRAY_A
+	);
+
+	return $affiliate_state_array;
+ 
+ 
+ 
+ }
