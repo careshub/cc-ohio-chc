@@ -1,6 +1,6 @@
 <?php 
 /**
- * CC American Heart Association Extras
+ * CC American Heart Association Extras: template tags for the Health Summary pages
  *
  * @package   CC American Heart Association Extras
  * @author    CARES staff
@@ -356,8 +356,8 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 						foreach ( $section_data['impact_areas'] as $impact_area_name => $impact_area_data ) {
 							foreach ( $impact_area_data['criteria'] as $crit_key => $criteria_data ) {
 							$selected_priority = 0; //re-set for each criteria
-							$selected_staff_lead = 0;
-							$selected_volunteer_champion = 0;
+							$selected_staff_partner = 0;
+							$selected_volunteer_lead = 0;
 							?>
 							<tr>
 								<?php if ( $crit_key == 1 ) : ?>
@@ -392,8 +392,8 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 										if ( $key == $priority_squished ){
 											$selected_priority = $value;
 											if( $selected_priority > 0 ){
-												$selected_staff_lead = get_post_meta( $selected_priority, "staff_lead", true );
-												$selected_volunteer_champion = get_post_meta( $selected_priority, "volunteer_champion", true );
+												$selected_staff_partner = get_post_meta( $selected_priority, "staff_partner", true );
+												$selected_volunteer_lead = get_post_meta( $selected_priority, "volunteer_lead", true );
 											}
 										} 
 									} 
@@ -418,11 +418,11 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 							<tr class="priority_staff_select hidden shaded" data-criteria="<?php echo $priority_squished; ?>" data-impact="<?php echo $section_name . $impact_area_name; ?>" >
 								<td colspan="2"></td>
 								<td>Select Staff Lead:</td>
-								<td><select class="staff_lead" name="staff_lead" data-criteria="<?php echo $priority_squished; ?>" >
+								<td><select class="staff_partner" name="staff_partner" data-criteria="<?php echo $priority_squished; ?>" >
 								<?php 
-									//echo $selected_staff_lead;
+									//echo $selected_staff_partner;
 									foreach ( $group_members as $key => $value ) {
-									if( $selected_staff_lead == (int)$key ) {
+									if( $selected_staff_partner == (int)$key ) {
 										$selected = "selected"; 
 									} else {
 										$selected = "";
@@ -440,9 +440,9 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 							<tr class="priority_volunteer_select hidden shaded" data-criteria="<?php echo $priority_squished; ?>" data-impact="<?php echo $impact_area_name; ?>" >
 								<td colspan="2"></td>
 								<td>Select Volunteer Champion:</td>
-								<td><select class="volunteer_champion" name="staff_lead" data-criteria="<?php echo $priority_squished; ?>" data-impact="<?php echo $impact_area_name; ?>" >
+								<td><select class="volunteer_lead" name="staff_partner" data-criteria="<?php echo $priority_squished; ?>" data-impact="<?php echo $impact_area_name; ?>" >
 								<?php foreach ( $group_members as $key => $value ) {
-									if( $selected_volunteer_champion == (int)$key ) {
+									if( $selected_volunteer_lead == (int)$key ) {
 										$selected = "selected"; 
 									} else {
 										$selected = "";
@@ -461,7 +461,7 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 								<td colspan="1"></td>
 								<td colspan="2"><a href="" class="alignleft">View Resources for <?php echo $criteria_data['label']; ?></td>
 								<td>
-									<span><a class="button submit_staff_leads ">Save Staff</a><div class="spinny"></div><div class="staff_save_message"></span>
+									<span><a class="button submit_staff_partners ">Save Staff</a><div class="spinny"></div><div class="staff_save_message"></span>
 								</td>
 							</tr>
 							
@@ -1623,31 +1623,4 @@ function cc_aha_calc_n_question_district_all_yes_tiers( $school_data, $qids = ar
 	} else {
 		return 'poor';
 	}
-}
-
-	
-/*
- * Gives the year of the current benchmark, if we can logic this from current date
- *
- *
- *
- */
-function get_current_benchmark_year(){
-	// assuming benchmark years are SET every 3 years, starting at FY beginning?
-	// TODO: take into account FY beginning
-	$currentYear = date("Y");
-	$startYear = 2014;
-	
-	$multiple = (int)( ( $currentYear - $startYear ) / 3 );
-	
-	$remainder = $currentYear % $startYear;
-	
-	if( $remainder > 0 ){ //2015, 2016, 2018
-		$benchmarkYear = ( $startYear + ( $multiple * 3 ) ) + 3; //if remainder, benchmark in future year
-	} else {
-		$benchmarkYear = ( $startYear + ( $multiple * 3 ) );  //if we're in a benchmark year, that's the year
-	}
-
-	return $benchmarkYear;
-
 }

@@ -1,6 +1,6 @@
 <?php 
 /**
- * CC American Heart Association Extras
+ * CC American Heart Association Extras: template tags for the Revenue Summary pages
  *
  * @package   CC American Heart Association Extras
  * @author    CARES staff
@@ -25,19 +25,32 @@ function cc_aha_print_single_report_card_revenue( $metro_id = 0 ){
 function cc_aha_print_revenue_report_card_table( $metro_id ){
 	$revenue_sections = cc_aha_get_summary_revenue_sections();
 	$data = cc_aha_get_form_data( $metro_id );
+	
+	//get priorites of this board in current benchmark cycle (true?)
+	$date = get_current_benchmark_year();
+	$priorities = cc_aha_get_priorities_by_board_date( $metro_id, $date, "criteria" );  //returns ids of criteria
+	$selected_priority; //to hold selected priority for each criteria
+	$priority_squished; //holder for no-space name of criteria
+	
+	$group_members = cc_aha_get_member_array();
 ?>
 	<table>
 		<thead>
 			<tr>
 				<th>Impact Area</th>
-				<th>Top 3 Priority</th>
+				<th>Potential Top 3 Priority</th>
+				<th class="limited-width">Board-Approved Priority</th>
 			</tr>
 		</thead>
 		<tbody>
 		<?php 
-			foreach ( $revenue_sections as $revenue_name => $revenue_section ) { ?>
+			foreach ( $revenue_sections as $revenue_name => $revenue_section ) { 
+				$selected_priority = 0; //re-set for each criteria
+				$selected_staff_partner = 0;
+				$selected_volunteer_lead = 0;
+			?>
 				<tr>
-					<td>
+					<td class="criteria_title">
 						<a href="<?php 
 							if ( cc_aha_on_analysis_complete_report_screen() ) {
 								// Output a local link if on the complete report
@@ -50,6 +63,84 @@ function cc_aha_print_revenue_report_card_table( $metro_id ){
 					</td>
 					<td>
 						<?php echo $data[$revenue_name . '-top-3'] ? 'Yes' : 'No'; ?>
+					</td>
+					<td class="board-approved-priority-checkbox" >
+						<?php //cycle through 'priorities' and mark those already added to system
+						$priority_squished = str_replace(' ', '', $revenue_section['label']);
+						foreach( $priorities as $key => $value ){
+
+							if ( $key == $priority_squished ){
+								$selected_priority = $value;
+								if( $selected_priority > 0 ){
+									$selected_staff_partner = get_post_meta( $selected_priority, "staff_partner", true );
+									$selected_volunteer_lead = get_post_meta( $selected_priority, "volunteer_lead", true );
+								}
+							} 
+						} 
+						?>
+						<input type="checkbox" data-criteria="<?php echo $priority_squished; ?>" data-metroid="<?php echo $metro_id; ?>" <?php if( $selected_priority > 0 ) echo 'checked'; ?> />
+						<?php 
+						
+						//add link next to checkbox (Priority properties, incl: Staff lead, Volunteer champion
+						if ( $selected_priority > 0 ) {
+							$hidden = '';
+						} else {
+							$hidden = 'hidden';
+						}
+						
+						echo "<a class='priority_staff_link alignright " . $hidden . "' data-criteria='" . $priority_squished . "'>Edit Staff Assignments<br>& View Resources</a>";
+						
+						?>
+					</td>
+				</tr>
+				
+				<tr class="priority_staff_select hidden shaded" data-criteria="<?php echo $priority_squished; ?>" data-impact="<?php echo $revenue_name; ?>" >
+					<td colspan="1"></td>
+					<td>Select Staff Lead:</td>
+					<td><select class="staff_partner" name="staff_partner" data-criteria="<?php echo $priority_squished; ?>" >
+					<?php 
+						//echo $selected_staff_partner;
+						foreach ( $group_members as $key => $value ) {
+						if( $selected_staff_partner == (int)$key ) {
+							$selected = "selected"; 
+						} else {
+							$selected = "";
+						}
+						$option_output = '<option value="';
+						$option_output .= $key;
+						$option_output .= '"' . $selected . '>';
+						$option_output .= $value;
+						$option_output .= '</option>';
+						print $option_output;
+						
+					} ?>
+					</select></td>
+				</tr>
+				<tr class="priority_volunteer_select hidden shaded" data-criteria="<?php echo $priority_squished; ?>" data-impact="<?php echo $revenue_name; ?>" >
+					<td colspan="1"></td>
+					<td>Select Volunteer Champion:</td>
+					<td><select class="volunteer_lead" name="staff_partner" data-criteria="<?php echo $priority_squished; ?>" data-impact="<?php echo $revenue_name; ?>" >
+					<?php foreach ( $group_members as $key => $value ) {
+						if( $selected_volunteer_lead == (int)$key ) {
+							$selected = "selected"; 
+						} else {
+							$selected = "";
+						}
+						$option_output = '<option value="';
+						$option_output .= $key;
+						$option_output .= '"' . $selected . '>';
+						$option_output .= $value;
+						$option_output .= '</option>';
+						print $option_output;
+						
+					} ?>
+					</select></td>
+				</tr>
+				<tr class="priority_staff_save hidden shaded" data-criteria="<?php echo $priority_squished; ?>" data-priorityid="<?php echo $selected_priority; ?>" >
+					<!--<td colspan="1"></td>-->
+					<td colspan="2"><a href="" class="alignleft resource-link">View Resources for <?php echo $revenue_section['label']; ?></td>
+					<td>
+						<span><a class="button submit_staff_partners ">Save Staff</a><div class="spinny"></div><div class="staff_save_message"></span>
 					</td>
 				</tr>
 			<?php } ?>

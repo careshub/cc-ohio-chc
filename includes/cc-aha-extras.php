@@ -1175,8 +1175,8 @@ class CC_AHA_Extras {
 			return false;
 		}
 		
-		//$priority_array = cc_aha_set_staff_for_priorities( $priority_id, $priority_data['staff_lead'], $priority_data['volunteer_champion'] );
-		$priority_array = cc_aha_set_staff_for_priorities( $priority_id, $_POST['staff_lead'], $_POST['volunteer_champion'] );
+		//$priority_array = cc_aha_set_staff_for_priorities( $priority_id, $priority_data['staff_partner'], $priority_data['volunteer_lead'] );
+		$priority_array = cc_aha_set_staff_for_priorities( $priority_id, $_POST['staff_partner'], $_POST['volunteer_lead'] );
 		//var_dump ( $priority_data['metro_id'] );
 		//var_dump ( $priority_data['date']);
 		//var_dump ( $priority_data['criteria_name']);

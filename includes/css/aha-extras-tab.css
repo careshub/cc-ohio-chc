@@ -173,6 +173,13 @@
 	font-style:italic;
 }
 
+#revenue-analysis-navigation th.limited-width{
+	width:250px;
+}
+#revenue-analysis-navigation a.resource-link{
+	padding-left:8px;
+}
+
 @media screen and (min-width:600px), print {
 	.dial-container {
 		float: left;

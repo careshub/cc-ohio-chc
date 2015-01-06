@@ -876,7 +876,7 @@ function cc_aha_update_priority( $metro_id, $date, $criteria ){
  * @params int PriorityID, string, string
  * @returns
  */
-function cc_aha_set_staff_for_priorities( $priority_id, $staff_lead, $volunteer ){
+function cc_aha_set_staff_for_priorities( $priority_id, $staff_partner, $volunteer ){
 	
 	global $wpdb;
 	//$current_user = wp_get_current_user();
@@ -887,8 +887,8 @@ function cc_aha_set_staff_for_priorities( $priority_id, $staff_lead, $volunteer 
 	}
 	
 	//both return false if value is the same as in db...SUPER helpful
-	$staff_success = update_post_meta( $priority_id, "staff_lead", $staff_lead );
-	$volunteer_success = update_post_meta( $priority_id, "volunteer_champion", $volunteer );
+	$staff_success = update_post_meta( $priority_id, "staff_partner", $staff_partner );
+	$volunteer_success = update_post_meta( $priority_id, "volunteer_lead", $volunteer );
 	
 	
 	if( $staff_success == false || $volunteer_success == false ){

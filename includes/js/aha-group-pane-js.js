@@ -228,27 +228,27 @@ jQuery(document).ready(function($){
 	
 	});
 	
-	jQuery("a.submit_staff_leads").on("click", function() {
+	jQuery("a.submit_staff_partners").on("click", function() {
 	
 		var thisButton = jQuery(this);
 		
 		var criteria = jQuery(this).parents('tr.priority_staff_save').data("criteria");
 		var priority_id = jQuery(this).parents('tr.priority_staff_save').data("priorityid");
 		
-		var staff_lead = parseInt( jQuery(('.priority_staff_select[data-criteria="' + criteria + '"] select.staff_lead')).val() );
-		var volunteer_lead = parseInt( jQuery(('.priority_volunteer_select[data-criteria="' + criteria + '"] select.volunteer_champion')).val() );
+		var staff_partner = parseInt( jQuery(('.priority_staff_select[data-criteria="' + criteria + '"] select.staff_partner')).val() );
+		var volunteer_lead = parseInt( jQuery(('.priority_volunteer_select[data-criteria="' + criteria + '"] select.volunteer_lead')).val() );
 	
 		//prep ajax data
 		var action = "save_board_approved_staff";
 		var data = {
 			'action': action,
-			'staff_lead' : staff_lead,
-			'volunteer_champion' : volunteer_lead,
+			'staff_partner' : staff_partner,
+			'volunteer_lead' : volunteer_lead,
 			'priority_id' : priority_id,
 			'aha_nonce' : aha_ajax.ajax_nonce
 			/*'data' : {
-				'staff_lead' : staff_lead,
-				'volunteer_champion' : volunteer_lead,
+				'staff_partner' : staff_partner,
+				'volunteer_lead' : volunteer_lead,
 				'priority_id' : priority_id,
 				'aha_nonce' : aha_ajax.ajax_nonce
 			}

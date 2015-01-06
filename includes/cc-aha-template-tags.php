@@ -219,17 +219,43 @@ function cc_aha_render_tab_subnav(){
 function cc_aha_print_metro_id_list(){
     echo cc_aha_get_metro_id_list();
 }
-    function cc_aha_get_metro_id_list(){
-        $user_metros = cc_aha_get_array_user_metro_ids();
-        $retval = '';
-        $count = 1;
-        foreach ($user_metros as $metro_id) {
+function cc_aha_get_metro_id_list(){
+	$user_metros = cc_aha_get_array_user_metro_ids();
+	$retval = '';
+	$count = 1;
+	foreach ($user_metros as $metro_id) {
 
-            if ( $count != 1 ){ 
-                $retval .= ', ';
-            }
-            $retval .= cc_aha_get_metro_nicename( $metro_id );
-            $count++;
-        }
-        return $retval;
-    }
+		if ( $count != 1 ){ 
+			$retval .= ', ';
+		}
+		$retval .= cc_aha_get_metro_nicename( $metro_id );
+		$count++;
+	}
+	return $retval;
+}
+	
+/*
+ * Gives the year of the current benchmark, if we can logic this from current date
+ *
+ *
+ *
+ */
+function get_current_benchmark_year(){
+	// assuming benchmark years are SET every 3 years, starting at FY beginning?
+	// TODO: take into account FY beginning
+	$currentYear = date("Y");
+	$startYear = 2014;
+	
+	$multiple = (int)( ( $currentYear - $startYear ) / 3 );
+	
+	$remainder = $currentYear % $startYear;
+	
+	if( $remainder > 0 ){ //2015, 2016, 2018
+		$benchmarkYear = ( $startYear + ( $multiple * 3 ) ) + 3; //if remainder, benchmark in future year
+	} else {
+		$benchmarkYear = ( $startYear + ( $multiple * 3 ) );  //if we're in a benchmark year, that's the year
+	}
+
+	return $benchmarkYear;
+
+}
