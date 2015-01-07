@@ -129,6 +129,7 @@ class CC_AHA_Extras {
 		add_action( 'wp_ajax_save_board_approved_priority' , array( $this, 'save_board_approved_priority' ) );
 		add_action( 'wp_ajax_remove_board_approved_priority' , array( $this, 'remove_board_approved_priority' ) );
 		add_action( 'wp_ajax_save_board_approved_staff' , array( $this, 'save_board_approved_staff' ) );
+		add_action( 'wp_ajax_save_board_potential_priority' , array( $this, 'save_board_potential_priority' ) );
 
 	}
 
@@ -1083,9 +1084,10 @@ class CC_AHA_Extras {
 		$metro_id = $_COOKIE['aha_summary_metro_id'];
 		$date = $_POST['date'];
 		$criteria = $_POST['criteria_name'];
+		$criteria_slug = $_POST['criteria_slug'];
 		
 		//$update_success = cc_aha_update_priority( $priority_data );
-		$update_success = cc_aha_update_priority( $metro_id, $date, $criteria );
+		$update_success = cc_aha_update_priority( $metro_id, $date, $criteria, $criteria_slug );
 		
 		// Try to save the form data
 		if ( $update_success !== FALSE ) {
@@ -1197,6 +1199,45 @@ class CC_AHA_Extras {
 	
 		echo 'saved staff...probably';
 		//echo check_ajax_referer( 'cc_aha_ajax_nonce', 'aha_nonce' );
+		die();
+	
+	}
+	
+	/**
+	 * Saves revised potential priorities ("top-3") on the assessment page (interim)
+	 *
+	 *
+	 *
+	 *
+	*/
+	public function save_board_potential_priority(){
+	
+		// Is the nonce good?
+		if ( ! check_ajax_referer( 'cc_aha_ajax_nonce', 'aha_nonce' ) ) {
+			return false;
+		}
+		
+		//echo 'what';
+		
+		//$priority_id = isset( $_POST['data']['priority_id'] ) ? $_POST['data']['priority_id'] : null;
+		$criteria_slug = isset( $_POST['criteria_slug'] ) ? $_POST['criteria_slug'] : null;
+		
+		//if no criteria_slug, return
+		if ( $criteria_slug == null ) {
+			return false;
+		}
+		$potential_priority = ( $_POST['potential_priority'] == 'Yes' ) ? 1 : 0;
+		$metro_id = $_COOKIE['aha_summary_metro_id'];
+		
+		//$priority_array = cc_aha_set_staff_for_priorities( $priority_id, $priority_data['staff_partner'], $priority_data['volunteer_lead'] );
+		$priority_saved = cc_aha_save_potential_priorities_by_board( $metro_id, $criteria_slug, $potential_priority );
+		//var_dump ( $priority_data['metro_id'] );
+		//var_dump ( $priority_data['date']);
+		//var_dump ( $priority_data['criteria_name']);
+		
+
+		echo 'potential priority updated: ' . $priority_saved;
+		
 		die();
 	
 	}

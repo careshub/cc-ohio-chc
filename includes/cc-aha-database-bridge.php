@@ -653,6 +653,101 @@ function cc_aha_get_questions_for_summary_criterion( $criterion = null ){
 	return $questions;
 }
 
+/*********  PRIORITIES/ PRIORITY ********/
+/*
+ * Get priorities based on metro id
+ *
+ * @param int
+ * @returns array
+ */
+function cc_aha_get_all_priorities( ){
+	//TODO: consider extending this function to ask for return type
+	//search aha-priority cpt by aha-board taxonomy taxonomy
+	$args = array(
+		'post_type' => 'aha-priority',
+		'post_status' => 'publish'
+	);
+
+	//var_dump( $args);
+	$priority_query = new WP_Query( $args );
+	
+	//var_dump($priority_query);
+	//array to hold ids of priorities
+	$priority_array = array();
+	
+	//TODO: can this be more efficient?
+	if ( $priority_query->have_posts() ) {
+	
+		while ( $priority_query->have_posts() ) {
+			$priority_query->the_post();
+			
+			//array_push( $priority_array, get_the_ID() );
+			$metro_id = wp_get_object_terms( get_the_ID(), 'aha-board-term' );
+			$metro_id = current( $metro_id );
+			$meta_value = get_post_meta( get_the_ID(), "criteria_slug", true );
+			$inner_array = array(
+				"board_id" => $metro_id,
+				"criteria_slug" => $meta_value
+				);
+				
+			//array_push( $priority_array, $metro_id );
+			//var_dump( current( $metro_id ));
+			//see if 
+			if ( array_key_exists( $metro_id->name, $priority_array ) ){
+				//add next meta_value to existing board array
+				$temp = $priority_array[ $metro_id->name ];
+				//var_dump( ($temp));
+				array_push( $temp, $meta_value );
+				//var_dump( $meta_value );
+				$priority_array[ $metro_id->name ] = $temp;
+			} else {
+				$priority_array[ $metro_id->name ] = array( $meta_value );
+			}
+			
+		}
+	} else {
+		// no posts found
+	}
+
+	return $priority_array;
+
+}
+
+/*
+ * Save potential priorities based on metro id
+ *
+ * @param int
+ * @returns array
+ */
+function cc_aha_save_potential_priorities_by_board( $metro_id, $criteria_slug, $potential_priority ){
+	//TODO: deal with 2017 data...where will this go?
+	//search aha-priority cpt by aha-board taxonomy taxonomy
+	
+	global $wpdb;
+	
+	//build out vars for update query
+	$board_table_name = $wpdb->aha_assessment_board;
+	$board_where = array(
+			'BOARD_ID' => $metro_id 
+		);
+	
+	$update_board_data = array( 
+			$criteria_slug => $potential_priority
+			//'community-phys-1-top-3' => '1'
+		);
+	
+	//var_dump ( $board_table_name );
+	//var_dump ( $update_board_data );
+	//var_dump ( $update_board_data );
+	if ( !empty ( $update_board_data ) ) {
+		$num_board_rows_updated = $wpdb->update( $board_table_name, $update_board_data, $board_where, $format = null, $where_format = null );
+	}
+	
+	//echo 'hollaaa';
+	return $num_board_rows_updated;
+
+}
+
 /*
  * Get priorities based on metro id
  *
@@ -804,17 +899,10 @@ function cc_aha_get_priorities_by_board_date_criterion( $metro_id, $date, $crite
  * @param 	string, int, string
  * @return	
  */
-function cc_aha_update_priority( $metro_id, $date, $criteria ){
+function cc_aha_update_priority( $metro_id, $date, $criteria, $criteria_slug ){
 	
 	global $wpdb;
 	$current_user = wp_get_current_user();
-	
-	//Make sure requisite $_POST variables exist
-	/*
-	$metro_id = $priority_data['metro_id'];
-	$date = $priority_data['date'];
-	$criteria = $priority_data['criteria_name'];
-	*/
 	
 	//Check to see if priority (of this board, criterion and date) exists
 	$priorities = cc_aha_get_priorities_by_board_date_criterion( $metro_id, $date, $criteria );
@@ -844,18 +932,14 @@ function cc_aha_update_priority( $metro_id, $date, $criteria ){
 		if( $post_id > 0 ){  
 			//add taxonomy to new priority
 			$error = wp_set_object_terms( $post_id, $metro_id, 'aha-board-term' );
-			//var_dump( $error );
 			$error = wp_set_object_terms( $post_id, $date, 'aha-benchmark-date-term' );
-			//var_dump( $error );
 			$error = wp_set_object_terms( $post_id, $criteria, 'aha-criteria-term' );
-			//var_dump( $error );
 			$error = wp_set_object_terms( $post_id, $affiliate_state_array["Affiliate"], 'aha-affiliate-term' );
-			//var_dump( $error );
 			$error = wp_set_object_terms( $post_id, $affiliate_state_array["State"], 'aha-state-term' );
-			//var_dump( $error );
 		
-			//TODO: set affiliate and state, based on 'board' table
-			
+			//add criteria-slug (to sync w/ potential priorities - top-3 - in the assessment_board table)
+			$criteria_slug_success = update_post_meta( $post_id, "criteria_slug", $criteria_slug );
+		
 			echo $post_id; //send new priority id back to server
 		} else {
 			echo '0';

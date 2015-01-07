@@ -109,7 +109,7 @@ jQuery(document).ready(function($){
 		};
 	});
 	
-	jQuery(".board-approved-priority-checkbox input").on("click", function(){
+	jQuery("#single-report-card-health .board-approved-priority-checkbox input").on("click", function(){
 	
 		var action;
 		var thisCheckbox = jQuery(this);
@@ -125,6 +125,7 @@ jQuery(document).ready(function($){
 		}
 		
 		var criteria_name = jQuery(this).data("criteria");
+		var criteria_slug = jQuery(this).data("criteriaslug");
 		//var nonce = jQuery("#set-aha-remove-priority-nonce-" + criteria_name).val();
 		
 		//var date = jQuery(this).data("date");
@@ -153,6 +154,7 @@ jQuery(document).ready(function($){
 		var data = {
 			'action': action,
 			'criteria_name' : criteria_name,
+			'criteria_slug' : criteria_slug,
 			'date' : benchmarkYear,
 			'aha_nonce' : aha_ajax.ajax_nonce
 			
@@ -196,7 +198,7 @@ jQuery(document).ready(function($){
 	
 	});
 
-	jQuery(".priority_staff_link").on("click", function(){
+	jQuery("#single-report-card-health .priority_staff_link").on("click", function(){
 		
 		//show staff edit row, if hidden, else hide
 		var staffSelect = jQuery(('.priority_staff_select[data-criteria="' + jQuery(this).data("criteria") + '"]'));
@@ -228,7 +230,7 @@ jQuery(document).ready(function($){
 	
 	});
 	
-	jQuery("a.submit_staff_partners").on("click", function() {
+	jQuery("#single-report-card-health a.submit_staff_partners").on("click", function() {
 	
 		var thisButton = jQuery(this);
 		
@@ -267,10 +269,43 @@ jQuery(document).ready(function($){
 					thisButton.siblings(".staff_save_message").html("");
 					}, 3000
 				);
-				console.log( 'something from the server: ' + response);
+				//console.log( 'something from the server: ' + response);
 			}
 		);
-		
+	
+	});
+	
+	jQuery('select.potential_priority').on("change", function(){
+	
+		var thisSelect = jQuery(this);
+		var value = jQuery(this).val();
+		var criteria = jQuery(this).data("criteria");
+		var criteria_slug = jQuery(this).data("criteriaslug");
+
+		//prep ajax data
+		var action = "save_board_potential_priority";
+		var data = {
+			'action': action,
+			'criteria' : criteria,
+			'criteria_slug' : criteria_slug,
+			'potential_priority' : value,
+			'aha_nonce' : aha_ajax.ajax_nonce
+		};
+		//turn on spinny
+		thisSelect.siblings(".spinny").css("display", "inline-block");
+		jQuery.post(
+			aha_ajax.ajax_url, 
+			data,
+			function(response) {
+				
+				thisSelect.siblings(".spinny").css("display", "none");
+				//console.log( 'something from the server: ' + response);
+			}
+		);
+	
+	
+	
+	
 	
 	});
 	

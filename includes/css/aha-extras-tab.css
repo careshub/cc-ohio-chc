@@ -312,6 +312,12 @@ table#revenue-report-card-table-sticky .overall-header.summary-section{
 table#report-card-table .overall-header.geography{
 }
 
+table#report-card-table .top-3-row h4,
+table#report-card-table-sticky .top-3-row h4{
+	padding-left:3px;
+	float:left;
+	margin:0;
+}
 table#report-card-table-sticky .top-3-row,
 table#report-card-table-sticky .overall-header.geography,
 table#revenue-report-card-table-sticky .top-3-row,
@@ -455,6 +461,10 @@ section#summary-report-card select,
 section#revenue-report-card select{
 	margin-right:2em;
 }
+section#summary-report-card select.priority,
+section#revenue-report-card select.priority{
+	margin-bottom:10px;
+}
 section#revenue-report-card select{
 	margin-left:-1em;
 }
@@ -546,6 +556,7 @@ td.care_acute_2-top-3 {
 
 .top-3-row th a.button{
 	padding:0.2em 0.3em;
+	margin-top:24px;
 }
 section#summary-report-card tr.top-3-row .top-3-star,
 section#revenue-report-card tr.top-3-row .top-3-star{

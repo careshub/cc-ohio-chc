@@ -344,8 +344,8 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 					<th>Healthy Community Criteria</th>
 					<!-- <th>Health Need</th> -->
 					<th><a href="http://sharepoint.heart.org/nat/Volunteerism/Community%20Planning%202014-2017/Healthy%20Comm.%20Criteria%208-29-14%20Color.docx" target="_blank">Score</th>
-					<th>Potential<br>Priority</th>
-					<th>Board-Approved<br>Priority</th>
+					<th>Potential Priorities<br>Being Considered<br>(pre Board Approval)</th>
+					<th>Board Approved<br>Priority</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -358,6 +358,7 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 							$selected_priority = 0; //re-set for each criteria
 							$selected_staff_partner = 0;
 							$selected_volunteer_lead = 0;
+							$priority_squished = str_replace(' ', '', $criteria_data['label']);
 							?>
 							<tr>
 								<?php if ( $crit_key == 1 ) : ?>
@@ -383,11 +384,21 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 									<?php cc_aha_print_dial_label( cc_aha_section_get_score( $section_name, $impact_area_name, $crit_key ) ); ?>
 								</td>
 								<td>
-									<?php echo $data[$section_name . '-' . $impact_area_name . '-' . $crit_key . '-top-3'] ? 'Yes' : 'No'; ?>
+									<?php //TODO: create a dropdown and ajax call for changing this via this page
+									//echo $data[$section_name . '-' . $impact_area_name . '-' . $crit_key . '-top-3'] ? 'Yes' : 'No'; 
+									$potential_priority = $data[$section_name . '-' . $impact_area_name . '-' . $crit_key . '-top-3'] ? 'Yes' : 'No'; 
+									$potential_priority_slug = $section_name . '-' . $impact_area_name . '-' . $crit_key . '-top-3';
+									?>
+									<span>
+										<select class="potential_priority" name="potential_priority" data-criteria="<?php echo $priority_squished; ?>" data-criteriaslug="<?php echo $potential_priority_slug; ?>" >
+											<option value="Yes" <?php if( $potential_priority == "Yes" ) echo "selected"; ?>>Yes</option>
+											<option value="No" <?php if( $potential_priority == "No" ) echo "selected"; ?>>No</option>
+										</select>
+										<div class="spinny"></div>
+									</span>
 								</td>
 								<td class="board-approved-priority-checkbox" >
 									<?php //cycle through 'priorities' and mark those already added to system
-									$priority_squished = str_replace(' ', '', $criteria_data['label']);
 									foreach( $priorities as $key => $value ){
 										if ( $key == $priority_squished ){
 											$selected_priority = $value;
@@ -398,7 +409,7 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 										} 
 									} 
 									?>
-									<input type="checkbox" data-criteria="<?php echo $priority_squished; ?>" data-criteriagroup="<?php echo $criteria_data['group']; ?>" data-metroid="<?php echo $metro_id; ?>" <?php if( $selected_priority > 0 ) echo 'checked'; ?> />
+									<input type="checkbox" data-criteria="<?php echo $priority_squished; ?>" data-criteriaslug="<?php echo $criteria_data['group']; ?>" data-metroid="<?php echo $metro_id; ?>" <?php if( $selected_priority > 0 ) echo 'checked'; ?> />
 									<?php 
 									//wp_nonce_field( 'cc-aha-remove-priority-' . $priority_squished, 'set-aha-remove-priority-nonce-' . $priority_squished );
 									//add link next to checkbox (Priority properties, incl: Staff lead, Volunteer champion

@@ -38,8 +38,8 @@ function cc_aha_print_revenue_report_card_table( $metro_id ){
 		<thead>
 			<tr>
 				<th>Impact Area</th>
-				<th>Potential Top 3 Priority</th>
-				<th class="limited-width">Board-Approved Priority</th>
+				<th>Potential Priorities<br>Being Considered<br>(pre Board Approval)</th>
+				<th class="limited-width">Board Approved Priority</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -62,7 +62,18 @@ function cc_aha_print_revenue_report_card_table( $metro_id ){
 						</a>
 					</td>
 					<td>
-						<?php echo $data[$revenue_name . '-top-3'] ? 'Yes' : 'No'; ?>
+						<?php
+						//echo echo $data[$revenue_name . '-top-3'] ? 'Yes' : 'No'; 
+						$potential_priority = $data[$revenue_name . '-top-3'] ? 'Yes' : 'No'; 
+						$potential_priority_slug = $revenue_name . '-top-3';
+						?>
+						<span>
+							<select class="potential_priority" name="potential_priority" data-criteria="<?php echo $priority_squished; ?>" data-criteriaslug="<?php echo $potential_priority_slug; ?>" >
+								<option value="Yes" <?php if( $potential_priority == "Yes" ) echo "selected"; ?>>Yes</option>
+								<option value="No" <?php if( $potential_priority == "No" ) echo "selected"; ?>>No</option>
+							</select>
+							<div class="spinny"></div>
+						</span>
 					</td>
 					<td class="board-approved-priority-checkbox" >
 						<?php //cycle through 'priorities' and mark those already added to system
@@ -78,7 +89,7 @@ function cc_aha_print_revenue_report_card_table( $metro_id ){
 							} 
 						} 
 						?>
-						<input type="checkbox" data-criteria="<?php echo $priority_squished; ?>" data-metroid="<?php echo $metro_id; ?>" <?php if( $selected_priority > 0 ) echo 'checked'; ?> />
+						<input type="checkbox" data-criteria="<?php echo $priority_squished; ?>" data-criteriaslug="<?php echo $revenue_section['slug']; ?>" data-metroid="<?php echo $metro_id; ?>" <?php if( $selected_priority > 0 ) echo 'checked'; ?> />
 						<?php 
 						
 						//add link next to checkbox (Priority properties, incl: Staff lead, Volunteer champion
