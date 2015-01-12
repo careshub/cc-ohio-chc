@@ -27,14 +27,31 @@ function reportCardClickListen(){
 		filterByAffiliate( thisAffiliate);
 	});
 	
+	//are we on potential or board-approved priority? Show relevant stars and counts..
+	jQuery('select.priority-select').on("change", function(){
+	
+		var thisPriorityLevel = getPriorityLevel(); //jQuery( "select.priority-select option:selected").val();
+		changePriorityLevel( thisPriorityLevel );
+	
+	});
+	
 	//is top 3 selected?
 	jQuery('tr.top-3-row th').click(function(){
 		
-		var whichTop3Yes = jQuery(this).data("top3group");
-		var whichTop3Name = jQuery(this).data("top3name");
+		//make sure we're not on the select 
+		if( !( jQuery(this).hasClass("ignore-sort") ) ){
+			//determine whether we're on Potential or Board-approved priority
+			var thisPriorityLevel = getPriorityLevel(); 
+			if ( thisPriorityLevel == "potential" ) {
+				var whichTop3Yes = jQuery(this).data("top3group");
+				var whichTop3Name = jQuery(this).data("top3name");
+			} else {
+				var whichTop3Yes = jQuery(this).data("prioritygroup");
+				var whichTop3Name = jQuery(this).data("priorityname");
+			}
+			filterByTop3( jQuery(this), whichTop3Yes, whichTop3Name );
 		
-		filterByTop3( jQuery(this), whichTop3Yes, whichTop3Name );
-		
+		}
 	});
 	
 	//take care of our sort arrows
@@ -61,7 +78,10 @@ function resetCriteriaArrows(){
 function showCommunityTrigger(){
 	jQuery('.community-show-trigger').html("HIDE COMMUNITY");
 	jQuery('.community-show-trigger').removeClass('community-show-trigger').addClass('community-hide-trigger');
+	
 	jQuery('.community-show').show();
+	
+	//for interim piece, 
 	
 	//add click handler back in
 	jQuery('.community-hide-trigger').off("click", hideCommunityTrigger );
@@ -69,8 +89,11 @@ function showCommunityTrigger(){
 	jQuery('.community-show-trigger').off("click", showCommunityTrigger);
 	jQuery('.community-show-trigger').on("click", showCommunityTrigger);
 	
-	//recalculate the number of top 3 visible
+	//recalculate the number of top 3, priorities visible
+	showTheRightStars('community-show');
+	
 	countTop3();
+	countPriorities();
 }
 function hideCommunityTrigger(e){
 	//make changes to the SHOW/HIDE button
@@ -142,8 +165,11 @@ function showSchoolTrigger(){
 	jQuery('.school-show-trigger').off("click", showSchoolTrigger);
 	jQuery('.school-show-trigger').on("click", showSchoolTrigger);
 	
-	//recalculate the number of top 3 visible
+	//recalculate the number of top 3, priorities visible
+	showTheRightStars('school-show');
+	
 	countTop3();
+	countPriorities();
 }
 
 function showCareTrigger(){
@@ -157,8 +183,11 @@ function showCareTrigger(){
 	jQuery('.care-show-trigger').off("click", showCareTrigger);
 	jQuery('.care-show-trigger').on("click", showCareTrigger);
 	
-	//recalculate the number of top 3 visible
+	//recalculate the number of top 3, priorities visible
+	showTheRightStars('care-show');
+	
 	countTop3();
+	countPriorities();
 }
 function hideCareTrigger(){
 	//make visual changes to SHOW/HIDE button
@@ -208,7 +237,10 @@ function showAllTrigger(){
 	jQuery('.care-hide-trigger').on("click", hideCareTrigger );
 	
 	//recalculate the number of top 3 visible
+	showTheRightStars('all');
+	
 	countTop3();
+	countPriorities();
 }
 
 function filterByState( state, fromTop3 ){
@@ -402,6 +434,94 @@ function filterByTop3( thisObj, whichTop3Yes, whichTop3Name ) {
 
 }
 
+//are we looking at Board-approved or proposed priorities?
+function getPriorityLevel() {
+
+	return jQuery( "select.priority-select option:selected").val();
+
+}
+
+//change which priorities are visible
+function changePriorityLevel( priorityLevel ){
+	
+	if ( priorityLevel == "potential" ){
+		jQuery("th.report-card-priority").hide();
+		jQuery("th.report-card-top3").show();
+		
+		//now, go through table and remove stars from priority
+		jQuery("tbody td[class*=-priority]").removeClass("has-star");
+		jQuery("tbody td[class*=-top-3]").addClass("has-star");
+	} else {
+		jQuery("th.report-card-top3").hide();
+		jQuery("th.report-card-priority").show();
+		
+		//now, go through table and remove stars from top-3
+		jQuery("tbody td[class*=-top-3]").removeClass("has-star");
+		jQuery("tbody td[class*=-priority]").addClass("has-star");
+	}
+
+}
+
+//show the correct header stars on community-, care- and school-show
+function showTheRightStars( which ){
+
+	var priorityLevel = getPriorityLevel();
+	
+	switch( which ){
+		case "community-show":
+			if ( priorityLevel == "approved" ){
+				jQuery("th.community-show.report-card-top3").hide();
+				jQuery("th.community-show.report-card-priority").show();
+			} else {
+				jQuery("th.community-show.report-card-priority").hide();
+				jQuery("th.community-show.report-card-top3").show();
+			}
+			break;
+		case "school-show":
+			if ( priorityLevel == "approved" ){
+				jQuery("th.school-show.report-card-top3").hide();
+				jQuery("th.school-show.report-card-priority").show();
+			} else {
+				jQuery("th.school-show.report-card-priority").hide();
+				jQuery("th.school-show.report-card-top3").show();
+			}
+			
+			break;
+		
+		case "care-show":
+			if ( priorityLevel == "approved" ){
+				jQuery("th.care-show.report-card-top3").hide();
+				jQuery("th.care-show.report-card-priority").show();
+			} else {
+				jQuery("th.care-show.report-card-priority").hide();
+				jQuery("th.care-show.report-card-top3").show();
+			}
+			
+			break;
+		case "all":
+			if ( priorityLevel == "approved" ){
+				jQuery("th.community-show.report-card-top3").hide();
+				jQuery("th.community-show.report-card-priority").show();
+				jQuery("th.school-show.report-card-top3").hide();
+				jQuery("th.school-show.report-card-priority").show();
+				jQuery("th.care-show.report-card-top3").hide();
+				jQuery("th.care-show.report-card-priority").show();
+			} else {
+				jQuery("th.community-show.report-card-priority").hide();
+				jQuery("th.community-show.report-card-top3").show();
+				jQuery("th.school-show.report-card-priority").hide();
+				jQuery("th.school-show.report-card-top3").show();
+				jQuery("th.care-show.report-card-priority").hide();
+				jQuery("th.care-show.report-card-top3").show();
+			}
+			
+			break;
+	}
+
+
+}
+
+//count the potential priorities visible and put that info in a div
 function countTop3(){
 
 	//get all th in top-3-row with class ending in -top-3 (report-card-table only, NOT report-card-table sticky
@@ -421,6 +541,30 @@ function countTop3(){
 		
 		//update html to reflect number
 		jQuery(this).find('.top-3-count').html( top3groupsize );
+	
+	});
+	
+}
+
+function countPriorities(){
+
+	//get all th in top-3-row with class ending in -top-3 (report-card-table only, NOT report-card-table sticky
+	var allPriorityth = jQuery('#report-card-table tr.top-3-row th[class*=-priority]');
+	var prioritygroup;
+	var prioritygrouptd;
+	var prioritygroupsize;
+	
+	allPriorityth.each( function() {
+		prioritygroup = jQuery(this).data("prioritygroup");
+		
+		//get number of tds with this top 3 group
+		prioritygrouptd = jQuery('#report-card-table td.' + prioritygroup + ':visible')
+		
+		//how many in table
+		prioritygroupsize = prioritygrouptd.size();
+		
+		//update html to reflect number
+		jQuery(this).find('.priority-count').html( prioritygroupsize );
 	
 	});
 	
@@ -463,6 +607,11 @@ jQuery(document).ready(function($){
 	reportCardClickListen();
 
 	countTop3();
+	countPriorities();
+	
+	//on init, place priority stars
+	changePriorityLevel( ); //default is approved
+	
 	//top3stars();
 	
 	

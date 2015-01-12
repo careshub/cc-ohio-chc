@@ -109,7 +109,7 @@ jQuery(document).ready(function($){
 		};
 	});
 	
-	jQuery("#single-report-card-health .board-approved-priority-checkbox input").on("click", function(){
+	jQuery(".board-approved-priority-checkbox input").on("click", function(){
 	
 		var action;
 		var thisCheckbox = jQuery(this);
@@ -198,7 +198,7 @@ jQuery(document).ready(function($){
 	
 	});
 
-	jQuery("#single-report-card-health .priority_staff_link").on("click", function(){
+	jQuery(".priority_staff_link").on("click", function(){
 		
 		//show staff edit row, if hidden, else hide
 		var staffSelect = jQuery(('.priority_staff_select[data-criteria="' + jQuery(this).data("criteria") + '"]'));
@@ -230,7 +230,7 @@ jQuery(document).ready(function($){
 	
 	});
 	
-	jQuery("#single-report-card-health a.submit_staff_partners").on("click", function() {
+	jQuery("a.submit_staff_partners").on("click", function() {
 	
 		var thisButton = jQuery(this);
 		

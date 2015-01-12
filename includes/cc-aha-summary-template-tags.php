@@ -412,7 +412,7 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 									<input type="checkbox" data-criteria="<?php echo $priority_squished; ?>" data-criteriaslug="<?php echo $criteria_data['group']; ?>" data-metroid="<?php echo $metro_id; ?>" <?php if( $selected_priority > 0 ) echo 'checked'; ?> />
 									<?php 
 									//wp_nonce_field( 'cc-aha-remove-priority-' . $priority_squished, 'set-aha-remove-priority-nonce-' . $priority_squished );
-									//add link next to checkbox (Priority properties, incl: Staff lead, Volunteer champion
+									//add link next to checkbox (Priority properties, incl: Staff partner, Volunteer lead
 									if ( $selected_priority > 0 ) {
 										$hidden = '';
 									} else {
@@ -428,7 +428,7 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 							
 							<tr class="priority_staff_select hidden shaded" data-criteria="<?php echo $priority_squished; ?>" data-impact="<?php echo $section_name . $impact_area_name; ?>" >
 								<td colspan="2"></td>
-								<td>Select Staff Lead:</td>
+								<td>Select Staff Partner:</td>
 								<td><select class="staff_partner" name="staff_partner" data-criteria="<?php echo $priority_squished; ?>" >
 								<?php 
 									//echo $selected_staff_partner;
@@ -450,7 +450,7 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 							</tr>
 							<tr class="priority_volunteer_select hidden shaded" data-criteria="<?php echo $priority_squished; ?>" data-impact="<?php echo $impact_area_name; ?>" >
 								<td colspan="2"></td>
-								<td>Select Volunteer Champion:</td>
+								<td>Select Volunteer Lead:</td>
 								<td><select class="volunteer_lead" name="staff_partner" data-criteria="<?php echo $priority_squished; ?>" data-impact="<?php echo $impact_area_name; ?>" >
 								<?php foreach ( $group_members as $key => $value ) {
 									if( $selected_volunteer_lead == (int)$key ) {

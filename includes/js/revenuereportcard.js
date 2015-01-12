@@ -1,6 +1,8 @@
-
-
-
+/*
+ * Functions to enhance the All Boards Revenue Report Card page
+ *
+ */
+ 
 function reportCardClickListen(){
 
 	//what state is selected in the drop down?
@@ -15,14 +17,31 @@ function reportCardClickListen(){
 		filterByAffiliate( thisAffiliate);
 	});
 	
+	//are we on potential or board-approved priority? Show relevant stars and counts..
+	jQuery('select.revenue-priority-select').on("change", function(){
+	
+		var thisPriorityLevel = getPriorityLevel(); //jQuery( "select.priority-select option:selected").val();
+		changePriorityLevel( thisPriorityLevel );
+	
+	});
+	
 	//is top 3 selected?
 	jQuery('tr.top-3-row th').click(function(){
 		
-		var whichTop3Yes = jQuery(this).data("top3group");
-		var whichTop3Name = jQuery(this).data("top3name");
+		if( !( jQuery(this).hasClass("ignore-sort") ) ){
+			//determine whether we're on Potential or Board-approved priority
+			var thisPriorityLevel = getPriorityLevel(); 
+			if ( thisPriorityLevel == "potential" ) {
+				var whichTop3Yes = jQuery(this).data("top3group");
+				var whichTop3Name = jQuery(this).data("top3name");
+			} else {
+				var whichTop3Yes = jQuery(this).data("prioritygroup");
+				var whichTop3Name = jQuery(this).data("priorityname");
+			}
+			
+			filterByTop3( jQuery(this), whichTop3Yes, whichTop3Name );
 		
-		filterByTop3( jQuery(this), whichTop3Yes, whichTop3Name );
-		
+		}
 	});
 	
 	//take care of our sort arrows
@@ -237,6 +256,32 @@ function filterByTop3( thisObj, whichTop3Yes, whichTop3Name ) {
 
 }
 
+//are we looking at Board-approved or proposed priorities?
+function getPriorityLevel() {
+	return jQuery( "select.revenue-priority-select option:selected").val();
+}
+
+//change which priorities are visible
+function changePriorityLevel( priorityLevel ){
+	
+	if ( priorityLevel == "potential" ){
+		jQuery("th.revenue-report-card-priority").hide();
+		jQuery("th.revenue-report-card-top3").show();
+		
+		//now, go through table and remove stars from priority
+		jQuery("tbody td[class*=-priority]").removeClass("has-star");
+		jQuery("tbody td[class*=-top-3]").addClass("has-star");
+	} else {
+		jQuery("th.revenue-report-card-top3").hide();
+		jQuery("th.revenue-report-card-priority").show();
+		
+		//now, go through table and remove stars from top-3
+		jQuery("tbody td[class*=-top-3]").removeClass("has-star");
+		jQuery("tbody td[class*=-priority]").addClass("has-star");
+	}
+
+}
+
 function countTop3(){
 
 	//get all th in top-3-row with class ending in -top-3 (report-card-table only, NOT report-card-table sticky
@@ -256,6 +301,30 @@ function countTop3(){
 		
 		//update html to reflect number
 		jQuery(this).find('.top-3-count').html( top3groupsize );
+	
+	});
+	
+}
+
+function countPriorities(){
+
+	//get all th in top-3-row with class ending in -top-3 (report-card-table only, NOT report-card-table sticky
+	var allPriorityth = jQuery('#revenue-report-card-table tr.top-3-row th[class*=-priority]');
+	var prioritygroup;
+	var prioritygrouptd;
+	var prioritygroupsize;
+	
+	allPriorityth.each( function() {
+		prioritygroup = jQuery(this).data("prioritygroup");
+		
+		//get number of tds with this top 3 group
+		prioritygrouptd = jQuery('#revenue-report-card-table td.' + prioritygroup + ':visible')
+		
+		//how many in table
+		prioritygroupsize = prioritygrouptd.size();
+		
+		//update html to reflect number
+		jQuery(this).find('.priority-count').html( prioritygroupsize );
 	
 	});
 	
@@ -298,7 +367,10 @@ jQuery(document).ready(function($){
 	reportCardClickListen();
 
 	countTop3();
-	//top3stars();
+	countPriorities();
+	
+	//on init, place priority stars
+	changePriorityLevel( ); //default is approved
 	
 	
 },(jQuery));

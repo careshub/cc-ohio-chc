@@ -955,7 +955,7 @@ function cc_aha_update_priority( $metro_id, $date, $criteria, $criteria_slug ){
 	
 }
 
-/* Sets the staff lead and volunteer champion for a priority
+/* Sets the staff partner and volunteer lead for a priority
  *
  * @params int PriorityID, string, string
  * @returns

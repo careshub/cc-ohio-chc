@@ -105,6 +105,8 @@ function cc_aha_print_all_revenue_report_card_table( $all_data ) {
 	
 	$revenue_sections = cc_aha_get_summary_revenue_sections();
 	
+	$priority_criteria_slugs = cc_aha_get_all_priorities();
+	
 	//var_dump( $revenue_labels );
 	
 	?>
@@ -141,13 +143,15 @@ function cc_aha_print_all_revenue_report_card_table( $all_data ) {
 		//3rd row for Top 3 buttons - cheap implementaton, I know
 		?>
 			<tr class="top-3-row">
-				<th class="{sorter: false}" colspan="3"><h4>Filter by Board Priority:</h4></th>
+				<th class="{sorter: false} ignore-sort" colspan="3"><span><h4>Filter by:<select class="revenue-priority-select {sorter: false}"><option value="approved">Board Approved Priority</option><option value="potential">Potential Board Priority</option></select></h4></span></th>
 				
 				<?php 
 				foreach ( $revenue_sections as $revenue_name => $revenue_section ) { 
 					$top3group = $revenue_name . '-top-3';
+					$prioritygroup = $revenue_section['slug'] . '-priority';
 					$top3name = $revenue_section['label'];
-					echo '<th class="{sorter: false} white-border revenue-report-card-top3 ' . $top3group . '" data-top3group="' . $top3group . '" data-top3name="' . $top3name . '"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>';
+					echo '<th class="{sorter: false} hidden white-border revenue-report-card-top3 ' . $top3group . '" data-top3group="' . $top3group . '" data-top3name="' . $top3name . '"><a class="button"><div class="top-3-star"></div><div class="top-3-count"></div></a><br></th>';
+					echo '<th class="{sorter: false} white-border revenue-report-card-priority ' . $prioritygroup . '" data-prioritygroup="' . $prioritygroup . '" data-priorityname="' . $top3name . '"><a class="button"><div class="priority-star"></div><div class="priority-count"></div></a><br></th>';
 				
 				} 
 				?>
@@ -212,19 +216,26 @@ function cc_aha_print_all_revenue_report_card_table( $all_data ) {
 			//strip spaces from affiliate
 			$affiliate = str_replace(' ', '', $affiliate);
 			
+			//get priorities for this $metro_id
+			$metro_priorities = $priority_criteria_slugs[ $metro_id ];
+			//var_dump( $metro_priorities );
+			
 			//$state_array[] = $state; //push this state onto the array for displaying?
 			
 			echo '<tr class="board-data ' . $state . ' ' . $affiliate . '">';
-			echo '<td class="">' . $data['Board_Name'] . '</td>';
-			echo '<td class="">' . $data['State'] . '</td>';
-			echo '<td class="">' . $data['Affiliate'] . '</td>';
+			echo '<td class="no-star">' . $data['Board_Name'] . '</td>';
+			echo '<td class="no-star">' . $data['State'] . '</td>';
+			echo '<td class="no-star">' . $data['Affiliate'] . '</td>';
 			
 				foreach ( $revenue_sections as $revenue_name => $revenue_section ) { 
+					//echo $revenue_section['slug'];
 					$top3answer = $data[$revenue_name . '-top-3'] ? 'Yes' : 'No';
 					$top3class = 'top-3-answer-' . strtolower( $top3answer );
 					$top3show = $data[$revenue_name . '-top-3'] ? $revenue_name . '-top-3' : '';
+					
+					$priorityYes = ( in_array ( $revenue_section['slug'] , $metro_priorities ) ) ? $revenue_section['slug'] . '-priority' : '';
 				?>
-				<td class="<?php echo $top3show . ' ' . $top3class; ?>" title="<?php echo $top3answer; ?>">
+				<td class="<?php echo $top3show . ' ' . $top3class . ' ' . $priorityYes; ?>" title="<?php echo $top3answer; ?>">
 					<?php //echo $data[$revenue_name . '-top-3'] ? 'Yes' : 'No'; ?>
 				</td>
 			<?php } 
