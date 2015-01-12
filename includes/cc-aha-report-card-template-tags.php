@@ -33,7 +33,7 @@ function cc_aha_print_all_report_card_health( ) {
 				<li class=""><span class="indicator healthy"></span><span class="legend-text"> = Healthy</span></li>
 				<li><span class="indicator intermediate"></span><span class="legend-text"> = Intermediate</span></li>
 				<li><span class="indicator poor"></span><span class="legend-text"> = Needs Improvement</span></li>
-				<li class="star-li"><span class="indicator star"></span><span class="legend-text">= Board is considering as a possible priority</span></li>
+				<li class="star-li"><span class="indicator star"></span><span class="legend-text board-considering">= Board is considering as a possible priority</span></li>
 			
 			
 			</ul>

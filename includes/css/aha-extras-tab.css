@@ -879,6 +879,7 @@ section#revenue-report-card .legend .indicator.staroutline {
 		background-image:none !important;
 	}
 	
+	/*
 	.top-3-answer-yes:before{
 		background-image:none !important;
 		content: url("../im/star_32.png");
@@ -886,6 +887,20 @@ section#revenue-report-card .legend .indicator.staroutline {
 	.top-3-answer-no:before{
 		background-image:none !important;
 		content: url("../im/staroutline_greyer_32.png");
+	}
+	*/
+	
+	section#revenue-report-card tbody tr.board-data td:before{
+		background-image:none !important;
+		content: url("../im/staroutline_greyer_32.png");
+	}
+	section#revenue-report-card tbody tr.board-data td.has-star:before {
+		background-image: none !important;
+		content: url("../im/star_32.png");
+	}
+	section#revenue-report-card tbody tr.board-data td.no-star:before {
+		background-image: none !important;
+		content: none !important;
 	}
 
 	

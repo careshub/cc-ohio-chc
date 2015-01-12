@@ -33,8 +33,8 @@ function cc_aha_print_all_report_card_revenue() {
 		
 		<div class="legend">
 			<ul class="horizontal no-bullets">
-				<li class="star-li"><span class="indicator star"></span><span class="legend-text">= Board is considering as a possible priority</span></li>
-				<li class="star-li"><span class="indicator staroutline"></span><span class="legend-text">= Board is not considering as a priority at this time</span></li>
+				<li class="star-li"><span class="indicator star"></span><span class="legend-text board-considering">= Board has approved as a priority</span></li>
+				<li class="star-li"><span class="indicator staroutline"></span><span class="legend-text board-not-considering">= Board is not considering as a priority at this time</span></li>
 			
 			
 			</ul>

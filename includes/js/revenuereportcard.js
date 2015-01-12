@@ -271,6 +271,9 @@ function changePriorityLevel( priorityLevel ){
 		//now, go through table and remove stars from priority
 		jQuery("tbody td[class*=-priority]").removeClass("has-star");
 		jQuery("tbody td[class*=-top-3]").addClass("has-star");
+		
+		//change legend language
+		jQuery(".legend .board-considering").html("= Board is considering as a possible priority");
 	} else {
 		jQuery("th.revenue-report-card-top3").hide();
 		jQuery("th.revenue-report-card-priority").show();
@@ -278,6 +281,9 @@ function changePriorityLevel( priorityLevel ){
 		//now, go through table and remove stars from top-3
 		jQuery("tbody td[class*=-top-3]").removeClass("has-star");
 		jQuery("tbody td[class*=-priority]").addClass("has-star");
+		
+		//change legend language
+		jQuery(".legend .board-considering").html("= Board has approved as a priority");
 	}
 
 }
