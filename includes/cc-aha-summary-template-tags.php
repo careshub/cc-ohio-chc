@@ -470,7 +470,7 @@ function cc_aha_print_health_report_card_table( $metro_id, $data ) {
 							</tr>
 							<tr class="priority_staff_save hidden shaded" data-criteria="<?php echo $priority_squished; ?>" data-priorityid="<?php echo $selected_priority; ?>" >
 								<td colspan="1"></td>
-								<td colspan="2"><a href="" class="alignleft">View Resources for <?php echo $criteria_data['label']; ?></td>
+								<td colspan="2"><a href="<?php echo $criteria_data['doc_href']; ?>" class="alignleft">View Resources for <?php echo $criteria_data['label']; ?></td>
 								<td>
 									<span><a class="button submit_staff_partners ">Save Staff</a><div class="spinny"></div><div class="staff_save_message"></span>
 								</td>
@@ -1154,14 +1154,18 @@ function cc_aha_get_summary_sections() {
 
 								<a href="http://www.heart.org/idc/groups/heart-public/@wcm/@adv/documents/downloadable/ucm_463595.pdf" target="_blank">Learn more</a>',
 							'dial_ids' => array( 305, 354 ),
-							'group' => 'community_tobacco_1' ),
+							'group' => 'community_tobacco_1',
+							'doc_href' => 'http://dev.communitycommons.org/docs/smoke-free-air-toolkit-3-november-2014/'
+						),
 						2 => array(
 							'label' => 'Tobacco Excise Taxes',
 							'background' => 'To help save these lives, the AHA advocates for significant increases in tobacco excise taxes at the state, county or municipal levels that cover all tobacco products. These taxes are a health win that reduces tobacco use, saves lives, raises revenue for cash-strapped states, and lowers health care costs.
 
 								<a href="http://www.heart.org/idc/groups/heart-public/@wcm/@adv/documents/downloadable/ucm_461792.pdf" target="_blank">Learn more</a>',
 							'map_ids' => array( 2403 ),
-							'group' => 'community_tobacco_2' ),
+							'group' => 'community_tobacco_2',
+							'doc_href' => 'http://dev.communitycommons.org/docs/tobacco-excise-taxes-toolkit-3-november-2014/'
+						),
 					),
 				),
 				'phys' => array(
@@ -1174,6 +1178,7 @@ function cc_aha_get_summary_sections() {
 							'group' => 'community_phys_1',
 							'dial_ids' => array( 306, 307),
 							'map_ids' => array( 2404 ),
+							'doc_href' => 'http://dev.communitycommons.org/docs/complete-streets-toolkit-3-november-2014/'
 						),
 					),
 				),
@@ -1186,6 +1191,7 @@ function cc_aha_get_summary_sections() {
 							'background' => 'Procurement by definition is the basic term utilized by state and local government entities that provide all food services for government facilities.  Procurement is the way they contract with external parties to provide foods and beverages in vending machines and prepared foods/beverages on government property.  The AHA advocates for nutrition criteria to be included in these contracts to better provide government employees healthier options for food and beverage in their worksites and to members of the public who visit government buildings.',
 							'group' => 'community_diet_1',
 							'dial_ids' => array( 301 ),
+							'doc_href' => 'http://dev.communitycommons.org/docs/local-government-procurement-toolkit-3-november-2014/'
 							),
 						2 => array(
 							'label' => 'Sugar-sweetened Beverage Tax',
@@ -1203,6 +1209,7 @@ function cc_aha_get_summary_sections() {
 							'group' => 'community_diet_2',
 							'dial_ids' => array( 303, 603 ),
 							'map_ids' => array( 2405 ),
+							'doc_href' => 'http://dev.communitycommons.org/docs/sugar-sweetened-beverage-tax-toolkit-3-november-2014/'
 							),
 						3 => array(
 							'label' => 'Healthy Food Financing',
@@ -1210,6 +1217,7 @@ function cc_aha_get_summary_sections() {
 							'group' => 'community_diet_3',
 							'dial_ids' => array( 301 ),
 							'map_ids' => array( 2397 ),
+							'doc_href' => 'http://dev.communitycommons.org/docs/healthy-food-financing-toolkit-3-november-2014/'
 							),
 					),
 				),
@@ -1227,6 +1235,7 @@ function cc_aha_get_summary_sections() {
 							'background' => 'The quality and quantity of physical education in the nation&rsquo;s schools is an important part of a student&rsquo;s comprehensive, well-rounded education program and a means of positively affecting life-long health and well-being. The AHA advocates for daily physical education for all students in all school levels.',
 							'group' => 'school_phys_1',
 							'dial_ids' => array( 307, 605 ),
+							'doc_href' => 'http://dev.communitycommons.org/docs/pe-in-schools-toolkit-3-november-2014/'
 							),
 						2 => array(
 							'label' => 'Shared Use',
@@ -1234,6 +1243,7 @@ function cc_aha_get_summary_sections() {
 							'group' => 'school_phys_2',
 							'dial_ids' => array( 306 ),
 							'map_ids' => array( 2400, 2401 ),
+							'doc_href' => 'http://dev.communitycommons.org/docs/shared-use-toolkit-3-november-2014/'
 							),
 					),
 				),
@@ -1246,12 +1256,14 @@ function cc_aha_get_summary_sections() {
 							'background' => ' The USDA Food and Nutrition Service interim final rule establishes nutrition standards for foods sold in schools other than those foods provided as part of the National School Lunch and School Breakfast Programs (NSLP/SBP).  These foods and beverages are called Competitive Foods because they “compete” with the traditional school lunch programs.  Examples are foods/beverages sold in the a la carte line, vending machines, school canteens, and onsite fundraisers.',
 							'group' => 'school_diet_1',
 							'dial_ids' => array( 358, 605 ),
+							'doc_href' => ''
 							),
 						2 => array(
 							'label' => 'School Nutrition Implementation',
 							'background' => 'The Healthy, Hunger-Free Kids Act of 2010 instituted many changes to the National School Lunch Program (NSLP), and in concert with those changes, USDA issued new, more stringent school meal nutrition standards for the 2012-13 school year. All changes within school meals are expected to have occurred in advance of the beginning of the 2014-2015 school year to bring schools in compliance with federal law.',
 							'group' => 'school_diet_2',
 							'map_ids' => array( 2402 ),
+							'doc_href' => ''
 							),
 					),
 				),
@@ -1265,6 +1277,7 @@ function cc_aha_get_summary_sections() {
 							'background' => 'Sudden Cardiac Arrest is a leading cause of death in the U.S.—but when ordinary people, not just doctors and EMTs, are equipped with the skills to perform CPR, the survival rate can double, or even triple.  Help us add thousands of lifesavers to our communities. Join us in supporting public policy that will ensure all students learn quality CPR before they graduate from high school. <a href="http://www.becprsmart.org" target="_blank">www.becprsmart.org</a>',
 							'group' => 'school_cpr_1',
 							'dial_ids' => array( 640 ),
+							'doc_href' => 'http://dev.communitycommons.org/docs/cpr-grad-requirement/'
 							),
 					),
 				),
@@ -1295,6 +1308,7 @@ function cc_aha_get_summary_sections() {
 							'label' => 'CMS PENALTY: Total Discharges',
 							'background' => 'More hospitals are receiving penalties than bonuses in the second year of Medicare’s quality incentive program.  Government records show that the average penalty is steeper than it was last year. These penalties were based on two-dozen quality measurements, including surveys of patient satisfaction and—for the first time—death rates.  Hospitals are encouraged to find ways to improve their scores.  The AHA believes that GWTG can help to increase their quality by helping them to identify process improvements, monitoring compliance with the AHA guidelines for Stroke, HF, Resuscitation, ACTION Registry-GWTG and AFIB.',
 							'group' => 'care_acute_1',
+							'doc_href' => 'http://dev.communitycommons.org/docs/cms-penalty-toolkit-3-november-2015/'
 							// 'dial_ids' => array( 640, 625 ),
 							),
 						2 => array(
@@ -1303,6 +1317,7 @@ function cc_aha_get_summary_sections() {
 							'group' => 'care_acute_2',
 							'dial_ids' => array( 640 ), //array( 640, 625 ),
 							'map_ids' => array( 2600 ),//array( 2421 ),
+							'doc_href' => 'http://dev.communitycommons.org/docs/cms-penalty-toolkit-3-november-2015/'
 							),
 					),
 				),

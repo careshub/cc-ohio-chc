@@ -182,13 +182,27 @@ jQuery(document).ready(function($){
 						} 
 					} else if ( response == 0 ) {
 						if ( action == "remove_board_approved_priority" ){
-							//turn off 'staff save' button for tihs priority
+							//turn off 'staff save' button for this priority
 							jQuery('.priority_staff_save[data-criteria="' + criteria_name + '"]').attr("data-priorityid", 0);
-							//turn on 'Edit Staff Something'
+							
+							//TODO: make sure the 'Edit Staff Something' is closed (and the impact area rowspan is reset)
+							var staffSelect = jQuery('.priority_staff_select[data-criteria="' + criteria_name + '"]');
+							
+							if ( !( staffSelect.is(":hidden") ) ) {
+								var impactArea = staffSelect.data("impact");
+								var impactTitle = jQuery('td.impact_title[data-impact="' + impactArea + '"]');
+							
+								rowspan = impactTitle.attr("rowspan");
+								impactTitle.attr("rowspan", parseInt(rowspan) - 3);
+							}
+							
+							
+							//turn off 'Edit Staff Something'
 							thisCheckbox.siblings('a.priority_staff_link').hide();
 							jQuery('.priority_staff_select[data-criteria="' + criteria_name + '"]').hide();
 							jQuery('.priority_volunteer_select[data-criteria="' + criteria_name + '"]').hide();
 							jQuery('.priority_staff_save[data-criteria="' + criteria_name + '"]').hide();
+							
 						}
 						//console.log( 'something from the server: ' + response);
 					}
