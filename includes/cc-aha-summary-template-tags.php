@@ -1257,14 +1257,14 @@ function cc_aha_get_summary_sections() {
 							'background' => ' The USDA Food and Nutrition Service interim final rule establishes nutrition standards for foods sold in schools other than those foods provided as part of the National School Lunch and School Breakfast Programs (NSLP/SBP).  These foods and beverages are called Competitive Foods because they “compete” with the traditional school lunch programs.  Examples are foods/beverages sold in the a la carte line, vending machines, school canteens, and onsite fundraisers.',
 							'group' => 'school_diet_1',
 							'dial_ids' => array( 358, 605 ),
-							'doc_href' => ''
+							'doc_href' => 'http://dev.communitycommons.org/docs/school-nutrition-policy-toolkit-3-november-2014-2/'
 							),
 						2 => array(
 							'label' => 'School Nutrition Implementation',
 							'background' => 'The Healthy, Hunger-Free Kids Act of 2010 instituted many changes to the National School Lunch Program (NSLP), and in concert with those changes, USDA issued new, more stringent school meal nutrition standards for the 2012-13 school year. All changes within school meals are expected to have occurred in advance of the beginning of the 2014-2015 school year to bring schools in compliance with federal law.',
 							'group' => 'school_diet_2',
 							'map_ids' => array( 2402 ),
-							'doc_href' => ''
+							'doc_href' => 'http://dev.communitycommons.org/docs/school-nutrition-implementation-toolkit-3-november-2014/'
 							),
 					),
 				),
@@ -1297,6 +1297,7 @@ function cc_aha_get_summary_sections() {
 							'group' => 'care_factors_1',
 							'dial_ids' => array( 771, 504 ),
 							'map_ids' => array( 2399 ),
+							'doc_href' => 'http://dev.communitycommons.org/docs/insurance-coverage-toolkit-3-november-2014/'
 							),
 					),
 				),

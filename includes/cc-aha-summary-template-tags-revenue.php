@@ -150,7 +150,7 @@ function cc_aha_print_revenue_report_card_table( $metro_id ){
 				</tr>
 				<tr class="priority_staff_save hidden shaded" data-criteria="<?php echo $priority_squished; ?>" data-priorityid="<?php echo $selected_priority; ?>" >
 					<!--<td colspan="1"></td>-->
-					<td colspan="2"><a href="" class="alignleft resource-link">View Resources for <?php echo $revenue_section['label']; ?></td>
+					<td colspan="2"><a href="<?php echo $revenue_section['doc_href']; ?>" class="alignleft resource-link">View Resources for <?php echo $revenue_section['label']; ?></td>
 					<td>
 						<span><a class="button submit_staff_partners ">Save Staff</a><div class="spinny"></div><div class="staff_save_message"></span>
 					</td>
@@ -603,7 +603,8 @@ function cc_aha_get_summary_revenue_sections() {
 			'outcome-stats' => array(
 				1 	=> 'Recruit event chairs who are community and corporate leaders, decision makers, and have the ability to give at the top two levels of sponsorship for the market size.',
 				2	=> 'Recruit 3 years of event chairs who are community and corporate leaders, decision makers, and have the ability to give at the top two levels of sponsorship for the market size.'
-				)
+				),
+			'doc_href' => 'http://dev.communitycommons.org/docs/recruit-event-leadership-toolkit-3-november-2014/'
 			),
 		'elt_leadership' => array(
 			'label' => 'Secure Top ELT Leadership',
@@ -613,7 +614,8 @@ function cc_aha_get_summary_revenue_sections() {
 			'outcome' => 'Grow event revenue through recruitment of ELT members.',
 			'outcome-stats' => array(
 				1	=> 'Recruit 15 or more ELT members for all three core events that are giving at the top four levels of sponsorship for the size market and securing other companies giving at the same level.'
-				)
+				),
+			'doc_href' => 'http://dev.communitycommons.org/docs/secure-top-elt-leadership-toolkit-3-november-2014/'
 			),
 		'top_25_companies' => array(
 			'label' => 'Grow Top 25 Company Engagement',
@@ -624,7 +626,8 @@ function cc_aha_get_summary_revenue_sections() {
 			'outcome-stats' => array(
 				1	=> 'Increase companies that raise over 100K to X.',
 				2	=> 'Increase top 25 employers featuring AHA in their employee giving program from X to Y.'
-				)
+				),
+			'doc_href' => 'http://dev.communitycommons.org/docs/grow-top-25-company-engagement-toolkit-3-november-2014/'
 			),
 		'sponsorship' => array(
 			'label' => 'Secure Platform/Signature Sponsorship',
@@ -634,7 +637,8 @@ function cc_aha_get_summary_revenue_sections() {
 			'outcome' => 'Increase annual revenue through Platform/Signature sponsors in market (sponsorship levels at bottom of document).',
 			'outcome-stats' => array(
 				1	=> 'Increase Platform/Signature sponsors in market to X'
-				)
+				),
+			'doc_href' => 'http://dev.communitycommons.org/docs/secure-platformsignature-sponsorship-toolkit-3-november-2014/'
 			),
 		'youth_market' => array(
 			'label' => 'Expand Youth Market Efforts',
@@ -644,7 +648,8 @@ function cc_aha_get_summary_revenue_sections() {
 			'outcome' => 'Increase the number of schools participating in AHA health and revenue activities.',
 			'outcome-stats' => array(
 				1	=> 'Recruit Superintendent who sets a district wide goal and actively engages all the schools in the district with students, faculty & all district wide employees.'
-				)
+				),
+			'doc_href' => 'http://dev.communitycommons.org/docs/expand-youth-market-efforts-toolkit-3-november-2014/'
 			),
 		'individual_giving' => array(
 			'label' => 'Increase Individual Giving',
@@ -655,7 +660,8 @@ function cc_aha_get_summary_revenue_sections() {
 			'outcome-stats' => array(
 				1	=> 'Increase prospects that have the ability of giving a gift of $100,000 or more from X to Y.',
 				2	=> 'Retain at least X Cor Vitae members.'
-				)
+				),
+			'doc_href' => 'http://dev.communitycommons.org/docs/increase-individual-giving-toolkit-3-november-2014/'
 			),
 		'donor_stewardship' => array(
 			'label' => 'Enhance Donor Stewardship',
@@ -665,7 +671,8 @@ function cc_aha_get_summary_revenue_sections() {
 			'outcome' => 'Retain donors through robust engagement and stewardship activities.',
 			'outcome-stats' => array(
 				1	=> 'Increase stewardship activities (thank you calls, personal notes, invitations to lunches, dinners, events) in order to foster ongoing interest and engagement in AHA’s mission.'
-				)
+				),
+			'doc_href' => 'http://dev.communitycommons.org/docs/enhance-donor-stewardship-toolkit-3-november-2014/'
 			),
 		'pdw_legacy' => array(
 			'label' => 'Membership in the Paul Dudley White Legacy Society',
@@ -675,7 +682,8 @@ function cc_aha_get_summary_revenue_sections() {
 			'outcome' => 'Increase understanding of AHA’s personal legacy and estate planning programs.',
 			'outcome-stats' => array(
 				1	=> 'Increase understanding of AHA’s personal legacy and estate planning programs.'
-				)
+				),
+			'doc_href' => 'http://dev.communitycommons.org/docs/membership-in-the-paul-dudley-white-legacy-society-toolkit-3-november-2014/'
 			),
 		);
 }
