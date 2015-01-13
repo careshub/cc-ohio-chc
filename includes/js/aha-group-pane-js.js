@@ -121,6 +121,8 @@ jQuery(document).ready(function($){
 				action = "remove_board_approved_priority";
 			} else {
 				action = "cancel";
+				//re-check check box
+				thisCheckbox.prop('checked', true);
 			}
 		}
 		
@@ -168,6 +170,8 @@ jQuery(document).ready(function($){
 
 		// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
 		if ( action != "cancel" ){
+			
+			thisCheckbox.siblings(".spinny").css("display", "inline-block");
 			jQuery.post(
 				aha_ajax.ajax_url, 
 				data, 
@@ -206,6 +210,7 @@ jQuery(document).ready(function($){
 						}
 						//console.log( 'something from the server: ' + response);
 					}
+					thisCheckbox.siblings(".spinny").css("display", "none;");
 				}
 			);
 		}

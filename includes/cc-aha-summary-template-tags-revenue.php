@@ -90,6 +90,7 @@ function cc_aha_print_revenue_report_card_table( $metro_id ){
 						} 
 						?>
 						<input type="checkbox" data-criteria="<?php echo $priority_squished; ?>" data-criteriaslug="<?php echo $revenue_section['slug']; ?>" data-metroid="<?php echo $metro_id; ?>" <?php if( $selected_priority > 0 ) echo 'checked'; ?> />
+						<div class="spinny"></div>
 						<?php 
 						
 						//add link next to checkbox (Priority properties, incl: Staff partner, Volunteer lead
