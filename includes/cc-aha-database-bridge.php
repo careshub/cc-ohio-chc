@@ -665,7 +665,8 @@ function cc_aha_get_all_priorities( ){
 	//search aha-priority cpt by aha-board taxonomy taxonomy
 	$args = array(
 		'post_type' => 'aha-priority',
-		'post_status' => 'publish'
+		'post_status' => 'publish',
+		'posts_per_page' => -1
 	);
 
 	//var_dump( $args);
