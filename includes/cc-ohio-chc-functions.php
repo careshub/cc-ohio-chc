@@ -39,7 +39,7 @@ function cc_ohio_chc_is_ohio_chc_group(){
  */
 function cc_ohio_chc_get_group_id(){
     switch ( get_home_url() ) {
-        case 'http://localhost/wordpress/':
+        case 'http://localhost/wordpress':
             $group_id = 596;
             break;
 		case 'http://localhost/cc_local':
