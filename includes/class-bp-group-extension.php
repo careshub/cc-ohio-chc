@@ -1,4 +1,9 @@
 <?php 
+/* 
+ * Description: File that extends the tabs and holds the rendering calls
+ *
+ */
+ 
 if ( class_exists( 'BP_Group_Extension' ) ) : // Recommended, to prevent problems during upgrade or when Groups are disabled
 
 class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {

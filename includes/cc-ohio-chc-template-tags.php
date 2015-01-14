@@ -2,11 +2,15 @@
 /**
  * CC Creating Healthy Communities Ohio Extras
  *
+ * Description: File that holds the rendering functions - future gravity forms calls
+ *
  * @package   CC Creating Healthy Communities Ohio Extras
  * @author    CARES staff
  * @license   GPL-2.0+
  * @copyright 2015 CommmunityCommons.org
  */
+ 
+ 
 /**
  * Print content for the "Introduction" (default tab)
  *
