@@ -33,8 +33,10 @@ function cc_ohio_chc_print_introductory_text(){
 function cc_ohio_chc_print_county_select_container_markup() {
 	//TODO: create form w/select that calls cc_ohio_chc_get_member_array and cc_ohio_chc_get_county_array and do some usermeta saving (there's a funciton for that, too!)
     //TODO: if user is NOT a moderator, they can't see this (they shouldnt have the relevant tab, anywayz)
-	
+
 	?>
+	
+	
     <form id="ohio_chc_county_select" class="" method="post" action="<?php echo cc_ohio_chc_get_home_permalink() . 'save-counties/'; ?>">
   
     </form>
@@ -43,10 +45,38 @@ function cc_ohio_chc_print_county_select_container_markup() {
 
 function cc_ohio_chc_print_toc(){
 	//TODO, print the table of contents with links to appropriate forms, based on usermeta 'ohio_chc_county'
-	echo 'table of contents';
+	echo 'table of contents<br />';
 
-
-
+	global $wpdb;
+	$query = $wpdb->get_var( $wpdb->prepare(
+		"
+		SELECT value 
+		FROM wp_rg_lead_detail
+		WHERE form_id = 24 AND field_number = 1
+		"
+	));
+	$array1 = unserialize($query);
+	
+	$current_user = wp_get_current_user();
+    $current_user_email = $current_user->user_email;    
+	$region;
+	foreach ($array1 as $array2) {		
+		if ( $array2['User Email']== $current_user_email ) {
+			$region = $array2['Region'];	
+		} 
+	}
+	
+	if(!empty($region)) {
+		echo "Region = " . $region;
+	} else {
+		echo "No Region";
+	}
+	
+	//LOGIC: First, $region must not be empty for user to proceed to form (i.e. A user's email must be in the list submitted by the admin using the User-County Assessment form). Second, $region must then be saved into hidden field in form. 
+	//With data-persistence on, each individual user will be allowed to update their individual form. If more than one user is associated with a particular region then each user will 
+	//be filling out separate forms for that region. A judgement will then have to be made by Ohio or us as to which one is to be used.
+	
+	
 }
 
 /**
