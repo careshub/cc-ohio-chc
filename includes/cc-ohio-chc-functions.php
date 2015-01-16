@@ -172,11 +172,22 @@ function cc_ohio_chc_get_member_array( ){
  */
 function cc_ohio_chc_get_county_array( ){
 
-	//TODO: populate this!
 	$counties = array(
-		"Hamilton",
-		"Washington",
-		"Burlington"
+			"Adams-Brown Counties",
+			"Allen County",
+			"Athens County",
+			"Cincinnati",
+			"Columbus City",
+			"Cuyahoga County",
+			"Lorain County",
+			"Lucas County",
+			"Marion County",
+			"Meigs County",
+			"Montgomery County",
+			"Richland County",
+			"Summit County",
+			"Trumbull County",
+			"Washington County"
 		);
 	
 	return $counties;
