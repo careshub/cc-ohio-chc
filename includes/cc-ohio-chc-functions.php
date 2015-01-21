@@ -197,12 +197,6 @@ function cc_ohio_chc_get_county_array( ){
 	
 }
 
-//Add reference to js script for forms
-function enqueue_gf_odh_chc() {
-	wp_register_script( 'gf-disable', get_stylesheet_directory_uri().'/js/gravity-forms-odh-chc.js">', array('jquery'), '1.0', true  );
-	wp_enqueue_script('gf-disable');	
-}
-add_action( 'wp_enqueue_scripts', 'enqueue_gf_odh_chc' );
 
 //adds dropdown list of regions to User-County Assignment
 add_filter("gform_column_input_24_1_2", "set_column", 10, 5);
