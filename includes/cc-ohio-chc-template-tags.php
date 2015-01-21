@@ -68,12 +68,27 @@ function cc_ohio_chc_print_toc(){
 	
 	if(!empty($region)) {
 		echo "Region = " . $region;
+		
+		
+
+		
+		$edit_post_id = 761;
+
+		if ( !empty( $edit_post_id ) ) {
+			
+			gform_update_post::setup_form( $edit_post_id );
+			gravity_form( 8 );
+		} else {
+			gravity_form( 8 );
+		}
+		
 	} else {
 		echo "No Region";
 	}
 	
-	//LOGIC: First, $region must not be empty for user to proceed to form (i.e. A user's email must be in the list submitted by the admin using the User-County Assessment form). Second, $region must then be saved into hidden field in form. 
-	//With data-persistence on, each individual user will be allowed to update their individual form. If more than one user is associated with a particular region then each user will 
+	//LOGIC: First, $region must not be empty for user to proceed to form (i.e. A user's email must be in the list submitted by the admin using the User-County Assessment form). 
+	//Second, $region must then be saved into hidden field in form. 
+	//With data-persistence on, each individual user will be allowed to update their own individual form. If more than one user is associated with a particular region then each user will 
 	//be filling out separate forms for that region. A judgement will then have to be made by Ohio or us as to which one is to be used.
 	
 	
