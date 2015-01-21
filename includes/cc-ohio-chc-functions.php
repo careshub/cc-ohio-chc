@@ -209,3 +209,64 @@ add_filter("gform_column_input_24_1_2", "set_column", 10, 5);
 function set_column($input_info, $field, $column, $value, $form_id){
     return array("type" => "select", "choices" => "Adams-Brown Counties,Allen County,Athens County,Cincinnati,Columbus City,Cuyahoga County,Lorain County,Lucas County,Marion County,Meigs County,Montgomery County,Richland County,Summit County,Trumbull County,Washington County");
 }
+
+add_filter('gform_field_value_region_name', 'cc_ohio_add_region');
+function cc_ohio_add_region($value){
+	global $wpdb;
+	$query = $wpdb->get_var( $wpdb->prepare(
+		"
+		SELECT value 
+		FROM wp_rg_lead_detail
+		WHERE form_id = 24 AND field_number = 1
+		"
+	));
+	$array1 = unserialize($query);
+	
+	$current_user = wp_get_current_user();
+    $current_user_email = $current_user->user_email;    
+	$region;
+	foreach ($array1 as $array2) {		
+		if ( $array2['User Email']== $current_user_email ) {
+			$region = $array2['Region'];	
+		} 
+	}
+
+    return $region;
+}
+
+add_filter('gform_field_value_entry_year', 'cc_ohio_add_year');
+function cc_ohio_add_year($value){
+    return date("Y");
+}
+
+add_action( 'init', 'register_cpt_odh_chc_entry' );
+
+function register_cpt_odh_chc_entry() {
+
+    $labels = array( 
+        'name' => _x( 'ODH_CHC Entries', 'odh_chc_entry' ),
+        'singular_name' => _x( 'ODH_CHC Entry', 'odh_chc_entry' ),
+        'add_new' => _x( 'Add New', 'odh_chc_entry' ),
+        'all_items' => _x( 'ODH_CHC Entries', 'odh_chc_entry' ),
+        'add_new_item' => _x( 'Add New ODH_CHC Entry', 'odh_chc_entry' ),
+        'edit_item' => _x( 'Edit ODH_CHC Entry', 'odh_chc_entry' ),
+        'new_item' => _x( 'New ODH_CHC Entry', 'odh_chc_entry' ),
+        'view_item' => _x( 'View ODH_CHC Entry', 'odh_chc_entry' ),
+        'search_items' => _x( 'Search ODH_CHC Entries', 'odh_chc_entry' ),
+        'not_found' => _x( 'No odh_chc entries found', 'odh_chc_entry' ),
+        'not_found_in_trash' => _x( 'No odh_chc entries found in Trash', 'odh_chc_entry' ),
+        'parent_item_colon' => _x( 'Parent ODH_CHC Entry:', 'odh_chc_entry' ),
+        'menu_name' => _x( 'ODH_CHC Entries', 'odh_chc_entry' ),
+    );
+
+    $args = array( 
+        'labels' => $labels,
+        'hierarchical' => false,
+        'public' => true,
+        'show_ui' => true,
+        'show_in_menu' => true
+    );
+
+    register_post_type( 'odh_chc_entry', $args );
+}
+
