@@ -26,6 +26,7 @@ function cc_ohio_chc_extras_class_init(){
 	// Get the class fired up
 	// Helper and utility functions
 	require_once( dirname( __FILE__ ) . '/includes/cc-ohio-chc-functions.php' );
+	require_once( dirname( __FILE__ ) . '/includes/cc-ohio-chc-gf-functions.php' );
 	// Template-y functions
 	require_once( dirname( __FILE__ ) . '/includes/cc-ohio-chc-template-tags.php' );
 	

@@ -96,6 +96,8 @@ class CC_Ohio_CHC_Extras {
 
 		// AJAX functions would go here
 		//add_action( 'wp_ajax_save_board_approved_priority' , array( $this, 'save_board_approved_priority' ) );
+		
+		add_filter('gform_update_post/public_edit', '__return_true');
 
 	}
 
@@ -284,7 +286,7 @@ class CC_Ohio_CHC_Extras {
 	 */
 	public function enqueue_styles() {
 		if ( cc_ohio_chc_is_component() ) {
-			echo 'etf';
+			//echo 'etf';
 			wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'css/cc-ohio-chc-tab.css', __FILE__ ), array(), '1.32' );
 		}
 	}

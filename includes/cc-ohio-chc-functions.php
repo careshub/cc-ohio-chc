@@ -68,6 +68,12 @@ function cc_ohio_chc_get_slug(){
 function cc_ohio_chc_get_form_slug(){
     return 'forms';
 }
+function cc_ohio_chc_get_county_slug(){
+	return 'county-assignment';
+}
+function cc_ohio_chc_get_form_num_slug( $formnum = 1 ){
+	return cc_ohio_chc_get_form_slug() . '/' . $formnum;
+}
 
 /**
  * Get URIs for the various pieces of this tab
@@ -79,9 +85,21 @@ function cc_ohio_chc_get_home_permalink( $group_id = false ) {
     $permalink = bp_get_group_permalink( groups_get_group( array( 'group_id' => $group_id ) ) ) .  cc_ohio_chc_get_slug() . '/';
     return apply_filters( "cc_ohio_chc_home_permalink", $permalink, $group_id);
 }
-function cc_ohio_chc_get_assessment_permalink( $page = 1, $group_id = false ) {
-    $permalink = cc_ohio_chc_get_home_permalink( $group_id ) . cc_ohio_chc_get_form_slug() . '/' . $page . '/';
+function cc_ohio_chc_get_assessment_permalink( $page = 1, $group_id = false ) { //TODO: what is this?
+    $permalink = cc_ohio_chc_get_home_permalink( $group_id ) . cc_ohio_chc_get_form_slug() . '/';
     return apply_filters( "cc_ohio_chc_get_assessment_permalink", $permalink, $group_id);
+}
+function cc_ohio_chc_get_main_form_permalink( $page = 1, $group_id = false ) {
+    $permalink = cc_ohio_chc_get_home_permalink( $group_id ) . cc_ohio_chc_get_form_slug() . '/';
+    return apply_filters( "cc_ohio_chc_get_assessment_permalink", $permalink, $group_id);
+}
+function cc_ohio_chc_get_county_assignment_permalink( $group_id = false ) {
+    $permalink = cc_ohio_chc_get_home_permalink( $group_id ) . cc_ohio_chc_get_county_slug() . '/';
+    return apply_filters( "cc_ohio_chc_get_county_assignment_permalink", $permalink, $group_id);
+}
+function cc_ohio_chc_get_form_permalink( $formnum = 1, $group_id = false ) {
+    $permalink = cc_ohio_chc_get_home_permalink( $group_id ) . cc_ohio_chc_get_form_slug() . '/' . $formnum ;
+    return apply_filters( "cc_ohio_chc_get_form_permalink", $permalink, $group_id);
 }
 
 
@@ -118,8 +136,38 @@ function cc_ohio_chc_on_main_screen(){
         return false;
     }
 }
-function cc_ohio_chc_on_assessment_screen(){
+function cc_ohio_chc_on_assessment_screen(){ //what is this??
     if ( cc_ohio_chc_is_component() && bp_is_action_variable( cc_ohio_chc_get_slug(), 0 ) ){
+        return true;
+    } else {
+        return false;
+    }
+}
+function cc_ohio_chc_on_form_screen(){
+    if ( cc_ohio_chc_is_component() && bp_is_action_variable( cc_ohio_chc_get_form_slug(), 0 ) ){
+        return true;
+    } else {
+        return false;
+    }
+}
+function cc_ohio_chc_on_county_assignment_screen(){
+    if ( cc_ohio_chc_is_component() && bp_is_action_variable( cc_ohio_chc_get_county_slug(), 0 ) ){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function cc_ohio_chc_on_form1_screen(){
+	//var_dump( bp_action_variable(0));
+    if ( cc_ohio_chc_is_component() && bp_is_action_variable( '1', 1 ) && bp_is_action_variable( cc_ohio_chc_get_form_slug(), 0 ) ){
+        return true;
+    } else {
+        return false;
+    }
+}
+function cc_ohio_chc_on_form2_screen(){
+    if ( cc_ohio_chc_is_component() && bp_is_action_variable( cc_ohio_chc_get_form_num_slug( 2 ), 0 ) ){
         return true;
     } else {
         return false;
@@ -199,7 +247,7 @@ function cc_ohio_chc_get_county_array( ){
 
 
 //adds dropdown list of regions to User-County Assignment
-add_filter("gform_column_input_24_1_2", "set_column", 10, 5);
+add_filter("gform_column_input_37_1_2", "set_column", 10, 5);
 function set_column($input_info, $field, $column, $value, $form_id){
     return array("type" => "select", "choices" => "Adams-Brown Counties,Allen County,Athens County,Cincinnati,Columbus City,Cuyahoga County,Lorain County,Lucas County,Marion County,Meigs County,Montgomery County,Richland County,Summit County,Trumbull County,Washington County");
 }
@@ -258,6 +306,7 @@ function register_cpt_odh_chc_entry() {
         'hierarchical' => false,
         'public' => true,
         'show_ui' => true,
+		'supports' => array( 'title', 'editor', 'custom-fields', 'page-attributes', 'author', 'excerpt' ),   
         'show_in_menu' => true
     );
 

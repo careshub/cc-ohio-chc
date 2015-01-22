@@ -39,6 +39,8 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
     public function display() {
 
         cc_ohio_chc_render_tab_subnav();
+		
+		cc_ohio_chc_on_form1_screen();
 
         if ( cc_ohio_chc_on_main_screen() ) {
 
@@ -58,7 +60,30 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
                     //cc_aha_render_form( bp_action_variable(1) );
                 //}
 
-        } 
+        } else if ( cc_ohio_chc_on_form1_screen() ){ //before forms screen, because nested
+		
+			cc_ohio_chc_render_form_subnav();
+			
+			cc_ohio_chc_render_form1();
+			
+		} else if ( cc_ohio_chc_on_form2_screen() ){ //before forms screen, because nested
+		
+			cc_ohio_chc_render_form_subnav();
+			
+			cc_ohio_chc_render_form2();
+			
+		} else if ( cc_ohio_chc_on_form_screen() ) {
+		
+			cc_ohio_chc_render_form_subnav();
+		
+		
+		} else if ( cc_ohio_chc_on_county_assignment_screen() ) {
+		
+			//render county assignment page
+			//echo 'County assignment test';
+			cc_ohio_chc_print_county_assignment_page();
+			
+		}
     }
 
     public function ohio_chc_tab_is_enabled(){

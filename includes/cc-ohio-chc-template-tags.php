@@ -94,6 +94,58 @@ function cc_ohio_chc_print_toc(){
 	
 }
 
+/*
+ * Renders the county-assignment page.  Should be for admins only!  TODO: make sure
+ *
+ */
+function cc_ohio_chc_print_county_assignment_page() {
+
+	echo 'county assignment, yall';
+
+	//first, check to see if current user has GF of this 
+
+}
+
+/**
+ * Renders the first form.  TODO: make this a switch-case (or something) instead of individual functions for each form!
+ *
+ */
+function cc_ohio_chc_render_form1() {
+
+	$entry_id = 353;
+	$gform_id = 30;
+	
+	$entry = GFAPI::get_entry($entry_id);
+	var_dump($entry);
+	
+	gravity_form( $gform_id );
+	
+}
+
+function cc_ohio_chc_render_form2() {
+
+
+	echo 'second form';
+	
+	//Which form to serve here
+	//$edit_post_id = isset( $_GET['gform_post_id'] ) ? (int) $_GET['gform_post_id'] : 0;
+	$edit_post_id = 39083;
+	$entry_id = 353;
+	$gform_id = 37;
+	
+	if ( !empty( $edit_post_id ) ) {
+		//gform_update_post::setup_form( $edit_post_id );
+		//gravity_form( $gform_id );
+		
+		$entry = GFAPI::get_entry($entry_id);
+		var_dump($entry);
+		
+		//do_action('gform_update_post/setup_form', array('post_id' => $edit_post_id, 'form_id' => $gform_id));
+	} 
+
+}
+
+
 /**
  * Builds the subnav of the Ohio CHC group tab
  *
@@ -107,15 +159,15 @@ function cc_ohio_chc_render_tab_subnav(){
 			<li <?php if ( cc_ohio_chc_on_main_screen() ) { echo 'class="current"'; } ?>>
 				<a href="<?php echo cc_ohio_chc_get_home_permalink(); ?>">Introduction</a>
 			</li>
-			<li <?php if ( cc_ohio_chc_on_assessment_screen() ) { echo 'class="current"'; } ?>>
-				<a href="<?php echo cc_ohio_chc_get_assessment_permalink(); ?>">Forms</a>
+			<li <?php if ( cc_ohio_chc_on_form_screen() ) { echo 'class="current"'; } ?>>
+				<a href="<?php echo cc_ohio_chc_get_main_form_permalink(); ?>">Forms</a>
 			</li>
 				
 			<?php //TODO: if user is mod : 
 				//TODO: set up assignment permalink thing
 			?>
 				<li <?php //if ( cc_aha_on_analysis_screen( 'revenue' ) ) { echo 'class="current"'; } ?>>
-					<a href="<?php echo cc_ohio_chc_get_assessment_permalink(  ); ?>">User-County Assignment</a>
+					<a href="<?php echo cc_ohio_chc_get_county_assignment_permalink(  ); ?>">User-County Assignment</a>
 				</li>
 			<?php// endif; ?>
 			
@@ -124,3 +176,27 @@ function cc_ohio_chc_render_tab_subnav(){
 	<?php
 }
 
+/**
+ * Render the subnav for the forms tab , likely temporary because ugly?
+ *
+ */
+function cc_ohio_chc_render_form_subnav(){
+	?>
+	<div id="subnav" class="item-list-tabs no-ajax">
+		<ul class="nav-tabs">
+			<li <?php if ( cc_ohio_chc_on_form1_screen() ) { echo 'class="current"'; } ?>>
+				<a href="<?php echo cc_ohio_chc_get_form_permalink( 1 ); ?>">Form 1</a>
+			</li>
+			<li <?php if ( cc_ohio_chc_on_form2_screen() ) { echo 'class="current"'; } ?>>
+				<a href="<?php echo cc_ohio_chc_get_form_permalink( 2 ); ?>">Form 2</a>
+			</li>
+			
+			
+		</ul>
+	</div>
+	<?php
+
+
+
+
+}
