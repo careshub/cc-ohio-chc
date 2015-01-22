@@ -101,6 +101,14 @@ function cc_ohio_chc_print_toc(){
 function cc_ohio_chc_print_county_assignment_page() {
 
 	echo 'county assignment, yall';
+	
+	$entry_id = 353;
+	$gform_id = 31;
+	
+	//$entry = GFAPI::get_entry($entry_id);
+	//var_dump($entry);
+	
+	gravity_form( $gform_id );
 
 	//first, check to see if current user has GF of this 
 

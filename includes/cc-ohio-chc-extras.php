@@ -93,11 +93,13 @@ class CC_Ohio_CHC_Extras {
 
 
         add_filter( 'group_reports_create_new_label', array( $this, 'change_group_create_report_label' ), 2, 12 );
+		
+		//Register Custom post types and taxonomies associated with this plugin
+		add_action( 'init', array( $this, 'register_cpt_odh_chc_entry' ) );
 
 		// AJAX functions would go here
 		//add_action( 'wp_ajax_save_board_approved_priority' , array( $this, 'save_board_approved_priority' ) );
 		
-		add_filter('gform_update_post/public_edit', '__return_true');
 
 	}
 
@@ -452,6 +454,38 @@ class CC_Ohio_CHC_Extras {
 
 		//return $url;
 	}
+
+
+	public function register_cpt_odh_chc_entry() {
+
+		$labels = array( 
+			'name' => _x( 'ODH_CHC Entries', 'odh_chc_entry' ),
+			'singular_name' => _x( 'ODH_CHC Entry', 'odh_chc_entry' ),
+			'add_new' => _x( 'Add New', 'odh_chc_entry' ),
+			'all_items' => _x( 'ODH_CHC Entries', 'odh_chc_entry' ),
+			'add_new_item' => _x( 'Add New ODH_CHC Entry', 'odh_chc_entry' ),
+			'edit_item' => _x( 'Edit ODH_CHC Entry', 'odh_chc_entry' ),
+			'new_item' => _x( 'New ODH_CHC Entry', 'odh_chc_entry' ),
+			'view_item' => _x( 'View ODH_CHC Entry', 'odh_chc_entry' ),
+			'search_items' => _x( 'Search ODH_CHC Entries', 'odh_chc_entry' ),
+			'not_found' => _x( 'No odh_chc entries found', 'odh_chc_entry' ),
+			'not_found_in_trash' => _x( 'No odh_chc entries found in Trash', 'odh_chc_entry' ),
+			'parent_item_colon' => _x( 'Parent ODH_CHC Entry:', 'odh_chc_entry' ),
+			'menu_name' => _x( 'ODH_CHC Entries', 'odh_chc_entry' ),
+		);
+
+		$args = array( 
+			'labels' => $labels,
+			'hierarchical' => false,
+			'public' => true,
+			'show_ui' => true,
+			'supports' => array( 'title', 'editor', 'custom-fields', 'page-attributes', 'author', 'excerpt' ),   
+			'show_in_menu' => true
+		);
+
+		register_post_type( 'odh_chc_entry', $args );
+	}
+
 
 	
 } // End class

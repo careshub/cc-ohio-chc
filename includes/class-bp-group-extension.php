@@ -67,7 +67,7 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
 			cc_ohio_chc_render_form1();
 			
 		} else if ( cc_ohio_chc_on_form2_screen() ){ //before forms screen, because nested
-		
+			
 			cc_ohio_chc_render_form_subnav();
 			
 			cc_ohio_chc_render_form2();
