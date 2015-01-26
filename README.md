@@ -7,3 +7,4 @@ TODO:
 	- Add environment-specific gravity form numbers to function cc_ohio_chc_get_gf_forms_all() [Ln 370ish, cc-ohio-chc-functions.php]
 	- Add county-identifier to all county-specific forms w/field name 'cc_ohio_county' 
 	- Add environment-specific gravity form numbers to function cc_ohio_chc_get_form_num( $form_num = 1 ) [Ln 337ish, cc-ohio-chc-functions.php]
+	- Give your users a usermeta of "cc-ohio-user-county" with the string name of a county in the list (e.g., "Montgomery County")
