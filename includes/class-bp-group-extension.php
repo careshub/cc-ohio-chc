@@ -65,7 +65,7 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
 			if ( current_user_has_county() ) {
 				cc_ohio_chc_render_form_subnav();
 				
-				cc_ohio_chc_render_form1();
+				cc_ohio_chc_render_form( 1 );
 			} else {
 				//TODO: print message
 				echo 'Error message form 1';
@@ -76,7 +76,7 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
 			if ( current_user_has_county() ) {
 				cc_ohio_chc_render_form_subnav();
 			
-				cc_ohio_chc_render_form2();
+				cc_ohio_chc_render_form( 2 );
 			} else {
 				//TODO: print message
 				echo 'Error message form 2';

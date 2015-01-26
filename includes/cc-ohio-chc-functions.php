@@ -273,7 +273,12 @@ function current_user_has_county() {
  * @param int User ID
  * @return string County 
  */
-function get_user_county( $user_id ) {
+function get_user_county( $user_id = 0 ) {
+
+	//if incoming user_id not set, use current user id
+	if ( $user_id == 0 ){
+		$user_id = get_current_user_id();
+	}
 
 	//does the current user have a county assigned to them?
 	$user_county_meta = get_user_meta( $user_id, 'cc-ohio-user-county', true);
@@ -287,10 +292,11 @@ function get_user_county( $user_id ) {
  * 	if no form returned, show new one of number type
  *
  */
-function cc_ohio_chc_get_user_entry_by_form_number( $form_num, $user_id = 0 ){
+function cc_ohio_chc_get_county_entry_by_form_number( $form_num, $user_id = 0 ){
 
 	//GF form number lookup
-	$gf_form_num = cc_ohio_chc_get_form_num( $form_num );
+	//$gf_form_num = cc_ohio_chc_get_form_num( $form_num );
+	$gf_form_num = $form_num;
 	
 	//if incoming user_id not set, use current user id
 	if ( $user_id == 0 ){
@@ -298,7 +304,8 @@ function cc_ohio_chc_get_user_entry_by_form_number( $form_num, $user_id = 0 ){
 	}
 	
 	//find user assigned to county
-	$user_county = get_user_county( $user_id );
+	$user_county = get_user_county( $user_id ); //"Montgomery County"
+	//var_dump( $user_county);
 	
 	//var_dump( $user_county);
 	$county_field_name = "cc_ohio_county";
@@ -319,13 +326,11 @@ function cc_ohio_chc_get_user_entry_by_form_number( $form_num, $user_id = 0 ){
 	
 	// If no user assigned to county, get new GF form of gf_form_num and prepopulate county field
 	if( $entry_this_county == NULL ){
-		//TODO: this
+		return NULL;
 	
 	} else {
-	
-		//$return_form = ( populate_by_existing( $form_obj, $entry_this_county ) );
+		return $entry_this_county;
 	}
-	return $entry_this_county;
 
 
 
@@ -347,6 +352,9 @@ function cc_ohio_chc_get_form_num( $form_num = 1 ){
 				case 1:
 					return 30;
 					break;
+				case 2:
+					return 32;
+					break;
 				default:
 					return 30;
 					break;
@@ -361,11 +369,37 @@ function cc_ohio_chc_get_form_num( $form_num = 1 ){
     }
     return $gf_form_num;
 	
+}
 
 
+/*
+ * Form lookup; get array of ohio forms (except user-county) by environment
+ *	TODO: update this list as forms created
+ *
+ */
+function cc_ohio_chc_get_gf_forms_all( ){
 
-
-
+	
+	//TODO: fill in as we create on locals and devs
+	 switch ( get_home_url() ) {
+        case 'http://localhost/wordpress':
+			//TODO: Mike, fill in your gf form numbers
+			$form_array = array( 30 );
+            break;
+		case 'http://localhost/cc_local':
+			$form_array = array(30, 32, 33, 34, 35, 36);
+            break;
+        case 'http://dev.communitycommons.org':
+		
+			$form_array = array( 30 );
+            break;
+        default: //live site
+		
+			$form_array = array( 30 );
+            break;
+    }
+    return $form_array;
+	
 }
 
 /*

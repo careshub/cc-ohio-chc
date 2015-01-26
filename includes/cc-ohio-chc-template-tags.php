@@ -118,48 +118,18 @@ function cc_ohio_chc_print_county_assignment_page() {
  * Renders the first form.  TODO: make this a switch-case (or something) instead of individual functions for each form!
  *
  */
-function cc_ohio_chc_render_form1() {
+function cc_ohio_chc_render_form( $url_form_num = 1) {
 
 	//get the appropriate form for this county/user
 	//TODO: check if admin, get list selection if so
-	//else {
-	$entry_obj = cc_ohio_chc_get_user_entry_by_form_number( 1 );
-	
-	
-	//var_dump( $form_obj);
-	
-	$entry_id = 354;
-	$gform_id = 30;
-	
-	$entry = GFAPI::get_entry($entry_id);
-	//var_dump($entry);
-	
-	//display which gravity form
-	gravity_form( $gform_id );
-	
-}
+	$gf_form_num = cc_ohio_chc_get_form_num( $url_form_num );
 
-function cc_ohio_chc_render_form2() {
-
-
-	echo 'second form';
+	//$entry_obj = cc_ohio_chc_get_county_entry_by_form_number( 1 );
 	
-	//Which form to serve here
-	//$edit_post_id = isset( $_GET['gform_post_id'] ) ? (int) $_GET['gform_post_id'] : 0;
-	$edit_post_id = 39083;
-	$entry_id = 353;
-	$gform_id = 37;
 	
-	if ( !empty( $edit_post_id ) ) {
-		//gform_update_post::setup_form( $edit_post_id );
-		//gravity_form( $gform_id );
-		
-		$entry = GFAPI::get_entry($entry_id);
-		var_dump($entry);
-		
-		//do_action('gform_update_post/setup_form', array('post_id' => $edit_post_id, 'form_id' => $gform_id));
-	} 
-
+	//display which gravity form, maybe prepopulated..
+	gravity_form( $gf_form_num );
+	
 }
 
 
