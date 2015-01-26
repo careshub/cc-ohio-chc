@@ -123,13 +123,14 @@ function cc_ohio_chc_render_form1() {
 	//get the appropriate form for this user
 	//TODO: check if admin, get list selection if so
 	//else {
-	$form_obj = cc_ohio_chc_get_form_by_user( 1 );
+	$form_obj = cc_ohio_chc_get_user_form_by_number( 1 );
+	//var_dump( $form_obj);
 	
 	$entry_id = 354;
 	$gform_id = 30;
 	
 	$entry = GFAPI::get_entry($entry_id);
-	var_dump($entry);
+	//var_dump($entry);
 	
 	//display which gravity form
 	gravity_form( $gform_id );

@@ -249,14 +249,14 @@ function cc_ohio_chc_get_county_array( ){
  * Checks whether current user has county assigned to them
  *	TODO: admin check
  *
+ * @return bool 
  */
-function current_user_has_county(){
+function current_user_has_county() {
 	//who is the current user?
 	$user_id = get_current_user_id();
-	var_dump ($user_id);
+
 	//does the current user have a county assigned to them?
 	$user_county_meta = get_user_meta( $user_id, 'cc-ohio-user-county', false);
-	var_dump ($user_county_meta);
 	
 	//empty string returned if no meta found
 	if( $user_county_meta == "" ){
@@ -264,8 +264,22 @@ function current_user_has_county(){
 	} else {
 		return $user_county_meta;
 	}
+}
 
+/* 
+ * Gets county assignment of user 
+ *	TODO: 
+ *
+ * @param int User ID
+ * @return string County 
+ */
+function get_user_county( $user_id ) {
 
+	//does the current user have a county assigned to them?
+	$user_county_meta = get_user_meta( $user_id, 'cc-ohio-user-county', true);
+	//var_dump ($user_county_meta);
+	
+	return $user_county_meta;
 }
 
 /*
@@ -273,17 +287,41 @@ function current_user_has_county(){
  * 	if no form returned, show new one of number type
  *
  */
-function cc_ohio_chc_get_form_by_user( $form_num ){
+function cc_ohio_chc_get_user_form_by_number( $form_num, $user_id = 0 ){
 
-	//form lookup, based on 
+	//GF form number lookup
 	$gf_form_num = cc_ohio_chc_get_form_num( $form_num );
 	
-	//now, see if there's a GF entry of this form, by this user?
-	// OR find user assigned to county, put county in form and double-check the relations.
-	// WHAT IF no user assigned to county?
+	//if incoming user_id not set, use current user id
+	if ( $user_id == 0 ){
+		$user_id = get_current_user_id();
+	}
+	
+	//find user assigned to county
+	$user_county = get_user_county( $user_id );
+	
+	//var_dump( $user_county);
+	$county_field_name = "cc_ohio_county";
+	
+	$total_count = 1;
+	
+	//Get the field id for cc_ohio_county (for this form) arg.
+	$form_obj = GFAPI::get_form( $gf_form_num );
+	
+	$field_id = get_gf_field_id_by_label( $form_obj, $county_field_name ); //since we have to query GF by field ID
+	//var_dump( $field_id );
+	
+	//if there's an entry from this county, populate the form 
+	$search_criteria["field_filters"][] = array('key' => $field_id, 'value' => $user_county);
+	$entry_this_county = GFAPI::get_entries( $gf_form_num, $search_criteria, null, null, $total_count );
+	
+	var_dump ($entry_this_county);
+	
+	// If no user assigned to county, get new GF form of gf_form_num and prepopulate county field
 	
 	
 	
+	return $user_county;
 
 
 
@@ -326,3 +364,23 @@ function cc_ohio_chc_get_form_num( $form_num = 1 ){
 
 }
 
+/*
+ * Get GF's field id (what we have to query on, arg) for a form with a label
+ *
+ * @param form object, string
+ * @return int Field ID
+ */
+function get_gf_field_id_by_label( $form_obj, $label_name ){
+	
+	foreach( $form_obj['fields'] as $key => $field ) {
+		//var_dump( $key, $field['label']);
+		if( $field['label'] == $label_name ){
+			return($field['id']);
+			
+		}
+	}
+	
+	return NULL;
+
+
+}
