@@ -245,6 +245,29 @@ function cc_ohio_chc_get_county_array( ){
 	
 }
 
+/* 
+ * Checks whether current user has county assigned to them
+ *	TODO: admin check
+ *
+ */
+function current_user_has_county(){
+	//who is the current user?
+	$user_id = get_current_user_id();
+	var_dump ($user_id);
+	//does the current user have a county assigned to them?
+	$user_county_meta = get_user_meta( $user_id, 'cc-ohio-user-county', false);
+	var_dump ($user_county_meta);
+	
+	//empty string returned if no meta found
+	if( $user_county_meta == "" ){
+		return false;
+	} else {
+		return $user_county_meta;
+	}
+
+
+}
+
 /*
  * Get a form for a particular user, with admin check (or in the call)?
  * 	if no form returned, show new one of number type
@@ -253,7 +276,7 @@ function cc_ohio_chc_get_county_array( ){
 function cc_ohio_chc_get_form_by_user( $form_num ){
 
 	//form lookup, based on 
-	$gf_form_num = cc_ohio_chc_get_form_num( 1 );
+	$gf_form_num = cc_ohio_chc_get_form_num( $form_num );
 	
 	//now, see if there's a GF entry of this form, by this user?
 	// OR find user assigned to county, put county in form and double-check the relations.
@@ -268,6 +291,7 @@ function cc_ohio_chc_get_form_by_user( $form_num ){
 
 /*
  * Form lookup; which form for which environment?
+ *	TODO: update this list as forms created
  *
  */
 function cc_ohio_chc_get_form_num( $form_num = 1 ){
@@ -278,12 +302,13 @@ function cc_ohio_chc_get_form_num( $form_num = 1 ){
             break;
 		case 'http://localhost/cc_local':
 			switch( $form_num ){
-				case: 1:
+				case 1:
 					return 30;
 					break;
 				default:
 					return 30;
 					break;
+			}
             break;
         case 'http://dev.communitycommons.org':
             $gf_form_num = 30;

@@ -62,20 +62,36 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
 
         } else if ( cc_ohio_chc_on_form1_screen() ){ //before forms screen, because nested
 		
-			cc_ohio_chc_render_form_subnav();
-			
-			cc_ohio_chc_render_form1();
+			if ( current_user_has_county() ) {
+				cc_ohio_chc_render_form_subnav();
+				
+				cc_ohio_chc_render_form1();
+			} else {
+				//TODO: print message
+				echo 'Error message form 1';
+			}
 			
 		} else if ( cc_ohio_chc_on_form2_screen() ){ //before forms screen, because nested
 			
-			cc_ohio_chc_render_form_subnav();
+			if ( current_user_has_county() ) {
+				cc_ohio_chc_render_form_subnav();
 			
-			cc_ohio_chc_render_form2();
+				cc_ohio_chc_render_form2();
+			} else {
+				//TODO: print message
+				echo 'Error message form 2';
+			}
 			
 		} else if ( cc_ohio_chc_on_form_screen() ) {
 		
-			cc_ohio_chc_render_form_subnav();
-		
+			if ( current_user_has_county() ) {
+			
+				cc_ohio_chc_render_form_subnav();
+				
+			} else {
+				//TODO: print message
+				echo 'Error message form main';
+			}
 		
 		} else if ( cc_ohio_chc_on_county_assignment_screen() ) {
 		

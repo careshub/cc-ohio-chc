@@ -15,7 +15,7 @@ add_filter('gform_field_value_ohio_dynamic_userid', 'cc_ohio_chc_gf_dynamic_user
 //maybe?
 //add_filter('gform_update_post/public_edit', '__return_true');
 
-function cc_ohio_chc_gf_dynamic_userid($value){
+function cc_ohio_chc_gf_dynamic_userid( $value ){
 	$user_id = get_current_user_id();
 	
 	return $user_id;
@@ -23,12 +23,15 @@ function cc_ohio_chc_gf_dynamic_userid($value){
 
 
 //adds dropdown list of regions to User-County Assignment
-add_filter("gform_column_input_37_1_2", "set_column", 10, 5);
-add_filter("gform_column_input_31_1_2", "set_column", 10, 5);
-function set_column($input_info, $field, $column, $value, $form_id){
-    return array("type" => "select", "choices" => "Adams-Brown Counties,Allen County,Athens County,Cincinnati,Columbus City,Cuyahoga County,Lorain County,Lucas County,Marion County,Meigs County,Montgomery County,Richland County,Summit County,Trumbull County,Washington County");
-}
+add_filter("gform_column_input_37_1_2", "cc_ohio_populate_county_list", 10, 5);
+add_filter("gform_column_input_31_1_2", "cc_ohio_populate_county_list", 10, 5);
 
+function cc_ohio_populate_county_list($input_info, $field, $column, $value, $form_id){
+    return array(
+		"type" => "select", 
+		"choices" => "Adams-Brown Counties,Allen County,Athens County,Cincinnati,Columbus City,Cuyahoga County,Lorain County,Lucas County,Marion County,Meigs County,Montgomery County,Richland County,Summit County,Trumbull County,Washington County"
+		);
+}
 
 
 add_filter('gform_field_value_region_name', 'cc_ohio_add_region');
