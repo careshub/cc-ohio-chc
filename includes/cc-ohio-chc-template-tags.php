@@ -120,7 +120,12 @@ function cc_ohio_chc_print_county_assignment_page() {
  */
 function cc_ohio_chc_render_form1() {
 
-	$entry_id = 353;
+	//get the appropriate form for this user
+	//TODO: check if admin, get list selection if so
+	//else {
+	$form_obj = cc_ohio_chc_get_form_by_user(1);
+	
+	$entry_id = 354;
 	$gform_id = 30;
 	
 	$entry = GFAPI::get_entry($entry_id);

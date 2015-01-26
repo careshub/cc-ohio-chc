@@ -245,4 +245,59 @@ function cc_ohio_chc_get_county_array( ){
 	
 }
 
+/*
+ * Get a form for a particular user, with admin check (or in the call)?
+ * 	if no form returned, show new one of number type
+ *
+ */
+function cc_ohio_chc_get_form_by_user( $form_num ){
+
+	//form lookup, based on 
+	$gf_form_num = cc_ohio_chc_get_form_num( 1 );
+	
+	//now, see if there's a GF entry of this form, by this user?
+	// OR find user assigned to county, put county in form and double-check the relations.
+	// WHAT IF no user assigned to county?
+	
+	
+	
+
+
+
+}
+
+/*
+ * Form lookup; which form for which environment?
+ *
+ */
+function cc_ohio_chc_get_form_num( $form_num = 1 ){
+	//TODO: fill in as we create on locals and devs
+	 switch ( get_home_url() ) {
+        case 'http://localhost/wordpress':
+            $group_id = 30;
+            break;
+		case 'http://localhost/cc_local':
+			switch( $form_num ){
+				case: 1:
+					return 30;
+					break;
+				default:
+					return 30;
+					break;
+            break;
+        case 'http://dev.communitycommons.org':
+            $gf_form_num = 30;
+            break;
+        default: //live site
+            $gf_form_num = 30;
+            break;
+    }
+    return $gf_form_num;
+	
+
+
+
+
+
+}
 
