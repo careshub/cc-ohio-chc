@@ -120,10 +120,12 @@ function cc_ohio_chc_print_county_assignment_page() {
  */
 function cc_ohio_chc_render_form1() {
 
-	//get the appropriate form for this user
+	//get the appropriate form for this county/user
 	//TODO: check if admin, get list selection if so
 	//else {
-	$form_obj = cc_ohio_chc_get_user_form_by_number( 1 );
+	$entry_obj = cc_ohio_chc_get_user_entry_by_form_number( 1 );
+	
+	
 	//var_dump( $form_obj);
 	
 	$entry_id = 354;

@@ -62,3 +62,70 @@ add_filter('gform_field_value_entry_year', 'cc_ohio_add_year');
 function cc_ohio_add_year($value){
     return date("Y");
 }
+
+/* Populate Form by Existing entry
+ * 
+ * sort of...from here: http://pastie.org/1917904
+ * http://www.gravityhelp.com/forums/topic/need-help-creating-an-edit-form
+ * @params form object, entry object 
+ * @returns form object
+ *
+ */
+
+//add_filter("gform_pre_render_39", 'populate_by_lead');
+
+function populate_by_existing( $form, $entry ){
+
+    // if there is no lead ID, return the form unmodified
+   // if( !$entry )
+       // return $form;
+
+
+    foreach($form['fields'] as &$field){
+
+        switch($field['type']){
+        case 'checkbox':
+
+            $i = 1;
+            foreach($field['choices'] as &$choice){
+
+                if(!isset($entry[$field['id'] . '.' . $i])) {
+                    $i++;   
+                    continue;
+                }
+
+                if($choice['value'] == $entry[$field['id'] . '.' . $i])
+                    $choice['isSelected'] = true;
+
+                $i++;
+            }
+            break;
+
+        case 'address':
+            foreach($field['inputs'] as &$input){
+
+                $field['allowsPrepopulate'] = true;
+                $parameter_name = strtolower(str_replace(' ', '_', str_replace('/ ', '', $input['label'])));
+
+                $input['name'] = $parameter_name;
+                $input_value = rgar($entry, (string) $input['id']);
+
+                add_filter('gform_field_value_' . $parameter_name, create_function("", "return '$input_value';"));
+
+            }
+            break;
+
+        default:
+
+            if(!isset($entry[$field['id']]))
+                continue;
+
+			var_dump( $entry[$field] );
+            $field['defaultValue'] = $entry[$field['id']];   
+        }
+
+    }
+
+	//var_dump($entry);
+    return $form;
+}

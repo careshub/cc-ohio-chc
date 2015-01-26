@@ -287,7 +287,7 @@ function get_user_county( $user_id ) {
  * 	if no form returned, show new one of number type
  *
  */
-function cc_ohio_chc_get_user_form_by_number( $form_num, $user_id = 0 ){
+function cc_ohio_chc_get_user_entry_by_form_number( $form_num, $user_id = 0 ){
 
 	//GF form number lookup
 	$gf_form_num = cc_ohio_chc_get_form_num( $form_num );
@@ -315,13 +315,17 @@ function cc_ohio_chc_get_user_form_by_number( $form_num, $user_id = 0 ){
 	$search_criteria["field_filters"][] = array('key' => $field_id, 'value' => $user_county);
 	$entry_this_county = GFAPI::get_entries( $gf_form_num, $search_criteria, null, null, $total_count );
 	
-	var_dump ($entry_this_county);
+	//var_dump ( $entry_this_county );
 	
 	// If no user assigned to county, get new GF form of gf_form_num and prepopulate county field
+	if( $entry_this_county == NULL ){
+		//TODO: this
 	
+	} else {
 	
-	
-	return $user_county;
+		//$return_form = ( populate_by_existing( $form_obj, $entry_this_county ) );
+	}
+	return $entry_this_county;
 
 
 
