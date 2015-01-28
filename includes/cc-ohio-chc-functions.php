@@ -345,7 +345,17 @@ function cc_ohio_chc_get_form_num( $form_num = 1 ){
 	//TODO: fill in as we create on locals and devs
 	 switch ( get_home_url() ) {
         case 'http://localhost/wordpress':
-            $group_id = 30;
+			switch( $form_num ){
+				case 1:
+					return 8;
+					break;
+				case 2:
+					return 15;
+					break;
+				default:
+					return 8;
+					break;
+			}
             break;
 		case 'http://localhost/cc_local':
 			switch( $form_num ){
@@ -384,7 +394,7 @@ function cc_ohio_chc_get_gf_forms_all( ){
 	 switch ( get_home_url() ) {
         case 'http://localhost/wordpress':
 			//TODO: Mike, fill in your gf form numbers
-			$form_array = array( 30 );
+			$form_array = array( 8, 15, 16, 18, 20, 23 );
             break;
 		case 'http://localhost/cc_local':
 			$form_array = array(30, 32, 33, 34, 35, 36);
@@ -421,4 +431,10 @@ function get_gf_field_id_by_label( $form_obj, $label_name ){
 	return NULL;
 
 
+}
+
+//adds dropdown list of regions to User-County Assignment
+add_filter("gform_column_input_24_1_2", "set_column", 10, 5);
+function set_column($input_info, $field, $column, $value, $form_id){
+    return array("type" => "select", "choices" => "Adams-Brown Counties,Allen County,Athens County,Cincinnati,Columbus City,Cuyahoga County,Lorain County,Lucas County,Marion County,Meigs County,Montgomery County,Richland County,Summit County,Trumbull County,Washington County");
 }
