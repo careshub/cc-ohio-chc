@@ -433,8 +433,4 @@ function get_gf_field_id_by_label( $form_obj, $label_name ){
 
 }
 
-//adds dropdown list of regions to User-County Assignment
-add_filter("gform_column_input_24_1_2", "set_column", 10, 5);
-function set_column($input_info, $field, $column, $value, $form_id){
-    return array("type" => "select", "choices" => "Adams-Brown Counties,Allen County,Athens County,Cincinnati,Columbus City,Cuyahoga County,Lorain County,Lucas County,Marion County,Meigs County,Montgomery County,Richland County,Summit County,Trumbull County,Washington County");
-}
+

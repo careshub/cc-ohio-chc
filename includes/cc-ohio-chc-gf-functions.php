@@ -25,7 +25,7 @@ function cc_ohio_chc_gf_dynamic_userid( $value ){
 //adds dropdown list of regions to User-County Assignment
 add_filter("gform_column_input_37_1_2", "cc_ohio_populate_county_list", 10, 5);
 add_filter("gform_column_input_31_1_2", "cc_ohio_populate_county_list", 10, 5);
-
+add_filter("gform_column_input_24_1_2", "cc_ohio_populate_county_list", 10, 5);
 function cc_ohio_populate_county_list($input_info, $field, $column, $value, $form_id){
     return array(
 		"type" => "select", 
@@ -199,7 +199,7 @@ function cc_ohio_update_entry_on_form_submission( $entry_id, $form ) {
 	//$update_entry_id = rgpost( );
 	
 	var_dump( $update_entry_id );
-	return $update_entry_id ? (int)$update_entry_id : $entry_id;
+	return $update_entry_id ? $update_entry_id : $entry_id;
 	
 	
 }
@@ -207,6 +207,7 @@ function cc_ohio_update_entry_on_form_submission( $entry_id, $form ) {
 //Add usermeta to user once User-County Assignment form is submitted
 add_action("gform_after_submission_24", "cc_county_assignment_submission", 10, 2);
 function cc_county_assignment_submission($entry, $form){	
+	var_dump($entry);
 	$array1 = unserialize($entry["1"]);
 	foreach ($array1 as $array2) {	
 		$user = get_user_by( 'email', $array2['User Email'] );
