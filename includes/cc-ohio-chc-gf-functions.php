@@ -203,3 +203,14 @@ function cc_ohio_update_entry_on_form_submission( $entry_id, $form ) {
 	
 	
 }
+
+//Add usermeta to user once User-County Assignment form is submitted
+add_action("gform_after_submission_24", "cc_county_assignment_submission", 10, 2);
+function cc_county_assignment_submission($entry, $form){	
+	$array1 = unserialize($entry["1"]);
+	foreach ($array1 as $array2) {	
+		$user = get_user_by( 'email', $array2['User Email'] );
+		$user_id = $user->ID;
+		update_user_meta( $user_id, 'cc-ohio-user-county', $array2['Region'] );
+	}
+}
