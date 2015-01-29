@@ -173,7 +173,41 @@ function cc_ohio_chc_on_form2_screen(){
         return false;
     }
 }
-
+function cc_ohio_chc_on_form3_screen(){
+    if ( cc_ohio_chc_is_component() && bp_is_action_variable( '3', 1 ) && bp_is_action_variable( cc_ohio_chc_get_form_slug(), 0 ) ){
+        return true;
+    } else {
+        return false;
+    }
+}
+function cc_ohio_chc_on_form4_screen(){
+    if ( cc_ohio_chc_is_component() && bp_is_action_variable( '4', 1 ) && bp_is_action_variable( cc_ohio_chc_get_form_slug(), 0 ) ){
+        return true;
+    } else {
+        return false;
+    }
+}
+function cc_ohio_chc_on_form5_screen(){
+    if ( cc_ohio_chc_is_component() && bp_is_action_variable( '5', 1 ) && bp_is_action_variable( cc_ohio_chc_get_form_slug(), 0 ) ){
+        return true;
+    } else {
+        return false;
+    }
+}
+function cc_ohio_chc_on_form6_screen(){
+    if ( cc_ohio_chc_is_component() && bp_is_action_variable( '6', 1 ) && bp_is_action_variable( cc_ohio_chc_get_form_slug(), 0 ) ){
+        return true;
+    } else {
+        return false;
+    }
+}
+function cc_ohio_chc_on_form7_screen(){
+    if ( cc_ohio_chc_is_component() && bp_is_action_variable( '7', 1 ) && bp_is_action_variable( cc_ohio_chc_get_form_slug(), 0 ) ){
+        return true;
+    } else {
+        return false;
+    }
+}
 /**
  * Retrieve a user's county affiliation
  * 
@@ -351,6 +385,21 @@ function cc_ohio_chc_get_form_num( $form_num = 1 ){
 					break;
 				case 2:
 					return 15;
+					break;
+				case 3:
+					return 16;
+					break;
+				case 4:
+					return 18;
+					break;
+				case 5:
+					return 20;
+					break;
+				case 6:
+					return 23;
+					break;
+				case 7:
+					return 19;
 					break;
 				default:
 					return 8;

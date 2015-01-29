@@ -192,13 +192,26 @@ function cc_ohio_chc_render_form_subnav(){
 	<div id="subnav" class="item-list-tabs no-ajax">
 		<ul class="nav-tabs">
 			<li <?php if ( cc_ohio_chc_on_form1_screen() ) { echo 'class="current"'; } ?>>
-				<a href="<?php echo cc_ohio_chc_get_form_permalink( 1 ); ?>">Form 1</a>
+				<a href="<?php echo cc_ohio_chc_get_form_permalink( 1 ); ?>">General</a>
 			</li>
 			<li <?php if ( cc_ohio_chc_on_form2_screen() ) { echo 'class="current"'; } ?>>
-				<a href="<?php echo cc_ohio_chc_get_form_permalink( 2 ); ?>">Form 2</a>
+				<a href="<?php echo cc_ohio_chc_get_form_permalink( 2 ); ?>">Active Living</a>
 			</li>
-			
-			
+			<li <?php if ( cc_ohio_chc_on_form3_screen() ) { echo 'class="current"'; } ?>>
+				<a href="<?php echo cc_ohio_chc_get_form_permalink( 3 ); ?>">Healthy Eating</a>
+			</li>			
+			<li <?php if ( cc_ohio_chc_on_form4_screen() ) { echo 'class="current"'; } ?>>
+				<a href="<?php echo cc_ohio_chc_get_form_permalink( 4 ); ?>">Tobacco</a>
+			</li>	
+			<li <?php if ( cc_ohio_chc_on_form5_screen() ) { echo 'class="current"'; } ?>>
+				<a href="<?php echo cc_ohio_chc_get_form_permalink( 5 ); ?>">Supplemental</a>
+			</li>
+			<li <?php if ( cc_ohio_chc_on_form6_screen() ) { echo 'class="current"'; } ?>>
+				<a href="<?php echo cc_ohio_chc_get_form_permalink( 6 ); ?>">Work Plan</a>
+			</li>
+			<li <?php if ( cc_ohio_chc_on_form7_screen() ) { echo 'class="current"'; } ?>>
+				<a href="<?php echo cc_ohio_chc_get_form_permalink( 7 ); ?>">Success Story</a>
+			</li>			
 		</ul>
 	</div>
 	<?php
