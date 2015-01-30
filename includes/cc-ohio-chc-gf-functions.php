@@ -34,34 +34,7 @@ function cc_ohio_populate_county_list($input_info, $field, $column, $value, $for
 }
 
 
-add_filter('gform_field_value_region_name', 'cc_ohio_add_region');
-function cc_ohio_add_region($value){
-	global $wpdb;
-	$query = $wpdb->get_var( $wpdb->prepare(
-		"
-		SELECT value 
-		FROM wp_rg_lead_detail
-		WHERE form_id = 24 AND field_number = 1
-		"
-	));
-	$array1 = unserialize($query);
-	
-	$current_user = wp_get_current_user();
-    $current_user_email = $current_user->user_email;    
-	$region;
-	foreach ($array1 as $array2) {		
-		if ( $array2['User Email']== $current_user_email ) {
-			$region = $array2['Region'];	
-		} 
-	}
 
-    return $region;
-}
-
-add_filter('gform_field_value_entry_year', 'cc_ohio_add_year');
-function cc_ohio_add_year($value){
-    return date("Y");
-}
 
 
 //interrupt all gravity forms to check for ohio forms and pre-existing entries by county
@@ -91,6 +64,7 @@ function cc_ohio_populate_by_existing( $form ){
 	$current_county = get_user_county();
 	$county_field_name = "cc_ohio_county";
 	$old_entry_num_field_name = "cc_ohio_update_entry_id";
+	$year_field_name = "cc_ohio_year";
 	
 	//get the form object, to prepopulate
 	$gf_form_num = $form["id"];
@@ -99,7 +73,17 @@ function cc_ohio_populate_by_existing( $form ){
 	//for this form, what field id is the county?
 	$county_field_id = get_gf_field_id_by_label( $form, $county_field_name );
 	$old_entry_num_field_id = get_gf_field_id_by_label( $form, $old_entry_num_field_name );
+	$year_field_id = get_gf_field_id_by_label( $form, $year_field_name );
 
+	//get year set in User-County Assignment form
+	global $wpdb;
+	$query = $wpdb->get_var( $wpdb->prepare(
+		"
+		SELECT value 
+		FROM wp_rg_lead_detail
+		WHERE form_id = 24 AND field_number = 3
+		"
+	));
 
 	
 	$entry = cc_ohio_chc_get_county_entry_by_form_number( $gf_form_num );
@@ -111,11 +95,13 @@ function cc_ohio_populate_by_existing( $form ){
 
 		//if we have no entry, change county field and then bail
 		if( !$entry ){
-			if( $field['id'] == $county_field_id ) {
-				$field['defaultValue'] = $current_county;
+			if( $field['id'] == $county_field_id ) {			
+				$field['defaultValue'] = $current_county;				
+			}					
+			if( $field['id'] == $year_field_id ) {			
+				$field['defaultValue'] = $query;				
 			}
-			continue;
-			
+			continue;			
 		} else { //we have an entry
 			
 			switch($field['type']){
@@ -178,7 +164,10 @@ function cc_ohio_populate_by_existing( $form ){
 }
 
 //interrupt all gravity forms saving, check for our forms
-add_filter( 'gform_entry_id_pre_save_lead', 'cc_ohio_update_entry_on_form_submission', 10, 2 );
+
+//****THIS FILTER DOESN'T SEEM TO BE WORKING...THEREFORE WE WILL NEED TO DELETE PREVIOUS ENTRIES ON OUR OWN. See function cc_ohio_remove_previous_entry.
+
+//add_filter( 'gform_entry_id_pre_save_lead', 'cc_ohio_update_entry_on_form_submission', 10, 2 );
 
 /*
  * Interrupts the gform saving to allow us to update an entry by id, rather than create a new one
@@ -188,26 +177,37 @@ function cc_ohio_update_entry_on_form_submission( $entry_id, $form ) {
 
 	//var_dump( $entry_id );
 	//which forms to care about? Get all Ohio county-input forms
-	$form_array = cc_ohio_chc_get_gf_forms_all();
+	//$form_array = cc_ohio_chc_get_gf_forms_all();
 	
 	//are we dealing w the ohio forms?  If not, return the normal form
 	//if( !(in_array( $form["id"], $form_array ) ) ) {
 		//return $entry_id;
 	//}
-
+	//var_dump($entry_id);
 	$update_entry_id = rgpost( 'cc_ohio_update_entry_id' );
 	//$update_entry_id = rgpost( );
 	
-	var_dump( $update_entry_id );
 	return $update_entry_id ? $update_entry_id : $entry_id;
 	
 	
 }
 
+add_action("gform_after_submission", "cc_ohio_remove_previous_entry", 10, 2);
+function cc_ohio_remove_previous_entry($entry, $form) {
+	$old_entry_num_field_name = "cc_ohio_update_entry_id";
+	$old_entry_num_field_id = get_gf_field_id_by_label( $form, $old_entry_num_field_name );
+	$old_entry_id = $entry[$old_entry_num_field_id];
+	//var_dump($old_entry_id);
+
+	if(strlen($old_entry_id) > 0) {
+		GFAPI::delete_entry((int)$old_entry_id);
+	} 
+}
+
 //Add usermeta to user once User-County Assignment form is submitted
 add_action("gform_after_submission_24", "cc_county_assignment_submission", 10, 2);
 function cc_county_assignment_submission($entry, $form){	
-	var_dump($entry);
+	//var_dump($entry);
 	$array1 = unserialize($entry["1"]);
 	foreach ($array1 as $array2) {	
 		$user = get_user_by( 'email', $array2['User Email'] );
