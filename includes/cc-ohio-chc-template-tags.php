@@ -170,13 +170,23 @@ function cc_ohio_chc_render_tab_subnav(){
 				<a href="<?php echo cc_ohio_chc_get_main_form_permalink(); ?>">Forms</a>
 			</li>
 				
-			<?php //TODO: if user is mod : 
+			<?php 
 				//TODO: set up assignment permalink thing
+				
+				//Check if user is mod or admin (in group) to let them see User-County Assignment form.
+				
+				$user_ID = get_current_user_id();
+				$group_id = bp_get_group_id();
+				$ismod = groups_is_user_mod( $user_ID, $group_id );
+				$isadmin = groups_is_user_admin( $user_ID, $group_id );
+				if ($ismod == true || $isadmin == true) {
 			?>
 				<li <?php //if ( cc_aha_on_analysis_screen( 'revenue' ) ) { echo 'class="current"'; } ?>>
 					<a href="<?php echo cc_ohio_chc_get_county_assignment_permalink(  ); ?>">User-County Assignment</a>
 				</li>
-			<?php// endif; ?>
+			<?php
+				}
+			// endif; ?>
 			
 		</ul>
 	</div>
