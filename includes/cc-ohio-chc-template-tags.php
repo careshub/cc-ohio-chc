@@ -100,7 +100,7 @@ function cc_ohio_chc_print_toc(){
  */
 function cc_ohio_chc_print_county_assignment_page() {
 
-	echo 'county assignment, yall';
+	//echo 'county assignment, yall';
 	
 	$entry_id = 353;
 	

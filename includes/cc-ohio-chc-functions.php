@@ -443,7 +443,7 @@ function cc_ohio_chc_get_gf_forms_all( ){
 	 switch ( get_home_url() ) {
         case 'http://localhost/wordpress':
 			//TODO: Mike, fill in your gf form numbers
-			$form_array = array( 8, 15, 16, 18, 20, 23 );
+			$form_array = array( 8, 15, 16, 18, 19, 20, 23 );
             break;
 		case 'http://localhost/cc_local':
 			$form_array = array(30, 32, 33, 34, 35, 36);
