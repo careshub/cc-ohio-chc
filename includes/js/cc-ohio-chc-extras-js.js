@@ -69,7 +69,7 @@ jQuery(document).ready(function($){
 	
 	//Section III
 	var arrSec3 = new Array();
-	for (var h=1; h < 75; h++) {
+	for (var h=1; h < 86; h++) {
 		arrSec3.push(h);	
 	}	
 	
