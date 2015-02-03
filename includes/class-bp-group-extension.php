@@ -61,82 +61,117 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
                 //}
 
         } else if ( cc_ohio_chc_on_form1_screen() ){ //before forms screen, because nested
-		
-			if ( current_user_has_county() ) {
+			if (cc_ohio_chc_find_admin_mod()) {				
 				cc_ohio_chc_render_form_subnav();
-				
-				cc_ohio_chc_render_form( 1 );
-			} else {
-				//TODO: print message
-				echo 'Error message form 1';
+				if (cc_ohio_chc_is_stickyform_active()) {
+					echo do_shortcode( "[stickylist id='8']" );					
+				}
+			} else {			
+				if ( current_user_has_county() ) {
+					cc_ohio_chc_render_form_subnav();
+					
+					cc_ohio_chc_render_form( 1 );
+				} else {	
+					//TODO: print message
+					echo 'Error message form 1';
+				}
 			}
-			
 		} else if ( cc_ohio_chc_on_form2_screen() ){ //before forms screen, because nested
-			
-			if ( current_user_has_county() ) {
+			if (cc_ohio_chc_find_admin_mod()) {				
 				cc_ohio_chc_render_form_subnav();
-			
-				cc_ohio_chc_render_form( 2 );
-			} else {
-				//TODO: print message
-				echo 'Error message form 2';
+				if (cc_ohio_chc_is_stickyform_active()) {
+					echo do_shortcode( "[stickylist id='15']" );					
+				}
+			} else {				
+				if ( current_user_has_county() ) {
+					cc_ohio_chc_render_form_subnav();
+				
+					cc_ohio_chc_render_form( 2 );
+				} else {
+					//TODO: print message
+					echo 'Error message form 2';
+				}
 			}
-			
 		} else if ( cc_ohio_chc_on_form3_screen() ){ //before forms screen, because nested
-			
-			if ( current_user_has_county() ) {
+			if (cc_ohio_chc_find_admin_mod()) {				
 				cc_ohio_chc_render_form_subnav();
-			
-				cc_ohio_chc_render_form( 3 );
-			} else {
-				//TODO: print message
-				echo 'Error message form 3';
+				if (cc_ohio_chc_is_stickyform_active()) {
+					echo do_shortcode( "[stickylist id='16']" );					
+				}
+			} else {				
+				if ( current_user_has_county() ) {
+					cc_ohio_chc_render_form_subnav();
+				
+					cc_ohio_chc_render_form( 3 );
+				} else {
+					//TODO: print message
+					echo 'Error message form 3';
+				}
 			}
-			
 		} else if ( cc_ohio_chc_on_form4_screen() ){ //before forms screen, because nested
-			
-			if ( current_user_has_county() ) {
+			if (cc_ohio_chc_find_admin_mod()) {				
 				cc_ohio_chc_render_form_subnav();
-			
-				cc_ohio_chc_render_form( 4 );
-			} else {
-				//TODO: print message
-				echo 'Error message form 4';
+				if (cc_ohio_chc_is_stickyform_active()) {
+					echo do_shortcode( "[stickylist id='18']" );					
+				}
+			} else {				
+				if ( current_user_has_county() ) {
+					cc_ohio_chc_render_form_subnav();
+				
+					cc_ohio_chc_render_form( 4 );
+				} else {
+					//TODO: print message
+					echo 'Error message form 4';
+				}
 			}
-			
 		} else if ( cc_ohio_chc_on_form5_screen() ){ //before forms screen, because nested
-			
-			if ( current_user_has_county() ) {
+			if (cc_ohio_chc_find_admin_mod()) {				
 				cc_ohio_chc_render_form_subnav();
-			
-				cc_ohio_chc_render_form( 5 );
-			} else {
-				//TODO: print message
-				echo 'Error message form 5';
+				if (cc_ohio_chc_is_stickyform_active()) {
+					echo do_shortcode( "[stickylist id='20']" );					
+				}
+			} else {				
+				if ( current_user_has_county() ) {
+					cc_ohio_chc_render_form_subnav();
+				
+					cc_ohio_chc_render_form( 5 );
+				} else {
+					//TODO: print message
+					echo 'Error message form 5';
+				}
 			}
-			
 		} else if ( cc_ohio_chc_on_form6_screen() ){ //before forms screen, because nested
-			
-			if ( current_user_has_county() ) {
+			if (cc_ohio_chc_find_admin_mod()) {				
 				cc_ohio_chc_render_form_subnav();
-			
-				cc_ohio_chc_render_form( 6 );
-			} else {
-				//TODO: print message
-				echo 'Error message form 6';
+				if (cc_ohio_chc_is_stickyform_active()) {
+					echo do_shortcode( "[stickylist id='23']" );					
+				}
+			} else {				
+				if ( current_user_has_county() ) {
+					cc_ohio_chc_render_form_subnav();
+				
+					cc_ohio_chc_render_form( 6 );
+				} else {
+					//TODO: print message
+					echo 'Error message form 6';
+				}
 			}
-			
 		} else if ( cc_ohio_chc_on_form7_screen() ){ //before forms screen, because nested
-			
-			if ( current_user_has_county() ) {
+			if (cc_ohio_chc_find_admin_mod()) {				
 				cc_ohio_chc_render_form_subnav();
-			
-				cc_ohio_chc_render_form( 7 );
-			} else {
-				//TODO: print message
-				echo 'Error message form 7';
+				if (cc_ohio_chc_is_stickyform_active()) {
+					echo do_shortcode( "[stickylist id='19']" );					
+				}
+			} else {				
+				if ( current_user_has_county() ) {
+					cc_ohio_chc_render_form_subnav();
+				
+					cc_ohio_chc_render_form( 7 );
+				} else {
+					//TODO: print message
+					echo 'Error message form 7';
+				}
 			}
-			
 		}
 		
 		

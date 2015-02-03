@@ -482,4 +482,18 @@ function get_gf_field_id_by_label( $form_obj, $label_name ){
 
 }
 
+function cc_ohio_chc_is_stickyform_active() {
+	/**
+	 * Detect plugin. For use on Front End only.
+	 */
+	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+	// check for plugin using plugin name
+	if ( is_plugin_active( 'gravity-forms-sticky-list/sticky-list.php' ) ) {
+	  //plugin is activated
+		return "true";
+	} else {
+		return "false";
+	}
+}
 

@@ -175,11 +175,8 @@ function cc_ohio_chc_render_tab_subnav(){
 				
 				//Check if user is mod or admin (in group) to let them see User-County Assignment form.
 				
-				$user_ID = get_current_user_id();
-				$group_id = bp_get_group_id();
-				$ismod = groups_is_user_mod( $user_ID, $group_id );
-				$isadmin = groups_is_user_admin( $user_ID, $group_id );
-				if ($ismod == true || $isadmin == true) {
+
+				if (cc_ohio_chc_find_admin_mod()) {
 			?>
 				<li <?php //if ( cc_aha_on_analysis_screen( 'revenue' ) ) { echo 'class="current"'; } ?>>
 					<a href="<?php echo cc_ohio_chc_get_county_assignment_permalink(  ); ?>">User-County Assignment</a>
@@ -193,12 +190,25 @@ function cc_ohio_chc_render_tab_subnav(){
 	<?php
 }
 
+//Find out if the user is EITHER Admin OR Mod of Ohio Group
+function cc_ohio_chc_find_admin_mod() {
+	$user_ID = get_current_user_id();
+	$group_id = bp_get_group_id();
+	$ismod = groups_is_user_mod( $user_ID, $group_id );
+	$isadmin = groups_is_user_admin( $user_ID, $group_id );
+	
+	if ($ismod == true || $isadmin == true) {
+		return true;
+	} else {
+		return false;
+	}
+}
 /**
  * Render the subnav for the forms tab , likely temporary because ugly?
  *
  */
 function cc_ohio_chc_render_form_subnav(){
-	?>
+?>
 	<div id="subnav" class="item-list-tabs no-ajax">
 		<ul class="nav-tabs">
 			<li <?php if ( cc_ohio_chc_on_form1_screen() ) { echo 'class="current"'; } ?>>
@@ -225,7 +235,7 @@ function cc_ohio_chc_render_form_subnav(){
 		</ul>
 	</div>
 	<?php
-
+	
 
 
 
