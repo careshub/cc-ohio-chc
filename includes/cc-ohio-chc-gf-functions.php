@@ -26,7 +26,20 @@ function cc_ohio_chc_gf_dynamic_userid( $value ){
 add_filter("gform_column_input_37_1_2", "cc_ohio_populate_county_list", 10, 5);
 add_filter("gform_column_input_31_1_2", "cc_ohio_populate_county_list", 10, 5);
 add_filter("gform_column_input_24_1_2", "cc_ohio_populate_county_list", 10, 5);
+
+//add_filter("gform_column_input", "cc_ohio_populate_county_list", 10, 5);
+
 function cc_ohio_populate_county_list($input_info, $field, $column, $value, $form_id){
+
+	//first, check to see if this is the form we want
+	
+	//which forms to care about? Get all Ohio county-input forms
+	$county_form = cc_ohio_chc_get_user_county_form_num();
+	
+	if( $form["id"] != $county_form ) {
+		return $form;
+	}
+
     return array(
 		"type" => "select", 
 		"choices" => "Adams-Brown Counties,Allen County,Athens County,Cincinnati,Columbus City,Cuyahoga County,Lorain County,Lucas County,Marion County,Meigs County,Montgomery County,Richland County,Summit County,Trumbull County,Washington County"
@@ -79,7 +92,7 @@ function cc_ohio_populate_by_existing( $form ){
 	global $wpdb;
 	
 	//TODO: get 31 for localhost/cc_local, get 24 for wordpress (mike's)
-	$form_num = 24; //should be 31 on local_host
+	$form_num = cc_ohio_chc_get_user_county_form_num(); //should be 31 on local_host
 	
 	$query = $wpdb->get_var( $wpdb->prepare(
 		"
