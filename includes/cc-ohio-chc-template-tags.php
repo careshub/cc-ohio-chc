@@ -100,37 +100,10 @@ function cc_ohio_chc_print_toc(){
  */
 function cc_ohio_chc_print_county_assignment_page() {
 
-	//echo 'county assignment, yall';
-	
-	$entry_id = 353;
-	
-    switch ( get_home_url() ) {
-        case 'http://localhost/wordpress':
-            $gform_id = 24;
-            break;
-		case 'http://localhost/cc_local':
-            $gform_id = 31;
-            break;
-        case 'http://dev.communitycommons.org':
-            $gform_id = 37;
-            break;
-        default: //live site
-            $gform_id = 31;
-            break;
-    }
-  
-	
-	
-	
-	
-	
-	
-	//$entry = GFAPI::get_entry($entry_id);
-	//var_dump($entry);
+	//echo 'county assignment';
+	$gform_id = cc_ohio_chc_get_user_county_form_num();
 	
 	gravity_form( $gform_id );
-
-	//first, check to see if current user has GF of this 
 
 }
 

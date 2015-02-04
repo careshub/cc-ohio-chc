@@ -289,7 +289,7 @@ class CC_Ohio_CHC_Extras {
 	public function enqueue_styles() {
 		if ( cc_ohio_chc_is_component() ) {
 			//echo 'etf';
-			wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'css/cc-ohio-chc-tab.css', __FILE__ ), array(), '1.32' );
+			wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'css/cc-ohio-chc-extras-tab.css', __FILE__ ), array(), '1.32' );
 		}
 	}
 

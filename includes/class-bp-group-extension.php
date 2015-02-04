@@ -69,7 +69,7 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
 			} else {			
 				if ( current_user_has_county() ) {
 					cc_ohio_chc_render_form_subnav();
-					
+					//echo 'blah';
 					cc_ohio_chc_render_form( 1 );
 				} else {	
 					//TODO: print message

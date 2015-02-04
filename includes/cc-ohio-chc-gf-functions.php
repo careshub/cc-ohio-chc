@@ -77,14 +77,20 @@ function cc_ohio_populate_by_existing( $form ){
 
 	//get year set in User-County Assignment form
 	global $wpdb;
+	
+	//TODO: get 31 for localhost/cc_local, get 24 for wordpress (mike's)
+	$form_num = 24; //should be 31 on local_host
+	
 	$query = $wpdb->get_var( $wpdb->prepare(
 		"
 		SELECT value 
 		FROM wp_rg_lead_detail
-		WHERE form_id = 24 AND field_number = 3
-		"
+		WHERE form_id = %d AND field_number = %d
+		",
+		$form_num,
+		3
 	));
-
+	
 	
 	$entry = cc_ohio_chc_get_county_entry_by_form_number( $gf_form_num );
 	$entry = $entry[0]; //why you know work current()?
@@ -206,6 +212,7 @@ function cc_ohio_remove_previous_entry($entry, $form) {
 
 //Add usermeta to user once User-County Assignment form is submitted
 add_action("gform_after_submission_24", "cc_county_assignment_submission", 10, 2);
+add_action("gform_after_submission_31", "cc_county_assignment_submission", 10, 2);
 function cc_county_assignment_submission($entry, $form){	
 	//var_dump($entry);
 	$array1 = unserialize($entry["1"]);

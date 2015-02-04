@@ -430,7 +430,6 @@ function cc_ohio_chc_get_form_num( $form_num = 1 ){
 	
 }
 
-
 /*
  * Form lookup; get array of ohio forms (except user-county) by environment
  *	TODO: update this list as forms created
@@ -459,6 +458,27 @@ function cc_ohio_chc_get_gf_forms_all( ){
     }
     return $form_array;
 	
+}
+
+
+/*
+ * User-county assignment Form lookup; which form for which environment?
+ *	TODO: update this list as forms created
+ *
+ */
+function cc_ohio_chc_get_user_county_form_num(){
+	//TODO: fill in as we create on locals and devs
+	switch ( get_home_url() ) {
+        case 'http://localhost/wordpress':
+			return 24;
+		case 'http://localhost/cc_local':
+			return 37;
+        case 'http://dev.communitycommons.org':
+            return 24;
+            break;
+        default: //live site
+            return 24;
+    }
 }
 
 /*
@@ -491,9 +511,9 @@ function cc_ohio_chc_is_stickyform_active() {
 	// check for plugin using plugin name
 	if ( is_plugin_active( 'gravity-forms-sticky-list/sticky-list.php' ) ) {
 	  //plugin is activated
-		return "true";
+		return true;
 	} else {
-		return "false";
+		return false;
 	}
 }
 
