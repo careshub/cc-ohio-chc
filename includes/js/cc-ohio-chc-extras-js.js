@@ -21,6 +21,24 @@ jQuery(document).ready(function($){
 			$("li.sec1_" + val + " input.small").val(0);
 		}
 		
+		
+		
+		$("li.sec1_" + val + " input.small").keydown(function (e) {
+			// Allow: backspace, delete, tab, escape, enter and .
+			if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+				 // Allow: Ctrl+A
+				(e.keyCode == 65 && e.ctrlKey === true) || 
+				 // Allow: home, end, left, right, down, up
+				(e.keyCode >= 35 && e.keyCode <= 40)) {
+					 // let it happen, don't do anything
+					 return;
+			}
+			// Ensure that it is a number and stop the keypress
+			if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+				e.preventDefault();
+			}
+		});
+		
 		clearInputs("1", val);		
 		
 		if ( !$("li.sec1_" + val + "_T input.small").val() ) {
@@ -51,6 +69,23 @@ jQuery(document).ready(function($){
 			$("li.sec2_" + val2 + " input.small").val(0);
 		}
 		
+		$("li.sec2_" + val2 + " input.small").keydown(function (e) {
+			// Allow: backspace, delete, tab, escape, enter and .
+			if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+				 // Allow: Ctrl+A
+				(e.keyCode == 65 && e.ctrlKey === true) || 
+				 // Allow: home, end, left, right, down, up
+				(e.keyCode >= 35 && e.keyCode <= 40)) {
+					 // let it happen, don't do anything
+					 return;
+			}
+			// Ensure that it is a number and stop the keypress
+			if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+				e.preventDefault();
+			}
+		});		
+		
+		
 		clearInputs("2", val2);
 		
 		if ( !$("li.sec2_" + val2 + "_T input.small").val() ) {
@@ -78,6 +113,23 @@ jQuery(document).ready(function($){
 			$("li.sec3_" + val3 + " input.small").val(0);
 		}
 		
+		$("li.sec3_" + val3 + " input.small").keydown(function (e) {
+			// Allow: backspace, delete, tab, escape, enter and .
+			if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+				 // Allow: Ctrl+A
+				(e.keyCode == 65 && e.ctrlKey === true) || 
+				 // Allow: home, end, left, right, down, up
+				(e.keyCode >= 35 && e.keyCode <= 40)) {
+					 // let it happen, don't do anything
+					 return;
+			}
+			// Ensure that it is a number and stop the keypress
+			if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+				e.preventDefault();
+			}
+		});		
+		
+		
 		clearInputs("3", val3);
 		
 		if ( !$("li.sec3_" + val3 + "_T input.small").val() ) {
@@ -101,6 +153,23 @@ jQuery(document).ready(function($){
 			$("li.sec4_" + val4 + " input.small").val(0);
 		}
 		
+		$("li.sec4_" + val4 + " input.small").keydown(function (e) {
+			// Allow: backspace, delete, tab, escape, enter and .
+			if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+				 // Allow: Ctrl+A
+				(e.keyCode == 65 && e.ctrlKey === true) || 
+				 // Allow: home, end, left, right, down, up
+				(e.keyCode >= 35 && e.keyCode <= 40)) {
+					 // let it happen, don't do anything
+					 return;
+			}
+			// Ensure that it is a number and stop the keypress
+			if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+				e.preventDefault();
+			}
+		});		
+		
+		
 		clearInputs("4", val4);
 		
 		if ( !$("li.sec4_" + val4 + "_T input.small").val() ) {
@@ -123,6 +192,22 @@ jQuery(document).ready(function($){
 		if( !$("li.sec5_" + val5 + " input.small").val() ) {
 			$("li.sec5_" + val5 + " input.small").val(0);
 		}
+		
+		$("li.sec5_" + val5 + " input.small").keydown(function (e) {
+			// Allow: backspace, delete, tab, escape, enter and .
+			if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+				 // Allow: Ctrl+A
+				(e.keyCode == 65 && e.ctrlKey === true) || 
+				 // Allow: home, end, left, right, down, up
+				(e.keyCode >= 35 && e.keyCode <= 40)) {
+					 // let it happen, don't do anything
+					 return;
+			}
+			// Ensure that it is a number and stop the keypress
+			if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+				e.preventDefault();
+			}
+		});		
 		
 		clearInputs("5", val5);
 		
