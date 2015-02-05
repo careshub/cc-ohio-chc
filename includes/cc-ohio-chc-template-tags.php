@@ -151,7 +151,7 @@ function cc_ohio_chc_render_tab_subnav(){
 
 				if (cc_ohio_chc_find_admin_mod()) {
 			?>
-				<li <?php //if ( cc_aha_on_analysis_screen( 'revenue' ) ) { echo 'class="current"'; } ?>>
+				<li <?php if ( cc_ohio_chc_on_county_assignment_screen() ) { echo 'class="current"'; } ?>>
 					<a href="<?php echo cc_ohio_chc_get_county_assignment_permalink(  ); ?>">User-County Assignment</a>
 				</li>
 			<?php

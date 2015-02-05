@@ -420,10 +420,32 @@ function cc_ohio_chc_get_form_num( $form_num = 1 ){
 			}
             break;
         case 'http://dev.communitycommons.org':
-            $gf_form_num = 30;
-            break;
-        default: //live site
-            $gf_form_num = 30;
+			switch( $form_num ){
+				case 1:
+					return 38;
+					break;
+				case 2:
+					return 39;
+					break;
+				case 3:
+					return 46;
+					break;
+				case 4:
+					return 41;
+					break;
+				case 5:
+					return 43;
+					break;
+				case 6:
+					return 44;
+					break;
+				case 7:
+					return 42;
+					break;
+				default:
+					return 38;
+					break;
+			}
             break;
     }
     return $gf_form_num;
@@ -449,7 +471,7 @@ function cc_ohio_chc_get_gf_forms_all( ){
             break;
         case 'http://dev.communitycommons.org':
 		
-			$form_array = array( 30 );
+			$form_array = array( 38, 39, 41, 42, 43, 44, 46 );
             break;
         default: //live site
 		
@@ -474,8 +496,8 @@ function cc_ohio_chc_get_user_county_form_num(){
 		case 'http://localhost/cc_local':
 			return 37;
         case 'http://dev.communitycommons.org':
-            return 24;
-            break;
+            return 45;
+            
         default: //live site
             return 24;
     }

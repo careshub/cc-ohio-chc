@@ -63,7 +63,7 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
         } else if ( cc_ohio_chc_on_form1_screen() ){ //before forms screen, because nested
 			if (cc_ohio_chc_find_admin_mod()) {				
 				cc_ohio_chc_render_form_subnav();
-				echo "Click <a href='mailto:johnm@ip-3.org?subject=Ohio CHC CSV Request'>HERE</a> to request .csv download of form results";
+				echo "Click <a href='mailto:johnm@ip-3.org?subject=Ohio CHC CSV Request'>HERE</a> to request .csv file of form results";
 				//if (cc_ohio_chc_is_stickyform_active()) {
 					//echo do_shortcode( "[directory form='8']" );					
 				//}
@@ -80,7 +80,7 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
 		} else if ( cc_ohio_chc_on_form2_screen() ){ //before forms screen, because nested
 			if (cc_ohio_chc_find_admin_mod()) {				
 				cc_ohio_chc_render_form_subnav();
-				echo "Click <a href='mailto:johnm@ip-3.org?subject=Ohio CHC CSV Request'>HERE</a> to request .csv download of form results";
+				echo "Click <a href='mailto:johnm@ip-3.org?subject=Ohio CHC CSV Request'>HERE</a> to request .csv file of form results";
 				// if (cc_ohio_chc_is_stickyform_active()) {
 					// echo do_shortcode( "[stickylist id='15']" );					
 				// }
@@ -97,7 +97,7 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
 		} else if ( cc_ohio_chc_on_form3_screen() ){ //before forms screen, because nested
 			if (cc_ohio_chc_find_admin_mod()) {				
 				cc_ohio_chc_render_form_subnav();
-				echo "Click <a href='mailto:johnm@ip-3.org?subject=Ohio CHC CSV Request'>HERE</a> to request .csv download of form results";
+				echo "Click <a href='mailto:johnm@ip-3.org?subject=Ohio CHC CSV Request'>HERE</a> to request .csv file of form results";
 				// if (cc_ohio_chc_is_stickyform_active()) {
 					// echo do_shortcode( "[stickylist id='16']" );					
 				// }
@@ -114,7 +114,7 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
 		} else if ( cc_ohio_chc_on_form4_screen() ){ //before forms screen, because nested
 			if (cc_ohio_chc_find_admin_mod()) {				
 				cc_ohio_chc_render_form_subnav();
-				echo "Click <a href='mailto:johnm@ip-3.org?subject=Ohio CHC CSV Request'>HERE</a> to request .csv download of form results";
+				echo "Click <a href='mailto:johnm@ip-3.org?subject=Ohio CHC CSV Request'>HERE</a> to request .csv file of form results";
 				// if (cc_ohio_chc_is_stickyform_active()) {
 					// echo do_shortcode( "[stickylist id='18']" );					
 				// }
@@ -131,7 +131,7 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
 		} else if ( cc_ohio_chc_on_form5_screen() ){ //before forms screen, because nested
 			if (cc_ohio_chc_find_admin_mod()) {				
 				cc_ohio_chc_render_form_subnav();
-				echo "Click <a href='mailto:johnm@ip-3.org?subject=Ohio CHC CSV Request'>HERE</a> to request .csv download of form results";
+				echo "Click <a href='mailto:johnm@ip-3.org?subject=Ohio CHC CSV Request'>HERE</a> to request .csv file of form results";
 				// if (cc_ohio_chc_is_stickyform_active()) {
 					// echo do_shortcode( "[stickylist id='20']" );					
 				// }
@@ -148,7 +148,7 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
 		} else if ( cc_ohio_chc_on_form6_screen() ){ //before forms screen, because nested
 			if (cc_ohio_chc_find_admin_mod()) {				
 				cc_ohio_chc_render_form_subnav();
-				echo "Click <a href='mailto:johnm@ip-3.org?subject=Ohio CHC CSV Request'>HERE</a> to request .csv download of form results";
+				echo "Click <a href='mailto:johnm@ip-3.org?subject=Ohio CHC CSV Request'>HERE</a> to request .csv file of form results";
 				// if (cc_ohio_chc_is_stickyform_active()) {
 					// echo do_shortcode( "[stickylist id='23']" );					
 				// }
@@ -165,7 +165,7 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
 		} else if ( cc_ohio_chc_on_form7_screen() ){ //before forms screen, because nested
 			if (cc_ohio_chc_find_admin_mod()) {				
 				cc_ohio_chc_render_form_subnav();
-				echo "Click <a href='mailto:johnm@ip-3.org?subject=Ohio CHC CSV Request'>HERE</a> to request .csv download of form results";
+				echo "Click <a href='mailto:johnm@ip-3.org?subject=Ohio CHC CSV Request'>HERE</a> to request .csv file of form results";
 				// if (cc_ohio_chc_is_stickyform_active()) {
 					// echo do_shortcode( "[stickylist id='19']" );					
 				// }
@@ -190,8 +190,12 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
 				cc_ohio_chc_render_form_subnav();
 				
 			} else {
-				//TODO: print message
-				echo 'Error message form main';
+				if (cc_ohio_chc_find_admin_mod()) {			
+					echo "Click <a href='mailto:johnm@ip-3.org?subject=Ohio CHC CSV Request'>HERE</a> to request .csv file of form results";			
+				} else {			
+					//TODO: print message
+					echo 'You must be assigned a region/county by your administrator to view the forms.';
+				}
 			}
 		
 		} else if ( cc_ohio_chc_on_county_assignment_screen() ) {

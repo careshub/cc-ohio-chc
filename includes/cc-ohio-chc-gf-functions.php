@@ -26,7 +26,7 @@ function cc_ohio_chc_gf_dynamic_userid( $value ){
 add_filter("gform_column_input_37_1_2", "cc_ohio_populate_county_list", 10, 5);
 add_filter("gform_column_input_31_1_2", "cc_ohio_populate_county_list", 10, 5);
 add_filter("gform_column_input_24_1_2", "cc_ohio_populate_county_list", 10, 5);
-
+add_filter("gform_column_input_45_1_2", "cc_ohio_populate_county_list", 10, 5);
 //add_filter("gform_column_input", "cc_ohio_populate_county_list", 10, 5);
 
 function cc_ohio_populate_county_list($input_info, $field, $column, $value, $form_id){
@@ -34,11 +34,11 @@ function cc_ohio_populate_county_list($input_info, $field, $column, $value, $for
 	//first, check to see if this is the form we want
 	
 	//which forms to care about? Get all Ohio county-input forms
-	$county_form = cc_ohio_chc_get_user_county_form_num();
+	// $county_form = cc_ohio_chc_get_user_county_form_num();
 	
-	if( $form["id"] != $county_form ) {
-		return $form;
-	}
+	// if( $form["id"] != $county_form ) {
+		// return $form;
+	// }
 
     return array(
 		"type" => "select", 
@@ -226,6 +226,7 @@ function cc_ohio_remove_previous_entry($entry, $form) {
 //Add usermeta to user once User-County Assignment form is submitted
 add_action("gform_after_submission_24", "cc_county_assignment_submission", 10, 2);
 add_action("gform_after_submission_31", "cc_county_assignment_submission", 10, 2);
+add_action("gform_after_submission_45", "cc_county_assignment_submission", 10, 2);
 function cc_county_assignment_submission($entry, $form){	
 	//var_dump($entry);
 	$array1 = unserialize($entry["1"]);
