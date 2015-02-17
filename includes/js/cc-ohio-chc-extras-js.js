@@ -2,6 +2,7 @@ jQuery(document).ready(function($){
 	
 	$(".gform_wrapper .disable input").attr('disabled','disabled');
 	$( ".gf_ohio_question" ).css( "min-width", "300px" );	
+	$( ".gf_ohio_question" ).css( "max-width", "300px" );
 	$( ".gf_ohio_entrybox" ).css( "min-width", "300px" );	
 		
 	//Section I	
@@ -46,12 +47,21 @@ jQuery(document).ready(function($){
 			$("li.sec1_" + val + "_T input.small").val(ttl);		
 		}
 		
-		$("li.sec1_" + val + " input.small").blur(function() {
-			var ttl = parseInt($("li.sec1_" + val + "_1 input.small").val()) + parseInt($("li.sec1_" + val + "_2 input.small").val()) + parseInt($("li.sec1_" + val + "_3 input.small").val()) + parseInt($("li.sec1_" + val + "_4 input.small").val());
-			$("li.sec1_" + val + "_T input.small").val(ttl);		
-		
-			calcImpacted(val);
-		});
+		//for sec_1_3, just find the max entry and display in YTD Total, else add up all numbers.
+		if (val == 3) {
+			$("li.sec1_" + val + " input.small").blur(function() {
+				var arr = [parseInt($("li.sec1_" + val + "_1 input.small").val()), parseInt($("li.sec1_" + val + "_2 input.small").val()), parseInt($("li.sec1_" + val + "_3 input.small").val()), parseInt($("li.sec1_" + val + "_4 input.small").val())];
+				var maxinput = Math.max.apply(Math,arr);
+				$("li.sec1_" + val + "_T input.small").val(maxinput);
+			});
+		} else {
+			$("li.sec1_" + val + " input.small").blur(function() {
+				var ttl = parseInt($("li.sec1_" + val + "_1 input.small").val()) + parseInt($("li.sec1_" + val + "_2 input.small").val()) + parseInt($("li.sec1_" + val + "_3 input.small").val()) + parseInt($("li.sec1_" + val + "_4 input.small").val());
+				$("li.sec1_" + val + "_T input.small").val(ttl);		
+			
+				calcImpacted(val);
+			});		
+		}
 		
 	});
 	
