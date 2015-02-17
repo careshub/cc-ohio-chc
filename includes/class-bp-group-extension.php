@@ -11,7 +11,7 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
     function __construct() {
         $args = array(
             'slug' => cc_ohio_chc_get_slug(),
-            'name' => 'Assessment Tool',
+            'name' => 'Quarterly Assessment',
             'visibility' => 'private',
             'enable_nav_item'   => $this->ohio_chc_tab_is_enabled(),
             // 'access' => 'members',
