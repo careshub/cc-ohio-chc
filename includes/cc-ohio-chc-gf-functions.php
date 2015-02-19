@@ -224,6 +224,7 @@ function cc_ohio_remove_previous_entry($entry, $form) {
 }
 
 //Add usermeta to user once User-County Assignment form is submitted
+add_action("gform_after_submission_37", "cc_county_assignment_submission", 10, 2);
 add_action("gform_after_submission_24", "cc_county_assignment_submission", 10, 2);
 add_action("gform_after_submission_31", "cc_county_assignment_submission", 10, 2);
 add_action("gform_after_submission_45", "cc_county_assignment_submission", 10, 2);

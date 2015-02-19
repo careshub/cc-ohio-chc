@@ -447,6 +447,34 @@ function cc_ohio_chc_get_form_num( $form_num = 1 ){
 					break;
 			}
             break;
+        case 'http://www.communitycommons.org':
+			switch( $form_num ){
+				case 1:
+					return 33;
+					break;
+				case 2:
+					return 34;
+					break;
+				case 3:
+					return 30;
+					break;
+				case 4:
+					return 31;
+					break;
+				case 5:
+					return 32;
+					break;
+				case 6:
+					return 36;
+					break;
+				case 7:
+					return 35;
+					break;
+				default:
+					return 33;
+					break;
+			}
+            break;			
     }
     return $gf_form_num;
 	
@@ -475,7 +503,7 @@ function cc_ohio_chc_get_gf_forms_all( ){
             break;
         default: //live site
 		
-			$form_array = array( 30 );
+			$form_array = array( 30, 31, 32, 33, 34, 35, 36 );
             break;
     }
     return $form_array;
@@ -499,7 +527,7 @@ function cc_ohio_chc_get_user_county_form_num(){
             return 45;
             
         default: //live site
-            return 24;
+            return 37;
     }
 }
 
