@@ -453,7 +453,7 @@ function cc_ohio_chc_get_form_num( $form_num = 1 ){
 					return 33;
 					break;
 				case 2:
-					return 34;
+					return 38;
 					break;
 				case 3:
 					return 30;
@@ -503,7 +503,7 @@ function cc_ohio_chc_get_gf_forms_all( ){
             break;
         default: //live site
 		
-			$form_array = array( 30, 31, 32, 33, 34, 35, 36 );
+			$form_array = array( 30, 31, 32, 33, 35, 36, 38 );
             break;
     }
     return $form_array;
