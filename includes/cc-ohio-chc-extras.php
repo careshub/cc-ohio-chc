@@ -90,9 +90,6 @@ class CC_Ohio_CHC_Extras {
 
         // If a user with an @heart email address makes a request, approve it automatically
         add_action( 'groups_membership_requested', array( $this, 'approve_member_requests' ), 12, 4 );
-
-
-        add_filter( 'group_reports_create_new_label', array( $this, 'change_group_create_report_label' ), 2, 12 );
 		
 		//Register Custom post types and taxonomies associated with this plugin
 		add_action( 'init', array( $this, 'register_cpt_odh_chc_entry' ) );
