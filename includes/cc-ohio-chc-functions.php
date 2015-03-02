@@ -258,20 +258,28 @@ function cc_ohio_chc_get_member_array( ){
 function cc_ohio_chc_get_county_array( ){
 
 	$counties = array(
-			"Adams-Brown Counties",
+			"Adams County",
 			"Allen County",
 			"Athens County",
-			"Cincinnati",
-			"Columbus City",
+			"Clark County",
 			"Cuyahoga County",
+			"Delaware County",
+			"Franklin County",
+			"Hamilton County",
+			"Knox County",
+			"Licking County",
 			"Lorain County",
 			"Lucas County",
 			"Marion County",
 			"Meigs County",
 			"Montgomery County",
+			"Perry County",
 			"Richland County",
+			"Sandusky County",
+			"Stark County",
 			"Summit County",
 			"Trumbull County",
+			"Union County",
 			"Washington County"
 		);
 	

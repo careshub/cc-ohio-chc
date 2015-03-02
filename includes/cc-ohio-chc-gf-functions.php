@@ -42,7 +42,7 @@ function cc_ohio_populate_county_list($input_info, $field, $column, $value, $for
 
     return array(
 		"type" => "select", 
-		"choices" => "Adams-Brown Counties,Allen County,Athens County,Cincinnati,Columbus City,Cuyahoga County,Lorain County,Lucas County,Marion County,Meigs County,Montgomery County,Richland County,Summit County,Trumbull County,Washington County"
+		"choices" => "Adams County,Allen County,Athens County,Clark County,Cuyahoga County,Delaware County,Franklin County,Hamilton County,Knox County,Licking County,Lorain County,Lucas County,Marion County,Meigs County,Montgomery County,Perry County,Richland County,Sandusky County,Stark County,Summit County,Trumbull County,Union County,Washington County"
 		);
 }
 
