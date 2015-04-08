@@ -103,8 +103,8 @@ function cc_ohio_chc_print_county_assignment_page() {
 	//echo 'county assignment';
 	$gform_id = cc_ohio_chc_get_user_county_form_num();
 	
-	gravity_form( $gform_id );
-
+	//gravity_form( $gform_id );
+	echo do_shortcode("[gravityform id='" + $gform_id + "' title='false' description='false' ajax='true']");
 }
 
 /**
@@ -121,8 +121,8 @@ function cc_ohio_chc_render_form( $url_form_num = 1) {
 	
 	
 	//display which gravity form, maybe prepopulated..
-	gravity_form( $gf_form_num );
-	
+	//gravity_form( $gf_form_num );
+	echo do_shortcode("[gravityform id='" + $gf_form_num + "' title='false' description='false' ajax='true']");
 }
 
 

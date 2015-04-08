@@ -114,7 +114,7 @@ jQuery(document).ready(function($){
 	
 	//Section III
 	var arrSec3 = new Array();
-	for (var h=1; h < 86; h++) {
+	for (var h=1; h < 95; h++) {
 		arrSec3.push(h);	
 	}	
 	
