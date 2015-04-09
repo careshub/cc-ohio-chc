@@ -1,9 +1,9 @@
 jQuery(document).ready(function($){
 	
 	$(".gform_wrapper .disable input").attr('disabled','disabled');
-	$( ".gf_ohio_question" ).css( "min-width", "300px" );	
-	$( ".gf_ohio_question" ).css( "max-width", "300px" );
-	$( ".gf_ohio_entrybox" ).css( "min-width", "300px" );	
+	$( ".gf_ohio_question" ).css( "min-width", "350px" );	
+	$( ".gf_ohio_question" ).css( "max-width", "350px" );
+	$( ".gf_ohio_entrybox" ).css( "min-width", "350px" );	
 		
 	//Section I	
 	var arrSec1 = new Array();

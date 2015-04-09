@@ -511,7 +511,7 @@ function cc_ohio_chc_get_gf_forms_all( ){
             break;
         default: //live site
 		
-			$form_array = array( 30, 31, 32, 33, 35, 36, 38 );
+			$form_array = array( 30, 31, 32, 33, 36, 38 );
             break;
     }
     return $form_array;
