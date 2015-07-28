@@ -35,8 +35,8 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
         );
         parent::init( $args );
     }
- 
-    public function display() {
+
+    public function display( $group_id = null ) {
 
         cc_ohio_chc_render_tab_subnav();
 		
