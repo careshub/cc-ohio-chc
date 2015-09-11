@@ -151,6 +151,9 @@ function cc_ohio_chc_render_tab_subnav(){
 
 				if (cc_ohio_chc_find_admin_mod()) {
 			?>
+				<li <?php if ( cc_ohio_chc_on_report_screen() ) { echo 'class="current"'; } ?>>
+					<a href="<?php echo cc_ohio_chc_get_report_permalink(); ?>">Reports</a>
+				</li>			
 				<li <?php if ( cc_ohio_chc_on_county_assignment_screen() ) { echo 'class="current"'; } ?>>
 					<a href="<?php echo cc_ohio_chc_get_county_assignment_permalink(  ); ?>">User-County Assignment</a>
 				</li>
@@ -205,6 +208,29 @@ function cc_ohio_chc_render_form_subnav(){
 			<li <?php if ( cc_ohio_chc_on_form7_screen() ) { echo 'class="current"'; } ?>>
 				<a href="<?php echo cc_ohio_chc_get_form_permalink( 7 ); ?>">Success Story</a>
 			</li>			
+		</ul>
+	</div>
+	<?php
+	
+
+
+
+}
+
+function cc_ohio_chc_render_report_subnav(){
+?>
+	<div id="subnav" class="item-list-tabs no-ajax">
+		<ul class="nav-tabs">
+			<li <?php if ( cc_ohio_chc_on_reportform1_screen() ) { echo 'class="current"'; } ?>>
+				<a href="<?php echo cc_ohio_chc_get_report_permalink( 1 ); ?>">County Reports</a>
+			</li>
+			<li <?php if ( cc_ohio_chc_on_reportform2_screen() ) { echo 'class="current"'; } ?>>
+				<a href="<?php echo cc_ohio_chc_get_report_permalink( 2 ); ?>">Program Data Summary</a>
+			</li>
+			<li <?php if ( cc_ohio_chc_on_reportform3_screen() ) { echo 'class="current"'; } ?>>
+				<a href="<?php echo cc_ohio_chc_get_report_permalink( 3 ); ?>">Impact Summary</a>
+			</li>			
+			
 		</ul>
 	</div>
 	<?php

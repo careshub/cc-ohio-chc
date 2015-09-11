@@ -179,11 +179,17 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
 					echo 'Error message form 7';
 				}
 			}
-		}
+		} else if ( cc_ohio_chc_on_reportform1_screen() ){ //before forms screen, because nested
 		
+			cc_ohio_chc_render_report_subnav(); 
+			cc_ohio_county_results();		
 		
+		} else if ( cc_ohio_chc_on_report_screen() ) {
 		
-		else if ( cc_ohio_chc_on_form_screen() ) {
+			cc_ohio_chc_render_report_subnav(); 
+
+		
+		} else if ( cc_ohio_chc_on_form_screen() ) {
 		
 			if ( current_user_has_county() ) {
 			
