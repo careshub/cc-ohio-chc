@@ -104,7 +104,7 @@ function cc_ohio_chc_print_county_assignment_page() {
 	$gform_id = cc_ohio_chc_get_user_county_form_num();
 	
 	//gravity_form( $gform_id );
-	echo do_shortcode("[gravityform id='" + $gform_id + "' title='false' description='false' ajax='true']");
+	echo do_shortcode("[gravityform id='" . $gform_id . "' title='false' description='false' ajax='true']");
 }
 
 /**
@@ -122,7 +122,8 @@ function cc_ohio_chc_render_form( $url_form_num = 1) {
 	
 	//display which gravity form, maybe prepopulated..
 	//gravity_form( $gf_form_num );
-	echo do_shortcode("[gravityform id='" + $gf_form_num + "' title='false' description='false' ajax='true']");
+	
+	echo do_shortcode("[gravityform id='" . $gf_form_num . "' title='false' description='false' ajax='true']");
 }
 
 
@@ -226,10 +227,7 @@ function cc_ohio_chc_render_report_subnav(){
 			</li>
 			<li <?php if ( cc_ohio_chc_on_reportform2_screen() ) { echo 'class="current"'; } ?>>
 				<a href="<?php echo cc_ohio_chc_get_report_permalink( 2 ); ?>">Program Data Summary</a>
-			</li>
-			<li <?php if ( cc_ohio_chc_on_reportform3_screen() ) { echo 'class="current"'; } ?>>
-				<a href="<?php echo cc_ohio_chc_get_report_permalink( 3 ); ?>">Impact Summary</a>
-			</li>			
+			</li>		
 			
 		</ul>
 	</div>

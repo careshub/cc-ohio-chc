@@ -184,6 +184,14 @@ class CC_Ohio_CHC_Extras_Extension extends BP_Group_Extension {
 			cc_ohio_chc_render_report_subnav(); 
 			cc_ohio_county_results();		
 		
+		} else if ( cc_ohio_chc_on_reportform2_screen() ){ //before forms screen, because nested
+		
+			cc_ohio_chc_render_report_subnav(); 
+			cc_ohio_program_data_summary();	
+			//mb_test_ohio();
+			
+			
+	
 		} else if ( cc_ohio_chc_on_report_screen() ) {
 		
 			cc_ohio_chc_render_report_subnav(); 
