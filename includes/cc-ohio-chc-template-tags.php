@@ -171,9 +171,13 @@ function cc_ohio_chc_render_tab_subnav(){
 function cc_ohio_chc_find_admin_mod() {
 	$user_ID = get_current_user_id();
 	$group_id = bp_get_group_id();
-	$ismod = groups_is_user_mod( $user_ID, $group_id );
-	$isadmin = groups_is_user_admin( $user_ID, $group_id );
+	//$ismod = groups_is_user_mod( $user_ID, $group_id );
+	//$isadmin = groups_is_user_admin( $user_ID, $group_id );
+	$ismod = bp_group_is_mod();
+	$isadmin = bp_group_is_admin();
 	
+	//var_dump($ismod);
+	//var_dump($isadmin);
 	if ($ismod == true || $isadmin == true) {
 		return true;
 	} else {
