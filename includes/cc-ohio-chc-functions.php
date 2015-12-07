@@ -1276,7 +1276,16 @@ function cc_ohio_sum_like_sheets() {
 	$GenSumStr="";
 	$GenColArr = array("B","C","D","E","F");
 	$GenRowArr = array("2","3","4","8","13","14","15","16","17","18","19","20","21","22","28","29","30","32","34","36","38");
-	$GenArr = array();	
+	$GenArr = array();
+	
+	$GenTotalArray = array("A39","A40","A41","A42","A43");
+	$GenA39 = 0;
+	$GenA40 = 0;
+	$GenA41 = 0;
+	$GenA42 = 0;
+	$GenA43 = 0;
+	
+	
 	
 	foreach ($GenRowArr as $row) {
 		foreach ($GenColArr as $col) {
@@ -1290,6 +1299,24 @@ function cc_ohio_sum_like_sheets() {
 			$ws_arr = explode('_',$ws_title);
 			if ($ws_arr[1] == 'General') {
 				$GenSumStr = $GenSumStr . $ws_title . "!XX,";
+				
+				
+				foreach ($GenTotalArray as $GenTotal) {
+					$ttlstr = $worksheet->getCell($GenTotal)->getValue();
+					$pieces = explode(":", $ttlstr);
+					if ($GenTotal == "A39") {
+						$GenA39 = $GenA39 + (int)$pieces[1];
+					} else if ($GenTotal == "A40") {
+						$GenA40 = $GenA40 + (int)$pieces[1];
+					} else if ($GenTotal == "A41") {
+						$GenA41 = $GenA41 + (int)$pieces[1];
+					} else if ($GenTotal == "A42") {
+						$GenA42 = $GenA42 + (int)$pieces[1];
+					} else if ($GenTotal == "A43") {
+						$GenA43 = $GenA43 + (int)$pieces[1];
+					}					
+				}
+				
 			}	
 		}	
 	}
@@ -1301,6 +1328,23 @@ function cc_ohio_sum_like_sheets() {
 		$GenWS = $objPHPExcel->getSheetByName('General');
 		$GenWS->setCellValue($GenCoord, '=SUM(' . $GenSumStr2 . ')');
 	}
+	
+	foreach ($GenTotalArray as $GenCoord2) {		
+		$GenWS2 = $objPHPExcel->getSheetByName('General');
+		if ($GenCoord2 == "A39") {
+			$GenWS2->setCellValue($GenCoord2, "Total Q1:" . $GenA39);
+		} else if ($GenCoord2 == "A40") {
+			$GenWS2->setCellValue($GenCoord2, "Total Q2:" . $GenA40);
+		} else if ($GenCoord2 == "A41") {
+			$GenWS2->setCellValue($GenCoord2, "Total Q3:" . $GenA41);
+		} else if ($GenCoord2 == "A42") {
+			$GenWS2->setCellValue($GenCoord2, "Total Q4:" . $GenA42);
+		} else if ($GenCoord2 == "A43") {
+			$GenWS2->setCellValue($GenCoord2, "Total YTD:" . $GenA43);	
+		}			
+	}
+
+	
 	
 	//echo "Sheet General Complete! <br />";
 	
