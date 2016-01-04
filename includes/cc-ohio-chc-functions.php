@@ -1223,6 +1223,86 @@ foreach ($r as $mb) {
 	}
 }
 
+$letterArray = array('B','C','D','E');
+
+foreach ($letterArray as $letter) {
+	//Active Living Sum of Number Impacted
+	$AL = 0;
+	$i = 4;
+	do {
+		$AL = $AL + $objPHPExcel->setActiveSheetIndex(1)->getCell($letter . $i)->getValue();
+		$i = $i + 5;
+		
+	} while ($i < 115);
+	$AL = $AL + $objPHPExcel->setActiveSheetIndex(1)->getCell($letter . '120')->getValue();
+	$objPHPExcel->setActiveSheetIndex(1)->setCellValue($letter . '131', $AL);
+	
+	//Healthy Eating Sum of Number Impacted
+	$HE = 0;
+	$h = 6;
+	do {
+		$HE = $HE + $objPHPExcel->setActiveSheetIndex(2)->getCell($letter . $h)->getValue();
+		$h = $h + 5;
+		
+	} while ($h < 27);
+	$j = 32;
+	do {
+		$HE = $HE + $objPHPExcel->setActiveSheetIndex(2)->getCell($letter . $j)->getValue();
+		$j = $j + 5;
+		
+	} while ($j < 133);		
+	$objPHPExcel->setActiveSheetIndex(2)->setCellValue($letter . '143', $HE);
+	
+	//Tobacco Sum of Number Impacted
+	$TB = 0;
+	$k = 4;
+	do {
+		$TB = $TB + $objPHPExcel->setActiveSheetIndex(3)->getCell($letter . $k)->getValue();
+		$k = $k + 5;
+		
+	} while ($k < 35);
+	$TB = $TB + $objPHPExcel->setActiveSheetIndex(3)->getCell($letter . '40')->getValue();
+	$objPHPExcel->setActiveSheetIndex(3)->setCellValue($letter . '51', $TB);
+
+	//Supplemental Sum of Number Impacted
+	$SP = 0;
+	$p = 4;
+	do {
+		$SP = $SP + $objPHPExcel->setActiveSheetIndex(4)->getCell($letter . $p)->getValue();
+		$p = $p + 5;
+		
+	} while ($p < 15);
+
+	$objPHPExcel->setActiveSheetIndex(4)->setCellValue($letter . '17', $SP);	
+}
+	
+	
+	//Get sum Total Impacted and put on General tab.
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A51', 'Number Impacted (ALL TABS):');
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B51', 'Q1');
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C51', 'Q2');
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D51', 'Q3');
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('E51', 'Q4');
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F51', 'YTD');	
+	$objPHPExcel->setActiveSheetIndex(0)->getStyle('A51:F51')->getFont()->setBold(true);
+	
+	$q1 = $objPHPExcel->setActiveSheetIndex(1)->getCell('B131')->getValue() + $objPHPExcel->setActiveSheetIndex(2)->getCell('B143')->getValue() + $objPHPExcel->setActiveSheetIndex(3)->getCell('B51')->getValue() + $objPHPExcel->setActiveSheetIndex(4)->getCell('B17')->getValue();
+	$q2 = $objPHPExcel->setActiveSheetIndex(1)->getCell('C131')->getValue() + $objPHPExcel->setActiveSheetIndex(2)->getCell('C143')->getValue() + $objPHPExcel->setActiveSheetIndex(3)->getCell('C51')->getValue() + $objPHPExcel->setActiveSheetIndex(4)->getCell('C17')->getValue();
+	$q3 = $objPHPExcel->setActiveSheetIndex(1)->getCell('D131')->getValue() + $objPHPExcel->setActiveSheetIndex(2)->getCell('D143')->getValue() + $objPHPExcel->setActiveSheetIndex(3)->getCell('D51')->getValue() + $objPHPExcel->setActiveSheetIndex(4)->getCell('D17')->getValue();
+	$q4 = $objPHPExcel->setActiveSheetIndex(1)->getCell('E131')->getValue() + $objPHPExcel->setActiveSheetIndex(2)->getCell('E143')->getValue() + $objPHPExcel->setActiveSheetIndex(3)->getCell('E51')->getValue() + $objPHPExcel->setActiveSheetIndex(4)->getCell('E17')->getValue();
+	$ytdsum = $q1 + $q2 + $q3 + $q4;
+	
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B52', $q1);
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C52', $q2);
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D52', $q3);
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('E52', $q4);
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F52', '=SUM(B52:E52)');	
+	
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A39', 'Total Q1: ' . $q1);
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A40', 'Total Q2: ' . $q2);
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A41', 'Total Q3: ' . $q3);
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A42', 'Total Q4: ' . $q4);
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A43', 'Total YTD: ' . $ytdsum);		
 
 	
 
@@ -1480,7 +1560,8 @@ function cc_ohio_sum_like_sheets() {
 	$objPHPExcel->setActiveSheetIndex(0);
 	
 	$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-	$objWriter->save("D:/Websites/ccroot/PHPExcel/Examples/ohio_cnty_files/ALL.xls");	
+	$objWriter->save("D:/Websites/ccroot/PHPExcel/Examples/ohio_cnty_files/ALL.xls");
+	
 
 	echo "<strong>Aggregate County File Created!</strong>  To download the Aggregate County File, click on the following button.<br /><br /><span style='font-style:italic;color:red;font-weight:bold;'>This process will take about 1 minute to compile.</span><br /><br />";
 	echo "<form id='downloadform' name='downloadform' action='/PHPExcel/Examples/oh-county-ALL-xls.php' method='post'>";
