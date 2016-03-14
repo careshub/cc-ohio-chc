@@ -70,7 +70,7 @@ jQuery(document).ready(function($){
 	
 	//Section II
 	var arrSec2 = new Array();
-	for (var j=1; j < 75; j++) {
+	for (var j=1; j < 110; j++) {
 		arrSec2.push(j);	
 	}	
 	
@@ -114,7 +114,7 @@ jQuery(document).ready(function($){
 	
 	//Section III
 	var arrSec3 = new Array();
-	for (var h=1; h < 95; h++) {
+	for (var h=1; h < 115; h++) {
 		arrSec3.push(h);	
 	}	
 	
@@ -253,13 +253,14 @@ jQuery(document).ready(function($){
 		var default_value3 = $("li.sec" + secNo + "_" + val + "_3 input.small").val();
 		var default_value4 = $("li.sec" + secNo + "_" + val + "_4 input.small").val();
 		
-		$("li.sec" + secNo + "_" + val + "_1 input.small").focus(function() {		
+		$("li.sec" + secNo + "_" + val + "_1 input.small").focus(function() {				
 			if ($("li.sec" + secNo + "_" + val + "_1 input.small").val() == default_value1) {
 				$("li.sec" + secNo + "_" + val + "_1 input.small").val("");
 			}			
 		});
-		$("li.sec" + secNo + "_" + val + "_1 input.small").blur(function() {		
-			if (!$("li.sec" + secNo + "_" + val + "_1 input.small").val()) {
+		$("li.sec" + secNo + "_" + val + "_1 input.small").blur(function() {
+			console.log($("li.sec" + secNo + "_" + val + "_1 input.small").val());
+			if (!$("li.sec" + secNo + "_" + val + "_1 input.small").val()) {				
 				$("li.sec" + secNo + "_" + val + "_1 input.small").val(default_value1);
 			}
 		});
