@@ -1276,6 +1276,11 @@ foreach ($letterArray as $letter) {
 	$objPHPExcel->setActiveSheetIndex(4)->setCellValue($letter . '17', $SP);	
 }
 	
+	$val1 = $objPHPExcel->setActiveSheetIndex(1)->getCell('F126')->getCalculatedValue();
+	$objPHPExcel->setActiveSheetIndex(1)->setCellValue('F131', $val1);
+	$val2 = $objPHPExcel->setActiveSheetIndex(2)->getCell('F133')->getCalculatedValue();
+	$objPHPExcel->setActiveSheetIndex(2)->setCellValue('F143', $val2);	
+	
 	
 	//Get sum Total Impacted and put on General tab.
 	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A51', 'Number Impacted (ALL TABS):');
