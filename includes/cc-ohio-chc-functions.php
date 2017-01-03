@@ -420,7 +420,9 @@ function cc_ohio_chc_get_county_entry_by_form_number( $form_num, $user_id = 0 ){
  */
 function cc_ohio_chc_get_form_num( $form_num = 1 ){
 	//TODO: fill in as we create on locals and devs
-	 switch ( get_site_url( null, '', 'http' ) ) {
+	$site_url = get_site_url( null, '', 'http' );
+
+	switch ( $site_url ) {
         case 'http://localhost/wordpress':
 			switch( $form_num ){
 				case 1:
@@ -463,34 +465,9 @@ function cc_ohio_chc_get_form_num( $form_num = 1 ){
 			}
             break;
         case 'http://dev.communitycommons.org':
-			switch( $form_num ){
-				case 1:
-					return 38;
-					break;
-				case 2:
-					return 48;
-					break;
-				case 3:
-					return 49;
-					break;
-				case 4:
-					return 50;
-					break;
-				case 5:
-					return 51;
-					break;
-				case 6:
-					return 44;
-					break;
-				case 7:
-					return 42;
-					break;
-				default:
-					return 38;
-					break;
-			}
-            break;
+        case 'http://staging.communitycommons.org':
         case 'http://www.communitycommons.org':
+        default:
 			switch( $form_num ){
 				case 1:
 					return 33;
