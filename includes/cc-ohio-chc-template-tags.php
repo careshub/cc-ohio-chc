@@ -9,8 +9,8 @@
  * @license   GPL-2.0+
  * @copyright 2015 CommmunityCommons.org
  */
- 
- 
+
+
 /**
  * Print content for the "Introduction" (default tab)
  *
@@ -20,7 +20,7 @@
 function cc_ohio_chc_print_introductory_text(){
     ?>
     <p>
-        Welcome to the Creating Healthy Communities – Ohio’s [  ] page.  
+        Welcome to the Creating Healthy Communities – Ohio’s [  ] page.
     </p>
     <?php
 }
@@ -35,10 +35,10 @@ function cc_ohio_chc_print_county_select_container_markup() {
     //TODO: if user is NOT a moderator, they can't see this (they shouldnt have the relevant tab, anywayz)
 
 	?>
-	
-	
+
+
     <form id="ohio_chc_county_select" class="" method="post" action="<?php echo cc_ohio_chc_get_home_permalink() . 'save-counties/'; ?>">
-  
+
     </form>
     <?php
 }
@@ -50,48 +50,48 @@ function cc_ohio_chc_print_toc(){
 	global $wpdb;
 	$query = $wpdb->get_var( $wpdb->prepare(
 		"
-		SELECT value 
+		SELECT value
 		FROM wp_rg_lead_detail
 		WHERE form_id = 24 AND field_number = 1
 		"
 	));
 	$array1 = unserialize($query);
-	
+
 	$current_user = wp_get_current_user();
-    $current_user_email = $current_user->user_email;    
+    $current_user_email = $current_user->user_email;
 	$region;
-	foreach ($array1 as $array2) {		
+	foreach ($array1 as $array2) {
 		if ( $array2['User Email']== $current_user_email ) {
-			$region = $array2['Region'];	
-		} 
+			$region = $array2['Region'];
+		}
 	}
-	
+
 	if(!empty($region)) {
 		echo "Region = " . $region;
-		
-		
 
-		
+
+
+
 		$edit_post_id = 761;
 
 		if ( !empty( $edit_post_id ) ) {
-			
+
 			gform_update_post::setup_form( $edit_post_id );
 			gravity_form( 8 );
 		} else {
 			gravity_form( 8 );
 		}
-		
+
 	} else {
 		echo "No Region";
 	}
-	
-	//LOGIC: First, $region must not be empty for user to proceed to form (i.e. A user's email must be in the list submitted by the admin using the User-County Assessment form). 
-	//Second, $region must then be saved into hidden field in form. 
-	//With data-persistence on, each individual user will be allowed to update their own individual form. If more than one user is associated with a particular region then each user will 
+
+	//LOGIC: First, $region must not be empty for user to proceed to form (i.e. A user's email must be in the list submitted by the admin using the User-County Assessment form).
+	//Second, $region must then be saved into hidden field in form.
+	//With data-persistence on, each individual user will be allowed to update their own individual form. If more than one user is associated with a particular region then each user will
 	//be filling out separate forms for that region. A judgement will then have to be made by Ohio or us as to which one is to be used.
-	
-	
+
+
 }
 
 /*
@@ -102,7 +102,7 @@ function cc_ohio_chc_print_county_assignment_page() {
 
 	//echo 'county assignment';
 	$gform_id = cc_ohio_chc_get_user_county_form_num();
-	
+
 	//gravity_form( $gform_id );
 	echo do_shortcode("[gravityform id='" . $gform_id . "' title='false' description='false' ajax='true']");
 }
@@ -118,11 +118,10 @@ function cc_ohio_chc_render_form( $url_form_num = 1) {
 	$gf_form_num = cc_ohio_chc_get_form_num( $url_form_num );
 
 	//$entry_obj = cc_ohio_chc_get_county_entry_by_form_number( 1 );
-	
-	
+
 	//display which gravity form, maybe prepopulated..
 	//gravity_form( $gf_form_num );
-	
+
 	echo do_shortcode("[gravityform id='" . $gf_form_num . "' title='false' description='false' ajax='true']");
 }
 
@@ -143,25 +142,25 @@ function cc_ohio_chc_render_tab_subnav(){
 			<li <?php if ( cc_ohio_chc_on_form_screen() ) { echo 'class="current"'; } ?>>
 				<a href="<?php echo cc_ohio_chc_get_main_form_permalink(); ?>">Forms</a>
 			</li>
-				
-			<?php 
+
+			<?php
 				//TODO: set up assignment permalink thing
-				
+
 				//Check if user is mod or admin (in group) to let them see User-County Assignment form.
-				
+
 
 				if (cc_ohio_chc_find_admin_mod()) {
 			?>
 				<li <?php if ( cc_ohio_chc_on_report_screen() ) { echo 'class="current"'; } ?>>
 					<a href="<?php echo cc_ohio_chc_get_report_permalink(); ?>">Reports</a>
-				</li>			
+				</li>
 				<li <?php if ( cc_ohio_chc_on_county_assignment_screen() ) { echo 'class="current"'; } ?>>
 					<a href="<?php echo cc_ohio_chc_get_county_assignment_permalink(  ); ?>">User-County Assignment</a>
 				</li>
 			<?php
 				}
 			// endif; ?>
-			
+
 		</ul>
 	</div>
 	<?php
@@ -175,7 +174,7 @@ function cc_ohio_chc_find_admin_mod() {
 	//$isadmin = groups_is_user_admin( $user_ID, $group_id );
 	$ismod = bp_group_is_mod();
 	$isadmin = bp_group_is_admin();
-	
+
 	//var_dump($ismod);
 	//var_dump($isadmin);
 	if ($ismod == true || $isadmin == true) {
@@ -200,10 +199,10 @@ function cc_ohio_chc_render_form_subnav(){
 			</li>
 			<li <?php if ( cc_ohio_chc_on_form3_screen() ) { echo 'class="current"'; } ?>>
 				<a href="<?php echo cc_ohio_chc_get_form_permalink( 3 ); ?>">Healthy Eating</a>
-			</li>			
+			</li>
 			<li <?php if ( cc_ohio_chc_on_form4_screen() ) { echo 'class="current"'; } ?>>
 				<a href="<?php echo cc_ohio_chc_get_form_permalink( 4 ); ?>">Tobacco</a>
-			</li>	
+			</li>
 			<li <?php if ( cc_ohio_chc_on_form5_screen() ) { echo 'class="current"'; } ?>>
 				<a href="<?php echo cc_ohio_chc_get_form_permalink( 5 ); ?>">Supplemental</a>
 			</li>
@@ -212,11 +211,11 @@ function cc_ohio_chc_render_form_subnav(){
 			</li>
 			<li <?php if ( cc_ohio_chc_on_form7_screen() ) { echo 'class="current"'; } ?>>
 				<a href="<?php echo cc_ohio_chc_get_form_permalink( 7 ); ?>">Success Story</a>
-			</li>			
+			</li>
 		</ul>
 	</div>
 	<?php
-	
+
 
 
 
@@ -231,12 +230,12 @@ function cc_ohio_chc_render_report_subnav(){
 			</li>
 			<li <?php if ( cc_ohio_chc_on_reportform2_screen() ) { echo 'class="current"'; } ?>>
 				<a href="<?php echo cc_ohio_chc_get_report_permalink( 2 ); ?>">Program Data Summary</a>
-			</li>		
-			
+			</li>
+
 		</ul>
 	</div>
 	<?php
-	
+
 
 
 
