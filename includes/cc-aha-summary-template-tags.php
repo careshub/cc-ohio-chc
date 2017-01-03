@@ -273,7 +273,7 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 					foreach ( $dial_ids as $dial_id) {
 						?>
 						<div class="dial-container">
-							<script src='http://maps.communitycommons.org/jscripts/dialWidget.js?geoid=<?php echo $fips; ?>&id=<?php echo $dial_id; ?>'></script>
+							<script src='//maps.communitycommons.org/jscripts/dialWidget.js?geoid=<?php echo $fips; ?>&id=<?php echo $dial_id; ?>'></script>
 						</div>
 						<?php
 					}
@@ -282,7 +282,7 @@ function cc_aha_print_impact_area_report( $metro_id, $section, $impact_area ) {
 					foreach ( $map_ids as $map_id) {
 						?>
 						<div class="dial-container">
-							<script src='http://maps.communitycommons.org/jscripts/mapWidget.js?geoid=<?php echo $fips; ?>&mapid=<?php echo $map_id; ?>'></script>
+							<script src='//maps.communitycommons.org/jscripts/mapWidget.js?geoid=<?php echo $fips; ?>&mapid=<?php echo $map_id; ?>'></script>
 						</div>
 						<?php
 					}
