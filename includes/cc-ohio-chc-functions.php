@@ -46,8 +46,6 @@ function cc_ohio_chc_get_group_id(){
             $group_id = 633; //599
             break;
         case 'http://dev.communitycommons.org':
-            $group_id = 5316;
-            break;
         default: //live site
             $group_id = 633;
             break;
@@ -1055,18 +1053,18 @@ if ($_POST['sum_submit']) {
 		if (PHP_SAPI == 'cli')
 			die('This example should only be run from a Web Browser');
 
-		require_once 'D:\Websites\ccroot\PHPExcel\Classes\PHPExcel.php';
+		require_once( ABSPATH . 'PHPExcel/Classes/PHPExcel.php' );
 
 		$objPHPExcel = new PHPExcel();
 
-		$template_file = "D:/Websites/ccroot/PHPExcel/Examples/ohio_cnty_files/sum_template.xls";
-		$allcounties_file = "D:/Websites/ccroot/PHPExcel/Examples/ohio_cnty_files/allcounties.xls";
+		$template_file = ABSPATH . "PHPExcel/Examples/ohio_cnty_files/sum_template.xls";
+		$allcounties_file = ABSPATH . "PHPExcel/Examples/ohio_cnty_files/allcounties.xls";
 
 		$objPHPExcel1 = PHPExcel_IOFactory::load($template_file);
 
 		foreach ($counties as $thecounty) {
 			$undscore_cnty = str_replace(" ","_",$thecounty);
-			$input_file = "D:/Websites/ccroot/PHPExcel/Examples/ohio_cnty_files/" . $undscore_cnty . ".xls";
+			$input_file = ABSPATH . "PHPExcel/Examples/ohio_cnty_files/" . $undscore_cnty . ".xls";
 			$objPHPExcel2 = PHPExcel_IOFactory::load($input_file);
 			foreach($objPHPExcel2->getAllSheets() as $sheet) {
 
@@ -1076,7 +1074,7 @@ if ($_POST['sum_submit']) {
 
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel1, "Excel5");
 
-		$objWriter->save("D:/Websites/ccroot/PHPExcel/Examples/ohio_cnty_files/ALL.xls");
+		$objWriter->save( ABSPATH . "PHPExcel/Examples/ohio_cnty_files/ALL.xls" );
 		//echo "ALL County file created!<br />";
 		cc_ohio_sum_like_sheets();
 	}
@@ -1094,7 +1092,7 @@ if (PHP_SAPI == 'cli')
 	die('This example should only be run from a Web Browser');
 
 /** Include PHPExcel */
-require_once 'D:\Websites\ccroot\PHPExcel\Classes\PHPExcel.php';
+require_once( ABSPATH . 'PHPExcel/Classes/PHPExcel.php' );
 
 
 // Create new PHPExcel object
@@ -1302,7 +1300,7 @@ foreach ($letterArray as $letter) {
 
 
 	$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-	$objWriter->save("D:/Websites/ccroot/PHPExcel/Examples/ohio_cnty_files/" . $xlsname . ".xls");
+	$objWriter->save(ABSPATH . "PHPExcel/Examples/ohio_cnty_files/" . $xlsname . ".xls");
 	//exit;
 }
 
@@ -1319,7 +1317,7 @@ function cc_ohio_sum_like_sheets() {
 		die('This example should only be run from a Web Browser');
 
 	/** Include PHPExcel */
-	require_once 'D:\Websites\ccroot\PHPExcel\Classes\PHPExcel.php';
+	require_once( ABSPATH . 'PHPExcel/Classes/PHPExcel.php' );
 
 
 	// Create new PHPExcel object
@@ -1329,7 +1327,7 @@ function cc_ohio_sum_like_sheets() {
 	//$sheetGeneral = $objPHPExcel->getIndex($objPHPExcel-> getSheetByName('Worksheet'));
 
 
-	$all_file = "D:/Websites/ccroot/PHPExcel/Examples/ohio_cnty_files/ALL.xls";
+	$all_file = ABSPATH . "PHPExcel/Examples/ohio_cnty_files/ALL.xls";
 
 	$objPHPExcel = PHPExcel_IOFactory::load($all_file);
 
@@ -1542,7 +1540,7 @@ function cc_ohio_sum_like_sheets() {
 	$objPHPExcel->setActiveSheetIndex(0);
 
 	$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-	$objWriter->save("D:/Websites/ccroot/PHPExcel/Examples/ohio_cnty_files/ALL.xls");
+	$objWriter->save(ABSPATH . "PHPExcel/Examples/ohio_cnty_files/ALL.xls");
 
 
 	echo "<strong>Aggregate County File Created!</strong>  To download the Aggregate County File, click on the following button.<br /><br /><span style='font-style:italic;color:red;font-weight:bold;'>This process will take about 1 minute to compile.</span><br /><br />";
