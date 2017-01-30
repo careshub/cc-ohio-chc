@@ -154,7 +154,7 @@ foreach ($letterArray as $letter) {
 
 	} while ($i < 115);
 	$AL = $AL + $objPHPExcel->setActiveSheetIndex(1)->getCell($letter . '120')->getValue();
-	$objPHPExcel->setActiveSheetIndex(1)->setCellValue($letter . '131', $AL);
+	//$objPHPExcel->setActiveSheetIndex(1)->setCellValue($letter . '131', $AL);
 
 	//Healthy Eating Sum of Number Impacted
 	$HE = 0;
@@ -170,7 +170,7 @@ foreach ($letterArray as $letter) {
 		$j = $j + 5;
 
 	} while ($j < 133);
-	$objPHPExcel->setActiveSheetIndex(2)->setCellValue($letter . '143', $HE);
+	//$objPHPExcel->setActiveSheetIndex(2)->setCellValue($letter . '143', $HE);
 
 	//Tobacco Sum of Number Impacted
 	$TB = 0;
@@ -181,7 +181,7 @@ foreach ($letterArray as $letter) {
 
 	} while ($k < 35);
 	$TB = $TB + $objPHPExcel->setActiveSheetIndex(3)->getCell($letter . '40')->getValue();
-	$objPHPExcel->setActiveSheetIndex(3)->setCellValue($letter . '51', $TB);
+	//$objPHPExcel->setActiveSheetIndex(3)->setCellValue($letter . '51', $TB);
 
 	//Supplemental Sum of Number Impacted
 	$SP = 0;
@@ -192,7 +192,7 @@ foreach ($letterArray as $letter) {
 
 	} while ($p < 15);
 
-	$objPHPExcel->setActiveSheetIndex(4)->setCellValue($letter . '17', $SP);
+	//$objPHPExcel->setActiveSheetIndex(4)->setCellValue($letter . '17', $SP);
 }
 
 
@@ -205,10 +205,10 @@ foreach ($letterArray as $letter) {
 	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F51', 'YTD');
 	$objPHPExcel->setActiveSheetIndex(0)->getStyle('A51:F51')->getFont()->setBold(true);
 
-	$q1 = $objPHPExcel->setActiveSheetIndex(1)->getCell('B131')->getValue() + $objPHPExcel->setActiveSheetIndex(2)->getCell('B143')->getValue() + $objPHPExcel->setActiveSheetIndex(3)->getCell('B51')->getValue() + $objPHPExcel->setActiveSheetIndex(4)->getCell('B17')->getValue();
-	$q2 = $objPHPExcel->setActiveSheetIndex(1)->getCell('C131')->getValue() + $objPHPExcel->setActiveSheetIndex(2)->getCell('C143')->getValue() + $objPHPExcel->setActiveSheetIndex(3)->getCell('C51')->getValue() + $objPHPExcel->setActiveSheetIndex(4)->getCell('C17')->getValue();
-	$q3 = $objPHPExcel->setActiveSheetIndex(1)->getCell('D131')->getValue() + $objPHPExcel->setActiveSheetIndex(2)->getCell('D143')->getValue() + $objPHPExcel->setActiveSheetIndex(3)->getCell('D51')->getValue() + $objPHPExcel->setActiveSheetIndex(4)->getCell('D17')->getValue();
-	$q4 = $objPHPExcel->setActiveSheetIndex(1)->getCell('E131')->getValue() + $objPHPExcel->setActiveSheetIndex(2)->getCell('E143')->getValue() + $objPHPExcel->setActiveSheetIndex(3)->getCell('E51')->getValue() + $objPHPExcel->setActiveSheetIndex(4)->getCell('E17')->getValue();
+	$q1 = $objPHPExcel->setActiveSheetIndex(1)->getCell('B126')->getValue() + $objPHPExcel->setActiveSheetIndex(2)->getCell('B133')->getValue() + $objPHPExcel->setActiveSheetIndex(3)->getCell('B51')->getValue() + $objPHPExcel->setActiveSheetIndex(4)->getCell('B17')->getValue();
+	$q2 = $objPHPExcel->setActiveSheetIndex(1)->getCell('C126')->getValue() + $objPHPExcel->setActiveSheetIndex(2)->getCell('C133')->getValue() + $objPHPExcel->setActiveSheetIndex(3)->getCell('C51')->getValue() + $objPHPExcel->setActiveSheetIndex(4)->getCell('C17')->getValue();
+	$q3 = $objPHPExcel->setActiveSheetIndex(1)->getCell('D126')->getValue() + $objPHPExcel->setActiveSheetIndex(2)->getCell('D133')->getValue() + $objPHPExcel->setActiveSheetIndex(3)->getCell('D51')->getValue() + $objPHPExcel->setActiveSheetIndex(4)->getCell('D17')->getValue();
+	$q4 = $objPHPExcel->setActiveSheetIndex(1)->getCell('E126')->getValue() + $objPHPExcel->setActiveSheetIndex(2)->getCell('E133')->getValue() + $objPHPExcel->setActiveSheetIndex(3)->getCell('E51')->getValue() + $objPHPExcel->setActiveSheetIndex(4)->getCell('E17')->getValue();
 	$ytdsum = $q1 + $q2 + $q3 + $q4;
 
 	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B52', $q1);
