@@ -636,17 +636,17 @@ function cc_ohio_county_results() {
 				$reportarr = array();
 			}
 		?>
-		<strong>Select forms to include in report:</strong><br /><br />
-		<div style="margin-left:20px;">
+		<strong style="display:none;">Select forms to include in report:</strong><br /><br />
+		<div style="margin-left:20px;display:none;">
 			<a onclick="javascript:checkAll('form1', true);" href="javascript:void();">check all</a>&nbsp;
 			<a onclick="javascript:checkAll('form1', false);" href="javascript:void();">uncheck all</a>
 			<br /><br />
-			<input class="checkbox1" type="checkbox" name="chk_group[]" value="33" <?php if(in_array('33', $reportarr)) echo "checked='checked'"; ?> />General<br />
-			<input class="checkbox1" type="checkbox" name="chk_group[]" value="38" <?php if(in_array('38', $reportarr)) echo "checked='checked'"; ?> />Active Living<br />
-			<input class="checkbox1" type="checkbox" name="chk_group[]" value="30" <?php if(in_array('30', $reportarr)) echo "checked='checked'"; ?> />Healthy Eating<br />
-			<input class="checkbox1" type="checkbox" name="chk_group[]" value="31" <?php if(in_array('31', $reportarr)) echo "checked='checked'"; ?> />Tobacco<br />
-			<input class="checkbox1" type="checkbox" name="chk_group[]" value="32" <?php if(in_array('32', $reportarr)) echo "checked='checked'"; ?> />Supplemental<br />
-			<input class="checkbox1" type="checkbox" name="chk_group[]" value="35" <?php if(in_array('35', $reportarr)) echo "checked='checked'"; ?> />Success Stories<br /><br />
+			<input class="checkbox1" type="checkbox" name="chk_group[]" value="33" checked="checked" />General<br />
+			<input class="checkbox1" type="checkbox" name="chk_group[]" value="38" checked="checked" />Active Living<br />
+			<input class="checkbox1" type="checkbox" name="chk_group[]" value="30" checked="checked" />Healthy Eating<br />
+			<input class="checkbox1" type="checkbox" name="chk_group[]" value="31" checked="checked" />Tobacco<br />
+			<input class="checkbox1" type="checkbox" name="chk_group[]" value="32" checked="checked" />Supplemental<br />
+			<input class="checkbox1" type="checkbox" name="chk_group[]" value="35" checked="checked" />Success Stories<br /><br />
 		</div>
 		<input id="form1_submit" type="submit" value="Submit" />
 	</form>
